@@ -58,7 +58,7 @@ const Header = () => {
                         <li>
                             <a
                                 className="sns_ytb"
-                                href="/"
+                                href="https://www.youtube.com/@user-sasohan"
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >유튜브</a>
@@ -67,7 +67,7 @@ const Header = () => {
                             <a
                                 className="sns_insta"
                                 href="/"
-                                target="_blank"
+                                // target="_blank"
                                 rel="noopener noreferrer"
                             >인스타그램</a>
                         </li>

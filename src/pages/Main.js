@@ -81,13 +81,22 @@ const Main = () => {
     const [aboutTab, setAboutTab] = useState(0);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [blogSwiperActive, setBlogSwiperActive] = useState(false);
-    const [blogLiOn, setBlogLiOn] = useState(3);
+    const [blogOn, setBlogOn] = useState(0);
     const [trustTab,setTrustTab] = useState(0);
 
     const m_list = enum_api_uri.m_list;
+    const blog_list = enum_api_uri.blog_list;
+    const ytb_list = enum_api_uri.ytb_list;
+    const review_list = enum_api_uri.review_list;
+    const user_count = enum_api_uri.user_count;
     const [charmingList, setCharmingList] = useState([]);
     const [managerList, setManagerList] = useState([]);
     const [managerList2, setManagerList2] = useState([]);
+    const [blogList, setBlogList] = useState([]);
+    const [ytbList, setYtbList] = useState([]);
+    const [ytbOn, setYtbOn] = useState(0);
+    const [reviewList, setReviewList] = useState([]);
+    const [count, setCount] = useState(0);
 
 
     // Confirm팝업 닫힐때
@@ -174,6 +183,7 @@ const Main = () => {
         };
     }, []);
 
+
     //매니저리스트 가져오기
     const getManagerList = () => {
         axios.get(`${m_list}`)
@@ -202,8 +212,101 @@ const Main = () => {
         });
     };
 
+
+    //블로그리스트 가져오기
+    const getBlogList = () => {
+        axios.get(`${blog_list}`)
+        .then((res)=>{
+            if(res.status === 200){
+                let data = res.data;
+                setBlogList([...data]);
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
+    };
+
+
+    //유튜브리스트 가져오기
+    const getYtbList = () => {
+        axios.get(`${ytb_list}`)
+        .then((res)=>{
+            if(res.status === 200){
+                let data = res.data;
+                setYtbList([...data]);
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
+    };
+
+
+    //후기리스트 가져오기
+    const getReviewList = () => {
+        axios.get(`${review_list}`)
+        .then((res)=>{
+            if(res.status === 200){
+                let data = res.data;
+                setReviewList([...data]);
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
+    };
+
+
+    //사용자 수 가져오기
+    const getCount = () => {
+        axios.get(`${user_count}`)
+        .then((res)=>{
+            if(res.status === 200){
+                let data = res.data;
+                setCount(data.user_cnt);
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
+    };
+
+
     useEffect(()=>{
         getManagerList();
+        getBlogList();
+        getYtbList();
+        getReviewList();
+        getCount();
     },[]);
 
 
@@ -223,6 +326,7 @@ const Main = () => {
             </div>
         </div>
 
+        {charmingList.length > 0 &&
         <section className={`section section1 ${sect1On ? "on" : ""}`} id="sect1" ref={sect1Ref}>
             <div className="section_inner">
                 <div className="title_box">
@@ -289,14 +393,14 @@ const Main = () => {
                             </div>
                     }
                 </div>
-                <div className="manager_wrap manager_wrap2 flex_bottom flex_between">
-                    <div className="tip_box">
-                        <p className="tip_txt">매니저가 뭔가요?</p>
-                        <div className="box">
-                            <img src={tip_box_img} alt="말풍선이미지" />
+                {charmingList.length > 1 &&
+                    <div className="manager_wrap manager_wrap2 flex_bottom flex_between">
+                        <div className="tip_box">
+                            <p className="tip_txt">매니저가 뭔가요?</p>
+                            <div className="box">
+                                <img src={tip_box_img} alt="말풍선이미지" />
+                            </div>
                         </div>
-                    </div>
-                    {charmingList.length > 0 &&
                         <div className="charming">
                             <div className="img">
                                 <img src={charmingList[1].photo ? charmingList[1].photo : none_img} alt="매니저프로필이미지" />
@@ -312,44 +416,45 @@ const Main = () => {
                                 <img src={ic_badge} alt="배지이미지" />
                             </div>
                         </div>
-                    }
-                    {managerSwiperActive ? 
-                        managerList2 && managerList2.length > 0 &&
-                        <Swiper 
-                            className="manager_slider manager_slider2"
-                            slidesPerView={2.2}
-                            spaceBetween={9}
-                            observer={true}
-                            observeParents={true}
-                            navigation={{nextEl: ".manager_slider2 .swiper-button-next",prevEl: ".manager_slider2 .swiper-button-prev"}}
-                            scrollbar={{draggable: true}}
-                        >
-                            {managerList2.map((data,i)=>{
-                                return(
-                                    <SwiperSlide key={i}>
-                                        <ManagerBox data={data}/>
-                                    </SwiperSlide>
-                                );
-                            })}
-                            <div className="btn_box flex_between">
-                                <div className="swiper-button-prev"></div>
-                                <div className="swiper-button-next"></div>
-                            </div>
-                        </Swiper>
-                        :   managerList2 && managerList2.length > 0 &&
-                            <div className="list_manager flex_wrap">
+                        {managerSwiperActive ? 
+                            managerList2 && managerList2.length > 0 &&
+                            <Swiper 
+                                className="manager_slider manager_slider2"
+                                slidesPerView={2.2}
+                                spaceBetween={9}
+                                observer={true}
+                                observeParents={true}
+                                navigation={{nextEl: ".manager_slider2 .swiper-button-next",prevEl: ".manager_slider2 .swiper-button-prev"}}
+                                scrollbar={{draggable: true}}
+                            >
                                 {managerList2.map((data,i)=>{
                                     return(
-                                        <li key={i}>
+                                        <SwiperSlide key={i}>
                                             <ManagerBox data={data}/>
-                                        </li>
+                                        </SwiperSlide>
                                     );
                                 })}
-                            </div>
-                    }
-                </div>
+                                <div className="btn_box flex_between">
+                                    <div className="swiper-button-prev"></div>
+                                    <div className="swiper-button-next"></div>
+                                </div>
+                            </Swiper>
+                            :   managerList2 && managerList2.length > 0 &&
+                                <div className="list_manager flex_wrap">
+                                    {managerList2.map((data,i)=>{
+                                        return(
+                                            <li key={i}>
+                                                <ManagerBox data={data}/>
+                                            </li>
+                                        );
+                                    })}
+                                </div>
+                        }
+                    </div>
+                }
             </div>
         </section>
+        }
 
         <section className={`section section2 ${sect2On ? "on" : ""}`} id="sect2" ref={sect2Ref}>
             <div className="about_wrap flex">
@@ -489,11 +594,12 @@ const Main = () => {
             </div>
         </section>
 
+        {blogList.length > 0 &&
         <section className={`section section3 ${sect3On ? "on" : ""}`} id="sect3" ref={sect3Ref}>
             <div className="section_inner">
                 <div className="title_box flex_between flex_bottom">
                     <p className="tit">사소한의 <br/><strong>새로운 소식이에요.</strong></p>
-                    <a className="btn_link" href="/" target="_blank" rel="noopener noreferrer">사소한 블로그 바로가기</a>
+                    <a className="btn_link" href="https://blog.naver.com/sasohan_official" target="_blank" rel="noopener noreferrer">사소한 블로그 바로가기</a>
                 </div>
                 <div className="blog_wrap">
                     {blogSwiperActive ? 
@@ -513,148 +619,55 @@ const Main = () => {
                                 {767:{slidesPerView:1.3,spaceBetween:34}}
                             }
                         >
-                            <SwiperSlide className="slide_box">
-                                <a href="https://www.sasohan-ad.net/" target="_blank" rel="noopener noreferrer">
-                                    <img src={blog_img1} alt="배경이미지" />
-                                    <div className="txt_box">
-                                        <div>
-                                            <h5>빛깔번쩍, 빛깔번쩍, 내 클래스는 특</h5>
-                                            <p className="date">2023.05.31</p>
-                                        </div>
-                                        <p className="txt">안녕하세요 사소한입니다
-                                            얼마 남지 않은 연말 ,다가오는 연초 외롭지않으세요?
-                                            풋풋한 20대부터 ,안정적인 30대40대까지 모든 연령을 아우르는 사소한 소개팅이 있기에
-                                            올연말,연초를 외롭지않게보내는 많은 회원분들이있으십니다.
-                                            갓 이별해서 힘드시다구요?, 남초,여초인 환경에서 생활해서 남자친구 만들기어렵고,여자친구 만들기 어려우시다구요? 무조건 사소한 소개팅을 한번 이용해보세요! </p>
-                                    </div>
-                                </a>
-                            </SwiperSlide>
-                            <SwiperSlide className="slide_box">
-                                <a href="https://www.sasohan-ad.net/" target="_blank" rel="noopener noreferrer">
-                                    <img src={blog_img2} alt="배경이미지" />
-                                    <div className="txt_box">
-                                        <div>
-                                            <h5>빛깔번쩍, 빛깔번쩍, 내 클래스는 특</h5>
-                                            <p className="date">2023.05.31</p>
-                                        </div>
-                                        <p className="txt">안녕하세요 사소한입니다
-                                            얼마 남지 않은 연말 ,다가오는 연초 외롭지않으세요?
-                                            풋풋한 20대부터 ,안정적인 30대40대까지 모든 연령을 아우르는 사소한 소개팅이 있기에
-                                            올연말,연초를 외롭지않게보내는 많은 회원분들이있으십니다.
-                                            갓 이별해서 힘드시다구요?, 남초,여초인 환경에서 생활해서 남자친구 만들기어렵고,여자친구 만들기 어려우시다구요? 무조건 사소한 소개팅을 한번 이용해보세요! </p>
-                                    </div>
-                                </a>
-                            </SwiperSlide>
-                            <SwiperSlide className="slide_box">
-                                <a href="https://www.sasohan-ad.net/" target="_blank" rel="noopener noreferrer">
-                                    <img src={blog_img3} alt="배경이미지" />
-                                    <div className="txt_box">
-                                        <div>
-                                            <h5>빛깔번쩍, 빛깔번쩍, 내 클래스는 특</h5>
-                                            <p className="date">2023.05.31</p>
-                                        </div>
-                                        <p className="txt">안녕하세요 사소한입니다
-                                            얼마 남지 않은 연말 ,다가오는 연초 외롭지않으세요?
-                                            풋풋한 20대부터 ,안정적인 30대40대까지 모든 연령을 아우르는 사소한 소개팅이 있기에
-                                            올연말,연초를 외롭지않게보내는 많은 회원분들이있으십니다.
-                                            갓 이별해서 힘드시다구요?, 남초,여초인 환경에서 생활해서 남자친구 만들기어렵고,여자친구 만들기 어려우시다구요? 무조건 사소한 소개팅을 한번 이용해보세요! </p>
-                                    </div>
-                                </a>
-                            </SwiperSlide>
-                            <SwiperSlide className="slide_box">
-                                <a href="https://www.sasohan-ad.net/" target="_blank" rel="noopener noreferrer">
-                                    <img src={blog_img4} alt="배경이미지" />
-                                    <div className="txt_box">
-                                        <div>
-                                            <h5>빛깔번쩍, 빛깔번쩍, 내 클래스는 특</h5>
-                                            <p className="date">2023.05.31</p>
-                                        </div>
-                                        <p className="txt">안녕하세요 사소한입니다
-                                            얼마 남지 않은 연말 ,다가오는 연초 외롭지않으세요?
-                                            풋풋한 20대부터 ,안정적인 30대40대까지 모든 연령을 아우르는 사소한 소개팅이 있기에
-                                            올연말,연초를 외롭지않게보내는 많은 회원분들이있으십니다.
-                                            갓 이별해서 힘드시다구요?, 남초,여초인 환경에서 생활해서 남자친구 만들기어렵고,여자친구 만들기 어려우시다구요? 무조건 사소한 소개팅을 한번 이용해보세요! </p>
-                                    </div>
-                                </a>
-                            </SwiperSlide>
+                            {blogList.map((data,i)=>{
+                                return(
+                                    <SwiperSlide className="slide_box" key={i}>
+                                        <a href={data.link} target="_blank" rel="noopener noreferrer">
+                                            <img src={data.image} alt="배경이미지" />
+                                            <div className="txt_box">
+                                                <div>
+                                                    <h5 className="ellipsis2">{data.subject}</h5>
+                                                    <p className="date">{data.w_date}</p>
+                                                </div>
+                                                <p className="txt ellipsis4">{data.contents}</p>
+                                            </div>
+                                        </a>
+                                    </SwiperSlide>
+                                );
+                            })}
                             <div className="swiper-pagination"></div>
                         </Swiper>
                         : 
                         <ul className="blog_ul flex">
-                            <li className={`slide_box ${blogLiOn === 0 ? "on" : ""}`} onClick={()=>{setBlogLiOn(0)}}>
-                                <a href="https://www.sasohan-ad.net/" target="_blank" rel="noopener noreferrer">
-                                    <img src={blog_img1} alt="배경이미지" />
-                                    <div className="txt_box">
-                                        <p className="tit ellipsis2">빛깔번쩍, 빛깔번쩍, 내 클래스는 특</p>
-                                        <div>
-                                            <h5>빛깔번쩍, 빛깔번쩍, 내 클래스는 특</h5>
-                                            <p className="date">2023.05.31</p>
-                                        </div>
-                                        <p className="txt">안녕하세요 사소한입니다
-                                            얼마 남지 않은 연말 ,다가오는 연초 외롭지않으세요?
-                                            풋풋한 20대부터 ,안정적인 30대40대까지 모든 연령을 아우르는 사소한 소개팅이 있기에
-                                            올연말,연초를 외롭지않게보내는 많은 회원분들이있으십니다.
-                                            갓 이별해서 힘드시다구요?, 남초,여초인 환경에서 생활해서 남자친구 만들기어렵고,여자친구 만들기 어려우시다구요? 무조건 사소한 소개팅을 한번 이용해보세요! </p>
-                                    </div>
-                                </a>
-                            </li>
-                            <li className={`slide_box ${blogLiOn === 1 ? "on" : ""}`} onClick={()=>{setBlogLiOn(1)}}>
-                                <a href="https://www.sasohan-ad.net/" target="_blank" rel="noopener noreferrer">
-                                    <img src={blog_img2} alt="배경이미지" />
-                                    <div className="txt_box">
-                                        <p className="tit ellipsis2">빛깔번쩍, 빛깔번쩍, 내 클래스는 특</p>
-                                        <div>
-                                            <h5>빛깔번쩍, 빛깔번쩍, 내 클래스는 특</h5>
-                                            <p className="date">2023.05.31</p>
-                                        </div>
-                                        <p className="txt">안녕하세요 사소한입니다
-                                            얼마 남지 않은 연말 ,다가오는 연초 외롭지않으세요?
-                                            풋풋한 20대부터 ,안정적인 30대40대까지 모든 연령을 아우르는 사소한 소개팅이 있기에
-                                            올연말,연초를 외롭지않게보내는 많은 회원분들이있으십니다.
-                                            갓 이별해서 힘드시다구요?, 남초,여초인 환경에서 생활해서 남자친구 만들기어렵고,여자친구 만들기 어려우시다구요? 무조건 사소한 소개팅을 한번 이용해보세요! </p>
-                                    </div>
-                                </a>
-                            </li>
-                            <li className={`slide_box ${blogLiOn === 2 ? "on" : ""}`} onClick={()=>{setBlogLiOn(2)}}>
-                                <a href="https://www.sasohan-ad.net/" target="_blank" rel="noopener noreferrer">
-                                    <img src={blog_img3} alt="배경이미지" />
-                                    <div className="txt_box">
-                                        <p className="tit ellipsis2">빛깔번쩍, 빛깔번쩍, 내 클래스는 특</p>
-                                        <div>
-                                            <h5>빛깔번쩍, 빛깔번쩍, 내 클래스는 특</h5>
-                                            <p className="date">2023.05.31</p>
-                                        </div>
-                                        <p className="txt">안녕하세요 사소한입니다
-                                            얼마 남지 않은 연말 ,다가오는 연초 외롭지않으세요?
-                                            풋풋한 20대부터 ,안정적인 30대40대까지 모든 연령을 아우르는 사소한 소개팅이 있기에
-                                            올연말,연초를 외롭지않게보내는 많은 회원분들이있으십니다.
-                                            갓 이별해서 힘드시다구요?, 남초,여초인 환경에서 생활해서 남자친구 만들기어렵고,여자친구 만들기 어려우시다구요? 무조건 사소한 소개팅을 한번 이용해보세요! </p>
-                                    </div>
-                                </a>
-                            </li>
-                            <li className={`slide_box ${blogLiOn === 3 ? "on" : ""}`} onClick={()=>{setBlogLiOn(3)}}>
-                                <a href="https://www.sasohan-ad.net/" target="_blank" rel="noopener noreferrer">
-                                    <img src={blog_img4} alt="배경이미지" />
-                                    <div className="txt_box">
-                                        <p className="tit ellipsis2">빛깔번쩍, 빛깔번쩍, 내 클래스는 특</p>
-                                        <div>
-                                            <h5>빛깔번쩍, 빛깔번쩍, 내 클래스는 특</h5>
-                                            <p className="date">2023.05.31</p>
-                                        </div>
-                                        <p className="txt">안녕하세요 사소한입니다
-                                            얼마 남지 않은 연말 ,다가오는 연초 외롭지않으세요?
-                                            풋풋한 20대부터 ,안정적인 30대40대까지 모든 연령을 아우르는 사소한 소개팅이 있기에
-                                            올연말,연초를 외롭지않게보내는 많은 회원분들이있으십니다.
-                                            갓 이별해서 힘드시다구요?, 남초,여초인 환경에서 생활해서 남자친구 만들기어렵고,여자친구 만들기 어려우시다구요? 무조건 사소한 소개팅을 한번 이용해보세요! </p>
-                                    </div>
-                                </a>
-                            </li>
+                            {blogList.map((data,i)=>{
+                                return(
+                                    <li 
+                                        className={`slide_box ${blogOn === i ? "on" : ""}`} 
+                                        onClick={()=>{setBlogOn(i)}} 
+                                        key={i}
+                                    >
+                                        <a href={data.link} target="_blank" rel="noopener noreferrer">
+                                            <img src={data.image} alt="배경이미지" />
+                                            <div className="txt_box">
+                                                <p className="tit ellipsis2">{data.subject}</p>
+                                                <div>
+                                                    <h5 className="ellipsis2">{data.subject}</h5>
+                                                    <p className="date">{data.w_date}</p>
+                                                </div>
+                                                <p className="txt ellipsis4">{data.contents}</p>
+                                            </div>
+                                        </a>
+                                    </li>
+                                );
+                            })}
                         </ul>
                     }
                 </div>
             </div>
         </section>
+        }
 
+        {ytbList.length > 0 &&
         <section className={`section section4 ${sect4On ? "on" : ""}`} ref={sect4Ref}>
             <div className="section_inner">
                 <div className="youtube_wrap">
@@ -662,25 +675,28 @@ const Main = () => {
                         <div className="title_box">
                             <p className="tit">오직, <br/><strong>사소한에서만.</strong></p>
                             <div className="flex_between">
-                                <a className="btn_link ytb" href="/" target="_blank" rel="noopener noreferrer">유튜브 채널 바로가기</a>
+                                <a className="btn_link ytb" href="https://www.youtube.com/@user-sasohan" target="_blank" rel="noopener noreferrer">유튜브 채널 바로가기</a>
+                                {ytbList.length > 1 &&
                                 <div className="btn_box flex">
                                     <div className="swiper-button-prev hover_btn"></div>
                                     <div className="swiper-button-next hover_btn"></div>
                                 </div>
+                                }
                             </div>
                         </div>
                         <div className="video_box">
-                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/Eqhsz-vVvQ4?controls=0" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
                             <a
                                 className="btn_play"
-                                href="https://www.youtube.com/embed/Eqhsz-vVvQ4?controls=0"
+                                href={ytbList[ytbOn].link}
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
+                                <img src={ytbList[ytbOn].image} alt="유튜브이미지" />
                                 <div className="play"></div>
                             </a>
                         </div>
                     </div>
+                    {ytbList.length > 1 &&
                     <Swiper 
                         className="youtube_slider"
                         slidesPerView={"auto"}
@@ -695,25 +711,19 @@ const Main = () => {
                             }
                         }
                     >
-                        <SwiperSlide>
-                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/Eqhsz-vVvQ4?controls=0" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/Eqhsz-vVvQ4?controls=0" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/Eqhsz-vVvQ4?controls=0" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/Eqhsz-vVvQ4?controls=0" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/Eqhsz-vVvQ4?controls=0" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen></iframe>
-                        </SwiperSlide>
+                        {ytbList.map((data,i)=>{
+                            return(
+                                <SwiperSlide key={i} onClick={()=>{setYtbOn(i)}}>
+                                    <div className="img_box"><img src={data.image} alt="유튜브이미지" /></div>
+                                </SwiperSlide>
+                            );
+                        })}
                     </Swiper>
+                    }
                 </div>
             </div>
         </section>
+        }
 
         <section className={`section section5 ${sect5On ? "on" : ""}`} id="sect5" ref={sect5Ref}>
             <div className="section_inner">
@@ -801,7 +811,7 @@ const Main = () => {
                                 fadeEffect={{crossFade: true}}
                             >
                                 <SwiperSlide className="flex_between flex_top">
-                                    <div className="img_box">
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:dona_img1}))}}>
                                         <img src={dona_img1} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
@@ -811,7 +821,7 @@ const Main = () => {
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide className="flex_between flex_top">
-                                    <div className="img_box">
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:dona_img2}))}}>
                                         <img src={dona_img2} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
@@ -821,7 +831,7 @@ const Main = () => {
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide className="flex_between flex_top">
-                                    <div className="img_box">
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:dona_img3}))}}>
                                         <img src={dona_img3} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
@@ -842,6 +852,7 @@ const Main = () => {
             </div>
         </section>
 
+        {reviewList.length > 0 &&
         <section className={`section section6 ${sect6On ? "on" : ""}`} id="sect6" ref={sect6Ref}>
             <div className="section_inner">
                 <div className="review_wrap flex_between flex_top">
@@ -865,55 +876,42 @@ const Main = () => {
                             {1420:{slidesPerView:3,slidesPerGroup:3}}
                         }
                     >
-                        <SwiperSlide onClick={()=>{dispatch(reviewPop(true))}}>
-                            <div className="img_box">
-                                <img src={none_img} alt="이미지" />
-                            </div>
-                            <div className="txt_box">
-                                <p className="txt">💌 93번째 커플 후기입니다!</p>
-                                <p className="date">2023.06.17</p>
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide onClick={()=>{dispatch(reviewPop(true))}}>
-                            <div className="img_box">
-                                <img src={none_img} alt="이미지" />
-                            </div>
-                            <div className="txt_box">
-                                <p className="txt">💌 93번째 커플 후기입니다!</p>
-                                <p className="date">2023.06.17</p>
-                            </div>
-                        </SwiperSlide>
-                        <SwiperSlide onClick={()=>{dispatch(reviewPop(true))}}>
-                            <div className="img_box">
-                                <img src={none_img} alt="이미지" />
-                            </div>
-                            <div className="txt_box">
-                                <p className="txt">💌 93번째 커플 후기입니다!</p>
-                                <p className="date">2023.06.17</p>
-                            </div>
-                        </SwiperSlide>
+                        {reviewList.map((data,i)=>{
+                            return(
+                                <SwiperSlide onClick={()=>{dispatch(reviewPop({reviewPop:true,reviewPopNo:data.list_no}))}} key={i}>
+                                    <div className="img_box">
+                                        <img src={data.thumb ? data.thumb : none_img} alt="이미지" />
+                                    </div>
+                                    <div className="txt_box">
+                                        <p className="txt ellipsis">{data.subject}</p>
+                                        <p className="date">{data.w_date}</p>
+                                    </div>
+                                </SwiperSlide>
+                            );
+                        })}
                     </Swiper>
                 </div>
             </div>
         </section>
+        }
 
         <div className="app_wrap">
             <div className="section_inner flex_between">
-                <p className="txt">지금 사소한을 이용하면, <br/><strong>25,693명의 사람</strong><span>을 만날 수 있어요.</span></p>
+                <p className="txt">지금 사소한을 이용하면, <br/><strong>{CF.MakeIntComma(count)}명의 사람</strong><span>을 만날 수 있어요.</span></p>
                 <div className="app_box">
                     <ul className="flex">
                         <li>
                             <a
-                                href="https://www.youtube.com/embed/Eqhsz-vVvQ4?controls=0"
-                                target="_blank"
+                                href="/"
+                                // target="_blank"
                                 rel="noopener noreferrer"
                             >Google Play
                             </a>
                         </li>
                         <li>
                             <a
-                                href="https://www.youtube.com/embed/Eqhsz-vVvQ4?controls=0"
-                                target="_blank"
+                                href="/"
+                                // target="_blank"
                                 rel="noopener noreferrer"
                             >App Store
                             </a>

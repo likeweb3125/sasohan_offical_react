@@ -18,9 +18,11 @@ const popup = createSlice({
 
         //후기 팝업
         reviewPop: false,
+        reviewPopNo: null,
 
         //약관 팝업
         termsPop: false,
+        termsPopTab: null,
     },
     reducers:{
         // 공통 -----------------------------------
@@ -38,10 +40,12 @@ const popup = createSlice({
             state.imgPopSrc = action.payload.imgPopSrc;
         },
         reviewPop: (state, action) => {
-            state.reviewPop = action.payload;
+            state.reviewPop = action.payload.reviewPop;
+            state.reviewPopNo = action.payload.reviewPopNo;
         },
         termsPop: (state, action) => {
-            state.termsPop = action.payload;
+            state.termsPop = action.payload.termsPop;
+            state.termsPopTab = action.payload.termsPopTab;
         },
     }
 });

@@ -68,26 +68,18 @@ const Footer = () => {
                     <li>
                         <a
                             href="/"
-                            target="_blank"
+                            // target="_blank"
                             rel="noopener noreferrer"
                         >공지사항</a>
                     </li>
                     <li>
-                        <a
-                            href="/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >개인정보취급방침</a>
+                        <button type="button" onClick={()=>{dispatch(termsPop({termsPop:true,termsPopTab:1}))}}>개인정보 보호정책</button>
                     </li>
                     <li>
-                        <a
-                            href="/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >이메일 무단수집거부</a>
+                        <button type="button" onClick={()=>{dispatch(termsPop({termsPop:true,termsPopTab:2}))}}>이메일 무단수집거부</button>
                     </li>
                     <li>
-                        <button type="button" onClick={()=>{dispatch(termsPop(true))}}>이용약관</button>
+                        <button type="button" onClick={()=>{dispatch(termsPop({termsPop:true,termsPopTab:4}))}}>이용약관</button>
                     </li>
                 </ul>
             </div>
@@ -98,7 +90,7 @@ const Footer = () => {
                 <li>
                     <a
                         className="sns_ytb"
-                        href="/"
+                        href="https://www.youtube.com/@user-sasohan"
                         target="_blank"
                         rel="noopener noreferrer"
                     >유튜브</a>
@@ -107,7 +99,7 @@ const Footer = () => {
                     <a
                         className="sns_insta"
                         href="/"
-                        target="_blank"
+                        // target="_blank"
                         rel="noopener noreferrer"
                     >인스타그램</a>
                 </li>
