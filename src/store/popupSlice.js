@@ -11,6 +11,16 @@ const popup = createSlice({
 
         //챠밍매니저 팝업
         managerPop: false,
+
+        //이미지 팝업
+        imgPop: false,
+        imgPopSrc: "",
+
+        //후기 팝업
+        reviewPop: false,
+
+        //약관 팝업
+        termsPop: false,
     },
     reducers:{
         // 공통 -----------------------------------
@@ -23,11 +33,24 @@ const popup = createSlice({
         managerPop: (state, action) => {
             state.managerPop = action.payload;
         },
+        imgPop: (state, action) => {
+            state.imgPop = action.payload.imgPop;
+            state.imgPopSrc = action.payload.imgPopSrc;
+        },
+        reviewPop: (state, action) => {
+            state.reviewPop = action.payload;
+        },
+        termsPop: (state, action) => {
+            state.termsPop = action.payload;
+        },
     }
 });
 
 export const {
     confirmPop,
-    managerPop
+    managerPop,
+    imgPop,
+    reviewPop,
+    termsPop
 } = popup.actions;
 export default popup;

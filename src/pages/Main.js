@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Pagination, Scrollbar, Navigation, EffectFade } from "swiper";
 import "swiper/css";
@@ -8,10 +9,11 @@ import "swiper/css/scrollbar";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
 import { headerMenuOn } from "../store/commonSlice";
-import { managerPop } from "../store/popupSlice";
+import { managerPop, confirmPop, imgPop, reviewPop } from "../store/popupSlice";
 import ManagerBox from "../components/component/ManagerBox";
 import ConfirmPop from "../components/popup/ConfirmPop";
-//ㅇㅇㅇㅇ
+import { enum_api_uri } from "../config/enum";
+import * as CF from "../config/function";
 
 import m_visual_tag from "../images/main_visual_tag.svg";
 import m_visual_img1 from "../images/main_visual_txt1.svg";
@@ -40,10 +42,18 @@ import about_img4 from "../images/about_img4.svg";
 import about_img5 from "../images/about_img5.svg";
 import about_img6 from "../images/about_img6.svg";
 import blog_img1 from "../images/blog_img1.jpg";
-import award_img from "../images/award_img.svg";
+import blog_img2 from "../images/blog_img2.jpg";
+import blog_img3 from "../images/blog_img3.jpg";
+import blog_img4 from "../images/blog_img4.jpg";
+import award_img1 from "../images/award_img1.svg";
+import award_img1_pop from "../images/award_img1_pop.png";
 import trust_img1 from "../images/trust_img1.svg";
 import trust_img2 from "../images/trust_img2.svg";
+import trust_img1_pop from "../images/trust_img1_pop.jpg";
+import trust_img2_pop from "../images/trust_img2_pop.png";
 import dona_img1 from "../images/dona_img1.jpg";
+import dona_img2 from "../images/dona_img2.jpg";
+import dona_img3 from "../images/dona_img3.jpg";
 import none_img from "../images/none_img.jpg";
 
 SwiperCore.use([Pagination,Scrollbar,Navigation,EffectFade]);
@@ -73,6 +83,12 @@ const Main = () => {
     const [blogSwiperActive, setBlogSwiperActive] = useState(false);
     const [blogLiOn, setBlogLiOn] = useState(3);
     const [trustTab,setTrustTab] = useState(0);
+
+    const m_list = enum_api_uri.m_list;
+    const [charmingList, setCharmingList] = useState([]);
+    const [managerList, setManagerList] = useState([]);
+    const [managerList2, setManagerList2] = useState([]);
+
 
     // Confirm팝업 닫힐때
     useEffect(()=>{
@@ -143,7 +159,6 @@ const Main = () => {
         sections.forEach(({ ref, onSet }) => {
             const offsetTop = ref.current.offsetTop;
             if (scroll >= offsetTop - 500) {
-                console.log(offsetTop)
                 onSet(true);
             }
         });
@@ -158,6 +173,38 @@ const Main = () => {
             window.removeEventListener("scroll", scrollSectOn);
         };
     }, []);
+
+    //매니저리스트 가져오기
+    const getManagerList = () => {
+        axios.get(`${m_list}`)
+        .then((res)=>{
+            if(res.status === 200){
+                let data = res.data;
+                const cList = data.filter(item => item.manager_type == "C");
+                setCharmingList([...cList]);
+
+                const mList = data.filter(item => item.manager_type == "M");
+                const mList1 = mList.slice(0, 4);
+                const mList2 = mList.slice(4, 8);
+                setManagerList([...mList1]);
+                setManagerList2([...mList2]);
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
+    };
+
+    useEffect(()=>{
+        getManagerList();
+    },[]);
 
 
     return(<>
@@ -189,77 +236,56 @@ const Main = () => {
                     </div>
                 </div>
                 <div className="manager_wrap manager_wrap1 flex_bottom flex_between">
-                    <div className="charming" onClick={()=>{dispatch(managerPop(true))}}>
-                        <div className="img">
-                            <img src={manager_img} alt="매니저프로필이미지" />
-                        </div>
-                        <div className="txt_box">
-                            <div className="name flex">
-                                <strong>김다은</strong>
-                                <span>챠밍매니저</span>
-                            </div> 
-                            <p className="ellipsis2">재미있는 대화 상대 필요하시죠? 😋<br/>저를 찾아 주세요!</p>
-                        </div>
-                        <div className="badge">
-                            <img src={ic_badge} alt="배지이미지" />
-                        </div>
-                    </div>
-                    {managerSwiperActive ? 
-                        <Swiper 
-                            className="manager_slider manager_slider1"
-                            slidesPerView={2.2}
-                            spaceBetween={9}
-                            observer={true}
-                            observeParents={true}
-                            navigation={{nextEl: ".manager_slider1 .swiper-button-next",prevEl: ".manager_slider1 .swiper-button-prev"}}
-                            scrollbar={{draggable: true}}
-                        >
-                            <SwiperSlide>
-                                <ManagerBox 
-                                    img={manager_img}
-                                />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <ManagerBox 
-                                    img={manager_img}
-                                />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <ManagerBox 
-                                    img={manager_img}
-                                />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <ManagerBox 
-                                    img={manager_img}
-                                />
-                            </SwiperSlide>
-                            <div className="btn_box flex_between">
-                                <div className="swiper-button-prev"></div>
-                                <div className="swiper-button-next"></div>
+                    {charmingList.length > 0 &&
+                        // <div className="charming" onClick={()=>{dispatch(managerPop(true))}}>
+                        <div className="charming">
+                            <div className="img">
+                                <img src={charmingList[0].photo ? charmingList[0].photo : none_img} alt="매니저프로필이미지" />
                             </div>
-                        </Swiper>
-                        :   <div className="list_manager flex_wrap">
-                                <li>
-                                    <ManagerBox 
-                                        img={manager_img}
-                                    />
-                                </li>
-                                <li>
-                                    <ManagerBox 
-                                        img={manager_img}
-                                    />
-                                </li>
-                                <li>
-                                    <ManagerBox 
-                                        img={manager_img}
-                                    />
-                                </li>
-                                <li>
-                                    <ManagerBox 
-                                        img={manager_img}
-                                    />
-                                </li>
+                            <div className="txt_box">
+                                <div className="name flex_wrap">
+                                    <strong>{charmingList[0].manager_name}</strong>
+                                    <span>{charmingList[0].manager_type_txt}</span>
+                                </div> 
+                                <p className="ellipsis2">{charmingList[0].txt}</p>
+                            </div>
+                            <div className="badge">
+                                <img src={ic_badge} alt="배지이미지" />
+                            </div>
+                        </div>
+                    }
+                    {managerSwiperActive ? 
+                            managerList && managerList.length > 0 &&
+                            <Swiper 
+                                className="manager_slider manager_slider1"
+                                slidesPerView={2.2}
+                                spaceBetween={9}
+                                observer={true}
+                                observeParents={true}
+                                navigation={{nextEl: ".manager_slider1 .swiper-button-next",prevEl: ".manager_slider1 .swiper-button-prev"}}
+                                scrollbar={{draggable: true}}
+                            >
+                                {managerList.map((data,i)=>{
+                                    return(
+                                        <SwiperSlide key={i}>
+                                            <ManagerBox data={data}/>
+                                        </SwiperSlide>
+                                    );
+                                })}
+                                <div className="btn_box flex_between">
+                                    <div className="swiper-button-prev"></div>
+                                    <div className="swiper-button-next"></div>
+                                </div>
+                            </Swiper>
+                        :   managerList && managerList.length > 0 &&
+                            <div className="list_manager flex_wrap">
+                                {managerList.map((data,i)=>{
+                                    return(
+                                        <li key={i}>
+                                            <ManagerBox data={data}/>
+                                        </li>
+                                    );
+                                })}
                             </div>
                     }
                 </div>
@@ -270,22 +296,25 @@ const Main = () => {
                             <img src={tip_box_img} alt="말풍선이미지" />
                         </div>
                     </div>
-                    <div className="charming">
-                        <div className="img">
-                            <img src={manager_img} alt="매니저프로필이미지" />
+                    {charmingList.length > 0 &&
+                        <div className="charming">
+                            <div className="img">
+                                <img src={charmingList[1].photo ? charmingList[1].photo : none_img} alt="매니저프로필이미지" />
+                            </div>
+                            <div className="txt_box">
+                                <div className="name flex_wrap">
+                                    <strong>{charmingList[1].manager_name}</strong>
+                                    <span>{charmingList[1].manager_type_txt}</span>
+                                </div> 
+                                <p className="ellipsis2">{charmingList[1].txt}</p>
+                            </div>
+                            <div className="badge">
+                                <img src={ic_badge} alt="배지이미지" />
+                            </div>
                         </div>
-                        <div className="txt_box">
-                            <div className="name flex">
-                                <strong>김다은</strong>
-                                <span>챠밍매니저</span>
-                            </div> 
-                            <p className="ellipsis2">재미있는 대화 상대 필요하시죠? 😋<br/>저를 찾아 주세요!</p>
-                        </div>
-                        <div className="badge">
-                            <img src={ic_badge} alt="배지이미지" />
-                        </div>
-                    </div>
+                    }
                     {managerSwiperActive ? 
+                        managerList2 && managerList2.length > 0 &&
                         <Swiper 
                             className="manager_slider manager_slider2"
                             slidesPerView={2.2}
@@ -295,52 +324,27 @@ const Main = () => {
                             navigation={{nextEl: ".manager_slider2 .swiper-button-next",prevEl: ".manager_slider2 .swiper-button-prev"}}
                             scrollbar={{draggable: true}}
                         >
-                            <SwiperSlide>
-                                <ManagerBox 
-                                    img={manager_img}
-                                />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <ManagerBox 
-                                    img={manager_img}
-                                />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <ManagerBox 
-                                    img={manager_img}
-                                />
-                            </SwiperSlide>
-                            <SwiperSlide>
-                                <ManagerBox 
-                                    img={manager_img}
-                                />
-                            </SwiperSlide>
+                            {managerList2.map((data,i)=>{
+                                return(
+                                    <SwiperSlide key={i}>
+                                        <ManagerBox data={data}/>
+                                    </SwiperSlide>
+                                );
+                            })}
                             <div className="btn_box flex_between">
                                 <div className="swiper-button-prev"></div>
                                 <div className="swiper-button-next"></div>
                             </div>
                         </Swiper>
-                        :   <div className="list_manager flex_wrap">
-                                <li>
-                                    <ManagerBox 
-                                        img={manager_img}
-                                    />
-                                </li>
-                                <li>
-                                    <ManagerBox 
-                                        img={manager_img}
-                                    />
-                                </li>
-                                <li>
-                                    <ManagerBox 
-                                        img={manager_img}
-                                    />
-                                </li>
-                                <li>
-                                    <ManagerBox 
-                                        img={manager_img}
-                                    />
-                                </li>
+                        :   managerList2 && managerList2.length > 0 &&
+                            <div className="list_manager flex_wrap">
+                                {managerList2.map((data,i)=>{
+                                    return(
+                                        <li key={i}>
+                                            <ManagerBox data={data}/>
+                                        </li>
+                                    );
+                                })}
                             </div>
                     }
                 </div>
@@ -393,23 +397,22 @@ const Main = () => {
                             정확하게 만날 수 있습니다.</p>
                         </li>
                         <li className={aboutTab === 1 ? "on" : ""}>
-                            <h4>메신저를 이용한 매니저 소개팅의 원조</h4>
-                            <img src={about_img2} alt="일러스트이미지" />
+                            <h4>매니저를 통한 온라인 소개팅의 원조</h4>
                             <p className="txt"><strong>{"<국내 최초 사람이 해주는 매니저 소개> <카카오톡 신개념 소개팅>"}</strong> 등 <br/>
-                            사소한이 메신저를 이용한 매니저 소개팅의 원조 라는 사실을 알고 계셨나요?</p>
-                            <p className="txt2">최근 몇 년 사이 사소한의 인기에 힘입어 매니저 소개팅을 내세우며 유사한 서비스를 출시하는 회사들이 많이 생겼습니다. <br/><br/>
+                            사소한이 매니저를 통한 온라인 소개팅의 원조라는 사실을 알고 계셨나요?</p>
+                            <p className="txt2">최근 몇 년 사이 <br/>
+                            사소한의 인기에 힘입어 매니저 소개팅을 내세우며 유사한 서비스를 출시하는 회사들이 많이 생겼습니다. <br/>
+                            그러나 이러한 개념의 서비스가 <span>처음 도입된 것은 사소한</span>이었습니다. <br/><br/>
 
-                            그러나 이러한 개념의 서비스가 <span>처음 도입된 것은 사소한</span>이었습니다. <br/>
-                            사소한 소개팅은 2015년 4월 출시 이래로 <br/>
-                            이미 <span>9년의 역사</span>를 가지고 있으며, <span>메신저를 활용한 매니저 소개팅 서비스를 선보인 최초의 회사</span>입니다. <br/>
+                            사소한 소개팅은 2015년 4월 출시 이래로 이미 <span>9년의 역사</span>를 가지고 있으며, <br/>
+                            <span>매니저를 통한 온라인 소개팅 서비스를 선보인 최초의 회사</span>입니다. <br/>
                             비슷한 개념의 다른 소개팅 업체를 찾아 보아도, 저희 회사가 압도적으로 오래된 것은 부인할 수 없는 사실입니다. <br/>
                             추가로, 사소한을 모방한 회사들 중 70% 이상은 사소한의 전직원 출신으로 구성됐음을 알려드립니다. <br/>
                             직원 출신 회사의 직원이 또 모방하여 차린 회사도 있습니다. <br/>
                             하지만 모방은 혁신적인 면에서 결코 창조를 이길 수 없습니다. <br/><br/>
 
                             결국 사소한은 뿌리이자 다른 아류 서비스들과는 다르게 <br/>
-                            오랜 기간 동안 <br/>
-                            수많은 회원들의 신뢰와 성원을 받으며 쌓인 노하우를 기반으로 <br/>
+                            오랜 기간 동안 수많은 회원들의 신뢰와 성원을 받으며 쌓인 노하우를 기반으로 <br/>
                             <span>근본적이며 보다 안전한 서비스를 제공</span>하고 있습니다. <br/>
                             이용해보신다면 차별화된 서비스의 가치를 직접 경험하실 수 있을 것입니다. <br/><br/>
 
@@ -423,24 +426,26 @@ const Main = () => {
                         <li className={aboutTab === 3 ? "on" : ""}>
                             <h4>매너베이트 시스템</h4>
                             <img src={about_img4} alt="일러스트이미지" />
-                            <p className="txt">사소한 서비스는 <strong>소개팅을 유료로 신청할 경우 8만8천원</strong>을 받고, <br/>
-                            이상형으로 <strong>지목된 상대방에게 8만8천원에서 1만원을 따로 빼서 지급</strong>합니다. </p>
-                            <p className="txt2">이 1만원을 '매너베이트'라고 부르며, 매너베이트는 manner + bait 의 합성어 입니다. <br/>
-                            <span>매너는 '태도와 예의'를 뜻하는 단어</span>로, 상대방이 소개팅에 진지한 자세로 임함을 뜻하며, <br/>
-                            <span>베이트는 '미끼' 라는 뜻</span>으로, 자신이 지목한 이상형을 소개팅 테이블로 모셔오는 역할을 합니다. <br/><br/>
+                            <p className="txt">사소한 소개팅 서비스는 <strong>소개팅 진행시</strong> 비용을 한 쪽에서만 부담을 하는 <strong>단방향 결제 소개팅 시스템</strong>입니다.</p>
+                            <p className="txt2">이 과정에서,사소한은 소개팅을 유료로 진행한 결제자님에게 소개팅 비용 8만 8천 원을 받고, <br/>
+                            상대 이성에게 1만 원을 따로 빼서 전달하게 됩니다. <br/>
+                            이 1만원을 <span>매너베이트</span>라고 부르며, 매너베이트는 <span>manner(예의) + bait(미끼) 의 합성어</span> 입니다. <br/><br/>
 
-                            사소한 매니저들은 <br/>
-                            이를 활용해 소개팅 신청자와 지목당한 상대방을 소개팅 테이블로 함께 모셔오게 됩니다. <br/>
-                            또한, 이 매너베이트를 받은 상대는 더욱 진지한 자세로 소개팅에 임하게되며 책임감이 생깁니다. <br/>
-                            매너 베이트 시스템은 사소한만이 진행하는 독창적인 시스템입니다. <br/><br/>
+                            매너는 '태도와 예의'를 뜻하는 단어로, 상대 이성이 소개팅에 진지한 자세와 태도로 임함을 뜻하며, <br/>
+                            베이트는 '미끼' 라는 뜻으로, <span>유료 결제자님의 상대 이성을 유도하여 소개팅 테이블로 모셔오는 역할</span>을 합니다. <br/><br/>
 
-                            비록 소개팅 비용에 있어서는 유료결제와 매너베이트 사이의 불평등함이 존재하지만, <br/>
-                            오히려 놀랍게도 이를 통해 <br/>
-                            <span>더 많은 이상형을 매칭 받을 수 있는 기회의 평등함이 제공</span>됩니다.<br/><br/>
+                            즉 <span>매너베이트</span>는 소개팅 파트너를 진지한 태도로 소개팅에 참여하게 하고 책임감을 부여하며, <br/>
+                            파트너를 유연하게 소개팅에 참여할 수 있도록 유도하는 보상입니다. <br/><br/>
 
-                            따라서, 매너베이트를 받게 되면 소개팅 경험에 대한 <br/>
-                            만족도가 높아질 것이며 <br/>
-                            더 적합한 이상형과 만날 수 있는 가능성도 높아집니다.</p>
+                            사소한은 매너베이트를 활용하여유료 결제자님에게 <span>확실한 이상형 선택의 기회를 제공</span>합니다. <br/>
+                            매너 베이트 시스템은 사소한 만이 진행하는 독창적인 시스템입니다. <br/><br/>
+
+                            비록 소개팅 비용에 있어서는 유료결제와, 매너베이트 사이의 비평등함이 존재하지만, <br/>
+                            오히려 놀랍게도 이를 통해 더 많은 이상형을 <br/>
+                            <span>매칭 받을 수 있는 기회의 평등함이 제공됩니다. </span><br/><br/>
+
+                            따라서 매너베이트 시스템을 이용한 소개팅은 소개팅 경험에 대한 <br/>
+                            만족도가 높아질 것이며 더 적합한 이상형과 만날 수 있는 가능성도 높아집니다.</p>
                         </li>
                         <li className={aboutTab === 4 ? "on" : ""}>
                             <h4>4박 5일 로맨스 프로그램</h4>
@@ -526,7 +531,7 @@ const Main = () => {
                             </SwiperSlide>
                             <SwiperSlide className="slide_box">
                                 <a href="https://www.sasohan-ad.net/" target="_blank" rel="noopener noreferrer">
-                                    <img src={blog_img1} alt="배경이미지" />
+                                    <img src={blog_img2} alt="배경이미지" />
                                     <div className="txt_box">
                                         <div>
                                             <h5>빛깔번쩍, 빛깔번쩍, 내 클래스는 특</h5>
@@ -542,7 +547,7 @@ const Main = () => {
                             </SwiperSlide>
                             <SwiperSlide className="slide_box">
                                 <a href="https://www.sasohan-ad.net/" target="_blank" rel="noopener noreferrer">
-                                    <img src={blog_img1} alt="배경이미지" />
+                                    <img src={blog_img3} alt="배경이미지" />
                                     <div className="txt_box">
                                         <div>
                                             <h5>빛깔번쩍, 빛깔번쩍, 내 클래스는 특</h5>
@@ -558,7 +563,7 @@ const Main = () => {
                             </SwiperSlide>
                             <SwiperSlide className="slide_box">
                                 <a href="https://www.sasohan-ad.net/" target="_blank" rel="noopener noreferrer">
-                                    <img src={blog_img1} alt="배경이미지" />
+                                    <img src={blog_img4} alt="배경이미지" />
                                     <div className="txt_box">
                                         <div>
                                             <h5>빛깔번쩍, 빛깔번쩍, 내 클래스는 특</h5>
@@ -595,7 +600,7 @@ const Main = () => {
                             </li>
                             <li className={`slide_box ${blogLiOn === 1 ? "on" : ""}`} onClick={()=>{setBlogLiOn(1)}}>
                                 <a href="https://www.sasohan-ad.net/" target="_blank" rel="noopener noreferrer">
-                                    <img src={blog_img1} alt="배경이미지" />
+                                    <img src={blog_img2} alt="배경이미지" />
                                     <div className="txt_box">
                                         <p className="tit ellipsis2">빛깔번쩍, 빛깔번쩍, 내 클래스는 특</p>
                                         <div>
@@ -612,7 +617,7 @@ const Main = () => {
                             </li>
                             <li className={`slide_box ${blogLiOn === 2 ? "on" : ""}`} onClick={()=>{setBlogLiOn(2)}}>
                                 <a href="https://www.sasohan-ad.net/" target="_blank" rel="noopener noreferrer">
-                                    <img src={blog_img1} alt="배경이미지" />
+                                    <img src={blog_img3} alt="배경이미지" />
                                     <div className="txt_box">
                                         <p className="tit ellipsis2">빛깔번쩍, 빛깔번쩍, 내 클래스는 특</p>
                                         <div>
@@ -629,7 +634,7 @@ const Main = () => {
                             </li>
                             <li className={`slide_box ${blogLiOn === 3 ? "on" : ""}`} onClick={()=>{setBlogLiOn(3)}}>
                                 <a href="https://www.sasohan-ad.net/" target="_blank" rel="noopener noreferrer">
-                                    <img src={blog_img1} alt="배경이미지" />
+                                    <img src={blog_img4} alt="배경이미지" />
                                     <div className="txt_box">
                                         <p className="tit ellipsis2">빛깔번쩍, 빛깔번쩍, 내 클래스는 특</p>
                                         <div>
@@ -721,7 +726,7 @@ const Main = () => {
                             <div className="tit_box flex_between">
                                 <h5>사소한의 신뢰</h5>
                                 <ul className="tab_ul flex">
-                                    <li className={trustTab === 0 ? "on" : ""} onClick={()=>{setTrustTab(0)}}>브랜드상</li>
+                                    <li className={trustTab === 0 ? "on" : ""} onClick={()=>{setTrustTab(0)}}>외부평가</li>
                                     <li className={trustTab === 1 ? "on" : ""} onClick={()=>{setTrustTab(1)}}>인허가서류</li>
                                 </ul>
                             </div>
@@ -734,36 +739,14 @@ const Main = () => {
                                     observeParents={true}
                                     navigation={{nextEl: ".trust_slider_box .swiper-button-next",prevEl: ".trust_slider_box .swiper-button-prev"}}
                                 >
-                                    <SwiperSlide>
+                                    <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
                                         <div className="flex">
                                             <div className="img_box">
-                                                <img src={award_img} alt="이미지" />
+                                                <img src={award_img1} alt="이미지" />
                                             </div>
                                             <div className="txt_box">
-                                                <p className="txt">2023 KBEI 소비자 브랜드 대상 1위</p>
-                                                <p className="date">2023.05.31</p>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className="flex">
-                                            <div className="img_box">
-                                                <img src={award_img} alt="이미지" />
-                                            </div>
-                                            <div className="txt_box">
-                                                <p className="txt">2023 KBEI 소비자 브랜드 대상 1위</p>
-                                                <p className="date">2023.05.31</p>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className="flex">
-                                            <div className="img_box">
-                                                <img src={award_img} alt="이미지" />
-                                            </div>
-                                            <div className="txt_box">
-                                                <p className="txt">2023 KBEI 소비자 브랜드 대상 1위</p>
-                                                <p className="date">2023.05.31</p>
+                                                <p className="txt">2023 한국소비자 베스트브랜드대상 1위</p>
+                                                <p className="date">고객만족 소개팅서비스업</p>
                                             </div>
                                         </div>
                                     </SwiperSlide>
@@ -780,36 +763,25 @@ const Main = () => {
                                     observeParents={true}
                                     navigation={{nextEl: ".trust_slider_box2 .swiper-button-next",prevEl: ".trust_slider_box2 .swiper-button-prev"}}
                                 >
-                                    <SwiperSlide>
+                                    <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img1_pop}))}}>
                                         <div className="flex flex_bottom">
                                             <div className="img_box">
                                                 <img src={trust_img1} alt="이미지" />
                                             </div>
                                             <div className="txt_box">
                                                 <p className="txt">사업자등록증</p>
-                                                <p className="date">2023.05.31</p>
+                                                <p className="date">2017.11.24</p>
                                             </div>
                                         </div>
                                     </SwiperSlide>
-                                    <SwiperSlide>
+                                    <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2_pop}))}}>
                                         <div className="flex flex_bottom">
                                             <div className="img_box">
                                                 <img src={trust_img2} alt="이미지" />
                                             </div>
                                             <div className="txt_box">
-                                                <p className="txt">개인정보처리방침</p>
-                                                <p className="date">2023.05.31</p>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
-                                    <SwiperSlide>
-                                        <div className="flex flex_bottom">
-                                            <div className="img_box">
-                                                <img src={trust_img2} alt="이미지" />
-                                            </div>
-                                            <div className="txt_box">
-                                                <p className="txt">개인정보처리방침</p>
-                                                <p className="date">2023.05.31</p>
+                                                <p className="txt">통신판매업</p>
+                                                <p className="date">2017.04.18</p>
                                             </div>
                                         </div>
                                     </SwiperSlide>
@@ -833,18 +805,28 @@ const Main = () => {
                                         <img src={dona_img1} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
-                                        <p className="txt">대한적십자사 헌혈증서 30장 기부권 전달</p>
-                                        <p className="ellipsis4 mo_none">헌혈증서 기부는 많은 사람들에게 생명을 구하는 데 큰 도움이 됩니다. 이 기부는 헌혈증서를 통해 자신이 헌혈할 수 없는 상황이거나 건강 상태가 어려워 헌혈을 할 수 없는 분들을 헌혈증서 기부는 많은 사람들에게 생명을 구하는 데 큰 도움이 됩니다. 이 기부는 헌혈증서를 통해 자신이 헌혈할 수 없는 상황이거나 건강 상태가 어려워 헌혈을 할 수 없는 분들을</p>
+                                        <p className="txt">밀알복지재단 후원</p>
+                                        <p className="ellipsis4 mo_none">사소한이 밀알복지재단에 후원한 지 2년이 되었습니다!</p>
                                         <p className="date">2023.05.31</p>
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide className="flex_between flex_top">
                                     <div className="img_box">
-                                        <img src={dona_img1} alt="이미지" />
+                                        <img src={dona_img2} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
-                                        <p className="txt">asdfasdf</p>
-                                        <p className="ellipsis4 mo_none">헌혈증서 기부는 많은 사람들에게 생명을 구하는 데 큰 도움이 됩니다. 이 기부는 헌혈증서를 통해 자신이 헌혈할 수 없는 상황이거나 건강 상태가 어려워 헌혈을 할 수 없는 분들을 헌혈증서 기부는 많은 사람들에게 생명을 구하는 데 큰 도움이 됩니다. 이 기부는 헌혈증서를 통해 자신이 헌혈할 수 없는 상황이거나 건강 상태가 어려워 헌혈을 할 수 없는 분들을</p>
+                                        <p className="txt">밀알복지재단 후원</p>
+                                        <p className="ellipsis4 mo_none">사소한이 밀알복지재단에 후원한 지 2년이 되었습니다!</p>
+                                        <p className="date">2023.05.31</p>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide className="flex_between flex_top">
+                                    <div className="img_box">
+                                        <img src={dona_img3} alt="이미지" />
+                                    </div>
+                                    <div className="txt_box">
+                                        <p className="txt">밀알복지재단 후원</p>
+                                        <p className="ellipsis4 mo_none">사소한이 밀알복지재단에 후원한 지 2년이 되었습니다!</p>
                                         <p className="date">2023.05.31</p>
                                     </div>
                                 </SwiperSlide>
@@ -883,95 +865,32 @@ const Main = () => {
                             {1420:{slidesPerView:3,slidesPerGroup:3}}
                         }
                     >
-                        <SwiperSlide>
-                            <a
-                                href="https://www.youtube.com/embed/Eqhsz-vVvQ4?controls=0"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <div className="img_box">
-                                    <img src={none_img} alt="이미지" />
-                                </div>
-                                <div className="txt_box">
-                                    <p className="txt">💌 93번째 커플 후기입니다!</p>
-                                    <p className="date">2023.06.17</p>
-                                </div>
-                            </a>
+                        <SwiperSlide onClick={()=>{dispatch(reviewPop(true))}}>
+                            <div className="img_box">
+                                <img src={none_img} alt="이미지" />
+                            </div>
+                            <div className="txt_box">
+                                <p className="txt">💌 93번째 커플 후기입니다!</p>
+                                <p className="date">2023.06.17</p>
+                            </div>
                         </SwiperSlide>
-                        <SwiperSlide>
-                            <a
-                                href="https://www.youtube.com/embed/Eqhsz-vVvQ4?controls=0"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <div className="img_box">
-                                    <img src={none_img} alt="이미지" />
-                                </div>
-                                <div className="txt_box">
-                                    <p className="txt">💌 93번째 커플 후기입니다!</p>
-                                    <p className="date">2023.06.17</p>
-                                </div>
-                            </a>
+                        <SwiperSlide onClick={()=>{dispatch(reviewPop(true))}}>
+                            <div className="img_box">
+                                <img src={none_img} alt="이미지" />
+                            </div>
+                            <div className="txt_box">
+                                <p className="txt">💌 93번째 커플 후기입니다!</p>
+                                <p className="date">2023.06.17</p>
+                            </div>
                         </SwiperSlide>
-                        <SwiperSlide>
-                            <a
-                                href="https://www.youtube.com/embed/Eqhsz-vVvQ4?controls=0"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <div className="img_box">
-                                    <img src={none_img} alt="이미지" />
-                                </div>
-                                <div className="txt_box">
-                                    <p className="txt">💌 93번째 커플 후기입니다!</p>
-                                    <p className="date">2023.06.17</p>
-                                </div>
-                            </a>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <a
-                                href="https://www.youtube.com/embed/Eqhsz-vVvQ4?controls=0"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <div className="img_box">
-                                    <img src={none_img} alt="이미지" />
-                                </div>
-                                <div className="txt_box">
-                                    <p className="txt">💌 93번째 커플 후기입니다!</p>
-                                    <p className="date">2023.06.17</p>
-                                </div>
-                            </a>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <a
-                                href="https://www.youtube.com/embed/Eqhsz-vVvQ4?controls=0"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <div className="img_box">
-                                    <img src={none_img} alt="이미지" />
-                                </div>
-                                <div className="txt_box">
-                                    <p className="txt">💌 93번째 커플 후기입니다!</p>
-                                    <p className="date">2023.06.17</p>
-                                </div>
-                            </a>
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <a
-                                href="https://www.youtube.com/embed/Eqhsz-vVvQ4?controls=0"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <div className="img_box">
-                                    <img src={none_img} alt="이미지" />
-                                </div>
-                                <div className="txt_box">
-                                    <p className="txt">💌 93번째 커플 후기입니다!</p>
-                                    <p className="date">2023.06.17</p>
-                                </div>
-                            </a>
+                        <SwiperSlide onClick={()=>{dispatch(reviewPop(true))}}>
+                            <div className="img_box">
+                                <img src={none_img} alt="이미지" />
+                            </div>
+                            <div className="txt_box">
+                                <p className="txt">💌 93번째 커플 후기입니다!</p>
+                                <p className="date">2023.06.17</p>
+                            </div>
                         </SwiperSlide>
                     </Swiper>
                 </div>
