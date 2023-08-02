@@ -260,6 +260,8 @@ html,.body{height: auto;}
 .youtube_wrap .video_box .btn_play .play::after{position: absolute;content: "";width: 100%;height: 100%;top: 0;left: 0;background: url(../images/ic_play.svg) no-repeat center;transition: all .3s;}
 .youtube_slider{padding: 60px 0 40px;opacity: 0;}
 .youtube_slider .swiper-slide::after{position: absolute;content: "";width: 100%;height: 100%;top: 0;left: 0;cursor: pointer;}
+.youtube_slider .swiper-slide .img_box{height: 180px;width: 100%;}
+.youtube_slider .swiper-slide .img_box img{width: 100%;height: 100%;object-fit: cover;}
 .youtube_slider .swiper-scrollbar{width: 100%;left: 0;bottom: 0;}
 .section4.on .youtube_wrap .video_box{animation: aniShow 1s .3s forwards;}
 .section4.on .youtube_slider{animation: aniUp 1s .8s forwards;}
