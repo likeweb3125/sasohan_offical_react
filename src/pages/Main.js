@@ -11,6 +11,7 @@ import { headerMenuOn } from "../store/commonSlice";
 import { managerPop } from "../store/popupSlice";
 import ManagerBox from "../components/component/ManagerBox";
 import ConfirmPop from "../components/popup/ConfirmPop";
+//ㅇㅇㅇㅇ
 
 import m_visual_tag from "../images/main_visual_tag.svg";
 import m_visual_img1 from "../images/main_visual_txt1.svg";
