@@ -29,28 +29,26 @@ const ConfirmPop = (props) => {
     return createPortal(
         <>
             {popup.confirmPop &&
-                <div className="pop_area">
-                    <div className="dimm"></div>
-                    <div className="auth_pop">
-                        <div className="pop_con">
-                            <h5>{popup.confirmPopTit}</h5>
-                            <p className="tx_c bm30">{popup.confirmPopTxt}</p>
-                            {popup.confirmPopBtn === 1 &&
-                                <div className="btn_agree_wrap">
-                                    <button type="button" className="btn_agree btn_type2" onClick={closePopHandler}>확인</button>
-                                </div>
-                            }
-                            {popup.confirmPopBtn === 2 &&
-                                <div className="btn_agree_wrap btn_agree_wrap2">
-                                    <button type="button" className="btn_agree btn_type2" onClick={()=>{
-                                        props.onClickHandler();
-                                        closePopHandler();
-                                    }}>확인</button>
-                                    <button type="button" className="btn_agree btn_type4" onClick={closePopHandler}>취소</button>
-                                </div>
-                            }
-                            <button type="button" className="popup_close" onClick={closePopHandler}>팝업닫기버튼</button>
+                <div className="flex_center pop_wrap confirm_pop">
+                    <div className="dim"></div>
+                    <div className="pop_cont">
+                        <div className="pop_tit flex_between">
+                            <p className="f_24"><strong>{popup.confirmPopTit}</strong></p>
+                            <button type="button" className="btn_close" onClick={closePopHandler}>닫기버튼</button>
                         </div>
+                        <p className="tx_c bm30">{popup.confirmPopTxt}</p>
+                        {popup.confirmPopBtn === 1 &&
+                            <button type="button" className="btn" onClick={closePopHandler}>확인</button>
+                        }
+                        {popup.confirmPopBtn === 2 &&
+                            <div className="bottom_btn_box flex_between">
+                                <button type="button" className="btn" onClick={()=>{
+                                    props.onClickHandler();
+                                    closePopHandler();
+                                }}>확인</button>
+                                <button type="button" className="btn2" onClick={closePopHandler}>취소</button>
+                            </div>
+                        }
                     </div>
                 </div>
             }

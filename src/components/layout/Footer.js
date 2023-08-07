@@ -89,7 +89,6 @@ const Footer = () => {
             <ul className="list_sns">
                 <li>
                     <a
-                        className="sns_ytb"
                         href="https://www.youtube.com/@user-sasohan"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -97,11 +96,17 @@ const Footer = () => {
                 </li>
                 <li>
                     <a
-                        className="sns_insta"
                         href="/"
                         // target="_blank"
                         rel="noopener noreferrer"
                     >인스타그램</a>
+                </li>
+                <li>
+                    <a
+                        href="https://blog.naver.com/sasohan_official"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >블로그</a>
                 </li>
             </ul>
             <button type="button" className="btn_top" onClick={scrollToTop}></button>

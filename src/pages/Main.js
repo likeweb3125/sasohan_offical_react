@@ -326,8 +326,9 @@ const Main = () => {
             </div>
         </div>
 
-        {charmingList.length > 0 &&
+        
         <section className={`section section1 ${sect1On ? "on" : ""}`} id="sect1" ref={sect1Ref}>
+            {charmingList.length > 0 &&
             <div className="section_inner">
                 <div className="title_box">
                     <p className="tit"><strong>매니저와 함께 </strong><br/>새로운 <br className="mo_show"/>인연을 만들어 보세요!</p>
@@ -453,8 +454,8 @@ const Main = () => {
                     </div>
                 }
             </div>
+            }
         </section>
-        }
 
         <section className={`section section2 ${sect2On ? "on" : ""}`} id="sect2" ref={sect2Ref}>
             <div className="about_wrap flex">
@@ -594,8 +595,9 @@ const Main = () => {
             </div>
         </section>
 
-        {blogList.length > 0 &&
+        
         <section className={`section section3 ${sect3On ? "on" : ""}`} id="sect3" ref={sect3Ref}>
+            {blogList.length > 0 &&
             <div className="section_inner">
                 <div className="title_box flex_between flex_bottom">
                     <p className="tit">사소한의 <br/><strong>새로운 소식이에요.</strong></p>
@@ -664,11 +666,12 @@ const Main = () => {
                     }
                 </div>
             </div>
+            }
         </section>
-        }
 
-        {ytbList.length > 0 &&
+        
         <section className={`section section4 ${sect4On ? "on" : ""}`} ref={sect4Ref}>
+            {ytbList.length > 0 &&
             <div className="section_inner">
                 <div className="youtube_wrap">
                     <div className="top_box flex_between flex_top">
@@ -722,8 +725,8 @@ const Main = () => {
                     }
                 </div>
             </div>
+            }
         </section>
-        }
 
         <section className={`section section5 ${sect5On ? "on" : ""}`} id="sect5" ref={sect5Ref}>
             <div className="section_inner">
@@ -852,8 +855,9 @@ const Main = () => {
             </div>
         </section>
 
-        {reviewList.length > 0 &&
+        
         <section className={`section section6 ${sect6On ? "on" : ""}`} id="sect6" ref={sect6Ref}>
+            {reviewList.length > 0 &&
             <div className="section_inner">
                 <div className="review_wrap flex_between flex_top">
                     <div className="tit_cont">
@@ -892,8 +896,8 @@ const Main = () => {
                     </Swiper>
                 </div>
             </div>
+            }
         </section>
-        }
 
         <div className="app_wrap">
             <div className="section_inner flex_between">

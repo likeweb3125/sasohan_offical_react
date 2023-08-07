@@ -71,6 +71,14 @@ const Header = () => {
                                 rel="noopener noreferrer"
                             >인스타그램</a>
                         </li>
+                        <li>
+                            <a
+                                className="sns_blog"
+                                href="https://blog.naver.com/sasohan_official"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >블로그</a>
+                        </li>
                     </ul>
                 </div>
             </div>
