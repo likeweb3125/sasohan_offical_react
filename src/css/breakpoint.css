@@ -180,7 +180,7 @@
     .btn_link{font-size: 16px;padding-right: 32px;background-size: 20px;}
 
     /* header */
-    #header {padding: 10px 20px 0;}
+    #header {padding: 20px 20px 0;}
     #header .header_inner{height: 50px;}
     #header .logo{width: 128px;height: 20px;}
     .fix_menu_box{width: calc(100% - 24px);height: 40px;}
@@ -189,7 +189,7 @@
     .fix_menu_box li.on a::before{width: 12px;height: 12px;border-width: 2px;}
 
     /* 메인 */
-    .content_wrap{margin-top: -60px;}
+    .content_wrap{margin-top: -70px;}
     .main_visual{height: 460px;border-radius: 0 0 40px 0;}
     .main_visual:after{background: url(../images/visual_t_mo.png) no-repeat 50% 50%;width: 187px;height: 517px;bottom: -70px;}
     .main_visual .visual_txt{width: 256px;height: 264px;}
