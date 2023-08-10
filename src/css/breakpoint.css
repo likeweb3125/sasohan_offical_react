@@ -61,7 +61,7 @@
     /* 메인 */
     .section_inner{padding: 0 30px;}
     .section1::before{display: none;}
-    .manager_wrap{-webkit-box-align: stretch; -ms-flex-align: stretch;-webkit-align-items: stretch; align-items:stretch;}
+    .manager_wrap{-webkit-box-align: stretch; -ms-flex-align: stretch;-webkit-align-items: stretch; align-items:stretch;min-height: auto;}
     .manager_wrap .charming{width: 50%;display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; display: flex;-webkit-box-align: stretch; -ms-flex-align: stretch;-webkit-align-items: stretch; align-items:stretch;}
     .manager_wrap .charming .img img{height: 100%;object-fit: cover;}
     .manager_wrap .list_manager{width: calc(50% - 14px);}

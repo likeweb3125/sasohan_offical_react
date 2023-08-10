@@ -169,7 +169,7 @@ html,.body{height: auto;}
 .section1{padding-top: 140px;}
 .section1::before{position: absolute;content: "";width: 90%;height: 490px;background: linear-gradient(#F8F8F8,#fff);left: 0;bottom: -170px;}
 .section1 .title_box{display: inline-block;}
-.manager_wrap{position: relative;z-index: 1;opacity: 0;}
+.manager_wrap{position: relative;z-index: 1;opacity: 0;min-height: 560px;}
 .manager_wrap .charming {overflow: hidden;border-radius: 40px 0 40px 0;position: relative;width: 436px;cursor: pointer;}
 .manager_wrap .charming::after{position: absolute;content: "";width: 100%;height: 100%;top: 0;left: 0;transition: all .3s;border: 10px solid #fff;box-sizing: border-box;border-radius: 40px 0 40px 0;opacity: 0;}
 .manager_wrap .charming .img{transition: all .3s;transform: scale(1);}
