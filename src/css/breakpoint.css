@@ -333,8 +333,8 @@
     .manager_pop .insta_list li{width: calc(25% - 3px);margin:0 4px 4px 0;}
 
     /* 이미지 팝업 */
-    .img_pop .pop_cont{width: auto;max-width: calc(100% - 40px);}
-    .img_pop .btn_close{top: 0;right: 0;background-size: 20px;}
+    .img_pop .pop_cont{width: auto;max-width: calc(100% - 40px);padding: 40px 20px 20px;}
+    .img_pop .btn_close{height: 40px;}
 
     /* 후기 팝업 */
     .review_pop .pop_cont{border-width: 2px;}

@@ -389,8 +389,9 @@ html,.body{height: auto;}
 .manager_pop .insta_list li:nth-child(4n){margin-right: 0;}
 
 /* 이미지 팝업 */
-.img_pop .pop_cont{width: auto;padding: 45px;max-width: 720px;}
-.img_pop .btn_close{background: url(../images/ic_close_b.svg) no-repeat center;width: 30px;height: 30px;top: 10px;right: 10px;}
+.img_pop .pop_cont{width: auto;padding: 45px;max-width: 720px;padding: 52px 20px 20px;}
+.img_pop .btn_close{background: url(../images/ic_close_b.svg) no-repeat center;background-size: 20px; width: 60px !important;height: 52px;top: 0 !important;right: 0 !important;}
+.img_pop .img_box{border: 1px solid #ddd;box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.01);}
 .img_pop .img_box img{max-height: 70vh;}
 
 /* 후기 팝업 */
