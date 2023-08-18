@@ -83,20 +83,18 @@ const Main = () => {
     const [blogSwiperActive, setBlogSwiperActive] = useState(false);
     const [blogOn, setBlogOn] = useState(0);
     const [trustTab,setTrustTab] = useState(0);
-
     const m_list = enum_api_uri.m_list;
     const blog_list = enum_api_uri.blog_list;
     const ytb_list = enum_api_uri.ytb_list;
     const review_list = enum_api_uri.review_list;
     const user_count = enum_api_uri.user_count;
-    const [charmingList, setCharmingList] = useState([]);
     const [managerList, setManagerList] = useState([]);
-    const [managerList2, setManagerList2] = useState([]);
     const [blogList, setBlogList] = useState([]);
     const [ytbList, setYtbList] = useState([]);
     const [ytbOn, setYtbOn] = useState(0);
     const [reviewList, setReviewList] = useState([]);
     const [count, setCount] = useState(0);
+    const charmingSliderRef = useRef();
 
 
     // Confirm팝업 닫힐때
@@ -190,14 +188,7 @@ const Main = () => {
         .then((res)=>{
             if(res.status === 200){
                 let data = res.data;
-                const cList = data.filter(item => item.manager_type == "C");
-                setCharmingList([...cList]);
-
-                const mList = data.filter(item => item.manager_type == "M");
-                const mList1 = mList.slice(0, 4);
-                const mList2 = mList.slice(4, 8);
-                setManagerList([...mList1]);
-                setManagerList2([...mList2]);
+                setManagerList(data);
             }
         })
         .catch((error) => {
@@ -310,6 +301,12 @@ const Main = () => {
     },[]);
 
 
+    //모바일 매니저슬라이드 더보기버튼 클릭시 슬라이드
+    const slideMoreHandler = () => {
+        charmingSliderRef.current.swiper.slideNext();
+    };
+
+
     return(<>
         <div className="main_visual_wrap">
             <div className="main_visual flex_center">
@@ -328,7 +325,7 @@ const Main = () => {
 
         
         <section className={`section section1 ${sect1On ? "on" : ""}`} id="sect1" ref={sect1Ref}>
-            {charmingList.length > 0 &&
+            {managerList.length > 0 &&
             <div className="section_inner">
                 <div className="title_box">
                     <p className="tit"><strong>매니저와 함께 </strong><br/>새로운 <br className="mo_show"/>인연을 만들어 보세요!</p>
@@ -340,119 +337,92 @@ const Main = () => {
                         </div>
                     </div>
                 </div>
-                <div className="manager_wrap manager_wrap1 flex_bottom flex_between">
-                    {charmingList.length > 0 &&
-                        // <div className="charming" onClick={()=>{dispatch(managerPop(true))}}>
-                        <div className="charming">
-                            <div className="img">
-                                <img src={charmingList[0].photo ? charmingList[0].photo : none_img} alt="매니저프로필이미지" />
-                            </div>
-                            <div className="txt_box">
-                                <div className="name flex_wrap">
-                                    <strong>{charmingList[0].manager_name}</strong>
-                                    <span>{charmingList[0].manager_type_txt}</span>
-                                </div> 
-                                <p className="ellipsis2">{charmingList[0].txt}</p>
-                            </div>
-                            <div className="badge">
-                                <img src={ic_badge} alt="배지이미지" />
-                            </div>
-                        </div>
-                    }
-                    {managerSwiperActive ? 
-                            managerList && managerList.length > 0 &&
-                            <Swiper 
-                                className="manager_slider manager_slider1"
-                                slidesPerView={2.2}
-                                spaceBetween={9}
-                                observer={true}
-                                observeParents={true}
-                                navigation={{nextEl: ".manager_slider1 .swiper-button-next",prevEl: ".manager_slider1 .swiper-button-prev"}}
-                                scrollbar={{draggable: true}}
-                            >
-                                {managerList.map((data,i)=>{
-                                    return(
-                                        <SwiperSlide key={i}>
-                                            <ManagerBox data={data}/>
-                                        </SwiperSlide>
-                                    );
-                                })}
-                                <div className="btn_box flex_between">
-                                    <div className="swiper-button-prev"></div>
-                                    <div className="swiper-button-next"></div>
-                                </div>
-                            </Swiper>
-                        :   managerList && managerList.length > 0 &&
-                            <div className="list_manager flex_wrap">
-                                {managerList.map((data,i)=>{
-                                    return(
-                                        <li key={i}>
-                                            <ManagerBox data={data}/>
-                                        </li>
-                                    );
-                                })}
-                            </div>
-                    }
-                </div>
-                {charmingList.length > 1 &&
-                    <div className="manager_wrap manager_wrap2 flex_bottom flex_between">
-                        <div className="tip_box">
-                            <p className="tip_txt">매니저가 뭔가요?</p>
-                            <div className="box">
-                                <img src={tip_box_img} alt="말풍선이미지" />
-                            </div>
-                        </div>
-                        <div className="charming">
-                            <div className="img">
-                                <img src={charmingList[1].photo ? charmingList[1].photo : none_img} alt="매니저프로필이미지" />
-                            </div>
-                            <div className="txt_box">
-                                <div className="name flex_wrap">
-                                    <strong>{charmingList[1].manager_name}</strong>
-                                    <span>{charmingList[1].manager_type_txt}</span>
-                                </div> 
-                                <p className="ellipsis2">{charmingList[1].txt}</p>
-                            </div>
-                            <div className="badge">
-                                <img src={ic_badge} alt="배지이미지" />
-                            </div>
-                        </div>
-                        {managerSwiperActive ? 
-                            managerList2 && managerList2.length > 0 &&
-                            <Swiper 
-                                className="manager_slider manager_slider2"
-                                slidesPerView={2.2}
-                                spaceBetween={9}
-                                observer={true}
-                                observeParents={true}
-                                navigation={{nextEl: ".manager_slider2 .swiper-button-next",prevEl: ".manager_slider2 .swiper-button-prev"}}
-                                scrollbar={{draggable: true}}
-                            >
-                                {managerList2.map((data,i)=>{
-                                    return(
-                                        <SwiperSlide key={i}>
-                                            <ManagerBox data={data}/>
-                                        </SwiperSlide>
-                                    );
-                                })}
-                                <div className="btn_box flex_between">
-                                    <div className="swiper-button-prev"></div>
-                                    <div className="swiper-button-next"></div>
-                                </div>
-                            </Swiper>
-                            :   managerList2 && managerList2.length > 0 &&
-                                <div className="list_manager flex_wrap">
-                                    {managerList2.map((data,i)=>{
-                                        return(
-                                            <li key={i}>
-                                                <ManagerBox data={data}/>
-                                            </li>
-                                        );
-                                    })}
-                                </div>
-                        }
+
+                <div className="manager_wrap">
+                    <Swiper 
+                        className="charming_slider"
+                        slidesPerView={1}
+                        observer={true}
+                        observeParents={true}
+                        navigation={{nextEl: ".manager_wrap .swiper-button-next.manager_btn",prevEl: ".manager_wrap .swiper-button-prev.manager_btn"}}
+                        loop={true}
+                        pagination={{
+                            el: ".manager_wrap .swiper-pagination.manager_pagin",
+                            type: 'fraction',
+                            formatFractionCurrent: function (number) {
+                                return number;
+                            },
+                            formatFractionTotal: function (number) {
+                                return number;
+                            },
+                            renderFraction: function (currentClass, totalClass) {
+                                return '<span class="' + currentClass + '"></span>' +
+                                       ' / ' +
+                                       '<span class="' + totalClass + '"></span>';
+                            }
+                        }}
+                        ref={charmingSliderRef}
+                    >
+                        {managerList.map((data,i)=>{
+                            return(
+                                <SwiperSlide key={i}>
+                                    <div className="inner_box flex_bottom flex_between">
+                                        {/* <div className="charming" onClick={()=>{dispatch(managerPop(true))}}> */}
+                                        <div className="charming">
+                                            <div className="img">
+                                                <img src={data.photo ? data.photo : none_img} alt="매니저프로필이미지" />
+                                            </div>
+                                            <div className="txt_box">
+                                                <div className="name flex_wrap">
+                                                    <strong>{data.manager_name}</strong>
+                                                    <span>{data.manager_type_txt}</span>
+                                                </div> 
+                                                <p className="ellipsis2">{data.txt}</p>
+                                            </div>
+                                            <div className="badge">
+                                                <img src={ic_badge} alt="배지이미지" />
+                                            </div>
+                                        </div>
+                                        {data.matching_manager.length > 0 &&
+                                            <Swiper 
+                                                className={`manager_slider manager_slider_${i+1}`}
+                                                slidesPerView={2.3}
+                                                spaceBetween={8}
+                                                observer={true}
+                                                observeParents={true}
+                                                navigation={{nextEl: `.manager_slider_${i+1} .swiper-button-next`,prevEl: `.manager_slider_${i+1} .swiper-button-prev`}}
+                                                scrollbar={{draggable: true}}
+                                                breakpoints={
+                                                    {
+                                                        1420:{slidesPerView:4,spaceBetween:24},//width >= 1420
+                                                        768:{slidesPerView:2,spaceBetween:8},//width >= 768
+                                                    }
+                                                }
+                                            >
+                                                {data.matching_manager.map((data,i)=>{
+                                                    return(
+                                                        <SwiperSlide key={i}>
+                                                            <ManagerBox data={data}/>
+                                                        </SwiperSlide>
+                                                    );
+                                                })}
+                                                <div className="swiper-button-prev"></div>
+                                                <div className="swiper-button-next"></div>
+                                            </Swiper>
+                                        }
+                                    </div>
+                                </SwiperSlide>
+                            );
+                        })}
+                        
+                    </Swiper>
+                    <div className="btn_box flex_between">
+                        <div className="swiper-button-prev hover_btn manager_btn"></div>
+                        <div className="swiper-pagination manager_pagin"></div>
+                        <div className="swiper-button-next hover_btn manager_btn"></div>
+                        <button type="button" className="more_btn" onClick={slideMoreHandler}></button>
                     </div>
-                }
+                </div>
             </div>
             }
         </section>
@@ -819,8 +789,8 @@ const Main = () => {
                                     </div>
                                     <div className="txt_box">
                                         <p className="txt">밀알복지재단 후원</p>
-                                        <p className="ellipsis4 mo_none">사소한이 밀알복지재단에 후원한 지 2년이 되었습니다!</p>
-                                        <p className="date">2023.05.31</p>
+                                        <p className="ellipsis4 mo_none">사소한은 정기적인 기부를 진행하고 있습니다.</p>
+                                        {/* <p className="date">2023.05.31</p> */}
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide className="flex_between flex_top">
@@ -828,9 +798,9 @@ const Main = () => {
                                         <img src={dona_img2} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
-                                        <p className="txt">밀알복지재단 후원</p>
-                                        <p className="ellipsis4 mo_none">사소한이 밀알복지재단에 후원한 지 2년이 되었습니다!</p>
-                                        <p className="date">2023.05.31</p>
+                                        <p className="txt">Save the Children</p>
+                                        <p className="ellipsis4 mo_none">사소한은 정기적인 기부를 진행하고 있습니다.</p>
+                                        {/* <p className="date">2023.05.31</p> */}
                                     </div>
                                 </SwiperSlide>
                                 <SwiperSlide className="flex_between flex_top">
@@ -838,9 +808,9 @@ const Main = () => {
                                         <img src={dona_img3} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
-                                        <p className="txt">밀알복지재단 후원</p>
-                                        <p className="ellipsis4 mo_none">사소한이 밀알복지재단에 후원한 지 2년이 되었습니다!</p>
-                                        <p className="date">2023.05.31</p>
+                                        <p className="txt">World Vision</p>
+                                        <p className="ellipsis4 mo_none">사소한은 정기적인 기부를 진행하고 있습니다.</p>
+                                        {/* <p className="date">2023.05.31</p> */}
                                     </div>
                                 </SwiperSlide>
                                 <div className="btn_box">

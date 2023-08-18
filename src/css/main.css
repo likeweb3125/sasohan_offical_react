@@ -133,7 +133,7 @@ html,.body{height: auto;}
 .swiper-button-prev.hover_btn::before{position: absolute;content: "";width: 100%;height: 100%;top: 50%;left: 50%;transform: translate(-50%,-50%) scale(0.2);border: 1px solid #6840FD;border-radius: 50%;transition: all .2s;opacity: 0;}
 .swiper-button-next.hover_btn{width: 80px;height: 80px;background: url(../images/arrow_next.svg) no-repeat center;position: relative;}
 .swiper-button-next.hover_btn::before{position: absolute;content: "";width: 100%;height: 100%;top: 50%;left: 50%;transform: translate(-50%,-50%) scale(0.2);border: 1px solid #6840FD;border-radius: 50%;transition: all .2s;opacity: 0;}
-.swiper-scrollbar{width: 100%;left: 0;bottom: 0;height: 3px;background: none;}
+#wrap .swiper-scrollbar{width: 100%;left: 0;bottom: 0;height: 3px;background: none;}
 .swiper-scrollbar.swiper-scrollbar-horizontal::before{position: absolute;content: "";width: 100%;height: 1px;background: #ddd;left: 0;top:1px;}
 .swiper-scrollbar-drag{background: #6840FD;}
 
@@ -167,10 +167,14 @@ html,.body{height: auto;}
 .main_visual .scroll strong {display: block; font-size: 18px; font-weight: 400; color: #fff; font-family: 'Montserrat Alternates', sans-serif;}
 /* section1 */
 .section1{padding-top: 140px;}
-.section1::before{position: absolute;content: "";width: 90%;height: 490px;background: linear-gradient(#F8F8F8,#fff);left: 0;bottom: -170px;}
 .section1 .title_box{display: inline-block;}
-.manager_wrap{position: relative;z-index: 1;opacity: 0;min-height: 560px;}
-.manager_wrap .charming {overflow: hidden;border-radius: 40px 0 40px 0;position: relative;width: 436px;cursor: pointer;}
+.manager_wrap{position: relative;z-index: 1;opacity: 0;margin-top: -166px;}
+.charming_slider .inner_box{min-height: 560px;}
+.charming_slider .swiper-pagination{display: none;}
+.manager_wrap>.btn_box{position: absolute;top: 50%;left: -104px;width: calc(100% + 208px);transform: translateY(-50%);}
+.manager_wrap .swiper-pagination.manager_pagin{display: none;z-index: 1;}
+.manager_wrap>.btn_box .more_btn{display: none;z-index: 2;}
+.manager_wrap .charming {overflow: hidden;border-radius: 40px 0 40px 0;position: relative;width: 436px;cursor: pointer;order: 2;-webkit-box-ordinal-group: 2;-ms-flex-order: 2;}
 .manager_wrap .charming::after{position: absolute;content: "";width: 100%;height: 100%;top: 0;left: 0;transition: all .3s;border: 10px solid #fff;box-sizing: border-box;border-radius: 40px 0 40px 0;opacity: 0;}
 .manager_wrap .charming .img{transition: all .3s;transform: scale(1);}
 .manager_wrap .charming .img img{width: 100%;}
@@ -179,9 +183,9 @@ html,.body{height: auto;}
 .manager_wrap .charming .txt_box .name span{font-size: 16px;font-weight: 700;color: #6840FD;}
 .manager_wrap .charming .txt_box .ellipsis2{font-size: 18px;color: #666;margin-top: 8px;height: 47px;}
 .manager_wrap .charming .badge{position: absolute;top: 24px;left: 24px;}
-.manager_wrap .list_manager{width: calc(100% - 476px);}
-.manager_wrap .list_manager li{width: calc(25% - 18px);margin-right: 24px;}
-.manager_wrap .list_manager li:last-child{margin-right: 0;}
+.manager_wrap .manager_slider{width: calc(100% - 476px);margin: 0;padding-bottom: 31px;}
+.manager_wrap .manager_slider .swiper-button-prev{width: 40px;height: 80px;background: url(../images/arrow_prev_square.svg) no-repeat center;top: 35%;}
+.manager_wrap .manager_slider .swiper-button-next{width: 40px;height: 80px;background: url(../images/arrow_next_square.svg) no-repeat center;right: 0;top: 35%;}
 .manager_box{position: relative;overflow: hidden;}
 .manager_box .img_box{height: 0;padding-bottom: 100%;position: relative;}
 .manager_box .img_box img{width: 100%;height: 100%;object-fit: cover;position: absolute;}
@@ -190,12 +194,7 @@ html,.body{height: auto;}
 .manager_box .txt_box .name span{font-size: 14px;font-weight: 700;color: #6840FD;opacity: .5;}
 .manager_box .txt_box .ellipsis2{color: #666;margin-top: 8px;height: 41px;}
 .manager_box .badge{position: absolute;top: 12px;left: 12px;}
-.manager_wrap1{margin: -166px 0 80px;}
-.manager_wrap1 .charming{order: 2;-webkit-box-ordinal-group: 2;-ms-flex-order: 2;}
-.manager_wrap1 .list_manager{order: 1;-webkit-box-ordinal-group: 1;-ms-flex-order: 1;}
-.manager_wrap2 .tip_box{position: absolute;top: 0;left: 476px;z-index: 1;}
-.section1.on .manager_wrap1{animation: aniUp 1s .5s forwards;}
-.section1.on .manager_wrap2{animation: aniUp 1s 1s forwards;}
+.section1.on .manager_wrap{animation: aniUp 1s .5s forwards;}
 /* section2 */
 @keyframes aniTabUl {
     0% { opacity: 0; transform: translate(-40%,-50%);}
