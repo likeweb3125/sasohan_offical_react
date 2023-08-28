@@ -342,6 +342,7 @@ const Main = () => {
                     <Swiper 
                         className="charming_slider"
                         slidesPerView={1}
+                        spaceBetween={30}
                         observer={true}
                         observeParents={true}
                         navigation={{nextEl: ".manager_wrap .swiper-button-next.manager_btn",prevEl: ".manager_wrap .swiper-button-prev.manager_btn"}}
