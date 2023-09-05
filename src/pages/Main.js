@@ -856,10 +856,10 @@ const Main = () => {
                                     <div className="img_box">
                                         <img src={data.thumb ? data.thumb : none_img} alt="이미지" />
                                     </div>
-                                    <div className="txt_box">
+                                    {/* <div className="txt_box">
                                         <p className="txt ellipsis">{data.subject}</p>
                                         <p className="date">{data.w_date}</p>
-                                    </div>
+                                    </div> */}
                                 </SwiperSlide>
                             );
                         })}
