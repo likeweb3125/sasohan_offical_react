@@ -9,12 +9,11 @@ import "swiper/css/scrollbar";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
 import { headerMenuOn } from "../store/commonSlice";
-import { managerPop, confirmPop, imgPop, reviewPop } from "../store/popupSlice";
+import { managerPop, confirmPop, imgPop } from "../store/popupSlice";
 import ManagerBox from "../components/component/ManagerBox";
 import ConfirmPop from "../components/popup/ConfirmPop";
 import { enum_api_uri } from "../config/enum";
 import * as CF from "../config/function";
-
 import m_visual_tag from "../images/main_visual_tag.svg";
 import m_visual_img1 from "../images/main_visual_txt1.svg";
 import m_visual_img2 from "../images/main_visual_txt2.svg";
@@ -827,7 +826,7 @@ const Main = () => {
         </section>
 
         
-        <section className={`section section6 ${sect6On ? "on" : ""}`} id="sect6" ref={sect6Ref}>
+        <section className={`section section6 ${sect6On ? "on" : ""} ${reviewList.length > 0 ? "" : "none"}`} id="sect6" ref={sect6Ref}>
             {reviewList.length > 0 &&
             <div className="section_inner">
                 <div className="review_wrap flex_between flex_top">
@@ -853,7 +852,7 @@ const Main = () => {
                     >
                         {reviewList.map((data,i)=>{
                             return(
-                                <SwiperSlide onClick={()=>{dispatch(reviewPop({reviewPop:true,reviewPopNo:data.list_no}))}} key={i}>
+                                <SwiperSlide onClick={()=>{window.open(data.link)}} key={i}>
                                     <div className="img_box">
                                         <img src={data.thumb ? data.thumb : none_img} alt="이미지" />
                                     </div>
