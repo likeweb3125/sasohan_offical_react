@@ -28,7 +28,7 @@ function App() {
                 <title>SASOHAN</title>
                 <meta property="og:title" content="" /> 
                 <meta property="og:url" content="%PUBLIC_URL%/" />
-                <meta property="og:image" content="./images/thumbnail.png" />
+                <meta property="og:image" content="%PUBLIC_URL%/thumbnail.png" />
                 <meta property="og:description" content="" /> 
             </Helmet>
             <Routes>
