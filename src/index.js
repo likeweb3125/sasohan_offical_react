@@ -4,7 +4,6 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
-import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from './store/store';
@@ -14,15 +13,13 @@ export let persistor = persistStore(store);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
-  <HelmetProvider>
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </PersistGate>
-    </Provider>
-  </HelmetProvider>
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </PersistGate>
+  </Provider>
   // </React.StrictMode>
 );
 

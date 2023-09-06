@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Helmet } from 'react-helmet-async';
 import ConfirmPop from './components/popup/ConfirmPop';
 import Popup from './components/popup/Popup';
 import Layout from './components/layout/Layout';
@@ -24,9 +23,6 @@ function App() {
 
     return(
         <div id="wrap">
-            <Helmet>
-                <title>app title</title>
-            </Helmet>
             <Routes>
                 {/* 메인 */}
                 <Route path="/" element={<Layout><Main /></Layout>} />
