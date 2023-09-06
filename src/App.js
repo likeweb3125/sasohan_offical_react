@@ -27,8 +27,8 @@ function App() {
             <Helmet>
                 <title>SASOHAN</title>
                 <meta property="og:title" content="" /> 
-                <meta property="og:url" content="%PUBLIC_URL%/" />
-                <meta property="og:image" content="%PUBLIC_URL%/thumbnail.png" />
+                <meta property="og:url" content="https://www.sasohan.net/" />
+                <meta property="og:image" content="https://www.sasohan.net/thumbnail.png" />
                 <meta property="og:description" content="" /> 
             </Helmet>
             <Routes>
