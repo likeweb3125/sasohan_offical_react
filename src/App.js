@@ -24,13 +24,6 @@ function App() {
 
     return(
         <div id="wrap">
-            <Helmet>
-                <title>SASOHAN</title>
-                <meta property="og:title" content="" /> 
-                <meta property="og:url" content="https://www.sasohan.net/" />
-                <meta property="og:image" content="https://www.sasohan.net/thumbnail.png" />
-                <meta property="og:description" content="" /> 
-            </Helmet>
             <Routes>
                 {/* 메인 */}
                 <Route path="/" element={<Layout><Main /></Layout>} />
