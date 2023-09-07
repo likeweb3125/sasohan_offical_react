@@ -31,6 +31,7 @@ function App() {
                 <meta property="og:type" content="website" data-react-helmet="true" /> 
                 <meta property="og:url" content="https://www.sasohan.net/" data-react-helmet="true" /> 
                 <meta property="og:image" content="https://www.sasohan.net/thumbnail.png" data-react-helmet="true" /> 
+                <meta name="og:image" content="https://www.sasohan.net/thumbnail.png" data-react-helmet="true" /> 
             </Helmet>
             <Routes>
                 {/* 메인 */}
