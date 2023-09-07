@@ -30,7 +30,7 @@ function App() {
                 <meta property="og:description" content="사소한 채팅" /> 
                 <meta property="og:type" content="website" /> 
                 <meta property="og:url" content="https://www.sasohan.net/" /> 
-                <meta property="og:image" content="./images/thumbnail.png" /> 
+                <meta property="og:image" content="https://www.sasohan.net/thumbnail.png" /> 
             </Helmet>
             <Routes>
                 {/* 메인 */}
