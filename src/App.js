@@ -31,7 +31,7 @@ function App() {
                 <meta property="og:type" content="website" /> 
                 <meta property="og:url" content="https://www.sasohan.net/" /> 
                 <meta property="og:image" content="https://www.sasohan.net/thumbnail.png" /> 
-                <meta name="og:image" content="https://www.sasohan.net/thumbnail.png" /> 
+                {/* <meta name="og:image" content="https://www.sasohan.net/thumbnail.png" />  */}
             </Helmet>
             <Routes>
                 {/* 메인 */}
