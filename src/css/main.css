@@ -219,7 +219,7 @@ html,.body{height: auto;}
 .about_wrap .txt_box .txt_ul li .txt2{font-size: 18px;color: #666;line-height: 1.8;}
 .about_wrap .txt_box .txt_ul li .txt2 span{font-weight: 500;color: #222;}
 .about_wrap .txt_box .txt_ul li img{position: absolute;left: 55%;bottom:-13%;z-index: -1;}
-.about_wrap .txt_box .txt_ul li:nth-child(2) img{bottom: 0;}
+.about_wrap .txt_box .txt_ul li:nth-child(1) img{bottom: 0;}
 .about_wrap .txt_box .txt_ul li:nth-child(3) img{position: static;margin-top: -75px;}
 .about_wrap .txt_box .txt_ul li:nth-child(4) img{bottom: 0;}
 .about_wrap .txt_box .txt_ul li.on{display: block;}

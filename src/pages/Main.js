@@ -51,6 +51,7 @@ import trust_img1 from "../images/trust_img1.svg";
 import trust_img2 from "../images/trust_img2.svg";
 import trust_img1_pop from "../images/trust_img1_pop.jpg";
 import trust_img2_pop from "../images/trust_img2_pop.png";
+import trust_img3_pop from "../images/trust_img3_pop.jpg";
 import dona_img1 from "../images/dona_img1.jpg";
 import dona_img2 from "../images/dona_img2.jpg";
 import dona_img3 from "../images/dona_img3.jpg";
@@ -77,7 +78,7 @@ const Main = () => {
     const [managerSwiperActive, setManagerSwiperActive] = useState(false);
     const aboutBgImg = [about_bg1, about_bg2, about_bg3, about_bg4, about_bg5, about_bg6];
     const aboutBgImgTab = [about_bg1_tab, about_bg2_tab, about_bg3_tab, about_bg4_tab, about_bg5_tab, about_bg6_tab];
-    const aboutTabList = ["소개팅 룰","원조","비교","금액","프로그램","환불"];
+    const aboutTabList = ["원조","소개팅 룰","비교","금액","프로그램","환불"];
     const [aboutTab, setAboutTab] = useState(0);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [blogSwiperActive, setBlogSwiperActive] = useState(false);
@@ -468,25 +469,6 @@ const Main = () => {
                     </ul>
                     <ul className="txt_ul">
                         <li className={aboutTab === 0 ? "on" : ""}>
-                            <h4>사소한 스파크 매칭 시스템</h4>
-                            <img src={about_img1} alt="일러스트이미지" />
-                            <p className="txt">사소한 스파크 매칭 시스템은 회원님의 결제 내역을 기반으로 여러 매니저가 적합한 상대를 찾아주는 <br/>
-                            <strong>혁신적인 소개팅 서비스</strong>입니다.</p>
-                            <p className="txt2">회원님이 결제를 완료하면 사소한 매니저들에게 회원님의 <span>'사소한 스파크'가 바로 활성화</span>됩니다. <br/>
-                            이를 통해 여러 매니저들이 동시에 회원님에게 연락을 시작하며, <br/>
-                            한 명의 매니저만이 제공해 주었던 제한적인 선택지를 넘어 더욱 다양한 상대를 찾을 수 있게 됩니다. <br/><br/>
-
-                            '사소한 스파크' 는 활성 즉시 여러 명의 매니저들이 각기 다른 관점과 기준으로 소개팅 상대를 추천해주기 때문에, <br/>
-                            회원님에게 <span>풍부한 이상형풀을 경험할 수 있도록</span> 도와줍니다. <br/>
-
-                            이를 통해 회원님의 소개팅 성공률은 크게 향상되며, <br/><br/>
-                            <span>원하는 조건과 취향에 가장 부합하는 상대를 찾을 수 있게 됩니다.</span><br/>
-
-                            다른 소개팅에서 경험할 수 없는 이 독특한 서비스로 회원님들은 <br/>
-                            소중한 시간을 아끼고 이상형에 가까운 분을 더 빠르고 <br/>
-                            정확하게 만날 수 있습니다.</p>
-                        </li>
-                        <li className={aboutTab === 1 ? "on" : ""}>
                             <h4>매니저를 통한 온라인 소개팅의 원조</h4>
                             <p className="txt"><strong>{"<국내 최초 사람이 해주는 매니저 소개> <카카오톡 신개념 소개팅>"}</strong> 등 <br/>
                             사소한이 매니저를 통한 온라인 소개팅의 원조라는 사실을 알고 계셨나요?</p>
@@ -507,6 +489,25 @@ const Main = () => {
                             이용해보신다면 차별화된 서비스의 가치를 직접 경험하실 수 있을 것입니다. <br/><br/>
 
                             <span>이러한 자부심을 이야기 할 수 있는 건 오직 사소한 하나뿐입니다.</span></p>
+                        </li>
+                        <li className={aboutTab === 1 ? "on" : ""}>
+                            <h4>사소한 스파크 매칭 시스템</h4>
+                            <img src={about_img1} alt="일러스트이미지" />
+                            <p className="txt">사소한 스파크 매칭 시스템은 회원님의 결제 내역을 기반으로 여러 매니저가 적합한 상대를 찾아주는 <br/>
+                            <strong>혁신적인 소개팅 서비스</strong>입니다.</p>
+                            <p className="txt2">회원님이 결제를 완료하면 사소한 매니저들에게 회원님의 <span>'사소한 스파크'가 바로 활성화</span>됩니다. <br/>
+                            이를 통해 여러 매니저들이 동시에 회원님에게 연락을 시작하며, <br/>
+                            한 명의 매니저만이 제공해 주었던 제한적인 선택지를 넘어 더욱 다양한 상대를 찾을 수 있게 됩니다. <br/><br/>
+
+                            '사소한 스파크' 는 활성 즉시 여러 명의 매니저들이 각기 다른 관점과 기준으로 소개팅 상대를 추천해주기 때문에, <br/>
+                            회원님에게 <span>풍부한 이상형풀을 경험할 수 있도록</span> 도와줍니다. <br/>
+
+                            이를 통해 회원님의 소개팅 성공률은 크게 향상되며, <br/><br/>
+                            <span>원하는 조건과 취향에 가장 부합하는 상대를 찾을 수 있게 됩니다.</span><br/>
+
+                            다른 소개팅에서 경험할 수 없는 이 독특한 서비스로 회원님들은 <br/>
+                            소중한 시간을 아끼고 이상형에 가까운 분을 더 빠르고 <br/>
+                            정확하게 만날 수 있습니다.</p>
                         </li>
                         <li className={aboutTab === 2 ? "on" : ""}>
                             <h4>사소한이어야 하는 이유</h4>
@@ -749,7 +750,7 @@ const Main = () => {
                                             </div>
                                             <div className="txt_box">
                                                 <p className="txt">2023 한국소비자 베스트브랜드대상 1위</p>
-                                                <p className="date">고객만족 소개팅서비스업</p>
+                                                <p className="date">고객만족 소개팅서비스업 <br/>2023.01.10</p>
                                             </div>
                                         </div>
                                     </SwiperSlide>
@@ -773,7 +774,7 @@ const Main = () => {
                                             </div>
                                             <div className="txt_box">
                                                 <p className="txt">사업자등록증</p>
-                                                <p className="date">2017.11.24</p>
+                                                <p className="date">2015.04.28</p>
                                             </div>
                                         </div>
                                     </SwiperSlide>
@@ -785,6 +786,17 @@ const Main = () => {
                                             <div className="txt_box">
                                                 <p className="txt">통신판매업</p>
                                                 <p className="date">2017.04.18</p>
+                                            </div>
+                                        </div>
+                                    </SwiperSlide>
+                                    <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img3_pop}))}}>
+                                        <div className="flex flex_bottom">
+                                            <div className="img_box">
+                                                <img src={trust_img1} alt="이미지" />
+                                            </div>
+                                            <div className="txt_box">
+                                                <p className="txt">상표등록증</p>
+                                                <p className="date">2023.05.18</p>
                                             </div>
                                         </div>
                                     </SwiperSlide>

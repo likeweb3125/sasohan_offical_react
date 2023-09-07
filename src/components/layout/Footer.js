@@ -60,7 +60,11 @@ const Footer = () => {
                 <ul>
                     {info && info.site_num && <li>사업자 번호 : {info.site_num}</li>}
                     {info && info.site_tel && <li>연락처 : {info.site_tel}{info.site_fax && ' / '+info.site_fax}</li>}
-                    <li>고객센터 운영 시간 : 13:00 - 21:30</li>
+                    <li>운영 시간 : 13:00 - 21:30</li>
+                </ul>
+                <ul>
+                    {info && info.site_email && <li>이메일 : {info.site_email}</li>}
+                    <li>본사 연락처 : 070-4355-6649</li>
                 </ul>
             </div>
             <div className="link_box">
