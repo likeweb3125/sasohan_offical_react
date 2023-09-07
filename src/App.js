@@ -24,14 +24,14 @@ function App() {
 
     return(
         <div id="wrap">
-            <Helmet>
+            {/* <Helmet>
                 <title>SASOHAN</title>
                 <meta property="og:title" content="사소한 채팅" /> 
                 <meta property="og:description" content="사소한 채팅" /> 
                 <meta property="og:type" content="website" /> 
                 <meta property="og:url" content="https://www.sasohan.net/" /> 
                 <meta property="og:image" content="https://www.sasohan.net/thumbnail.png" /> 
-            </Helmet>
+            </Helmet> */}
             <Routes>
                 {/* 메인 */}
                 <Route path="/" element={<Layout><Main /></Layout>} />
