@@ -14,6 +14,7 @@ import ManagerBox from "../components/component/ManagerBox";
 import ConfirmPop from "../components/popup/ConfirmPop";
 import { enum_api_uri } from "../config/enum";
 import * as CF from "../config/function";
+import util from "../config/util";
 import m_visual_tag from "../images/main_visual_tag.svg";
 import m_visual_img1 from "../images/main_visual_txt1.svg";
 import m_visual_img2 from "../images/main_visual_txt2.svg";
@@ -94,6 +95,7 @@ const Main = () => {
     const [reviewList, setReviewList] = useState([]);
     const [count, setCount] = useState(0);
     const charmingSliderRef = useRef();
+    const ref_browser = util.getCookie("ref_browser");
 
 
     // Confirm팝업 닫힐때
@@ -303,6 +305,18 @@ const Main = () => {
     //모바일 매니저슬라이드 더보기버튼 클릭시 슬라이드
     const slideMoreHandler = () => {
         charmingSliderRef.current.swiper.slideNext();
+    };
+
+
+    //앱일때 링크이동 클릭시 
+    const appLinkHandler = (url,site) => {
+        if(ref_browser == "app"){
+            const data = {
+                url: url,
+                site: site
+            }
+            window.outlink.postMessage(JSON.stringify(data));
+        }
     };
 
 
@@ -594,7 +608,9 @@ const Main = () => {
                             {blogList.map((data,i)=>{
                                 return(
                                     <SwiperSlide className="slide_box" key={i}>
-                                        <a href={data.link} target="_blank" rel="noopener noreferrer">
+                                        <a href={data.link} target="_blank" rel="noopener noreferrer"
+                                            onClick={()=>{appLinkHandler(data.link,"naver")}}
+                                        >
                                             <img src={data.image} alt="배경이미지" />
                                             <div className="txt_box">
                                                 <div>
@@ -618,7 +634,9 @@ const Main = () => {
                                         onClick={()=>{setBlogOn(i)}} 
                                         key={i}
                                     >
-                                        <a href={data.link} target="_blank" rel="noopener noreferrer">
+                                        <a href={data.link} target="_blank" rel="noopener noreferrer"
+                                            onClick={()=>{appLinkHandler(data.link,"naver")}}
+                                        >
                                             <img src={data.image} alt="배경이미지" />
                                             <div className="txt_box">
                                                 <p className="tit ellipsis2">{data.subject}</p>
@@ -648,7 +666,9 @@ const Main = () => {
                         <div className="title_box">
                             <p className="tit">오직, <br/><strong>사소한에서만.</strong></p>
                             <div className="flex_between">
-                                <a className="btn_link ytb" href="https://www.youtube.com/@user-sasohan" target="_blank" rel="noopener noreferrer">유튜브 채널 바로가기</a>
+                                <a className="btn_link ytb" href="https://www.youtube.com/@user-sasohan" target="_blank" rel="noopener noreferrer"
+                                    onClick={()=>{appLinkHandler("https://www.youtube.com/@user-sasohan","youtube")}}
+                                >유튜브 채널 바로가기</a>
                                 {ytbList.length > 1 &&
                                 <div className="btn_box flex">
                                     <div className="swiper-button-prev hover_btn"></div>
@@ -852,7 +872,12 @@ const Main = () => {
                     >
                         {reviewList.map((data,i)=>{
                             return(
-                                <SwiperSlide onClick={()=>{window.open(data.link)}} key={i}>
+                                <SwiperSlide key={i}
+                                    onClick={()=>{
+                                        appLinkHandler(data.link,"insta");
+                                        window.open(data.link);
+                                    }} 
+                                >
                                     <div className="img_box">
                                         <img src={data.thumb ? data.thumb : none_img} alt="이미지" />
                                     </div>
