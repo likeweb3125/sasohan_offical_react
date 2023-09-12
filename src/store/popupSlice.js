@@ -23,6 +23,19 @@ const popup = createSlice({
         //약관 팝업
         termsPop: false,
         termsPopTab: null,
+        
+        // 앱 팝업------------------------------------
+        //회원가입 - 약관동의 팝업
+        appTermsPop: false,
+        appTermsPopIdx: null,
+        appTermsCheckList: [],
+        
+        //회원가입 - 회원프로필설정 팝업
+        appProfilePop: false,
+        appProfilePopTit: "",
+        
+        //포인트충전완료 팝업
+        appPointPop: false,
     },
     reducers:{
         // 공통 -----------------------------------
@@ -47,6 +60,21 @@ const popup = createSlice({
             state.termsPop = action.payload.termsPop;
             state.termsPopTab = action.payload.termsPopTab;
         },
+        // 앱 팝업------------------------------------
+        appTermsPop: (state, action) => {
+            state.appTermsPop = action.payload.appTermsPop;
+            state.appTermsPopIdx = action.payload.appTermsPopIdx;
+        },
+        appTermsCheckList: (state, action) => {
+            state.appTermsCheckList = action.payload;
+        },
+        appProfilePop: (state, action) => {
+            state.appProfilePop = action.payload.appProfilePop;
+            state.appProfilePopTit = action.payload.appProfilePopTit;
+        },
+        appPointPop: (state, action) => {
+            state.appPointPop = action.payload;
+        },
     }
 });
 
@@ -55,6 +83,10 @@ export const {
     managerPop,
     imgPop,
     reviewPop,
-    termsPop
+    termsPop,
+    appTermsPop,
+    appTermsCheckList,
+    appProfilePop,
+    appPointPop,
 } = popup.actions;
 export default popup;

@@ -4,6 +4,10 @@ import ManagerPop from "./ManagerPop";
 import ImgPop from "./ImgPop";
 import ReviewPop from "./ReviewPop";
 import TermsPop from "./TermsPop";
+import AppTermsPop from "./app/TermsPop";
+import AppProfilePop from "./app/ProfilePop";
+import AppPointPop from "./app/PointPop";
+
 
 const Popup = () => {
     const popup = useSelector((state)=>state.popup);
@@ -21,6 +25,18 @@ const Popup = () => {
 
             {/* 약관 팝업 */}
             {popup.termsPop && <TermsPop />}
+
+
+            {/* 앱 팝업----------------------------------------- */}
+            {/* 회원가입 약관 팝업 */}
+            {popup.appTermsPop && <AppTermsPop />}
+
+            {/* 회원가입 프로필설정 팝업 */}
+            {popup.appProfilePop && <AppProfilePop />}
+
+            {/* 포인트충전완료 팝업 */}
+            {popup.appPointPop && <AppPointPop />}
+
         </>,
         document.getElementById('modal-root')
     );

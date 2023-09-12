@@ -11,4 +11,15 @@ exports.enum_api_uri = {
     user_count: `${api_uri}/v1/main/user-count`,
     policy_cont: `${api_uri}/v1/site/policy/:policy_type`,
     site_info: `${api_uri}/v1/site/site-info`,
+
+    //앱----------------------------------------
+    //회원가입
+    m_realname_okurl: `https://jja-gg.com/member/okurl_app.asp`,
+    m_realname: `${api_uri}/v1/user/realname/:tradeid`,
+    m_id_check: `${api_uri}/v1/app/user/check-id/:m_id`,
+    m_nick_check: `${api_uri}/v1/app/user/check-nic`,
+
+    m_address: `${api_uri}/v1/select-list/address`,
+    m_address2: `${api_uri}/v1/select-list/address/:parent_local_code`,
+    m_select_list: `${api_uri}/v1/select-list`,
 }

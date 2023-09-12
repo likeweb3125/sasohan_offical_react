@@ -13,7 +13,7 @@ html,.body{height: auto;}
    	color: #222;
 }
 .body button{font-family:'Pretendard','Noto Sans KR','맑은 고딕', 'Malgun Gothic', sans-serif;letter-spacing: -0.025em;}
-#wrap{width:100%;text-align:left; min-width:300px;overflow: hidden;}
+#wrap{width:100%;text-align:left; min-width:320px;overflow: hidden;}
 
 /* 공통 */
 .flex{display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; display: flex;-webkit-box-align: center; -ms-flex-align: center;-webkit-align-items: center; align-items: center;}
@@ -79,7 +79,6 @@ html,.body{height: auto;}
 .btn{width: 100%;height:44px;text-align: center;font-size: 14px;color: #fff;background: #373D49;border: 1px solid #999;border-radius: 8px;line-height: 43px;}
 .btn2{width: 100%;height:44px;text-align: center;font-size: 14px;color: #999;background: #fff;border: 1px solid #ddd;border-radius: 8px;line-height: 43px;}
 
-
 /************************* header *****************************/
 #header {position: fixed; left: 0; top: 40px; width: 100%; height: 60px; z-index: 200;}
 #header .header_inner {position: relative; width: calc(100% - 80px); height: 100%; backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.16);}
@@ -110,6 +109,7 @@ html,.body{height: auto;}
 .fix_menu_box li.on a::before{width: 16px;height: 16px; border: 4px solid #6840FD;background: #fff;}
 .fix_menu_box li.on a::after{display: block;}
 .fix_menu_box li.on a span{display: block;}
+
 
 /********************************** 메인 **********************************/
 /* 공통 */
