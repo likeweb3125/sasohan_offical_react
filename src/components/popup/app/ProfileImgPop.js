@@ -34,7 +34,22 @@ const ProfileImgPop = () => {
                         <li className="on">대표 프로필 지정</li>
                         <li>
                             <label>
-                                <input type={`file`} />
+                                <input type={`file`} accept="image/*" capture={`user`} />
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type={`file`} accept="image/*" capture={`environment`} />
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type={`file`} accept="image/*" capture={`camera`} />
+                            </label>
+                        </li>
+                        <li>
+                            <label>
+                                <input type={`file`} accept="image/*" capture={`gallery`} />
                             </label>
                         </li>
                         <li>갤러리</li>
