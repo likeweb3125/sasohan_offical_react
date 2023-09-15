@@ -94,7 +94,7 @@ const SignUp = () => {
                 <li className={step > 7 ? "on" : ""}></li>
                 <li></li>
             </ul>
-            <div className="scroll_wrap" ref={contRef}>
+            <div className="signup_cont scroll_wrap" ref={contRef}>
 
                 {/* 약관동의 */}
                 <div className="signup_box flex_top">

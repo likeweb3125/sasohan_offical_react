@@ -1,6 +1,12 @@
 /************************* 공통 *****************************/
 /* 공통 */
-.red_txt{color: #FC5862;}
+@keyframes appAniAlert {
+    0% { margin-left: -5px; }
+    35% { margin-left: 5px; }
+    65% { margin-left: -5px; }
+    100% { margin-left: 0; }
+}
+.red_txt{color: #FC5862;animation: appAniAlert .3s ease-out forwards;}
 
 /* custom_input */
 .custom_input {height: 56px;background: #fff;}
@@ -125,7 +131,7 @@
 .signup_wrap .step_ul{padding: 0 20px 12px;background: #fff;}
 .signup_wrap .step_ul li{width: calc(25% - 4.5px);height: 4px;border-radius: 2px;background: #DDDDDD;}
 .signup_wrap .step_ul li.on{background: #6840FD;}
-.signup_wrap .scroll_wrap{background: #F7F7FA;height: calc(100vh - 74px);padding: 28px 20px;scroll-behavior: smooth;}
+.signup_wrap .signup_cont{background: #F7F7FA;height: calc(100vh - 74px);padding: 28px 20px;scroll-behavior: smooth;}
 .signup_box{padding-bottom: 12px;animation: appAniStep .4s .3s cubic-bezier(0, 0, 0, 1.17) forwards;width: 100%;margin-left: -100%;opacity: 0;}
 .signup_box.done{animation:none;opacity: 1;margin-left: 0;}
 .signup_box .gray_box{background: #EFEFEF;text-align: center;padding: 12px 5px;font-size: 16px;color: #666;border-radius: 8px;margin: 28px 0;}
@@ -144,6 +150,15 @@
 .signup_box .txt_box .txt_ul li{padding-bottom: 8px;}
 .signup_box .txt_box .txt_ul li:last-child{padding-bottom: 0;}
 .signup_box .txt_box .txt_ul li p:first-child{font-size: 16px;color: #999;}
+
+.profile_img_ul li{width: calc(33.333% - 2.7px);margin: 4px 4px 0 0;height: 0;padding-bottom: calc(33.333% - 2.7px);;border: 1px solid #ddd;background: #fff url(../images/app/ic_plus.svg) no-repeat center;border-radius: 8px;overflow: hidden;position: relative;}
+.profile_img_ul li:nth-child(3n){margin-right: 0;}
+.profile_img_ul li img{width: 100%;height: 100%;object-fit: cover;position: absolute;}
+.profile_img_ul li .btn_delt{position: absolute;right: 0;bottom: 0;width: 28px;height: 28px;background: #fff url(../images/app/ic_close.svg) no-repeat center;font-size: 0;text-indent: -9999px;display: none;}
+
+.profile_img_ul li.on{background: #fff;}
+.profile_img_ul li.on .btn_delt{display: block;}
+
 
 .form_ul{padding: 12px 16px;}
 .form_ul>li{padding-bottom: 24px;}

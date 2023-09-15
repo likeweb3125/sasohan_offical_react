@@ -11,6 +11,7 @@ const popup = createSlice({
 
         //챠밍매니저 팝업
         managerPop: false,
+        managerPopData: {},
 
         //이미지 팝업
         imgPop: false,
@@ -33,6 +34,9 @@ const popup = createSlice({
         //회원가입 - 회원프로필설정 팝업
         appProfilePop: false,
         appProfilePopTit: "",
+
+        //회원가입 - 회원프로필사진 팝업
+        appProfileImgPop: false,
         
         //포인트충전완료 팝업
         appPointPop: false,
@@ -46,7 +50,8 @@ const popup = createSlice({
             state.confirmPopBtn = action.payload.confirmPopBtn;
         },
         managerPop: (state, action) => {
-            state.managerPop = action.payload;
+            state.managerPop = action.payload.managerPop;
+            state.managerPopData = action.payload.managerPopData;
         },
         imgPop: (state, action) => {
             state.imgPop = action.payload.imgPop;
@@ -72,6 +77,9 @@ const popup = createSlice({
             state.appProfilePop = action.payload.appProfilePop;
             state.appProfilePopTit = action.payload.appProfilePopTit;
         },
+        appProfileImgPop: (state, action) => {
+            state.appProfileImgPop = action.payload;
+        },
         appPointPop: (state, action) => {
             state.appPointPop = action.payload;
         },
@@ -87,6 +95,7 @@ export const {
     appTermsPop,
     appTermsCheckList,
     appProfilePop,
+    appProfileImgPop,
     appPointPop,
 } = popup.actions;
 export default popup;

@@ -15,29 +15,35 @@ const ProfilePop = () => {
     const m_address = enum_api_uri.m_address;
     const m_address2 = enum_api_uri.m_address2;
     const m_select_list = enum_api_uri.m_select_list;
-
     const [off, setOff] = useState(false);
     const [confirm, setConfirm] = useState(false);
     const [tit, setTit] = useState("");
     const [stepList, setStepList] = useState(["거주지","키","직업","외모 점수","내 관심사","MBTI","타입","흡연 여부","음주 여부","종교","선호하는 데이트","가입경로"]);
     const [step, setStep] = useState(null);
     
-
     const [addressList, setAddressList] = useState([]);
     const [addressList2, setAddressList2] = useState([]);
-    const [addr2Check, setAddr2Check] = useState(null);
     const [heightList, setHeightList] = useState([{txt:"149cm 이하",val:"149"},{txt:"150cm ~ 154cm",val:"150"},{txt:"155cm ~ 159cm",val:"155"},{txt:"160cm ~ 164cm",val:"160"},{txt:"165cm ~ 169cm",val:"165"},{txt:"170cm ~ 174cm",val:"170"},{txt:"175cm ~ 179cm",val:"175"},{txt:"180cm ~ 184cm",val:"180"},{txt:"185cm ~ 189cm",val:"185"},{txt:"190cm ~ 194cm",val:"190"},{txt:"195cm ~ 200cm",val:"195"}]);
     const [selectList, setSelectList] = useState({});
     const [visualList, setVisualList] = useState(["1","2","3","4","5"]);
     const [mbtiList, setMbtiList] = useState(["ISTP","ISTJ","ISFP","ISFJ","INTP","INTJ","INFP","INFJ","ESTP","ESTJ","ESFP","ESFJ","ENTP","ENTJ","ENFP","ENFJ"]);
+    const [smokList, setSmokList] = useState([{txt:"한다",val:"1"},{txt:"가끔 한다",val:"3"},{txt:"안 한다",val:"2"}]);
+    const [drinkList, setDrinkList] = useState([{txt:"한다",val:"1"},{txt:"가끔 한다",val:"2"},{txt:"안 한다",val:"3"}]);
 
     const [address, setAddress] = useState("");
+    const [address2, setAddress2] = useState("");
     const [height, setHeight] = useState("");
     const [job, setJob] = useState("");
     const [visual, setVisual] = useState("");
     const [like, setLike] = useState([]);
     const [mbti, setMbti] = useState("");
     const [type, setType] = useState([]);
+    const [smok, setSmok] = useState("");
+    const [drink, setDrink] = useState("");
+    const [religion, setReligion] = useState("");
+    const [date, setDate] = useState([]);
+    const [route, setRoute] = useState("");
+
 
     // Confirm팝업 닫힐때
     useEffect(()=>{
@@ -74,22 +80,6 @@ const ProfilePop = () => {
             getAddress();
         }
     },[popup.appProfilePopTit]);
-
-    
-    //다음버튼 클릭시 다음스탭으로 넘어가기 or 마지막스탭일시 팝업닫기
-    const nextStepHandler = () => {
-        let idx = step + 1;
-        if(idx > 11){
-            closePopHandler();
-        }else{
-            setTit(stepList[idx]);
-            setStep(idx);
-        }
-
-        if(step === 0){
-
-        }
-    };
 
 
     //주소 시,도 가져오기
@@ -134,6 +124,81 @@ const ProfilePop = () => {
     };
 
 
+    //맨처음
+    useEffect(()=>{
+        //select 리스트 가져오기
+        getSelectList();
+
+        //선택한 거주지 시,도 값있는지 체크
+        if(user.signupData.hasOwnProperty("m_address_code")){
+            getAddress2(user.signupData.m_address_code);
+            
+        }else{
+            getAddress2("01");
+        }
+
+        //선택한 값들 있는지 체크-------------------------------
+        let addrData = {};
+        if(user.signupData.hasOwnProperty("m_address")){
+            addrData = user.signupData.m_address;
+
+            if(addrData.includes(" ")){
+                let addr = addrData.split(" ");
+                setAddress(addr[0]);
+                setAddress2(addr[1]);
+            }else{
+                setAddress(addrData);
+                setAddress2("");
+            }
+        }
+
+        if(user.signupData.hasOwnProperty("m_height")){
+            setHeight(user.signupData.m_height);
+        }
+
+        if(user.signupData.hasOwnProperty("m_job")){
+            setJob(user.signupData.m_job);
+        }
+
+        if(user.signupData.hasOwnProperty("m_visual")){
+            setVisual(user.signupData.m_visual);
+        }
+
+        if(user.signupData.hasOwnProperty("m_like")){
+            setLike(user.signupData.m_like);
+        }
+
+        if(user.signupData.hasOwnProperty("m_mbti")){
+            setMbti(user.signupData.m_mbti);
+        }
+
+        if(user.signupData.hasOwnProperty("m_character")){
+            setType(user.signupData.m_character);
+        }
+
+        if(user.signupData.hasOwnProperty("m_smok")){
+            setSmok(user.signupData.m_smok);
+        }
+
+        if(user.signupData.hasOwnProperty("m_drink")){
+            setDrink(user.signupData.m_drink);
+        }
+
+        if(user.signupData.hasOwnProperty("m_religion")){
+            setReligion(user.signupData.m_religion);
+        }
+
+        if(user.signupData.hasOwnProperty("m_date")){
+            setDate(user.signupData.m_date);
+        }
+
+        if(user.signupData.hasOwnProperty("m_motive")){
+            setRoute(user.signupData.m_motive);
+        }
+
+    },[]);
+
+
     //select 리스트 가져오기 (직업,선호하는데이트,관심사,타입,가입경로,종교)
     const getSelectList = () => {
         axios.get(`${m_select_list}`)
@@ -153,12 +218,6 @@ const ProfilePop = () => {
             setConfirm(true);
         })
     };
-
-
-    //맨처음 select 리스트 가져오기
-    useEffect(()=>{
-        getSelectList();
-    },[]);
 
 
     //내관심사 체크박스
@@ -183,11 +242,259 @@ const ProfilePop = () => {
     }
 
     useEffect(()=>{
-        console.log(like);
+        selectHandler("m_like",like);
     },[like]);
 
 
+    //타입 체크박스
+    const typeCheck = (checked, value) => {
+        if (checked) {
+            if(type.length > 2){
+                setConfirm(true);
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'최대 3개까지 선택가능합니다.',
+                    confirmPopBtn:1,
+                }));
 
+                setType(type.filter((el) => el !== value));
+            }else{
+                setType([...type, value]);
+            }
+        } else if (!checked && type.includes(value)) {
+            setType(type.filter((el) => el !== value));
+        }
+    }
+
+    useEffect(()=>{
+        selectHandler("m_character",type);
+    },[type]);
+
+
+    //선호하는데이트 체크박스
+    const dateCheck = (checked, value) => {
+        if (checked) {
+            if(date.length > 2){
+                setConfirm(true);
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'최대 3개까지 선택가능합니다.',
+                    confirmPopBtn:1,
+                }));
+
+                setDate(date.filter((el) => el !== value));
+            }else{
+                setDate([...date, value]);
+            }
+        } else if (!checked && date.includes(value)) {
+            setDate(date.filter((el) => el !== value));
+        }
+    }
+
+    useEffect(()=>{
+        selectHandler("m_date",date);
+    },[date]);
+
+
+    //선택시 signupData store 값에 저장
+    const selectHandler = (name,val,addrCode) => {
+        let newData = {...user.signupData};
+        newData[name] = val;
+
+        //거주지 주소선택시 시,도 코드저장
+        if(addrCode){
+            newData.m_address_code = addrCode;
+        }
+
+        dispatch(signupData(newData));
+    };
+
+
+    //다음버튼 클릭시 다음스탭으로 넘어가기 or 마지막스탭일시 팝업닫기
+    const nextStepHandler = () => {
+        let data = user.signupData;
+        let idx = step + 1;
+        // if(idx > 11){
+        //     closePopHandler();
+        // }else{
+        //     setTit(stepList[idx]);
+        //     setStep(idx);
+        // }
+
+        if(step === 0){
+            if(data.hasOwnProperty("m_address") && data.m_address.length > 0){
+                setTit(stepList[idx]);
+                setStep(idx);
+            }else{
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'거주지를 선택해주세요.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            }
+        }
+        if(step === 1){
+            if(data.hasOwnProperty("m_height") && data.m_height.length > 0){
+                setTit(stepList[idx]);
+                setStep(idx);
+            }else{
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'키를 선택해주세요.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            }
+        }
+        if(step === 2){
+            if(data.hasOwnProperty("m_job") && data.m_job.length > 0){
+                setTit(stepList[idx]);
+                setStep(idx);
+            }else{
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'직업을 선택해주세요.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            }
+        }
+        if(step === 3){
+            if(data.hasOwnProperty("m_visual") && data.m_visual.length > 0){
+                setTit(stepList[idx]);
+                setStep(idx);
+            }else{
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'외모 점수를 선택해주세요.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            }
+        }
+        if(step === 4){
+            if(like.length > 0){
+                setTit(stepList[idx]);
+                setStep(idx);
+            }else{
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'관심사를 선택해주세요.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            }
+        }
+        if(step === 5){
+            if(data.hasOwnProperty("m_mbti") && data.m_mbti.length > 0){
+                setTit(stepList[idx]);
+                setStep(idx);
+            }else{
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'MBTI를 선택해주세요.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            }
+        }
+        if(step === 6){
+            if(type.length > 0){
+                setTit(stepList[idx]);
+                setStep(idx);
+            }else{
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'타입을 선택해주세요.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            }
+        }
+        if(step === 7){
+            if(data.hasOwnProperty("m_smok") && data.m_smok.length > 0){
+                setTit(stepList[idx]);
+                setStep(idx);
+            }else{
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'흡연여부를 선택해주세요.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            }
+        }
+        if(step === 8){
+            if(data.hasOwnProperty("m_drink") && data.m_drink.length > 0){
+                setTit(stepList[idx]);
+                setStep(idx);
+            }else{
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'음주여부를 선택해주세요.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            }
+        }
+        if(step === 9){
+            if(data.hasOwnProperty("m_religion") && data.m_religion.length > 0){
+                setTit(stepList[idx]);
+                setStep(idx);
+            }else{
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'종교를 선택해주세요.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            }
+        }
+        if(step === 10){
+            if(data.hasOwnProperty("m_date") && data.m_date.length > 0){
+                setTit(stepList[idx]);
+                setStep(idx);
+            }else{
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'선호하는 데이트를 선택해주세요.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            }
+        }
+        if(step === 11){
+            if(data.hasOwnProperty("m_motive") && data.m_motive.length > 0){
+                setTit(stepList[idx]);
+                setStep(idx);
+            }else{
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'가입경로를 선택해주세요.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            }
+        }
+        if(idx > 11){
+            closePopHandler();
+        }
+    };
 
 
     return(<>
@@ -198,7 +505,7 @@ const ProfilePop = () => {
                     <button type="button" className="btn_close" onClick={closePopHandler}>닫기버튼</button>
                 </div>
                 <div className="pop_tit">
-                    <p className="tit">회원님의 <strong>{tit}</strong>를 선택해주세요.</p>
+                    <p className="tit">회원님의 <strong>{tit}</strong>{step === 2 || step === 7 ? "을" : "를"} 선택해주세요.</p>
                     {step === 4 || step === 6 || step === 10 ? <p className="txt">아래 각 항목 중 3개씩 선택해주세요.</p> : null}
                 </div>
                 <div className="inner_box">
@@ -213,9 +520,12 @@ const ProfilePop = () => {
                                             <li key={i} className="custom_radio2">
                                                 <label htmlFor={`addr_${cont.local_code}`}>
                                                     <input type={"radio"} id={`addr_${cont.local_code}`} name="addr_check" 
+                                                        checked={cont.sido_gugun === address} 
                                                         onChange={()=>{
+                                                            setAddress(cont.sido_gugun);
+                                                            setAddress2("");
                                                             getAddress2(cont.local_code);
-                                                            setAddr2Check(null);
+                                                            selectHandler("m_address",cont.sido_gugun,cont.local_code);
                                                         }} 
                                                     />
                                                     <span className="txt">{cont.sido_gugun}</span>
@@ -232,9 +542,11 @@ const ProfilePop = () => {
                                             <li key={i} className="custom_radio3">
                                                 <label htmlFor={`addr2_${cont.local_code}`}>
                                                     <input type={"radio"} id={`addr2_${cont.local_code}`} name="addr2_check" 
-                                                        checked={cont.local_code === addr2Check} 
+                                                        checked={cont.sido_gugun === address2} 
                                                         onChange={()=>{
-                                                            setAddr2Check(cont.local_code);
+                                                            setAddress2(cont.sido_gugun);
+                                                            let addr = user.signupData.m_address + " " + cont.sido_gugun;
+                                                            selectHandler("m_address",addr);
                                                         }}
                                                     />
                                                     <span className="txt">{cont.sido_gugun}</span>
@@ -255,9 +567,11 @@ const ProfilePop = () => {
                                     return(
                                         <li key={i} className="custom_radio3">
                                             <label htmlFor={`height_${cont.val}`}>
-                                                <input type={"radio"} id={`height_${cont.val}`} name="height_check" 
+                                                <input type={"radio"} id={`height_${cont.val}`} name="height_check"
+                                                    checked={cont.val === height} 
                                                     onChange={()=>{
-
+                                                        setHeight(cont.val);
+                                                        selectHandler("m_height",cont.val);
                                                     }}
                                                 />
                                                 <span className="txt">{cont.txt}</span>
@@ -278,8 +592,10 @@ const ProfilePop = () => {
                                         <li key={i} className="custom_radio4">
                                             <label htmlFor={`job_${i}`}>
                                                 <input type={"radio"} id={`job_${i}`} name="job_check" 
+                                                    checked={cont.name === job}
                                                     onChange={()=>{
-
+                                                        setJob(cont.name);
+                                                        selectHandler("m_job",cont.name);
                                                     }}
                                                 />
                                                 <span className="txt">{cont.name}</span>
@@ -305,8 +621,10 @@ const ProfilePop = () => {
                                         <li key={i} className="custom_radio4">
                                             <label htmlFor={`visual_${cont}`}>
                                                 <input type={"radio"} id={`visual_${cont}`} name="visual_check" 
+                                                    checked={cont === visual}
                                                     onChange={()=>{
-
+                                                        setVisual(cont);
+                                                        selectHandler("m_visual",cont);
                                                     }}
                                                 />
                                                 <span className="txt">{`${cont}점`}</span>
@@ -327,10 +645,176 @@ const ProfilePop = () => {
                                         <li key={i} className="custom_radio4">
                                             <label htmlFor={`interest_${i}`}>
                                                 <input type={"checkbox"} id={`interest_${i}`} 
+                                                    checked={like.includes(cont.name) ? true : false}
                                                     onChange={(e)=>{
                                                         likeCheck(e.currentTarget.checked, cont.name);
                                                     }}
-                                                    checked={like.includes(cont.name) ? true : false}
+                                                />
+                                                <span className="txt">{cont.name}</span>
+                                            </label>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+                    }
+
+                    {/* MBTI 설정 */}
+                    {step === 5 &&
+                        <div className="scroll_wrap list_box3">
+                            <ul className="flex_wrap">
+                                {mbtiList.map((cont,i)=>{
+                                    return(
+                                        <li key={i} className="custom_radio4">
+                                            <label htmlFor={`mbti_${cont}`}>
+                                                <input type={"radio"} id={`mbti_${cont}`} name="mbti_check" 
+                                                    checked={cont === mbti}
+                                                    onChange={()=>{
+                                                        setMbti(cont);
+                                                        selectHandler("m_mbti",cont);
+                                                    }}
+                                                />
+                                                <span className="txt">{cont}</span>
+                                            </label>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+                    }
+
+                    {/* 타입 설정 */}
+                    {step === 6 &&
+                        <div className="scroll_wrap list_box3">
+                            <ul className="flex_wrap">
+                                {selectList && selectList.character && selectList.character.map((cont,i)=>{
+                                    return(
+                                        <li key={i} className="custom_radio4">
+                                            <label htmlFor={`character_${i}`}>
+                                                <input type={"checkbox"} id={`character_${i}`} 
+                                                    checked={type.includes(cont.name) ? true : false}
+                                                    onChange={(e)=>{
+                                                        typeCheck(e.currentTarget.checked, cont.name);
+                                                    }}
+                                                />
+                                                <span className="txt">{cont.name}</span>
+                                            </label>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+                    }
+
+                    {/* 흡연여부 설정 */}
+                    {step === 7 &&
+                        <div className="scroll_wrap list_box3">
+                            <ul className="flex_wrap">
+                                {smokList.map((cont,i)=>{
+                                    return(
+                                        <li key={i} className="custom_radio4">
+                                            <label htmlFor={`smok_${cont.val}`}>
+                                                <input type={"radio"} id={`smok_${cont.val}`} name="smok_check" 
+                                                    checked={cont.val === smok}
+                                                    onChange={()=>{
+                                                        setSmok(cont.val);
+                                                        selectHandler("m_smok",cont.val);
+                                                    }}
+                                                />
+                                                <span className="txt">{cont.txt}</span>
+                                            </label>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+                    }
+
+                    {/* 음주여부 설정 */}
+                    {step === 8 &&
+                        <div className="scroll_wrap list_box3">
+                            <ul className="flex_wrap">
+                                {drinkList.map((cont,i)=>{
+                                    return(
+                                        <li key={i} className="custom_radio4">
+                                            <label htmlFor={`drink_${cont.val}`}>
+                                                <input type={"radio"} id={`drink_${cont.val}`} name="drink_check" 
+                                                    checked={cont.val === drink}
+                                                    onChange={()=>{
+                                                        setDrink(cont.val);
+                                                        selectHandler("m_drink",cont.val);
+                                                    }}
+                                                />
+                                                <span className="txt">{cont.txt}</span>
+                                            </label>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+                    }
+
+                    {/* 종교 설정 */}
+                    {step === 9 &&
+                        <div className="scroll_wrap list_box3">
+                            <ul className="flex_wrap">
+                                {selectList && selectList.religion && selectList.religion.map((cont,i)=>{
+                                    return(
+                                        <li key={i} className="custom_radio4">
+                                            <label htmlFor={`religion_${i}`}>
+                                                <input type={"radio"} id={`religion_${i}`} name="religion_check" 
+                                                    checked={cont.name === religion}
+                                                    onChange={()=>{
+                                                        setReligion(cont.name);
+                                                        selectHandler("m_religion",cont.name);
+                                                    }}
+                                                />
+                                                <span className="txt">{cont.name}</span>
+                                            </label>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+                    }
+
+                    {/* 선호하는데이트 설정 */}
+                    {step === 10 &&
+                        <div className="scroll_wrap list_box3">
+                            <ul className="flex_wrap">
+                                {selectList && selectList.i_date && selectList.i_date.map((cont,i)=>{
+                                    return(
+                                        <li key={i} className="custom_radio4">
+                                            <label htmlFor={`date_${i}`}>
+                                                <input type={"checkbox"} id={`date_${i}`} 
+                                                    checked={date.includes(cont.name) ? true : false}
+                                                    onChange={(e)=>{
+                                                        dateCheck(e.currentTarget.checked, cont.name);
+                                                    }}
+                                                />
+                                                <span className="txt">{cont.name}</span>
+                                            </label>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+                    }
+
+                    {/* 가입경로 설정 */}
+                    {step === 11 &&
+                        <div className="scroll_wrap list_box3">
+                            <ul className="flex_wrap">
+                                {selectList && selectList.ref_rul && selectList.ref_rul.map((cont,i)=>{
+                                    return(
+                                        <li key={i} className="custom_radio4">
+                                            <label htmlFor={`ref_${i}`}>
+                                                <input type={"radio"} id={`ref_${i}`} name="ref_check" 
+                                                    checked={cont.name === route}
+                                                    onChange={()=>{
+                                                        setRoute(cont.name);
+                                                        selectHandler("m_motive",cont.name);
+                                                    }}
                                                 />
                                                 <span className="txt">{cont.name}</span>
                                             </label>

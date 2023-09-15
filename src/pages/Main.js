@@ -382,8 +382,8 @@ const Main = () => {
                             return(
                                 <SwiperSlide key={i}>
                                     <div className="inner_box flex_bottom flex_between">
-                                        {/* <div className="charming" onClick={()=>{dispatch(managerPop(true))}}> */}
-                                        <div className="charming">
+                                        <div className="charming" onClick={()=>{dispatch(managerPop({managerPop:true,managerPopData:data}))}}>
+                                        {/* <div className="charming"> */}
                                             <div className="img">
                                                 <img src={data.photo ? data.photo : none_img} alt="매니저프로필이미지" />
                                             </div>
@@ -416,7 +416,7 @@ const Main = () => {
                                             >
                                                 {data.matching_manager.map((data,i)=>{
                                                     return(
-                                                        <SwiperSlide key={i}>
+                                                        <SwiperSlide key={i} onClick={()=>{dispatch(managerPop({managerPop:true,managerPopData:data}))}}>
                                                             <ManagerBox data={data}/>
                                                         </SwiperSlide>
                                                     );
@@ -767,6 +767,17 @@ const Main = () => {
                                     observeParents={true}
                                     navigation={{nextEl: ".trust_slider_box2 .swiper-button-next",prevEl: ".trust_slider_box2 .swiper-button-prev"}}
                                 >
+                                    <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img3_pop}))}}>
+                                        <div className="flex flex_bottom">
+                                            <div className="img_box">
+                                                <img src={trust_img1} alt="이미지" />
+                                            </div>
+                                            <div className="txt_box">
+                                                <p className="txt">상표등록증</p>
+                                                <p className="date">2023.05.18</p>
+                                            </div>
+                                        </div>
+                                    </SwiperSlide>
                                     <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img1_pop}))}}>
                                         <div className="flex flex_bottom">
                                             <div className="img_box">
@@ -786,17 +797,6 @@ const Main = () => {
                                             <div className="txt_box">
                                                 <p className="txt">통신판매업</p>
                                                 <p className="date">2017.04.18</p>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
-                                    <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img3_pop}))}}>
-                                        <div className="flex flex_bottom">
-                                            <div className="img_box">
-                                                <img src={trust_img1} alt="이미지" />
-                                            </div>
-                                            <div className="txt_box">
-                                                <p className="txt">상표등록증</p>
-                                                <p className="date">2023.05.18</p>
                                             </div>
                                         </div>
                                     </SwiperSlide>

@@ -6,6 +6,7 @@ import ReviewPop from "./ReviewPop";
 import TermsPop from "./TermsPop";
 import AppTermsPop from "./app/TermsPop";
 import AppProfilePop from "./app/ProfilePop";
+import AppProfileImgPop from "./app/ProfileImgPop";
 import AppPointPop from "./app/PointPop";
 
 
@@ -33,6 +34,9 @@ const Popup = () => {
 
             {/* 회원가입 프로필설정 팝업 */}
             {popup.appProfilePop && <AppProfilePop />}
+
+            {/* 회원가입 프로필사진 팝업 */}
+            {popup.appProfileImgPop && <AppProfileImgPop />}
 
             {/* 포인트충전완료 팝업 */}
             {popup.appPointPop && <AppPointPop />}
