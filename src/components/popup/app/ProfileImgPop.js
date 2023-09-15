@@ -23,14 +23,18 @@ const ProfileImgPop = () => {
 
 
     return(
-        <div className={`app_pop_wrap app_terms_pop${off ? " off" : ""}`}>
+        <div className={`app_pop_wrap app_profile_img_pop${off ? " off" : ""}`}>
             <div className="dim" onClick={closePopHandler}></div>
             <div className="pop_cont">
                 <div className="flex_center">
                     <button type="button" className="btn_close" onClick={closePopHandler}>닫기버튼</button>
                 </div>
                 <div className="scroll_wrap">
-                    
+                    <ul className="list_ul">
+                        <li className="on">대표 프로필 지정</li>
+                        <li>카메라</li>
+                        <li>갤러리</li>
+                    </ul>
                 </div>
             </div>
         </div>

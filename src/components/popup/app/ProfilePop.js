@@ -498,7 +498,7 @@ const ProfilePop = () => {
 
 
     return(<>
-        <div className={`app_pop_wrap profile_pop${off ? " off" : ""}`}>
+        <div className={`app_pop_wrap app_profile_pop${off ? " off" : ""}`}>
             <div className="dim" onClick={closePopHandler}></div>
             <div className="pop_cont">
                 <div className="flex_center">
