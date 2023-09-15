@@ -21,7 +21,7 @@ const SignUp2 = () => {
     const tradeid = localStorage.getItem("tradeid");
     const [confirm, setConfirm] = useState(false);
     const [agreeList, setAgreeList] = useState(["개인정보취급방침 동의","이메일 무단 수집 거부 동의","개인정보수집 동의","이용약관 동의","개인정보 처리 위탁 동의 "]);
-    const [step, setStep] = useState(9);
+    const [step, setStep] = useState(1);
     const contRef = useRef();
     const [realData ,setRealData] = useState({});
     const [signupData, setSignupData] = useState({});
@@ -144,7 +144,7 @@ const SignUp2 = () => {
 
     //맨처음 실명인증한 회원정보 가져오기
     useEffect(()=>{
-        // getRealData();
+        getRealData();
     },[]);
 
     
@@ -919,6 +919,119 @@ const SignUp2 = () => {
                                     >다음</button>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                }
+
+                {/* 이상형정보 입력 */}
+                {step > 9 &&
+                    <div className="signup_box">
+                        <div className="gray_box">회원님의 이상형 정보를 입력해주세요!</div>
+                        <div className="flex_top">
+                            <div className="img_box">
+                                <img src={profile_img} alt="이미지" />
+                            </div>
+                            <div className="txt_box">
+                                <p className="name">사소한 매니저 하니</p>
+                                <div className="inner_box">
+                                    <div className="tit_box">
+                                        <p className="f_20 medium">회원님의 <strong>이상형 정보</strong>를 <br/>입력해볼까요?</p>
+                                    </div>
+                                    <ul className="form_ul">
+                                        <li>
+                                            <p className="input_tit">상대방의 키</p>
+                                            <button type="button" className="btn_sel" 
+                                                onClick={()=>{
+                                                    dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"키"}));
+                                                }}
+                                            ><span className="ellipsis">{height ? height : "선택"}</span></button>
+                                        </li>
+                                        <li>
+                                            <p className="input_tit">상대방의 직업</p>
+                                            <div className="w_50">
+                                                <button type="button" className="btn_sel" 
+                                                    onClick={()=>{
+                                                        dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"직업"}));
+                                                    }}
+                                                ><span className="ellipsis">{signupData.m_job ? signupData.m_job : "선택"}</span></button>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p className="input_tit">상대방의 외모 점수</p>
+                                            <div className="w_50">
+                                                <button type="button" className="btn_sel" 
+                                                    onClick={()=>{
+                                                        dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"외모 점수"}));
+                                                    }}
+                                                ><span className="ellipsis">{signupData.m_visual ? signupData.m_visual+"점" : "선택"}</span></button>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p className="input_tit">상대방의 MBTI</p>
+                                            <div className="w_50">
+                                                <button type="button" className="btn_sel" 
+                                                    onClick={()=>{
+                                                        dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"MBTI"}));
+                                                    }}
+                                                ><span className="ellipsis">{signupData.m_mbti ? signupData.m_mbti : "선택"}</span></button>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p className="input_tit">상대방의 타입</p>
+                                            <button type="button" className="btn_sel" 
+                                                onClick={()=>{
+                                                    dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"타입"}));
+                                                }}
+                                            ><span className="ellipsis">{signupData.m_character && signupData.m_character.length > 0 ? signupData.m_character.join(", ") : "선택"}</span></button>
+                                        </li>
+                                        <li>
+                                            <p className="input_tit">상대방은 흡연을</p>
+                                            <div className="w_50">
+                                                <button type="button" className="btn_sel" 
+                                                    onClick={()=>{
+                                                        dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"흡연 여부"}));
+                                                    }}
+                                                ><span className="ellipsis">{
+                                                    signupData.m_smok ?
+                                                        signupData.m_smok == "1" ? "한다"
+                                                        :signupData.m_smok == "2" ? "안 한다"
+                                                        :signupData.m_smok == "3" && "가끔 한다"
+                                                    : "선택"
+                                                }</span></button>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p className="input_tit">상대방은 술을</p>
+                                            <div className="w_50">
+                                                <button type="button" className="btn_sel" 
+                                                    onClick={()=>{
+                                                        dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"음주 여부"}));
+                                                    }}
+                                                    ><span className="ellipsis">{
+                                                        signupData.m_drink ?
+                                                            signupData.m_drink == "1" ? "한다"
+                                                            :signupData.m_drink == "2" ? "가끔 한다"
+                                                            :signupData.m_drink == "3" && "안 한다"
+                                                        : "선택"
+                                                    }</span></button>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p className="input_tit">상대방의 종교</p>
+                                            <div className="w_50">
+                                                <button type="button" className="btn_sel" 
+                                                    onClick={()=>{
+                                                        dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"종교"}));
+                                                    }}
+                                                ><span className="ellipsis">{signupData.m_religion ? signupData.m_religion : "선택"}</span></button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div className="flex_end tp10">
+                                    <button type="button" className="app_btn_s">다음</button>
+                                </div>
+                            </div> 
                         </div>
                     </div>
                 }

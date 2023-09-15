@@ -31,23 +31,18 @@ const ProfileImgPop = () => {
                 </div>
                 <div className="scroll_wrap">
                     <ul className="list_ul">
-                        <li className="on">대표 프로필 지정</li>
                         <li>
                             <label>
-                                <input type={`file`} accept="image/*" capture={`user`} />
+                                <input type={`file`} accept={`image/*`} capture={`environment`} />
+                                <span>카메라</span>
                             </label>
                         </li>
                         <li>
                             <label>
-                                <input type={`file`} accept="image/*" capture={`environment`} />
+                                <input type={`file`} accept={`image/*`} />
+                                <span>갤러리</span>
                             </label>
                         </li>
-                        <li>
-                            <label>
-                                <input type={`file`} accept="image/*" />
-                            </label>
-                        </li>
-                        <li>갤러리</li>
                     </ul>
                 </div>
             </div>
