@@ -44,7 +44,7 @@ const ProfileImgPop = () => {
                         </li>
                         <li>
                             <label>
-                                <input type={`file`} accept="image/*" capture={`filesystem`} />
+                                <input type={`file`} accept="image/*" capture="filesystem" />
                             </label>
                         </li>
                         <li>갤러리</li>
