@@ -63,6 +63,9 @@ const SignUp = () => {
 
     //본인인증 ------------------------------
     function RealnameRequest() {
+        //tradeid localStorage에 저장
+        localStorage.setItem("tradeid",tradeid);
+
         // 아래와 같이 ext_inc_comm.js에 선언되어 있는 함수를 호출
         window.MCASH_PAYMENT(document.realnameForm);
     }
@@ -79,12 +82,6 @@ const SignUp = () => {
         };
     }, []);
   
-    // 본인인증할때 tradeid localStorage에 저장
-    useEffect(()=>{
-        localStorage.setItem("tradeid",tradeid);
-    },[tradeid]);
-
-    
 
     return(<>
         <div className="signup_wrap">
