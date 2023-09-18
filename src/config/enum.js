@@ -15,7 +15,7 @@ exports.enum_api_uri = {
     //앱----------------------------------------
     //회원가입
     m_realname_okurl: `https://jja-gg.com/member/okurl_app.asp`,
-    m_realname: `${api_uri}/v1/app/user/realname/:tradeid `,
+    m_realname: `${api_uri}/v1/app/user/realname/:tradeid`,
     m_id_check: `${api_uri}/v1/app/user/check-id/:m_id`,
     m_nick_check: `${api_uri}/v1/app/user/check-nic`,
     m_address: `${api_uri}/v1/select-list/address`,
