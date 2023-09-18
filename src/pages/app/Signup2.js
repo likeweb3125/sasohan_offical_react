@@ -6,6 +6,7 @@ import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
 import { appTermsPop, confirmPop, appProfilePop, appProfileImgPop } from "../../store/popupSlice";
 import { profileImgs } from "../../store/commonSlice";
+import { signupData } from "../../store/userSlice";
 
 import ConfirmPop from "../../components/popup/ConfirmPop";
 import profile_img from "../../images/app/profile_img.jpg";
@@ -31,7 +32,7 @@ const SignUp2 = () => {
     const [step, setStep] = useState(1);
     const contRef = useRef();
     const [realData ,setRealData] = useState({});
-    const [signupData, setSignupData] = useState({});
+    const [allData, setAllData] = useState({});
     
     const [address, setAddress] = useState("");
     const [address2, setAddress2] = useState("");
@@ -70,7 +71,7 @@ const SignUp2 = () => {
 
 
     useEffect(()=>{
-        setSignupData(user.signupData);
+        setAllData(user.signupData);
 
         console.log(user.signupData);
 
@@ -154,14 +155,13 @@ const SignUp2 = () => {
     },[user.signupData]);
 
 
-
     //실명인증한 회원정보 가져오기
     const getRealData = () => {
         axios.get(`${m_realname.replace(':tradeid',tradeid)}`)
         .then((res)=>{
             if(res.status === 200){
-                let data = res.data
-                setRealData({...data});
+                let data = res.data;
+                setRealData(data);
 
                 //본인인증 데이터 signupData store 값에 저장
                 let newData = {...user.signupData};
@@ -423,83 +423,83 @@ const SignUp2 = () => {
 
     //기본정보입력 다음버튼 클릭시
     const infoCheckHandler = () => {
-        if(step < 8){
-            setStep(8);
-            dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"거주지"}));
-        }
+        // if(step < 8){
+        //     setStep(8);
+        //     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"거주지"}));
+        // }
 
         //아이디랑 비밀번호,닉네임,이메일 사용가능인지 확인
-        // if(usableId && usablePass && usableNickname && usableEmail){
-        //     if(step < 8){
-        //         setStep(8);
-        //     }
+        if(usableId && usablePass && usableNickname && usableEmail){
+            if(step < 8){
+                setStep(8);
+            }
 
-        //     //signupData store 값에 저장
-        //     let newData = {...user.signupData};
-        //     newData.m_id = valId;
-        //     newData.m_password = valPassword;
-        //     newData.m_n_name = valNickname;
-        //     newData.m_email = valEmail;
-        //     dispatch(signupData(newData));
+            //signupData store 값에 저장
+            let newData = {...user.signupData};
+            newData.m_id = valId;
+            newData.m_password = valPassword;
+            newData.m_n_name = valNickname;
+            newData.m_email = valEmail;
+            dispatch(signupData(newData));
 
-        // }else if(!usableId){
-        //     if(valId.length < 4){
-        //         setErrorId(true);
-        //     }
+        }else if(!usableId){
+            if(valId.length < 4){
+                setErrorId(true);
+            }
 
-        //     setConfirm(true);
-        //     dispatch(confirmPop({
-        //         confirmPop:true,
-        //         confirmPopTit:'알림',
-        //         confirmPopTxt:'아이디 사용가능을 확인해주세요.',
-        //         confirmPopBtn:1,
-        //     }));
-        // }else if(!usablePass){
-        //     let num = valPassword.search(/[0-9]/g);
-        //     let eng = valPassword.search(/[a-z]/ig);
-        //     let spe = valPassword.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-        //     if(valPassword.length < 8 || valPassword.length > 13 || valPassword.search(/\s/) != -1 || num < 0 || eng < 0 || spe < 0){
-        //         setErrorPassword(true);
-        //     }
-        //     if(valPassword !== valPassword2){
-        //         setErrorPassword2(true);
-        //     }
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'아이디 사용가능을 확인해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usablePass){
+            let num = valPassword.search(/[0-9]/g);
+            let eng = valPassword.search(/[a-z]/ig);
+            let spe = valPassword.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+            if(valPassword.length < 8 || valPassword.length > 13 || valPassword.search(/\s/) != -1 || num < 0 || eng < 0 || spe < 0){
+                setErrorPassword(true);
+            }
+            if(valPassword !== valPassword2){
+                setErrorPassword2(true);
+            }
 
-        //     setConfirm(true);
-        //     dispatch(confirmPop({
-        //         confirmPop:true,
-        //         confirmPopTit:'알림',
-        //         confirmPopTxt:'비밀번호를 입력해주세요.',
-        //         confirmPopBtn:1,
-        //     }));
-        // }else if(!usableNickname){
-        //     if(valNickname.length < 2){
-        //         setErrorNickname(true);
-        //     }
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'비밀번호를 입력해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usableNickname){
+            if(valNickname.length < 2){
+                setErrorNickname(true);
+            }
             
-        //     setConfirm(true);
-        //     dispatch(confirmPop({
-        //         confirmPop:true,
-        //         confirmPopTit:'알림',
-        //         confirmPopTxt:'닉네임 사용가능을 확인해주세요.',
-        //         confirmPopBtn:1,
-        //     }));
-        // }else if(!usableEmail){
-        //     let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-        //     if(regExp.test(valEmail)){
-        //         setErrorEmail(false);
-        //     }else{
-        //     setErrorEmail(true);
-        // }
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'닉네임 사용가능을 확인해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usableEmail){
+            let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+            if(regExp.test(valEmail)){
+                setErrorEmail(false);
+            }else{
+            setErrorEmail(true);
+        }
 
-        //     setConfirm(true);
-        //     dispatch(confirmPop({
-        //         confirmPop:true,
-        //         confirmPopTit:'알림',
-        //         confirmPopTxt:'이메일을 입력해주세요.',
-        //         confirmPopBtn:1,
-        //     }));
-        // }
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'이메일을 입력해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
     };
 
 
@@ -678,7 +678,7 @@ const SignUp2 = () => {
                                     </li>
                                     <li className="flex_between flex_wrap">
                                         <p>생년월일</p>
-                                        <p>{realData.Socialno && realData.Socialno.moment().format("YYYY년 MM월 DD일")}</p>
+                                        <p>{realData.Socialno && moment(realData.Socialno).format("YYYY년 MM월 DD일")}</p>
                                     </li>
                                     <li className="flex_between flex_wrap">
                                         <p>휴대폰번호</p>
@@ -713,7 +713,7 @@ const SignUp2 = () => {
                                 <div className="inner_box">
                                     <div className="tit_box">
                                         <p className="f_20 medium">회원님의 <strong>아이디</strong>를 입력해주세요 <br/></p>
-                                        <p className={`f_17 tp4${errorId ? " red_txt" : ""}`}>영문자, 소문자, _만 입력 가능. <br/>최소 4자 이상 입력하세요.</p>
+                                        <p className={`f_17 tp4${errorId ? " alert_txt" : ""}`}>영문자, 소문자, _만 입력 가능. <br/>최소 4자 이상 입력하세요.</p>
                                     </div>
                                     <div className={`custom_input${usableId ? " val_check" : ""}`}>
                                         <input type={"text"} placeholder="아이디를 입력해주세요." 
@@ -747,8 +747,8 @@ const SignUp2 = () => {
                             <div className="inner_box">
                                 <div className="tit_box">
                                     <p className="f_20 medium"><strong>비밀번호</strong>를 입력해주세요 <br/></p>
-                                    <p className={`f_17 tp4${errorPassword ? " red_txt" : ""}`}>영문, 숫자, 특수문자를 포함하여 <br/>8~12자까지 입력 필수.</p>
-                                    {errorPassword2 && <p className="f_17 medium red_txt">비밀번호가 일치하지 않습니다.</p>}
+                                    <p className={`f_17 tp4${errorPassword ? " alert_txt" : ""}`}>영문, 숫자, 특수문자를 포함하여 <br/>8~12자까지 입력 필수.</p>
+                                    {errorPassword2 && <p className="f_17 medium alert_txt">비밀번호가 일치하지 않습니다.</p>}
                                 </div>
                                 <div className="custom_input pass_input flex">
                                     <input type={passView ? "text" : "password"} placeholder="비밀번호를 입력해주세요." 
@@ -756,6 +756,7 @@ const SignUp2 = () => {
                                             setValPassword(e.currentTarget.value);
                                             setUsablePass(false);
                                         }} 
+                                        onBlur={passCheckHandler}
                                     />
                                     <button type="button" className={`btn_view${passView ? " on" : ""}`} onClick={()=>setPassView(!passView)}>비밀번호보기 버튼</button>
                                 </div>
@@ -790,7 +791,7 @@ const SignUp2 = () => {
                             <div className="inner_box">
                                 <div className="tit_box">
                                     <p className="f_20 medium">회원님의 닉네임을 정해주세요 :)</p>
-                                    <p className={`f_17 tp4${errorNickname ? " red_txt" : ""}`}>최소 2자 이상 입력하세요.</p>
+                                    <p className={`f_17 tp4${errorNickname ? " alert_txt" : ""}`}>최소 2자 이상 입력하세요.</p>
                                 </div>
                                 <div className={`custom_input${usableNickname ? " val_check" : ""}`}>
                                     <input type={"text"} placeholder="닉네임을 입력해주세요." 
@@ -822,7 +823,7 @@ const SignUp2 = () => {
                             <div className="inner_box">
                                 <div className="tit_box">
                                     <p className="f_20 medium">회원님의 이메일도 입력해주세요 :D</p>
-                                    <p className={`f_17 tp4${errorEmail ? " red_txt" : ""}`}>올바른 이메일 주소를 입력하세요.</p>
+                                    <p className={`f_17 tp4${errorEmail ? " alert_txt" : ""}`}>올바른 이메일 주소를 입력하세요.</p>
                                 </div>
                                 <div className={`custom_input${usableEmail ? " val_check" : ""}`}>
                                     <input type={"text"} placeholder="이메일을 입력해주세요." 
@@ -912,7 +913,7 @@ const SignUp2 = () => {
                                                     onClick={()=>{
                                                         dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"직업"}));
                                                     }}
-                                                ><span className="ellipsis">{signupData.m_job ? signupData.m_job : "선택"}</span></button>
+                                                ><span className="ellipsis">{allData.m_job ? allData.m_job : "선택"}</span></button>
                                             </div>
                                         </li>
                                         <li>
@@ -922,7 +923,7 @@ const SignUp2 = () => {
                                                     onClick={()=>{
                                                         dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"외모 점수"}));
                                                     }}
-                                                ><span className="ellipsis">{signupData.m_visual ? signupData.m_visual+"점" : "선택"}</span></button>
+                                                ><span className="ellipsis">{allData.m_visual ? allData.m_visual+"점" : "선택"}</span></button>
                                             </div>
                                         </li>
                                         <li>
@@ -931,7 +932,7 @@ const SignUp2 = () => {
                                                 onClick={()=>{
                                                     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"내 관심사"}));
                                                 }}
-                                            ><span className="ellipsis">{signupData.m_like && signupData.m_like.length > 0 ? signupData.m_like.join(", ") : "선택"}</span></button>
+                                            ><span className="ellipsis">{allData.m_like && allData.m_like.length > 0 ? allData.m_like.join(", ") : "선택"}</span></button>
                                         </li>
                                         <li>
                                             <p className="input_tit">나의 MBTI</p>
@@ -940,7 +941,7 @@ const SignUp2 = () => {
                                                     onClick={()=>{
                                                         dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"MBTI"}));
                                                     }}
-                                                ><span className="ellipsis">{signupData.m_mbti ? signupData.m_mbti : "선택"}</span></button>
+                                                ><span className="ellipsis">{allData.m_mbti ? allData.m_mbti : "선택"}</span></button>
                                             </div>
                                         </li>
                                         <li>
@@ -949,7 +950,7 @@ const SignUp2 = () => {
                                                 onClick={()=>{
                                                     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"타입"}));
                                                 }}
-                                            ><span className="ellipsis">{signupData.m_character && signupData.m_character.length > 0 ? signupData.m_character.join(", ") : "선택"}</span></button>
+                                            ><span className="ellipsis">{allData.m_character && allData.m_character.length > 0 ? allData.m_character.join(", ") : "선택"}</span></button>
                                         </li>
                                         <li>
                                             <p className="input_tit">나는 흡연을</p>
@@ -959,10 +960,10 @@ const SignUp2 = () => {
                                                         dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"흡연 여부"}));
                                                     }}
                                                 ><span className="ellipsis">{
-                                                    signupData.m_smok ?
-                                                        signupData.m_smok == "1" ? "한다"
-                                                        :signupData.m_smok == "2" ? "안 한다"
-                                                        :signupData.m_smok == "3" && "가끔 한다"
+                                                    allData.m_smok ?
+                                                        allData.m_smok == "1" ? "한다"
+                                                        :allData.m_smok == "2" ? "안 한다"
+                                                        :allData.m_smok == "3" && "가끔 한다"
                                                     : "선택"
                                                 }</span></button>
                                             </div>
@@ -975,10 +976,10 @@ const SignUp2 = () => {
                                                         dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"음주 여부"}));
                                                     }}
                                                     ><span className="ellipsis">{
-                                                        signupData.m_drink ?
-                                                            signupData.m_drink == "1" ? "한다"
-                                                            :signupData.m_drink == "2" ? "가끔 한다"
-                                                            :signupData.m_drink == "3" && "안 한다"
+                                                        allData.m_drink ?
+                                                            allData.m_drink == "1" ? "한다"
+                                                            :allData.m_drink == "2" ? "가끔 한다"
+                                                            :allData.m_drink == "3" && "안 한다"
                                                         : "선택"
                                                     }</span></button>
                                             </div>
@@ -990,7 +991,7 @@ const SignUp2 = () => {
                                                     onClick={()=>{
                                                         dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"종교"}));
                                                     }}
-                                                ><span className="ellipsis">{signupData.m_religion ? signupData.m_religion : "선택"}</span></button>
+                                                ><span className="ellipsis">{allData.m_religion ? allData.m_religion : "선택"}</span></button>
                                             </div>
                                         </li>
                                         <li>
@@ -999,7 +1000,7 @@ const SignUp2 = () => {
                                                 onClick={()=>{
                                                     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"선호하는 데이트"}));
                                                 }}
-                                            ><span className="ellipsis">{signupData.m_date && signupData.m_date.length > 0 ? signupData.m_date.join(", ") : "선택"}</span></button>
+                                            ><span className="ellipsis">{allData.m_date && allData.m_date.length > 0 ? allData.m_date.join(", ") : "선택"}</span></button>
                                         </li>
                                         <li>
                                             <p className="input_tit">나의 가입경로</p>
@@ -1008,7 +1009,7 @@ const SignUp2 = () => {
                                                     onClick={()=>{
                                                         dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"가입경로"}));
                                                     }}
-                                                ><span className="ellipsis">{signupData.m_motive ? signupData.m_motive : "선택"}</span></button>
+                                                ><span className="ellipsis">{allData.m_motive ? allData.m_motive : "선택"}</span></button>
                                             </div>
                                         </li>
                                     </ul>
@@ -1096,7 +1097,7 @@ const SignUp2 = () => {
                                                     onClick={()=>{
                                                         dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"직업"}));
                                                     }}
-                                                ><span className="ellipsis">{signupData.m_job ? signupData.m_job : "선택"}</span></button>
+                                                ><span className="ellipsis">{allData.m_job ? allData.m_job : "선택"}</span></button>
                                             </div>
                                         </li>
                                         <li>
@@ -1106,7 +1107,7 @@ const SignUp2 = () => {
                                                     onClick={()=>{
                                                         dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"외모 점수"}));
                                                     }}
-                                                ><span className="ellipsis">{signupData.m_visual ? signupData.m_visual+"점" : "선택"}</span></button>
+                                                ><span className="ellipsis">{allData.m_visual ? allData.m_visual+"점" : "선택"}</span></button>
                                             </div>
                                         </li>
                                         <li>
@@ -1116,7 +1117,7 @@ const SignUp2 = () => {
                                                     onClick={()=>{
                                                         dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"MBTI"}));
                                                     }}
-                                                ><span className="ellipsis">{signupData.m_mbti ? signupData.m_mbti : "선택"}</span></button>
+                                                ><span className="ellipsis">{allData.m_mbti ? allData.m_mbti : "선택"}</span></button>
                                             </div>
                                         </li>
                                         <li>
@@ -1125,7 +1126,7 @@ const SignUp2 = () => {
                                                 onClick={()=>{
                                                     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"타입"}));
                                                 }}
-                                            ><span className="ellipsis">{signupData.m_character && signupData.m_character.length > 0 ? signupData.m_character.join(", ") : "선택"}</span></button>
+                                            ><span className="ellipsis">{allData.m_character && allData.m_character.length > 0 ? allData.m_character.join(", ") : "선택"}</span></button>
                                         </li>
                                         <li>
                                             <p className="input_tit">상대방은 흡연을</p>
@@ -1135,10 +1136,10 @@ const SignUp2 = () => {
                                                         dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"흡연 여부"}));
                                                     }}
                                                 ><span className="ellipsis">{
-                                                    signupData.m_smok ?
-                                                        signupData.m_smok == "1" ? "한다"
-                                                        :signupData.m_smok == "2" ? "안 한다"
-                                                        :signupData.m_smok == "3" && "가끔 한다"
+                                                    allData.m_smok ?
+                                                        allData.m_smok == "1" ? "한다"
+                                                        :allData.m_smok == "2" ? "안 한다"
+                                                        :allData.m_smok == "3" && "가끔 한다"
                                                     : "선택"
                                                 }</span></button>
                                             </div>
@@ -1151,10 +1152,10 @@ const SignUp2 = () => {
                                                         dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"음주 여부"}));
                                                     }}
                                                     ><span className="ellipsis">{
-                                                        signupData.m_drink ?
-                                                            signupData.m_drink == "1" ? "한다"
-                                                            :signupData.m_drink == "2" ? "가끔 한다"
-                                                            :signupData.m_drink == "3" && "안 한다"
+                                                        allData.m_drink ?
+                                                            allData.m_drink == "1" ? "한다"
+                                                            :allData.m_drink == "2" ? "가끔 한다"
+                                                            :allData.m_drink == "3" && "안 한다"
                                                         : "선택"
                                                     }</span></button>
                                             </div>
@@ -1166,7 +1167,7 @@ const SignUp2 = () => {
                                                     onClick={()=>{
                                                         dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"종교"}));
                                                     }}
-                                                ><span className="ellipsis">{signupData.m_religion ? signupData.m_religion : "선택"}</span></button>
+                                                ><span className="ellipsis">{allData.m_religion ? allData.m_religion : "선택"}</span></button>
                                             </div>
                                         </li>
                                     </ul>

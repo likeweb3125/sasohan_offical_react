@@ -6,7 +6,8 @@
     65% { margin-left: -5px; }
     100% { margin-left: 0; }
 }
-.red_txt{color: #FC5862;animation: appAniAlert .3s ease-out forwards;}
+.alert_txt{color: #FC5862;animation: appAniAlert .3s ease-out forwards;}
+
 
 /* custom_input */
 .custom_input {height: 56px;background: #fff;}
