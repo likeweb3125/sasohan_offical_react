@@ -21,7 +21,7 @@ const SignUp2 = () => {
     const tradeid = localStorage.getItem("tradeid");
     const [confirm, setConfirm] = useState(false);
     const [agreeList, setAgreeList] = useState(["개인정보취급방침 동의","이메일 무단 수집 거부 동의","개인정보수집 동의","이용약관 동의","개인정보 처리 위탁 동의 "]);
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(9);
     const contRef = useRef();
     const [realData ,setRealData] = useState({});
     const [signupData, setSignupData] = useState({});
@@ -144,7 +144,7 @@ const SignUp2 = () => {
 
     //맨처음 실명인증한 회원정보 가져오기
     useEffect(()=>{
-        getRealData();
+        // getRealData();
     },[]);
 
     
@@ -457,7 +457,10 @@ const SignUp2 = () => {
     };
 
 
+    //프로필정보입력 다음버튼 클릭시
+    const profileCheckHandler = () => {
 
+    };
 
 
     return(<>
@@ -878,7 +881,10 @@ const SignUp2 = () => {
                                     </ul>
                                 </div>
                                 <div className="flex_end tp10">
-                                    <button type="button" className="app_btn_s">다음</button>
+                                    <button type="button" className="app_btn_s"
+                                        onClick={profileCheckHandler}
+                                        disabled={step > 8 ? true : false}
+                                    >다음</button>
                                 </div>
                             </div> 
                         </div>
@@ -903,7 +909,7 @@ const SignUp2 = () => {
                                 <ul className="profile_img_ul flex_wrap">
                                     {imgList.map((img,i)=>{
                                         return(
-                                            <li key={`imgUp${i}`} onClick={()=>{dispatch(appProfileImgPop(true))}}>
+                                            <li key={`imgUp${i}`} onClick={()=>{dispatch(appProfileImgPop({appProfileImgPop:true, appProfileImgPopIdx:i+1}))}}>
                                                 <div className={`img${imgNameList[i] ? " on" : ""}`}>
                                                     {/* <img src={``} alt="프로필이미지"/> */}
                                                 </div>

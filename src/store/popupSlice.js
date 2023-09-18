@@ -37,6 +37,7 @@ const popup = createSlice({
 
         //회원가입 - 회원프로필사진 팝업
         appProfileImgPop: false,
+        appProfileImgPopIdx: null,
         
         //포인트충전완료 팝업
         appPointPop: false,
@@ -78,7 +79,8 @@ const popup = createSlice({
             state.appProfilePopTit = action.payload.appProfilePopTit;
         },
         appProfileImgPop: (state, action) => {
-            state.appProfileImgPop = action.payload;
+            state.appProfileImgPop = action.payload.appProfileImgPop;
+            state.appProfileImgPopIdx = action.payload.appProfileImgPopIdx;
         },
         appPointPop: (state, action) => {
             state.appPointPop = action.payload;

@@ -16,7 +16,7 @@ const ProfileImgPop = () => {
     useEffect(()=>{
         if(off){
             setTimeout(()=>{
-                dispatch(appProfileImgPop(false));
+                dispatch(appProfileImgPop({appProfileImgPop:false, appProfileImgPopIdx:null}));
             },500);
         }
     },[off]);

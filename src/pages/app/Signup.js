@@ -11,7 +11,7 @@ const SignUp = () => {
     const dispatch = useDispatch();
     const popup = useSelector((state)=>state.popup);
     const m_realname_okurl = enum_api_uri.m_realname_okurl;
-    const tradeid = moment().format("YYYYMMDDHHmmss");
+    const [tradeid, setTradeid] = useState("");
     const [confirm, setConfirm] = useState(false);
     const [agreeList, setAgreeList] = useState(["개인정보취급방침 동의","이메일 무단 수집 거부 동의","개인정보수집 동의","이용약관 동의","개인정보 처리 위탁 동의 "]);
     const [step, setStep] = useState(1);
@@ -63,9 +63,6 @@ const SignUp = () => {
 
     //본인인증 ------------------------------
     function RealnameRequest() {
-        //tradeid localStorage에 저장
-        localStorage.setItem("tradeid",tradeid);
-
         // 아래와 같이 ext_inc_comm.js에 선언되어 있는 함수를 호출
         window.MCASH_PAYMENT(document.realnameForm);
     }
@@ -82,6 +79,17 @@ const SignUp = () => {
         };
     }, []);
   
+
+    //전체동의시 tradeid localStorage에 저장
+    useEffect(()=>{
+        if(allCheck){
+            const id = moment().format("YYYYMMDDHHmmss");
+            setTradeid(id);
+            localStorage.setItem("tradeid",id);
+        }
+    },[allCheck]);
+
+    
 
     return(<>
         <div className="signup_wrap">
