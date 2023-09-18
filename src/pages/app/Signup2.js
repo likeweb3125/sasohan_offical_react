@@ -1,9 +1,11 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import moment from "moment";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
 import { appTermsPop, confirmPop, appProfilePop, appProfileImgPop } from "../../store/popupSlice";
+import { profileImgs } from "../../store/commonSlice";
 
 import ConfirmPop from "../../components/popup/ConfirmPop";
 import profile_img from "../../images/app/profile_img.jpg";
@@ -13,13 +15,18 @@ const SignUp2 = () => {
     const dispatch = useDispatch();
     const user = useSelector((state)=>state.user);
     const popup = useSelector((state)=>state.popup);
+    const common = useSelector((state)=>state.common);
     const m_realname = enum_api_uri.m_realname;
     const m_id_check = enum_api_uri.m_id_check;
     const m_nick_check = enum_api_uri.m_nick_check;
+    const m_img_add = enum_api_uri.m_img_add;
     
 
     const tradeid = localStorage.getItem("tradeid");
     const [confirm, setConfirm] = useState(false);
+
+
+
     const [agreeList, setAgreeList] = useState(["개인정보취급방침 동의","이메일 무단 수집 거부 동의","개인정보수집 동의","이용약관 동의","개인정보 처리 위탁 동의 "]);
     const [step, setStep] = useState(1);
     const contRef = useRef();
@@ -31,7 +38,6 @@ const SignUp2 = () => {
     const [height, setHeight] = useState("");
 
     const [imgList, setImgList] = useState([1,2,3,4,5,6,7,8]);
-    const [imgSrcList, setImgSrcList] = useState(["","","","","","","",""]);
     const [imgNameList, setImgNameList] = useState(["","","","","","","",""]);
     
     const [valId, setValId] = useState("");
@@ -44,6 +50,7 @@ const SignUp2 = () => {
     const [usablePass, setUsablePass] = useState(false);
     const [usableNickname, setUsableNickname] = useState(false);
     const [usableEmail, setUsableEmail] = useState(false);
+    const [usableProfile, setUsableProfile] = useState(false);
 
     const [errorId, setErrorId] = useState(false);
     const [errorPassword, setErrorPassword] = useState(false);
@@ -52,6 +59,14 @@ const SignUp2 = () => {
     const [pass2View, setPass2View] = useState(false);
     const [errorNickname, setErrorNickname] = useState(false);
     const [errorEmail, setErrorEmail] = useState(false);
+
+
+    // Confirm팝업 닫힐때
+    useEffect(()=>{
+        if(popup.confirmPop === false){
+            setConfirm(false);
+        }
+    },[popup.confirmPop]);
 
 
     useEffect(()=>{
@@ -117,6 +132,25 @@ const SignUp2 = () => {
             setHeight("");
         }
 
+
+        if(user.signupData.hasOwnProperty("m_address") && user.signupData.m_address.length > 0 &&
+            user.signupData.hasOwnProperty("m_height") && user.signupData.m_height.length > 0 &&
+            user.signupData.hasOwnProperty("m_job") && user.signupData.m_job.length > 0 &&
+            user.signupData.hasOwnProperty("m_visual") && user.signupData.m_visual.length > 0 &&
+            user.signupData.hasOwnProperty("m_like") && user.signupData.m_like.length > 0 &&
+            user.signupData.hasOwnProperty("m_mbti") && user.signupData.m_mbti.length > 0 &&
+            user.signupData.hasOwnProperty("m_character") && user.signupData.m_character.length > 0 &&
+            user.signupData.hasOwnProperty("m_smok") && user.signupData.m_smok.length > 0 &&
+            user.signupData.hasOwnProperty("m_drink") && user.signupData.m_drink.length > 0 &&
+            user.signupData.hasOwnProperty("m_religion") && user.signupData.m_religion.length > 0 &&
+            user.signupData.hasOwnProperty("m_date") && user.signupData.m_date.length > 0 &&
+            user.signupData.hasOwnProperty("m_motive") && user.signupData.m_motive.length > 0
+        ){
+            setUsableProfile(true);
+        }else{
+            setUsableProfile(false);
+        }
+
     },[user.signupData]);
 
 
@@ -126,7 +160,17 @@ const SignUp2 = () => {
         axios.get(`${m_realname.replace(':tradeid',tradeid)}`)
         .then((res)=>{
             if(res.status === 200){
-                setRealData({...res.data});
+                let data = res.data
+                setRealData({...data});
+
+                //본인인증 데이터 signupData store 값에 저장
+                let newData = {...user.signupData};
+                newData.m_name = data.Name;
+                newData.m_born = data.Socialno;
+                newData.m_c_phone = data.M_C_Phone;
+                newData.m_gender = data.Sex;
+                dispatch(signupData(newData));
+
                 setStep(2);
             }
         })
@@ -444,7 +488,9 @@ const SignUp2 = () => {
         //     let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
         //     if(regExp.test(valEmail)){
         //         setErrorEmail(false);
-        //     }
+        //     }else{
+        //     setErrorEmail(true);
+        // }
 
         //     setConfirm(true);
         //     dispatch(confirmPop({
@@ -459,8 +505,95 @@ const SignUp2 = () => {
 
     //프로필정보입력 다음버튼 클릭시
     const profileCheckHandler = () => {
+        //아이디랑 비밀번호,닉네임,이메일 사용가능인지 확인
+        if(usableId && usablePass && usableNickname && usableEmail && usableProfile){
+            if(step < 9){
+                setStep(9);
+            }
+        }else if(!usableId){
+            if(valId.length < 4){
+                setErrorId(true);
+            }
 
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'아이디 사용가능을 확인해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usablePass){
+            let num = valPassword.search(/[0-9]/g);
+            let eng = valPassword.search(/[a-z]/ig);
+            let spe = valPassword.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+            if(valPassword.length < 8 || valPassword.length > 13 || valPassword.search(/\s/) != -1 || num < 0 || eng < 0 || spe < 0){
+                setErrorPassword(true);
+            }
+            if(valPassword !== valPassword2){
+                setErrorPassword2(true);
+            }
+
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'비밀번호를 입력해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usableNickname){
+            if(valNickname.length < 2){
+                setErrorNickname(true);
+            }
+            
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'닉네임 사용가능을 확인해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usableEmail){
+            let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+            if(regExp.test(valEmail)){
+                setErrorEmail(false);
+            }else{
+                setErrorEmail(true);
+            }
+
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'이메일을 입력해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usableProfile){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'프로필 정보를 모두 입력해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
     };
+
+
+    //프로필사진 등록시
+    useEffect(()=>{
+        setImgNameList(common.profileImgs);
+    },[common.profileImgs]);
+
+
+    //프로필사진 삭제
+    const imgDeltHandler = (idx) => {
+        let newNameList = [...common.profileImgs];
+            newNameList[idx] = "";
+        setImgNameList(newNameList);
+        dispatch(profileImgs(newNameList));
+    };
+
+
 
 
     return(<>
@@ -541,19 +674,19 @@ const SignUp2 = () => {
                                 <ul className="txt_ul">
                                     <li className="flex_between flex_wrap">
                                         <p>이름</p>
-                                        <p>차은우</p>
+                                        <p>{realData.Name}</p>
                                     </li>
                                     <li className="flex_between flex_wrap">
                                         <p>생년월일</p>
-                                        <p>1998년 2월 18일</p>
+                                        <p>{realData.Socialno && realData.Socialno.moment().format("YYYY년 MM월 DD일")}</p>
                                     </li>
                                     <li className="flex_between flex_wrap">
                                         <p>휴대폰번호</p>
-                                        <p>010 - 1234 - 5678</p>
+                                        <p>{realData.M_C_Phone && realData.M_C_Phone.replace(/(\d{3})(\d{4})(\d{4})/, "$1 - $2 - $3")}</p>
                                     </li>
                                     <li className="flex_between flex_wrap">
                                         <p>성별</p>
-                                        <p>남성</p>
+                                        <p>{realData.Sex == "F" ? "여성" : realData.Sex == "M" && "남성"}</p>
                                     </li>
                                 </ul>
                             </div>
@@ -883,7 +1016,7 @@ const SignUp2 = () => {
                                 <div className="flex_end tp10">
                                     <button type="button" className="app_btn_s"
                                         onClick={profileCheckHandler}
-                                        disabled={step > 8 ? true : false}
+                                        disabled={step > 8 && usableProfile ? true : false}
                                     >다음</button>
                                 </div>
                             </div> 
@@ -909,11 +1042,15 @@ const SignUp2 = () => {
                                 <ul className="profile_img_ul flex_wrap">
                                     {imgList.map((img,i)=>{
                                         return(
-                                            <li key={`imgUp${i}`} onClick={()=>{dispatch(appProfileImgPop({appProfileImgPop:true, appProfileImgPopIdx:i+1}))}}>
-                                                <div className={`img${imgNameList[i] ? " on" : ""}`}>
-                                                    {/* <img src={``} alt="프로필이미지"/> */}
+                                            <li key={`imgUp${i}`} className={imgNameList[i] ? "on" : ""}>
+                                                <div className="img"
+                                                    onClick={()=>{
+                                                        dispatch(appProfileImgPop({appProfileImgPop:true, appProfileImgPopIdx:i}));
+                                                    }}
+                                                >
+                                                    {imgNameList[i] && <img src={imgNameList[i]} alt="프로필이미지"/>}
                                                 </div>
-                                                <button type="button" className="btn_delt">삭제버튼</button>
+                                                <button type="button" className="btn_delt" onClick={()=>{imgDeltHandler(i)}}>삭제버튼</button>
                                             </li>
                                         );
                                     })}
