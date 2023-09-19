@@ -159,7 +159,7 @@ html,.body{height: auto;}
 .main_visual {height: 840px; background: url('../images/bg_main_visual.jpg') no-repeat 50% 50%/cover; position: relative;border-radius: 0 0 120px 0;animation: mainVisualBg .8s .3s forwards;}
 .main_visual:after {content: ''; position: absolute; right: 0; bottom: -140px; width: 820px; height: 960px; background: url('../images/visual_t.png') no-repeat 50% 50%;animation: aniUp 1s .5s forwards;opacity: 0;}
 .main_visual .tag_img{position: absolute;top: 0;left: 0;animation: aniShow .8s .3s forwards;opacity: 0;}
-.main_visual .visual_txt {position: relative; width: 490px; height: 460px;animation: aniUp 1s .5s forwards;opacity: 0;}
+.main_visual .visual_txt {position: relative; width: 490px; height: 450px;animation: aniUp 1s .5s forwards;opacity: 0;}
 .main_visual .visual_txt img {position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 100%; animation: mainVisual1 5s linear infinite;}
 .main_visual .visual_txt img.img2 {animation: mainVisual2 5s linear infinite;}
 .main_visual .scroll {position: absolute; left: 50%; bottom: 30px; text-align: center; transform: translateX(-50%); padding-bottom: 20px;}
