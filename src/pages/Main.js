@@ -16,8 +16,8 @@ import { enum_api_uri } from "../config/enum";
 import * as CF from "../config/function";
 import util from "../config/util";
 import m_visual_tag from "../images/main_visual_tag.svg";
-import m_visual_img1 from "../images/main_visual_txt1.svg";
-import m_visual_img2 from "../images/main_visual_txt2.svg";
+import m_visual_img1 from "../images/main_visual_txt1.png";
+import m_visual_img2 from "../images/main_visual_txt2.png";
 import manager_img from "../images/sample/manager0.png";
 import tip_box_img from "../images/tip_box.svg";
 import tip_box_img_mo from "../images/tip_box_mo.svg";
@@ -528,7 +528,7 @@ const Main = () => {
                             즉 <span>매너베이트</span>는 소개팅 파트너를 진지한 태도로 소개팅에 참여하게 하고 책임감을 부여하며, <br/>
                             파트너를 유연하게 소개팅에 참여할 수 있도록 유도하는 보상입니다. <br/><br/>
 
-                            사소한은 매너베이트를 활용하여유료 결제자님에게 <span>확실한 이상형 선택의 기회를 제공</span>합니다. <br/>
+                            사소한은 매너베이트를 활용하여 유료 결제자님에게 <span>확실한 이상형 선택의 기회를 제공</span>합니다. <br/>
                             매너 베이트 시스템은 사소한 만이 진행하는 독창적인 시스템입니다. <br/><br/>
 
                             비록 소개팅 비용에 있어서는 유료결제와, 매너베이트 사이의 비평등함이 존재하지만, <br/>

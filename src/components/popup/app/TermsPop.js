@@ -13,8 +13,8 @@ const TermsPop = () => {
         setOff(true);
 
         //약관 동의체크하기
-        const check = "agree_"+popup.termsPopIdx;
-        const list = [...popup.termsCheckList];
+        const check = "agree_"+popup.appTermsPopIdx;
+        const list = [...popup.appTermsCheckList];
         if(!list.includes(check)){
             const newList = list.concat([check]);
             dispatch(appTermsCheckList(newList));

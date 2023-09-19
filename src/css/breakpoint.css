@@ -118,6 +118,7 @@
 
 @media screen and (max-width: 1199px){
     /* 공통 */
+    #wrap * {word-break: keep-all;}
     .btn_link::before{width: 100%;}
 
     /* header */

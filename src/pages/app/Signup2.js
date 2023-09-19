@@ -29,7 +29,7 @@ const SignUp2 = () => {
 
 
     const [agreeList, setAgreeList] = useState(["개인정보취급방침 동의","이메일 무단 수집 거부 동의","개인정보수집 동의","이용약관 동의","개인정보 처리 위탁 동의 "]);
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(8);
     const contRef = useRef();
     const [realData ,setRealData] = useState({});
     const [allData, setAllData] = useState({});
@@ -60,6 +60,18 @@ const SignUp2 = () => {
     const [pass2View, setPass2View] = useState(false);
     const [errorNickname, setErrorNickname] = useState(false);
     const [errorEmail, setErrorEmail] = useState(false);
+    const [errorAddress, setErrorAddress] = useState(false);
+    const [errorHeight, setErrorHeight] = useState(false);
+    const [errorJob, setErrorJob] = useState(false);
+    const [errorVisual, setErrorVisual] = useState(false);
+    const [errorLike, setErrorLike] = useState(false);
+    const [errorMbti, setErrorMbti] = useState(false);
+    const [errorType, setErrorType] = useState(false);
+    const [errorSmok, setErrorSmok] = useState(false);
+    const [errorDrink, setErrorDrink] = useState(false);
+    const [errorReligion, setErrorReligion] = useState(false);
+    const [errorDate, setErrorDate] = useState(false);
+    const [errorRoute, setErrorRoute] = useState(false);
 
 
     // Confirm팝업 닫힐때
@@ -134,6 +146,7 @@ const SignUp2 = () => {
         }
 
 
+        //프로필 정보 모두 값있는지 체크
         if(user.signupData.hasOwnProperty("m_address") && user.signupData.m_address.length > 0 &&
             user.signupData.hasOwnProperty("m_height") && user.signupData.m_height.length > 0 &&
             user.signupData.hasOwnProperty("m_job") && user.signupData.m_job.length > 0 &&
@@ -188,7 +201,7 @@ const SignUp2 = () => {
 
     //맨처음 실명인증한 회원정보 가져오기
     useEffect(()=>{
-        getRealData();
+        // getRealData();
     },[]);
 
     
@@ -505,69 +518,8 @@ const SignUp2 = () => {
 
     //프로필정보입력 다음버튼 클릭시
     const profileCheckHandler = () => {
-        //아이디랑 비밀번호,닉네임,이메일 사용가능인지 확인
-        if(usableId && usablePass && usableNickname && usableEmail && usableProfile){
-            if(step < 9){
-                setStep(9);
-            }
-        }else if(!usableId){
-            if(valId.length < 4){
-                setErrorId(true);
-            }
 
-            setConfirm(true);
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt:'아이디 사용가능을 확인해주세요.',
-                confirmPopBtn:1,
-            }));
-        }else if(!usablePass){
-            let num = valPassword.search(/[0-9]/g);
-            let eng = valPassword.search(/[a-z]/ig);
-            let spe = valPassword.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-            if(valPassword.length < 8 || valPassword.length > 13 || valPassword.search(/\s/) != -1 || num < 0 || eng < 0 || spe < 0){
-                setErrorPassword(true);
-            }
-            if(valPassword !== valPassword2){
-                setErrorPassword2(true);
-            }
-
-            setConfirm(true);
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt:'비밀번호를 입력해주세요.',
-                confirmPopBtn:1,
-            }));
-        }else if(!usableNickname){
-            if(valNickname.length < 2){
-                setErrorNickname(true);
-            }
-            
-            setConfirm(true);
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt:'닉네임 사용가능을 확인해주세요.',
-                confirmPopBtn:1,
-            }));
-        }else if(!usableEmail){
-            let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-            if(regExp.test(valEmail)){
-                setErrorEmail(false);
-            }else{
-                setErrorEmail(true);
-            }
-
-            setConfirm(true);
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt:'이메일을 입력해주세요.',
-                confirmPopBtn:1,
-            }));
-        }else if(!usableProfile){
+        if(!usableProfile){
             setConfirm(true);
             dispatch(confirmPop({
                 confirmPop:true,
@@ -575,7 +527,152 @@ const SignUp2 = () => {
                 confirmPopTxt:'프로필 정보를 모두 입력해주세요.',
                 confirmPopBtn:1,
             }));
+
+            if(user.signupData.hasOwnProperty("m_address") && user.signupData.m_address.length > 0){
+                setErrorAddress(false);
+            }else{
+                setErrorAddress(true);
+            }
+
+            if(user.signupData.hasOwnProperty("m_height") && user.signupData.m_height.length > 0 ){
+                setErrorHeight(false);
+            }else{
+                setErrorHeight(true);
+            }
+
+            if(user.signupData.hasOwnProperty("m_job") && user.signupData.m_job.length > 0 ){
+                setErrorJob(false);
+            }else{
+                setErrorJob(true);
+            }
+
+            if(user.signupData.hasOwnProperty("m_visual") && user.signupData.m_visual.length > 0){
+                setErrorVisual(false);
+            }else{
+                setErrorVisual(true);
+            }
+
+            if(user.signupData.hasOwnProperty("m_like") && user.signupData.m_like.length > 0){
+                setErrorLike(false);
+            }else{
+                setErrorLike(true);
+            }
+
+            if(user.signupData.hasOwnProperty("m_mbti") && user.signupData.m_mbti.length > 0){
+                setErrorMbti(false);
+            }else{
+                setErrorMbti(true);
+            }
+
+            if(user.signupData.hasOwnProperty("m_character") && user.signupData.m_character.length > 0){
+                setErrorType(false);
+            }else{
+                setErrorType(true);
+            }
+
+            if(user.signupData.hasOwnProperty("m_smok") && user.signupData.m_smok.length > 0){
+                setErrorSmok(false);
+            }else{
+                setErrorSmok(true);
+            }
+
+            if(user.signupData.hasOwnProperty("m_drink") && user.signupData.m_drink.length > 0){
+                setErrorDrink(false);
+            }else{
+                setErrorDrink(true);
+            }
+
+            if(user.signupData.hasOwnProperty("m_religion") && user.signupData.m_religion.length > 0){
+                setErrorReligion(false);
+            }else{
+                setErrorReligion(true);
+            }
+
+            if(user.signupData.hasOwnProperty("m_date") && user.signupData.m_date.length > 0){
+                setErrorDate(false);
+            }else{
+                setErrorDate(true);
+            }
+
+            if(user.signupData.hasOwnProperty("m_motive") && user.signupData.m_motive.length > 0){
+                setErrorRoute(false);
+            }else{
+                setErrorRoute(true);
+            }
         }
+
+
+        //아이디랑 비밀번호,닉네임,이메일 사용가능인지 확인
+        // if(usableId && usablePass && usableNickname && usableEmail && usableProfile){
+        //     if(step < 9){
+        //         setStep(9);
+        //     }
+        // }else if(!usableId){
+        //     if(valId.length < 4){
+        //         setErrorId(true);
+        //     }
+
+        //     setConfirm(true);
+        //     dispatch(confirmPop({
+        //         confirmPop:true,
+        //         confirmPopTit:'알림',
+        //         confirmPopTxt:'아이디 사용가능을 확인해주세요.',
+        //         confirmPopBtn:1,
+        //     }));
+        // }else if(!usablePass){
+        //     let num = valPassword.search(/[0-9]/g);
+        //     let eng = valPassword.search(/[a-z]/ig);
+        //     let spe = valPassword.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+        //     if(valPassword.length < 8 || valPassword.length > 13 || valPassword.search(/\s/) != -1 || num < 0 || eng < 0 || spe < 0){
+        //         setErrorPassword(true);
+        //     }
+        //     if(valPassword !== valPassword2){
+        //         setErrorPassword2(true);
+        //     }
+
+        //     setConfirm(true);
+        //     dispatch(confirmPop({
+        //         confirmPop:true,
+        //         confirmPopTit:'알림',
+        //         confirmPopTxt:'비밀번호를 입력해주세요.',
+        //         confirmPopBtn:1,
+        //     }));
+        // }else if(!usableNickname){
+        //     if(valNickname.length < 2){
+        //         setErrorNickname(true);
+        //     }
+            
+        //     setConfirm(true);
+        //     dispatch(confirmPop({
+        //         confirmPop:true,
+        //         confirmPopTit:'알림',
+        //         confirmPopTxt:'닉네임 사용가능을 확인해주세요.',
+        //         confirmPopBtn:1,
+        //     }));
+        // }else if(!usableEmail){
+        //     let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+        //     if(regExp.test(valEmail)){
+        //         setErrorEmail(false);
+        //     }else{
+        //         setErrorEmail(true);
+        //     }
+
+        //     setConfirm(true);
+        //     dispatch(confirmPop({
+        //         confirmPop:true,
+        //         confirmPopTit:'알림',
+        //         confirmPopTxt:'이메일을 입력해주세요.',
+        //         confirmPopBtn:1,
+        //     }));
+        // }else if(!usableProfile){
+        //     setConfirm(true);
+        //     dispatch(confirmPop({
+        //         confirmPop:true,
+        //         confirmPopTit:'알림',
+        //         confirmPopTxt:'프로필 정보를 모두 입력해주세요.',
+        //         confirmPopBtn:1,
+        //     }));
+        // }
     };
 
 
@@ -756,7 +853,6 @@ const SignUp2 = () => {
                                             setValPassword(e.currentTarget.value);
                                             setUsablePass(false);
                                         }} 
-                                        onBlur={passCheckHandler}
                                     />
                                     <button type="button" className={`btn_view${passView ? " on" : ""}`} onClick={()=>setPassView(!passView)}>비밀번호보기 버튼</button>
                                 </div>
@@ -885,6 +981,7 @@ const SignUp2 = () => {
                                     <ul className="form_ul">
                                         <li>
                                             <p className="input_tit">나의 거주지</p>
+                                            {errorAddress && <p className="alert_txt">나의 거주지를 입력하세요.</p>}
                                             <div className="btn_sel_box2 flex_between">
                                                 <button type="button" className="btn_sel" 
                                                     onClick={()=>{
@@ -900,6 +997,7 @@ const SignUp2 = () => {
                                         </li>
                                         <li>
                                             <p className="input_tit">나의 키</p>
+                                            {errorHeight && <p className="alert_txt">나의 키를 입력하세요.</p>}
                                             <button type="button" className="btn_sel" 
                                                 onClick={()=>{
                                                     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"키"}));
@@ -908,6 +1006,7 @@ const SignUp2 = () => {
                                         </li>
                                         <li>
                                             <p className="input_tit">나의 직업</p>
+                                            {errorJob && <p className="alert_txt">나의 직업을 입력하세요.</p>}
                                             <div className="w_50">
                                                 <button type="button" className="btn_sel" 
                                                     onClick={()=>{
@@ -918,6 +1017,7 @@ const SignUp2 = () => {
                                         </li>
                                         <li>
                                             <p className="input_tit">나의 외모 점수</p>
+                                            {errorVisual && <p className="alert_txt">나의 외모 점수를 입력하세요.</p>}
                                             <div className="w_50">
                                                 <button type="button" className="btn_sel" 
                                                     onClick={()=>{
@@ -928,6 +1028,7 @@ const SignUp2 = () => {
                                         </li>
                                         <li>
                                             <p className="input_tit">나의 관심사</p>
+                                            {errorLike && <p className="alert_txt">나의 관심사를 입력하세요.</p>}
                                             <button type="button" className="btn_sel" 
                                                 onClick={()=>{
                                                     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"내 관심사"}));
@@ -936,6 +1037,7 @@ const SignUp2 = () => {
                                         </li>
                                         <li>
                                             <p className="input_tit">나의 MBTI</p>
+                                            {errorMbti && <p className="alert_txt">나의 MBTI를 입력하세요.</p>}
                                             <div className="w_50">
                                                 <button type="button" className="btn_sel" 
                                                     onClick={()=>{
@@ -946,6 +1048,7 @@ const SignUp2 = () => {
                                         </li>
                                         <li>
                                             <p className="input_tit">나의 타입</p>
+                                            {errorType && <p className="alert_txt">나의 타입을 입력하세요.</p>}
                                             <button type="button" className="btn_sel" 
                                                 onClick={()=>{
                                                     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"타입"}));
@@ -954,6 +1057,7 @@ const SignUp2 = () => {
                                         </li>
                                         <li>
                                             <p className="input_tit">나는 흡연을</p>
+                                            {errorSmok && <p className="alert_txt">나의 흡연여부를 입력하세요.</p>}
                                             <div className="w_50">
                                                 <button type="button" className="btn_sel" 
                                                     onClick={()=>{
@@ -970,6 +1074,7 @@ const SignUp2 = () => {
                                         </li>
                                         <li>
                                             <p className="input_tit">나는 술을</p>
+                                            {errorDrink && <p className="alert_txt">나의 음주여부를 입력하세요.</p>}
                                             <div className="w_50">
                                                 <button type="button" className="btn_sel" 
                                                     onClick={()=>{
@@ -986,6 +1091,7 @@ const SignUp2 = () => {
                                         </li>
                                         <li>
                                             <p className="input_tit">나의 종교</p>
+                                            {errorReligion && <p className="alert_txt">나의 종교를 입력하세요.</p>}
                                             <div className="w_50">
                                                 <button type="button" className="btn_sel" 
                                                     onClick={()=>{
@@ -996,6 +1102,7 @@ const SignUp2 = () => {
                                         </li>
                                         <li>
                                             <p className="input_tit">나의 선호하는 데이트</p>
+                                            {errorDate && <p className="alert_txt">나의 선호하는 데이트를 입력하세요.</p>}
                                             <button type="button" className="btn_sel" 
                                                 onClick={()=>{
                                                     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"선호하는 데이트"}));
@@ -1004,6 +1111,7 @@ const SignUp2 = () => {
                                         </li>
                                         <li>
                                             <p className="input_tit">나의 가입경로</p>
+                                            {errorRoute && <p className="alert_txt">나의 가입경로를 입력하세요.</p>}
                                             <div className="w_50">
                                                 <button type="button" className="btn_sel" 
                                                     onClick={()=>{
