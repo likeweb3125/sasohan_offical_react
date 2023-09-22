@@ -226,11 +226,17 @@ const SignUp2 = () => {
                 setRealData(data);
 
                 //본인인증 데이터 signupData store 값에 저장
+                let m_gender;
+                if(data.Sex == "F"){
+                    m_gender = "2";
+                }else if(data.Sex == "M"){
+                    m_gender = "1";
+                }
                 let newData = {...user.signupData};
                 newData.m_name = data.Name;
                 newData.m_born = data.Socialno;
                 newData.m_c_phone = data.M_C_Phone;
-                newData.m_gender = data.Sex;
+                newData.m_gender = m_gender;
                 dispatch(signupData(newData));
 
                 setStep(2);
