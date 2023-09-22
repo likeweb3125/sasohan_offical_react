@@ -4,7 +4,7 @@
 
 /************************* 공통 *****************************/
 html,.body{height: auto;}
-.body {box-sizing: border-box;overflow-x: hidden;line-height: 1.3;}
+.body {box-sizing: border-box;/*overflow-x: hidden;*/line-height: 1.3;}
 .body *{box-sizing: border-box;}
 .body,.body input,.body select,.body textarea,.body table{
 	font-family:'Pretendard','Noto Sans KR','맑은 고딕', 'Malgun Gothic', sans-serif;

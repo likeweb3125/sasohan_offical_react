@@ -82,6 +82,7 @@
     100% { bottom: -100%; }
 }
 .app_pop_wrap{position: fixed;width: 100%;height: 100%;top: 0;left: 0;z-index: 900;}
+.app_pop_wrap * {word-break: keep-all;}
 .app_pop_wrap .dim{position: absolute;width: 100%;height:100%;top: 0;left: 0;background: rgba(0,0,0,0.6);opacity: 0;animation: appAniShow .3s forwards;z-index: 1;}
 .app_pop_wrap>.pop_cont{position: absolute;width: 100%;background: #fff;left: 0;bottom: -100%;padding: 16px 28px 20px;border-radius: 20px 20px 0 0;animation: appAniUp .3s cubic-bezier(0, 0, 0.22, 1.05) forwards;z-index: 2;}
 .app_pop_wrap>.pop_cont .btn_close{font-size: 0;text-indent: -9999px;width: 60px;height: 4px;border-radius: 100px;background: #373D49;margin-bottom: 20px;}
@@ -119,10 +120,11 @@
 .app_profile_img_pop .list_ul li input{display: none;-webkit-appearance: none;-moz-appearance: none;-ms-appearance: none;-o-appearance: none;appearance: none;}
 
 /* 회원가입 완료 팝업 */
-.app_signup_complete_pop .box{position: relative;height: 212px;}
-.app_signup_complete_pop .img_box{position: absolute;width: calc(100% + 56px);z-index: -1;left: -28px;top: 0;}
 .app_signup_complete_pop .txt_box h5{font-size: 32px;font-weight: 500;}
 .app_signup_complete_pop .txt_box p{font-size: 20px;color: #666;padding-top: 8px;}
+.app_signup_complete_pop .btn_box{position: relative;padding-top: 152px !important;}
+.app_signup_complete_pop .img_box{position: absolute;width: calc(100% + 56px);z-index: -1;left: -28px;bottom: 0;text-align: right;}
+
 
 /* 포인트충전완료 팝업 */
 .point_pop .scroll_wrap{max-height: 55vh;}
@@ -157,7 +159,7 @@
 .signup_box .agree_box ul li{padding-bottom: 8px;}
 .signup_box .agree_box ul li:last-child{padding-bottom: 0;}
 .signup_box .agree_box ul li .custom_check label>.check{background-size: 30px !important;}
-.signup_box .agree_box ul li button{padding-left: 8px;color: #666;text-decoration: underline;font-size: 18px;}
+.signup_box .agree_box ul li button{padding-left: 8px;color: #666;text-decoration: underline;font-size: 18px;text-align: left;}
 .signup_box .txt_box .txt_ul{padding: 16px;}
 .signup_box .txt_box .txt_ul li{padding-bottom: 8px;}
 .signup_box .txt_box .txt_ul li:last-child{padding-bottom: 0;}

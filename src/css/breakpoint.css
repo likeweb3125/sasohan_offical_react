@@ -46,7 +46,7 @@
     /* 메인 */
     .manager_wrap{padding-bottom: 110px;}
     .manager_wrap>.btn_box{width: 100%;left: 0;top: auto;bottom:0;transform: translateY(0);}
-    .manager_wrap .swiper-pagination.manager_pagin{display: block;width: auto;left: 50%;transform: translateX(-50%);font-size: 16px;color: #999;top: auto;bottom: 25px;}
+    .manager_wrap .swiper-pagination.manager_pagin{display: block;/*width: auto;*/left: 50%;transform: translateX(-50%);font-size: 16px;color: #999;top: auto;bottom: 25px;}
     .manager_wrap .swiper-pagination.manager_pagin .swiper-pagination-current{color: #373D49;position: relative;padding-left: 97px;}
     .manager_wrap .swiper-pagination .swiper-pagination-current::after{position: absolute;content: "매니저 더보기";left:0;width: 97px;height: 100%;text-align: left;}
 }

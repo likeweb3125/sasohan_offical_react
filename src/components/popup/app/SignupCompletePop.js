@@ -30,16 +30,14 @@ const SignupCompletePop = () => {
                 <div className="flex_center">
                     <button type="button" className="btn_close" onClick={closePopHandler}>닫기버튼</button>
                 </div>
-                <div className="box">
+                <div className="txt_box">
+                    <h5><strong>{popup.appSignupCompletePopUser} 님,</strong> <br/>가입을 축하합니다!</h5>
+                    <p>사소한에서 새로운 만남을 시작하세요.</p>
+                </div>
+                <div className="btn_box">
                     <div className="img_box">
                         <img src={signup_complete_img} alt="일러스트이미지" />
                     </div>
-                    <div className="txt_box">
-                        <h5><strong>{popup.appSignupCompletePopUser} 님,</strong> <br/>가입을 축하합니다!</h5>
-                        <p>사소한에서 새로운 만남을 시작하세요.</p>
-                    </div>
-                </div>
-                <div className="btn_box">
                     <button type="button" className="app_btn4" onClick={closePopHandler}>좋아요!</button>
                 </div>
             </div>
