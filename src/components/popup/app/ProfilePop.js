@@ -88,6 +88,12 @@ const ProfilePop = () => {
         .then((res)=>{
             if(res.status === 200){
                 setAddressList(res.data);
+                
+                //선택한 거주지정보없으면 리스트 맨첫번째 checked
+                if(!user.signupData.hasOwnProperty("m_address_code")){
+                    let sido = res.data[0].sido_gugun;
+                    setAddress(sido);
+                }
             }
         })
         .catch((error) => {
@@ -138,18 +144,12 @@ const ProfilePop = () => {
         }
 
         //선택한 값들 있는지 체크-------------------------------
-        let addrData = {};
         if(user.signupData.hasOwnProperty("m_address")){
-            addrData = user.signupData.m_address;
+            setAddress(user.signupData.m_address);
+        }
 
-            if(addrData.includes(" ")){
-                let addr = addrData.split(" ");
-                setAddress(addr[0]);
-                setAddress2(addr[1]);
-            }else{
-                setAddress(addrData);
-                setAddress2("");
-            }
+        if(user.signupData.hasOwnProperty("m_address2")){
+            setAddress2(user.signupData.m_address2);
         }
 
         if(user.signupData.hasOwnProperty("m_height")){
@@ -303,9 +303,17 @@ const ProfilePop = () => {
         let newData = {...user.signupData};
         newData[name] = val;
 
-        //거주지 주소선택시 시,도 코드저장
+        //거주지 주소선택시 시,도 코드저장 && 주소 구군 값 지우기
         if(addrCode){
             newData.m_address_code = addrCode;
+            newData.m_address2 = "";
+        }
+
+        //m_address 없을때 m_address2 선택시 거주지 시도 리스트 맨처음값 m_address에 넣기
+        if(name == "m_address2"){
+            if(!user.signupData.hasOwnProperty("m_address")){
+                newData.m_address = addressList[0].sido_gugun;
+            }
         }
 
         dispatch(signupData(newData));
@@ -505,7 +513,7 @@ const ProfilePop = () => {
                     <button type="button" className="btn_close" onClick={closePopHandler}>닫기버튼</button>
                 </div>
                 <div className="pop_tit">
-                    <p className="tit">회원님의 <strong>{tit}</strong>{step === 2 || step === 7 ? "을" : "를"} 선택해주세요.</p>
+                    <p className="tit">회원님의 <strong>{tit}</strong>{step === 2 || step === 6 ? "을" : "를"} 선택해주세요.</p>
                     {step === 4 || step === 6 || step === 10 ? <p className="txt">아래 각 항목 중 3개씩 선택해주세요.</p> : null}
                 </div>
                 <div className="inner_box">
@@ -545,8 +553,7 @@ const ProfilePop = () => {
                                                         checked={cont.sido_gugun === address2} 
                                                         onChange={()=>{
                                                             setAddress2(cont.sido_gugun);
-                                                            let addr = user.signupData.m_address + " " + cont.sido_gugun;
-                                                            selectHandler("m_address",addr);
+                                                            selectHandler("m_address2",cont.sido_gugun);
                                                         }}
                                                     />
                                                     <span className="txt">{cont.sido_gugun}</span>

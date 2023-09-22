@@ -1,13 +1,13 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
-import { appTermsPop, confirmPop, appProfilePop, appProfileImgPop } from "../../store/popupSlice";
+import { appTermsPop, confirmPop, appProfilePop, appProfileImgPop, appProfilePop2, appSignupCompletePop } from "../../store/popupSlice";
 import { profileImgs } from "../../store/commonSlice";
 import { signupData } from "../../store/userSlice";
-
 import ConfirmPop from "../../components/popup/ConfirmPop";
 import profile_img from "../../images/app/profile_img.jpg";
 
@@ -17,42 +17,38 @@ const SignUp2 = () => {
     const user = useSelector((state)=>state.user);
     const popup = useSelector((state)=>state.popup);
     const common = useSelector((state)=>state.common);
+    const navigate = useNavigate();
+    const api_uri = enum_api_uri.api_uri;
     const m_realname = enum_api_uri.m_realname;
     const m_id_check = enum_api_uri.m_id_check;
     const m_nick_check = enum_api_uri.m_nick_check;
-    const m_img_add = enum_api_uri.m_img_add;
-    
-
+    const m_join = enum_api_uri.m_join;
     const tradeid = localStorage.getItem("tradeid");
+    const app_token = localStorage.getItem("app_token");
     const [confirm, setConfirm] = useState(false);
-
-
-
-    const [agreeList, setAgreeList] = useState(["개인정보취급방침 동의","이메일 무단 수집 거부 동의","개인정보수집 동의","이용약관 동의","개인정보 처리 위탁 동의 "]);
-    const [step, setStep] = useState(8);
+    const [agreeList, setAgreeList] = useState(["개인정보 보호정책","이메일 무단 수집 거부","개인정보수집","이용약관"]);
+    const [step, setStep] = useState(1);
     const contRef = useRef();
     const [realData ,setRealData] = useState({});
     const [allData, setAllData] = useState({});
-    
     const [address, setAddress] = useState("");
     const [address2, setAddress2] = useState("");
     const [height, setHeight] = useState("");
-
+    const [height2, setHeight2] = useState(""); //상대방 키
     const [imgList, setImgList] = useState([1,2,3,4,5,6,7,8]);
     const [imgNameList, setImgNameList] = useState(["","","","","","","",""]);
-    
     const [valId, setValId] = useState("");
     const [valPassword, setValPassword] = useState("");
     const [valPassword2, setValPassword2] = useState("");
     const [valNickname, setValNickname] = useState("");
     const [valEmail, setValEmail] = useState("");
-
     const [usableId, setUsableId] = useState(false);
     const [usablePass, setUsablePass] = useState(false);
     const [usableNickname, setUsableNickname] = useState(false);
     const [usableEmail, setUsableEmail] = useState(false);
     const [usableProfile, setUsableProfile] = useState(false);
-
+    const [usableProfile2, setUsableProfile2] = useState(false);
+    const [usableProfileImg, setUsableProfileImg] = useState(false);
     const [errorId, setErrorId] = useState(false);
     const [errorPassword, setErrorPassword] = useState(false);
     const [errorPassword2, setErrorPassword2] = useState(false);
@@ -62,14 +58,22 @@ const SignUp2 = () => {
     const [errorEmail, setErrorEmail] = useState(false);
     const [errorAddress, setErrorAddress] = useState(false);
     const [errorHeight, setErrorHeight] = useState(false);
+    const [errorHeight2, setErrorHeight2] = useState(false);
     const [errorJob, setErrorJob] = useState(false);
+    const [errorJob2, setErrorJob2] = useState(false);
     const [errorVisual, setErrorVisual] = useState(false);
+    const [errorVisual2, setErrorVisual2] = useState(false);
     const [errorLike, setErrorLike] = useState(false);
     const [errorMbti, setErrorMbti] = useState(false);
+    const [errorMbti2, setErrorMbti2] = useState(false);
     const [errorType, setErrorType] = useState(false);
+    const [errorType2, setErrorType2] = useState(false);
     const [errorSmok, setErrorSmok] = useState(false);
+    const [errorSmok2, setErrorSmok2] = useState(false);
     const [errorDrink, setErrorDrink] = useState(false);
+    const [errorDrink2, setErrorDrink2] = useState(false);
     const [errorReligion, setErrorReligion] = useState(false);
+    const [errorReligion2, setErrorReligion2] = useState(false);
     const [errorDate, setErrorDate] = useState(false);
     const [errorRoute, setErrorRoute] = useState(false);
 
@@ -88,18 +92,9 @@ const SignUp2 = () => {
         console.log(user.signupData);
 
         //나의 거주지
-        let addrData = {};
         if(user.signupData.hasOwnProperty("m_address")){
-            addrData = user.signupData.m_address;
-
-            if(addrData.includes(" ")){
-                let addr = addrData.split(" ");
-                setAddress(addr[0]);
-                setAddress2(addr[1]);
-            }else{
-                setAddress(addrData);
-                setAddress2("");
-            }
+            setAddress(user.signupData.m_address);
+            setAddress2(user.signupData.m_address2);
         }else{
             setAddress("");
             setAddress2("");
@@ -145,8 +140,47 @@ const SignUp2 = () => {
             setHeight("");
         }
 
+        //이상형 키
+        if(user.signupData.hasOwnProperty("t_height1")){
+            let h = user.signupData.t_height1;
+            if(h == "0"){
+                setHeight2("149cm 이하");
+            }
+            if(h == "150"){
+                setHeight2("150cm ~ 154cm");
+            }
+            if(h == "155"){
+                setHeight2("155cm ~ 159cm");
+            }
+            if(h == "160"){
+                setHeight2("160cm ~ 164cm");
+            }
+            if(h == "165"){
+                setHeight2("165cm ~ 169cm");
+            }
+            if(h == "170"){
+                setHeight2("170cm ~ 174cm");
+            }
+            if(h == "175"){
+                setHeight2("175cm ~ 179cm");
+            }
+            if(h == "180"){
+                setHeight2("180cm ~ 184cm");
+            }
+            if(h == "185"){
+                setHeight2("185cm ~ 189cm");
+            }
+            if(h == "190"){
+                setHeight2("190cm ~ 194cm");
+            }
+            if(h == "195"){
+                setHeight2("195cm ~ 200cm");
+            }
+        }else{
+            setHeight2("");
+        }
 
-        //프로필 정보 모두 값있는지 체크
+        //회원 프로필 정보 모두 값있는지 체크
         if(user.signupData.hasOwnProperty("m_address") && user.signupData.m_address.length > 0 &&
             user.signupData.hasOwnProperty("m_height") && user.signupData.m_height.length > 0 &&
             user.signupData.hasOwnProperty("m_job") && user.signupData.m_job.length > 0 &&
@@ -163,6 +197,21 @@ const SignUp2 = () => {
             setUsableProfile(true);
         }else{
             setUsableProfile(false);
+        }
+
+        //이상형정보 모두 값있는지 체크
+        if(user.signupData.hasOwnProperty("t_height1") && user.signupData.t_height1.length > 0 &&
+            user.signupData.hasOwnProperty("t_job") && user.signupData.t_job.length > 0 &&
+            user.signupData.hasOwnProperty("t_visual") && user.signupData.t_visual.length > 0 &&
+            user.signupData.hasOwnProperty("t_mbti") && user.signupData.t_mbti.length > 0 &&
+            user.signupData.hasOwnProperty("t_character") && user.signupData.t_character.length > 0 &&
+            user.signupData.hasOwnProperty("t_smok") && user.signupData.t_smok.length > 0 &&
+            user.signupData.hasOwnProperty("t_drink") && user.signupData.t_drink.length > 0 &&
+            user.signupData.hasOwnProperty("t_religion") && user.signupData.t_religion.length > 0
+        ){
+            setUsableProfile2(true);
+        }else{
+            setUsableProfile2(false);
         }
 
     },[user.signupData]);
@@ -201,7 +250,7 @@ const SignUp2 = () => {
 
     //맨처음 실명인증한 회원정보 가져오기
     useEffect(()=>{
-        // getRealData();
+        getRealData();
     },[]);
 
     
@@ -222,6 +271,7 @@ const SignUp2 = () => {
         }
     };
 
+
     //아이디 다음버튼 클릭시
     const idCheckHandler = () => {
         if(valId.length < 4){
@@ -233,6 +283,11 @@ const SignUp2 = () => {
             .then((res)=>{
                 if(res.status === 200){
                     setUsableId(true);
+
+                    //아이디 signupData store 값에 저장
+                    let newData = {...user.signupData};
+                    newData.m_id = valId;
+                    dispatch(signupData(newData));
 
                     if(step < 4){
                         setStep(4);
@@ -285,6 +340,11 @@ const SignUp2 = () => {
                 if(usableId){
                     setUsablePass(true);
 
+                    //비밀번호 signupData store 값에 저장
+                    let newData = {...user.signupData};
+                    newData.m_password = pw;
+                    dispatch(signupData(newData));
+
                     if(step < 5){
                         setStep(5);
                     }
@@ -319,6 +379,11 @@ const SignUp2 = () => {
                     //아이디랑 비밀번호 사용가능인지 확인
                     if(usableId && usablePass){
                         setUsableNickname(true);
+
+                        //닉네임 signupData store 값에 저장
+                        let newData = {...user.signupData};
+                        newData.m_n_name = valNickname;
+                        dispatch(signupData(newData));
 
                         if(step < 6){
                             setStep(6);
@@ -381,6 +446,11 @@ const SignUp2 = () => {
             if(usableId && usablePass && usableNickname){
                 setUsableEmail(true);
 
+                //이메일 signupData store 값에 저장
+                let newData = {...user.signupData};
+                newData.m_email = valEmail;
+                dispatch(signupData(newData));
+
                 if(step < 7){
                     setStep(7);
                 }
@@ -427,7 +497,6 @@ const SignUp2 = () => {
                     confirmPopBtn:1,
                 }));
             }
-
         }else{
             setErrorEmail(true);
         }
@@ -446,15 +515,6 @@ const SignUp2 = () => {
             if(step < 8){
                 setStep(8);
             }
-
-            //signupData store 값에 저장
-            let newData = {...user.signupData};
-            newData.m_id = valId;
-            newData.m_password = valPassword;
-            newData.m_n_name = valNickname;
-            newData.m_email = valEmail;
-            dispatch(signupData(newData));
-
         }else if(!usableId){
             if(valId.length < 4){
                 setErrorId(true);
@@ -502,8 +562,8 @@ const SignUp2 = () => {
             if(regExp.test(valEmail)){
                 setErrorEmail(false);
             }else{
-            setErrorEmail(true);
-        }
+                setErrorEmail(true);
+            }
 
             setConfirm(true);
             dispatch(confirmPop({
@@ -519,7 +579,12 @@ const SignUp2 = () => {
     //프로필정보입력 다음버튼 클릭시
     const profileCheckHandler = () => {
 
-        if(!usableProfile){
+        //아이디랑 비밀번호,닉네임,이메일,프로필정보 입력 확인
+        if(usableId && usablePass && usableNickname && usableEmail && usableProfile){
+            if(step < 9){
+                setStep(9);
+            }
+        }else if(!usableProfile){
             setConfirm(true);
             dispatch(confirmPop({
                 confirmPop:true,
@@ -527,153 +592,160 @@ const SignUp2 = () => {
                 confirmPopTxt:'프로필 정보를 모두 입력해주세요.',
                 confirmPopBtn:1,
             }));
-
-            if(user.signupData.hasOwnProperty("m_address") && user.signupData.m_address.length > 0){
-                setErrorAddress(false);
-            }else{
-                setErrorAddress(true);
+        }
+        else if(!usableId){
+            if(valId.length < 4){
+                setErrorId(true);
             }
 
-            if(user.signupData.hasOwnProperty("m_height") && user.signupData.m_height.length > 0 ){
-                setErrorHeight(false);
-            }else{
-                setErrorHeight(true);
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'아이디 사용가능을 확인해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usablePass){
+            let num = valPassword.search(/[0-9]/g);
+            let eng = valPassword.search(/[a-z]/ig);
+            let spe = valPassword.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+            if(valPassword.length < 8 || valPassword.length > 13 || valPassword.search(/\s/) != -1 || num < 0 || eng < 0 || spe < 0){
+                setErrorPassword(true);
+            }
+            if(valPassword !== valPassword2){
+                setErrorPassword2(true);
             }
 
-            if(user.signupData.hasOwnProperty("m_job") && user.signupData.m_job.length > 0 ){
-                setErrorJob(false);
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'비밀번호를 입력해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usableNickname){
+            if(valNickname.length < 2){
+                setErrorNickname(true);
+            }
+            
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'닉네임 사용가능을 확인해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usableEmail){
+            let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+            if(regExp.test(valEmail)){
+                setErrorEmail(false);
             }else{
-                setErrorJob(true);
+                setErrorEmail(true);
             }
 
-            if(user.signupData.hasOwnProperty("m_visual") && user.signupData.m_visual.length > 0){
-                setErrorVisual(false);
-            }else{
-                setErrorVisual(true);
-            }
-
-            if(user.signupData.hasOwnProperty("m_like") && user.signupData.m_like.length > 0){
-                setErrorLike(false);
-            }else{
-                setErrorLike(true);
-            }
-
-            if(user.signupData.hasOwnProperty("m_mbti") && user.signupData.m_mbti.length > 0){
-                setErrorMbti(false);
-            }else{
-                setErrorMbti(true);
-            }
-
-            if(user.signupData.hasOwnProperty("m_character") && user.signupData.m_character.length > 0){
-                setErrorType(false);
-            }else{
-                setErrorType(true);
-            }
-
-            if(user.signupData.hasOwnProperty("m_smok") && user.signupData.m_smok.length > 0){
-                setErrorSmok(false);
-            }else{
-                setErrorSmok(true);
-            }
-
-            if(user.signupData.hasOwnProperty("m_drink") && user.signupData.m_drink.length > 0){
-                setErrorDrink(false);
-            }else{
-                setErrorDrink(true);
-            }
-
-            if(user.signupData.hasOwnProperty("m_religion") && user.signupData.m_religion.length > 0){
-                setErrorReligion(false);
-            }else{
-                setErrorReligion(true);
-            }
-
-            if(user.signupData.hasOwnProperty("m_date") && user.signupData.m_date.length > 0){
-                setErrorDate(false);
-            }else{
-                setErrorDate(true);
-            }
-
-            if(user.signupData.hasOwnProperty("m_motive") && user.signupData.m_motive.length > 0){
-                setErrorRoute(false);
-            }else{
-                setErrorRoute(true);
-            }
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'이메일을 입력해주세요.',
+                confirmPopBtn:1,
+            }));
         }
 
+        if(user.signupData.hasOwnProperty("m_address") && user.signupData.m_address.length > 0){
+            setErrorAddress(false);
+        }else{
+            setErrorAddress(true);
+        }
 
-        //아이디랑 비밀번호,닉네임,이메일 사용가능인지 확인
-        // if(usableId && usablePass && usableNickname && usableEmail && usableProfile){
-        //     if(step < 9){
-        //         setStep(9);
-        //     }
-        // }else if(!usableId){
-        //     if(valId.length < 4){
-        //         setErrorId(true);
-        //     }
+        if(user.signupData.hasOwnProperty("m_height") && user.signupData.m_height.length > 0 ){
+            setErrorHeight(false);
+        }else{
+            setErrorHeight(true);
+        }
 
-        //     setConfirm(true);
-        //     dispatch(confirmPop({
-        //         confirmPop:true,
-        //         confirmPopTit:'알림',
-        //         confirmPopTxt:'아이디 사용가능을 확인해주세요.',
-        //         confirmPopBtn:1,
-        //     }));
-        // }else if(!usablePass){
-        //     let num = valPassword.search(/[0-9]/g);
-        //     let eng = valPassword.search(/[a-z]/ig);
-        //     let spe = valPassword.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
-        //     if(valPassword.length < 8 || valPassword.length > 13 || valPassword.search(/\s/) != -1 || num < 0 || eng < 0 || spe < 0){
-        //         setErrorPassword(true);
-        //     }
-        //     if(valPassword !== valPassword2){
-        //         setErrorPassword2(true);
-        //     }
+        if(user.signupData.hasOwnProperty("m_job") && user.signupData.m_job.length > 0 ){
+            setErrorJob(false);
+        }else{
+            setErrorJob(true);
+        }
 
-        //     setConfirm(true);
-        //     dispatch(confirmPop({
-        //         confirmPop:true,
-        //         confirmPopTit:'알림',
-        //         confirmPopTxt:'비밀번호를 입력해주세요.',
-        //         confirmPopBtn:1,
-        //     }));
-        // }else if(!usableNickname){
-        //     if(valNickname.length < 2){
-        //         setErrorNickname(true);
-        //     }
-            
-        //     setConfirm(true);
-        //     dispatch(confirmPop({
-        //         confirmPop:true,
-        //         confirmPopTit:'알림',
-        //         confirmPopTxt:'닉네임 사용가능을 확인해주세요.',
-        //         confirmPopBtn:1,
-        //     }));
-        // }else if(!usableEmail){
-        //     let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-        //     if(regExp.test(valEmail)){
-        //         setErrorEmail(false);
-        //     }else{
-        //         setErrorEmail(true);
-        //     }
+        if(user.signupData.hasOwnProperty("m_visual") && user.signupData.m_visual.length > 0){
+            setErrorVisual(false);
+        }else{
+            setErrorVisual(true);
+        }
 
-        //     setConfirm(true);
-        //     dispatch(confirmPop({
-        //         confirmPop:true,
-        //         confirmPopTit:'알림',
-        //         confirmPopTxt:'이메일을 입력해주세요.',
-        //         confirmPopBtn:1,
-        //     }));
-        // }else if(!usableProfile){
-        //     setConfirm(true);
-        //     dispatch(confirmPop({
-        //         confirmPop:true,
-        //         confirmPopTit:'알림',
-        //         confirmPopTxt:'프로필 정보를 모두 입력해주세요.',
-        //         confirmPopBtn:1,
-        //     }));
-        // }
+        if(user.signupData.hasOwnProperty("m_like") && user.signupData.m_like.length > 0){
+            setErrorLike(false);
+        }else{
+            setErrorLike(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_mbti") && user.signupData.m_mbti.length > 0){
+            setErrorMbti(false);
+        }else{
+            setErrorMbti(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_character") && user.signupData.m_character.length > 0){
+            setErrorType(false);
+        }else{
+            setErrorType(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_smok") && user.signupData.m_smok.length > 0){
+            setErrorSmok(false);
+        }else{
+            setErrorSmok(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_drink") && user.signupData.m_drink.length > 0){
+            setErrorDrink(false);
+        }else{
+            setErrorDrink(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_religion") && user.signupData.m_religion.length > 0){
+            setErrorReligion(false);
+        }else{
+            setErrorReligion(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_date") && user.signupData.m_date.length > 0){
+            setErrorDate(false);
+        }else{
+            setErrorDate(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_motive") && user.signupData.m_motive.length > 0){
+            setErrorRoute(false);
+        }else{
+            setErrorRoute(true);
+        }
     };
+
+
+    //프로필사진 1개이상 등록시 usableProfileImg = true
+    useEffect(()=>{
+        if(imgNameList.every((value) => value === "")){
+            setUsableProfileImg(false);
+        }else{
+            setUsableProfileImg(true);
+
+            //프로필사진 배열정렬후 signupData store 값에 저장
+            const nonEmptyValues = imgNameList.filter(value => value !== '');
+            const sortedArr = [...nonEmptyValues, ...Array(imgNameList.length - nonEmptyValues.length).fill('')];
+            const updatedImgList = sortedArr.map(url => {
+                let updatedUrl = url.replace(api_uri+"/upload/profile/user/", "");
+                return updatedUrl;
+            });
+
+            let newData = {...user.signupData};
+            newData.pic = updatedImgList;
+            dispatch(signupData(newData));
+        }
+    },[imgNameList]);
 
 
     //프로필사진 등록시
@@ -691,6 +763,466 @@ const SignUp2 = () => {
     };
 
 
+    //프로필사진등록 다음버튼 클릭시
+    const profileImgCheckHandler = () => {
+        console.log(usableProfileImg)
+        // if(!usableProfileImg){
+        //     setConfirm(true);
+        //     dispatch(confirmPop({
+        //         confirmPop:true,
+        //         confirmPopTit:'알림',
+        //         confirmPopTxt:'프로필 사진을 최소1장 등록해주세요.',
+        //         confirmPopBtn:1,
+        //     }));
+        // }else{
+        //     if(step < 10){
+        //         setStep(10);
+        //     }
+        // }
+
+        //아이디랑 비밀번호,닉네임,이메일,프로필정보,프로필사진 입력 확인
+        if(usableId && usablePass && usableNickname && usableEmail && usableProfile && usableProfileImg){
+            if(step < 10){
+                setStep(10);
+            }
+        }else if(!usableProfileImg){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'프로필 사진을 최소1장 등록해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(!usableId){
+            if(valId.length < 4){
+                setErrorId(true);
+            }
+
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'아이디 사용가능을 확인해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usablePass){
+            let num = valPassword.search(/[0-9]/g);
+            let eng = valPassword.search(/[a-z]/ig);
+            let spe = valPassword.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+            if(valPassword.length < 8 || valPassword.length > 13 || valPassword.search(/\s/) != -1 || num < 0 || eng < 0 || spe < 0){
+                setErrorPassword(true);
+            }
+            if(valPassword !== valPassword2){
+                setErrorPassword2(true);
+            }
+
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'비밀번호를 입력해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usableNickname){
+            if(valNickname.length < 2){
+                setErrorNickname(true);
+            }
+            
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'닉네임 사용가능을 확인해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usableEmail){
+            let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+            if(regExp.test(valEmail)){
+                setErrorEmail(false);
+            }else{
+                setErrorEmail(true);
+            }
+
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'이메일을 입력해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usableProfile){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'프로필 정보를 모두 입력해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+
+        // 프로필 정보 에러문구-----------
+        if(user.signupData.hasOwnProperty("m_address") && user.signupData.m_address.length > 0){
+            setErrorAddress(false);
+        }else{
+            setErrorAddress(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_height") && user.signupData.m_height.length > 0 ){
+            setErrorHeight(false);
+        }else{
+            setErrorHeight(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_job") && user.signupData.m_job.length > 0 ){
+            setErrorJob(false);
+        }else{
+            setErrorJob(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_visual") && user.signupData.m_visual.length > 0){
+            setErrorVisual(false);
+        }else{
+            setErrorVisual(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_like") && user.signupData.m_like.length > 0){
+            setErrorLike(false);
+        }else{
+            setErrorLike(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_mbti") && user.signupData.m_mbti.length > 0){
+            setErrorMbti(false);
+        }else{
+            setErrorMbti(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_character") && user.signupData.m_character.length > 0){
+            setErrorType(false);
+        }else{
+            setErrorType(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_smok") && user.signupData.m_smok.length > 0){
+            setErrorSmok(false);
+        }else{
+            setErrorSmok(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_drink") && user.signupData.m_drink.length > 0){
+            setErrorDrink(false);
+        }else{
+            setErrorDrink(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_religion") && user.signupData.m_religion.length > 0){
+            setErrorReligion(false);
+        }else{
+            setErrorReligion(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_date") && user.signupData.m_date.length > 0){
+            setErrorDate(false);
+        }else{
+            setErrorDate(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_motive") && user.signupData.m_motive.length > 0){
+            setErrorRoute(false);
+        }else{
+            setErrorRoute(true);
+        }
+    };
+
+
+    //이상형정보등록, 좋은결과, 회원가입 다음버튼 클릭시
+    const signupHandler = (status) => {
+        //아이디랑 비밀번호,닉네임,이메일,프로필정보,프로필사진,이상형정보 입력 확인
+        if(usableId && usablePass && usableNickname && usableEmail && usableProfile && usableProfileImg && usableProfile2){
+
+            //이상형정보등록 다음버튼 클릭일때
+            if(status == "profileCheck"){
+                if(step < 11){
+                    setStep(11);
+                }
+            }
+            //좋은결과 다음버튼 클릭일때
+            if(status == "profileCheck2"){
+                if(step < 12){
+                    setStep(12);
+                }
+            }
+            //회원가입 다음버튼 클릭일때 회원가입 진행
+            if(status == "signup"){
+                let address;
+                if(user.signupData.hasOwnProperty("m_address2" && user.signupData.m_address2.length > 0)){
+                    address = user.signupData.m_address + " " + user.signupData.m_address2;
+                }else{
+                    address = user.signupData.m_address;
+                }
+
+                let body = {
+                    m_name: user.signupData.m_name,
+                    m_born: user.signupData.m_born,
+                    m_c_phone: user.signupData.m_c_phone,
+                    m_gender: user.signupData.m_gender,
+                    m_id: user.signupData.m_id,
+                    m_password: user.signupData.m_password,
+                    m_n_name: user.signupData.m_n_name,
+                    m_email: user.signupData.m_email,
+                    m_address: address,
+                    m_height: user.signupData.m_height,
+                    m_job: user.signupData.m_job,
+                    m_visual: user.signupData.m_visual,
+                    m_like: user.signupData.m_like,
+                    m_mbti: user.signupData.m_mbti,
+                    m_character: user.signupData.m_character,
+                    m_smok: user.signupData.m_smok,
+                    m_drink: user.signupData.m_drink,
+                    m_religion: user.signupData.m_religion,
+                    m_date: user.signupData.m_date,
+                    m_motive: user.signupData.m_motive,
+                    pic: user.signupData.pic,
+                    t_height1: user.signupData.t_height1,
+                    t_height2: user.signupData.t_height2,
+                    t_job: user.signupData.t_job,
+                    t_visual: user.signupData.t_visual,
+                    t_mbti: user.signupData.t_mbti,
+                    t_character: user.signupData.t_character,
+                    t_smok: user.signupData.t_smok,
+                    t_drink: user.signupData.t_drink,
+                    t_religion: user.signupData.t_religion,
+                    app_token: app_token
+                };
+
+                axios.post(`${m_join}`,body)
+                .then((res)=>{
+                    if(res.status === 200){
+                        //메인페이지 이동, 회원가입완료 팝업 띄우기
+                        navigate("/");
+                        dispatch(appSignupCompletePop({appSignupCompletePop:true,appSignupCompletePopUser:user.signupData.m_name}));
+                    }
+                })
+                .catch((error) => {
+                    const err_msg = CF.errorMsgHandler(error);
+                    dispatch(confirmPop({
+                        confirmPop:true,
+                        confirmPopTit:'알림',
+                        confirmPopTxt: err_msg,
+                        confirmPopBtn:1,
+                    }));
+                    setConfirm(true);
+                }); 
+            }
+            
+        }else if(!usableProfile2){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'이상형 정보를 모두 입력해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(!usableId){
+            if(valId.length < 4){
+                setErrorId(true);
+            }
+
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'아이디 사용가능을 확인해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usablePass){
+            let num = valPassword.search(/[0-9]/g);
+            let eng = valPassword.search(/[a-z]/ig);
+            let spe = valPassword.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+            if(valPassword.length < 8 || valPassword.length > 13 || valPassword.search(/\s/) != -1 || num < 0 || eng < 0 || spe < 0){
+                setErrorPassword(true);
+            }
+            if(valPassword !== valPassword2){
+                setErrorPassword2(true);
+            }
+
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'비밀번호를 입력해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usableNickname){
+            if(valNickname.length < 2){
+                setErrorNickname(true);
+            }
+            
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'닉네임 사용가능을 확인해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usableEmail){
+            let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+            if(regExp.test(valEmail)){
+                setErrorEmail(false);
+            }else{
+                setErrorEmail(true);
+            }
+
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'이메일을 입력해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usableProfile){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'프로필 정보를 모두 입력해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usableProfileImg){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'프로필 사진을 최소1장 등록해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        
+        // 프로필 정보 에러문구-----------
+        if(user.signupData.hasOwnProperty("m_address") && user.signupData.m_address.length > 0){
+            setErrorAddress(false);
+        }else{
+            setErrorAddress(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_height") && user.signupData.m_height.length > 0 ){
+            setErrorHeight(false);
+        }else{
+            setErrorHeight(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_job") && user.signupData.m_job.length > 0 ){
+            setErrorJob(false);
+        }else{
+            setErrorJob(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_visual") && user.signupData.m_visual.length > 0){
+            setErrorVisual(false);
+        }else{
+            setErrorVisual(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_like") && user.signupData.m_like.length > 0){
+            setErrorLike(false);
+        }else{
+            setErrorLike(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_mbti") && user.signupData.m_mbti.length > 0){
+            setErrorMbti(false);
+        }else{
+            setErrorMbti(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_character") && user.signupData.m_character.length > 0){
+            setErrorType(false);
+        }else{
+            setErrorType(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_smok") && user.signupData.m_smok.length > 0){
+            setErrorSmok(false);
+        }else{
+            setErrorSmok(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_drink") && user.signupData.m_drink.length > 0){
+            setErrorDrink(false);
+        }else{
+            setErrorDrink(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_religion") && user.signupData.m_religion.length > 0){
+            setErrorReligion(false);
+        }else{
+            setErrorReligion(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_date") && user.signupData.m_date.length > 0){
+            setErrorDate(false);
+        }else{
+            setErrorDate(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_motive") && user.signupData.m_motive.length > 0){
+            setErrorRoute(false);
+        }else{
+            setErrorRoute(true);
+        }
+
+        
+        // 이상형 정보 에러문구-----------
+        if(user.signupData.hasOwnProperty("t_height1") && user.signupData.t_height1.length > 0 ){
+            setErrorHeight2(false);
+        }else{
+            setErrorHeight2(true);
+        }
+
+        if(user.signupData.hasOwnProperty("t_job") && user.signupData.t_job.length > 0 ){
+            setErrorJob2(false);
+        }else{
+            setErrorJob2(true);
+        }
+
+        if(user.signupData.hasOwnProperty("t_visual") && user.signupData.t_visual.length > 0){
+            setErrorVisual2(false);
+        }else{
+            setErrorVisual2(true);
+        }
+
+        if(user.signupData.hasOwnProperty("t_mbti") && user.signupData.t_mbti.length > 0){
+            setErrorMbti2(false);
+        }else{
+            setErrorMbti2(true);
+        }
+
+        if(user.signupData.hasOwnProperty("t_character") && user.signupData.t_character.length > 0){
+            setErrorType2(false);
+        }else{
+            setErrorType2(true);
+        }
+
+        if(user.signupData.hasOwnProperty("t_smok") && user.signupData.t_smok.length > 0){
+            setErrorSmok2(false);
+        }else{
+            setErrorSmok2(true);
+        }
+
+        if(user.signupData.hasOwnProperty("t_drink") && user.signupData.t_drink.length > 0){
+            setErrorDrink2(false);
+        }else{
+            setErrorDrink2(true);
+        }
+
+        if(user.signupData.hasOwnProperty("t_religion") && user.signupData.t_religion.length > 0){
+            setErrorReligion2(false);
+        }else{
+            setErrorReligion2(true);
+        }
+    };
 
 
     return(<>
@@ -1166,8 +1698,8 @@ const SignUp2 = () => {
                                 </ul>
                                 <div className="flex_end tp10">
                                     <button type="button" className="app_btn_s"
-                                        // onClick={infoCheckHandler}
-                                        // disabled={step > 7 ? true : false}
+                                        onClick={profileImgCheckHandler}
+                                        disabled={step > 9 && usableProfileImg ? true : false}
                                     >다음</button>
                                 </div>
                             </div>
@@ -1192,96 +1724,157 @@ const SignUp2 = () => {
                                     <ul className="form_ul">
                                         <li>
                                             <p className="input_tit">상대방의 키</p>
+                                            {errorHeight2 && <p className="alert_txt">상대방의 키를 입력하세요.</p>}
                                             <button type="button" className="btn_sel" 
                                                 onClick={()=>{
-                                                    dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"키"}));
+                                                    dispatch(appProfilePop2({appProfilePop2:true,appProfilePopTit2:"키"}));
                                                 }}
-                                            ><span className="ellipsis">{height ? height : "선택"}</span></button>
+                                            ><span className="ellipsis">{height2 ? height2 : "선택"}</span></button>
                                         </li>
                                         <li>
                                             <p className="input_tit">상대방의 직업</p>
+                                            {errorJob2 && <p className="alert_txt">상대방의 직업을 입력하세요.</p>}
                                             <div className="w_50">
                                                 <button type="button" className="btn_sel" 
                                                     onClick={()=>{
-                                                        dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"직업"}));
+                                                        dispatch(appProfilePop2({appProfilePop2:true,appProfilePopTit2:"직업"}));
                                                     }}
-                                                ><span className="ellipsis">{allData.m_job ? allData.m_job : "선택"}</span></button>
+                                                ><span className="ellipsis">{allData.t_job ? allData.t_job : "선택"}</span></button>
                                             </div>
                                         </li>
                                         <li>
                                             <p className="input_tit">상대방의 외모 점수</p>
+                                            {errorVisual2 && <p className="alert_txt">상대방의 외모 점수를 입력하세요.</p>}
                                             <div className="w_50">
                                                 <button type="button" className="btn_sel" 
                                                     onClick={()=>{
-                                                        dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"외모 점수"}));
+                                                        dispatch(appProfilePop2({appProfilePop2:true,appProfilePopTit2:"외모 점수"}));
                                                     }}
-                                                ><span className="ellipsis">{allData.m_visual ? allData.m_visual+"점" : "선택"}</span></button>
+                                                ><span className="ellipsis">{allData.t_visual ? allData.t_visual+"점" : "선택"}</span></button>
                                             </div>
                                         </li>
                                         <li>
                                             <p className="input_tit">상대방의 MBTI</p>
+                                            {errorMbti2 && <p className="alert_txt">상대방의 MBTI를 입력하세요.</p>}
                                             <div className="w_50">
                                                 <button type="button" className="btn_sel" 
                                                     onClick={()=>{
-                                                        dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"MBTI"}));
+                                                        dispatch(appProfilePop2({appProfilePop2:true,appProfilePopTit2:"MBTI"}));
                                                     }}
-                                                ><span className="ellipsis">{allData.m_mbti ? allData.m_mbti : "선택"}</span></button>
+                                                ><span className="ellipsis">{allData.t_mbti ? allData.t_mbti : "선택"}</span></button>
                                             </div>
                                         </li>
                                         <li>
                                             <p className="input_tit">상대방의 타입</p>
+                                            {errorType2 && <p className="alert_txt">상대방의 타입을 입력하세요.</p>}
                                             <button type="button" className="btn_sel" 
                                                 onClick={()=>{
-                                                    dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"타입"}));
+                                                    dispatch(appProfilePop2({appProfilePop2:true,appProfilePopTit2:"타입"}));
                                                 }}
-                                            ><span className="ellipsis">{allData.m_character && allData.m_character.length > 0 ? allData.m_character.join(", ") : "선택"}</span></button>
+                                            ><span className="ellipsis">{allData.t_character && allData.t_character.length > 0 ? allData.t_character.join(", ") : "선택"}</span></button>
                                         </li>
                                         <li>
                                             <p className="input_tit">상대방은 흡연을</p>
+                                            {errorSmok2 && <p className="alert_txt">상대방의 흡연여부를 입력하세요.</p>}
                                             <div className="w_50">
                                                 <button type="button" className="btn_sel" 
                                                     onClick={()=>{
-                                                        dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"흡연 여부"}));
+                                                        dispatch(appProfilePop2({appProfilePop2:true,appProfilePopTit2:"흡연 여부"}));
                                                     }}
                                                 ><span className="ellipsis">{
-                                                    allData.m_smok ?
-                                                        allData.m_smok == "1" ? "한다"
-                                                        :allData.m_smok == "2" ? "안 한다"
-                                                        :allData.m_smok == "3" && "가끔 한다"
+                                                    allData.t_smok ?
+                                                        allData.t_smok == "1" ? "한다"
+                                                        :allData.t_smok == "2" ? "안 한다"
+                                                        :allData.t_smok == "3" && "가끔 한다"
                                                     : "선택"
                                                 }</span></button>
                                             </div>
                                         </li>
                                         <li>
                                             <p className="input_tit">상대방은 술을</p>
+                                            {errorDrink2 && <p className="alert_txt">상대방의 음주여부를 입력하세요.</p>}
                                             <div className="w_50">
                                                 <button type="button" className="btn_sel" 
                                                     onClick={()=>{
-                                                        dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"음주 여부"}));
+                                                        dispatch(appProfilePop2({appProfilePop2:true,appProfilePopTit2:"음주 여부"}));
                                                     }}
                                                     ><span className="ellipsis">{
-                                                        allData.m_drink ?
-                                                            allData.m_drink == "1" ? "한다"
-                                                            :allData.m_drink == "2" ? "가끔 한다"
-                                                            :allData.m_drink == "3" && "안 한다"
+                                                        allData.t_drink ?
+                                                            allData.t_drink == "1" ? "한다"
+                                                            :allData.t_drink == "2" ? "가끔 한다"
+                                                            :allData.t_drink == "3" && "안 한다"
                                                         : "선택"
                                                     }</span></button>
                                             </div>
                                         </li>
                                         <li>
                                             <p className="input_tit">상대방의 종교</p>
+                                            {errorReligion2 && <p className="alert_txt">상대방의 종교를 입력하세요.</p>}
                                             <div className="w_50">
                                                 <button type="button" className="btn_sel" 
                                                     onClick={()=>{
-                                                        dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"종교"}));
+                                                        dispatch(appProfilePop2({appProfilePop2:true,appProfilePopTit2:"종교"}));
                                                     }}
-                                                ><span className="ellipsis">{allData.m_religion ? allData.m_religion : "선택"}</span></button>
+                                                ><span className="ellipsis">{allData.t_religion ? allData.t_religion : "선택"}</span></button>
                                             </div>
                                         </li>
                                     </ul>
                                 </div>
                                 <div className="flex_end tp10">
-                                    <button type="button" className="app_btn_s">다음</button>
+                                    <button type="button" className="app_btn_s"
+                                        onClick={()=>signupHandler("profileCheck")}
+                                        disabled={step > 10 && usableProfile2 ? true : false}
+                                    >다음</button>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                }
+
+                {/* 좋은결과 */}
+                {step > 10 &&
+                    <div className="signup_box">
+                        <div className="flex_top">
+                            <div className="img_box">
+                                <img src={profile_img} alt="이미지" />
+                            </div>
+                            <div className="txt_box">
+                                <p className="name">사소한 매니저 하니</p>
+                                <div className="inner_box">
+                                    <div className="tit_box">
+                                        <p className="f_20 medium">고생하셨습니다! <br/>좋은 결과가 있을 거예요 :D</p>
+                                    </div>
+                                </div>
+                                <div className="flex_end tp10">
+                                    <button type="button" className="app_btn_s"
+                                        onClick={()=>signupHandler("profileCheck2")}
+                                        disabled={step > 11 ? true : false}
+                                    >네!</button>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                }
+
+                {/* 회원가입 */}
+                {step > 11 &&
+                    <div className="signup_box">
+                        <div className="flex_top">
+                            <div className="img_box">
+                                <img src={profile_img} alt="이미지" />
+                            </div>
+                            <div className="txt_box">
+                                <p className="name">사소한 매니저 하니</p>
+                                <div className="inner_box">
+                                    <div className="tit_box">
+                                        <p className="f_20 medium">감사합니다! <br/>사소한 매니저 "하니" 였습니다 :D <br/>행복한 하루 되세요!</p>
+                                    </div>
+                                </div>
+                                <div className="flex_end tp10">
+                                    <button type="button" className="app_btn_s"
+                                        onClick={()=>signupHandler("signup")}
+                                        disabled={step > 12 ? true : false}
+                                    >다음</button>
                                 </div>
                             </div> 
                         </div>

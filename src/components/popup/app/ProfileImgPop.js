@@ -43,7 +43,7 @@ const ProfileImgPop = () => {
         })
         .then((res) => {
             if (res.status === 201) {
-                let imgName = res.data.mediaUrls;
+                let imgName = res.data.mediaUrls[0];
                 let newList = [...common.profileImgs];
                     newList[idx] = imgName;
                 dispatch(profileImgs(newList));

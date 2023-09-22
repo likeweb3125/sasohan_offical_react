@@ -13,7 +13,7 @@ const SignUp = () => {
     const m_realname_okurl = enum_api_uri.m_realname_okurl;
     const [tradeid, setTradeid] = useState("");
     const [confirm, setConfirm] = useState(false);
-    const [agreeList, setAgreeList] = useState(["개인정보취급방침 동의","이메일 무단 수집 거부 동의","개인정보수집 동의","이용약관 동의","개인정보 처리 위탁 동의 "]);
+    const [agreeList, setAgreeList] = useState(["개인정보 보호정책","이메일 무단 수집 거부","개인정보수집","이용약관"]);
     const [step, setStep] = useState(1);
     const [allCheck, setAllCheck] = useState(false);
     const [agreeCheckList, setAgreeCheckList] = useState([]);
@@ -35,8 +35,8 @@ const SignUp = () => {
     const allAgreeHandler = (checked) => {
         setAllCheck(!allCheck)
         if (checked) {
-            setAgreeCheckList(['agree_1', 'agree_2', 'agree_3', 'agree_4', 'agree_5']);
-        } else if ((!checked && agreeCheckList.includes('agree_1')) || (!checked && agreeCheckList.includes('agree_2')) || (!checked && agreeCheckList.includes('agree_3')) || (!checked && agreeCheckList.includes('agree_4')) || (!checked && agreeCheckList.includes('agree_5')) ) {
+            setAgreeCheckList(['agree_1', 'agree_2', 'agree_3', 'agree_4']);
+        } else if ((!checked && agreeCheckList.includes('agree_1')) || (!checked && agreeCheckList.includes('agree_2')) || (!checked && agreeCheckList.includes('agree_3')) || (!checked && agreeCheckList.includes('agree_4')) ) {
             setAgreeCheckList([]);
         }
     }
@@ -53,7 +53,7 @@ const SignUp = () => {
 
     //약관동의 다하면 전체약관동의 체크박스 체크됨
     useEffect(() => {
-        if (agreeCheckList.length == 5) {
+        if (agreeCheckList.length === agreeList.length) {
             setAllCheck(true)
         } else {
             setAllCheck(false)

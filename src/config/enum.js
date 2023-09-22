@@ -22,4 +22,5 @@ exports.enum_api_uri = {
     m_address2: `${api_uri}/v1/select-list/address/:parent_local_code`,
     m_select_list: `${api_uri}/v1/select-list`,
     m_img_add: `${api_uri}/v1/app/user/user-profile-add`,
+    m_join: `${api_uri}/v1/app/user/join`,
 }

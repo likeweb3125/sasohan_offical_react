@@ -52,6 +52,7 @@
 .app_btn{width: 100%;height: 64px;border-radius: 8px;font-size: 20px;font-weight: 700;text-align: center;color: #fff;background: #373D49;line-height: 64px;}
 .app_btn2{width: 100%;height: 64px;border-radius: 8px;font-size: 20px;font-weight: 700;text-align: center;color: #fff;background: #6840FD;line-height: 64px;}
 .app_btn3{width: 100%;height: 64px;border-radius: 8px;font-size: 20px;font-weight: 700;text-align: center;color: #6840FD;background: #fff;line-height: 64px;border: 1px solid #6840FD;}
+.app_btn4{width: 100%;height: 64px;border-radius: 8px;font-size: 20px;font-weight: 700;text-align: center;color: #fff;background: linear-gradient(255.03deg, #4144FD 11.16%, #7F40FF 89.36%);line-height: 64px;}
 .app_btn_s{width: 120px;height: 53px;line-height: 53px;font-size: 18px;font-weight: 700;border: 1px solid #6840FD;border-radius: 8px;color: #6840FD;}
 .app_btn_s:disabled{background: #EAEAEA;color: #999999;border-color: #EAEAEA;}
 
@@ -95,7 +96,7 @@
 
 /* 회원가입 - 약관동의 팝업 */
 .app_terms_pop .scroll_wrap{max-height: 60vh;}
-.app_terms_pop .scroll_wrap .txt{font-size: 16px;color: #666;white-space: pre-line;}
+.app_terms_pop .scroll_wrap .txt{font-size: 16px;color: #666;white-space: pre-line;word-break: keep-all;}
 
 /* 회원가입 - 프로필설정 팝업 */
 .app_profile_pop .inner_box>.scroll_wrap{max-height: 55vh;}
@@ -117,7 +118,11 @@
 .app_profile_img_pop .list_ul li label{padding: 15px 5px;display: block;}
 .app_profile_img_pop .list_ul li input{display: none;-webkit-appearance: none;-moz-appearance: none;-ms-appearance: none;-o-appearance: none;appearance: none;}
 
-
+/* 회원가입 완료 팝업 */
+.app_signup_complete_pop .box{position: relative;height: 212px;}
+.app_signup_complete_pop .img_box{position: absolute;width: calc(100% + 56px);z-index: -1;left: -28px;top: 0;}
+.app_signup_complete_pop .txt_box h5{font-size: 32px;font-weight: 500;}
+.app_signup_complete_pop .txt_box p{font-size: 20px;color: #666;padding-top: 8px;}
 
 /* 포인트충전완료 팝업 */
 .point_pop .scroll_wrap{max-height: 55vh;}
@@ -157,23 +162,18 @@
 .signup_box .txt_box .txt_ul li{padding-bottom: 8px;}
 .signup_box .txt_box .txt_ul li:last-child{padding-bottom: 0;}
 .signup_box .txt_box .txt_ul li p:first-child{font-size: 16px;color: #999;}
-
 .profile_img_ul li{width: calc(33.333% - 2.7px);margin: 4px 4px 0 0;height: 0;padding-bottom: calc(33.333% - 2.7px);;border: 1px solid #ddd;background: #fff url(../images/app/ic_plus.svg) no-repeat center;border-radius: 8px;overflow: hidden;position: relative;}
 .profile_img_ul li:nth-child(3n){margin-right: 0;}
 .profile_img_ul>li:first-child::after{position: absolute;content: "대표";width: 41px;height: 24px;font-size: 12px;text-align: center;line-height: 24px;color: #00D3AB;font-weight: 700;left: 4px;bottom: 4px;background: rgba(55, 61, 73, 0.7);border-radius: 12px;z-index: 1;}
 .profile_img_ul li .img{width: 100%;height: 100%;position: absolute;}
 .profile_img_ul li .img img{width: 100%;height: 100%;object-fit: cover;position: absolute;}
 .profile_img_ul li .btn_delt{position: absolute;right: 0;bottom: 0;width: 28px;height: 28px;background: #fff url(../images/app/ic_close.svg) no-repeat center;font-size: 0;text-indent: -9999px;display: none;}
-
 .profile_img_ul li.on{background: #fff;}
 .profile_img_ul li.on .btn_delt{display: block;}
-
-
 .form_ul{padding: 12px 16px;}
 .form_ul>li{padding-bottom: 24px;}
 .form_ul>li:last-child{padding-bottom: 0;}
 .form_ul>li .input_tit{font-size: 16px;color: #999;padding-bottom: 2px;}
-
 .btn_sel_box2 .btn_sel{width: calc(50% - 8px);}
 .btn_sel{width: 100%; height: 42px;font-size: 20px;font-weight: 500;color: #373D49;border-bottom: 2px solid #373D49;padding-right: 24px;background: url(../images/app/arrow_select.svg) no-repeat center right;text-align: left;}
 
