@@ -24,6 +24,9 @@ const popup = createSlice({
         //약관 팝업
         termsPop: false,
         termsPopTab: null,
+
+        //소개팅신청하기 팝업
+        applyPop: true,
         
         // 앱 팝업------------------------------------
         //회원가입 - 약관동의 팝업
@@ -74,6 +77,9 @@ const popup = createSlice({
             state.termsPop = action.payload.termsPop;
             state.termsPopTab = action.payload.termsPopTab;
         },
+        applyPop: (state, action) => {
+            state.applyPop = action.payload;
+        },
         // 앱 팝업------------------------------------
         appTermsPop: (state, action) => {
             state.appTermsPop = action.payload.appTermsPop;
@@ -110,6 +116,7 @@ export const {
     imgPop,
     reviewPop,
     termsPop,
+    applyPop,
     appTermsPop,
     appTermsCheckList,
     appProfilePop,

@@ -64,7 +64,8 @@ const SignUp = () => {
     //본인인증 ------------------------------
     function RealnameRequest() {
         // 아래와 같이 ext_inc_comm.js에 선언되어 있는 함수를 호출
-        window.MCASH_PAYMENT(document.realnameForm);
+        // window.MCASH_PAYMENT(document.realnameForm);
+        document.realnameForm.submit();
     }
 
     useEffect(() => {
@@ -107,12 +108,12 @@ const SignUp = () => {
                         <img src={profile_img} alt="이미지" />
                     </div>
                     <div className="txt_box">
-                        <form name="realnameForm" acceptCharset='euc-kr'>
+                        <form name="realnameForm" acceptCharset='euc-kr' action="https://auth.mobilians.co.kr/goCashMain.mcash" method="POST">
                             <input type="hidden" name="CASH_GB" id="CASH_GB" value="CI"/>
                             <input type="hidden" name="CI_SVCID" id="CI_SVCID"  value="171228049209" />
                             <input type="hidden" name="Cryptyn" id="Cryptyn" value="Y"/>
                             <input type="hidden" name="Keygb" id="Keygb"  value="0" />
-                            <input type="hidden" name="CALL_TYPE" id="CALL_TYPE" value=""/>
+                            <input type="hidden" name="CALL_TYPE" id="CALL_TYPE" value="SELF"/>
                             <input type="hidden" name="LOGO_YN" id="LOGO_YN" value="N"/>
                             <input type="hidden" name="CI_Mode" id="CI_Mode" value="61"/>
                             <input type="hidden" name="DI_CODE" id="DI_CODE" value=""/>
@@ -171,7 +172,7 @@ const SignUp = () => {
                             </div>
                         </div>
                         <div className="flex_end tp10">
-                            <button type="button" className="app_btn_s" 
+                            <button type="submit" className="app_btn_s" 
                                 onClick={()=>{
                                     if(allCheck){
                                         RealnameRequest();

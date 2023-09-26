@@ -11,6 +11,8 @@ exports.enum_api_uri = {
     user_count: `${api_uri}/v1/main/user-count`,
     policy_cont: `${api_uri}/v1/site/policy/:policy_type`,
     site_info: `${api_uri}/v1/site/site-info`,
+    date_apply: `${api_uri}/v1/main/requset`,
+
 
     //앱----------------------------------------
     //회원가입

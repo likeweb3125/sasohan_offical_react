@@ -8,7 +8,6 @@
 }
 .alert_txt{color: #FC5862;animation: appAniAlert .3s ease-out forwards;}
 
-
 /* custom_input */
 .custom_input {height: 56px;background: #fff;}
 .custom_input input{width: 100%;height: 100%;border: none;font-size: 20px;color: #373D49;background: none;padding: 0 16px;}
@@ -16,7 +15,6 @@
 .custom_input input:-moz-placeholder {color: #999; opacity: 1; text-align:left;font-size: 20px;} 
 .custom_input input::-moz-placeholder {color: #999; opacity: 1; text-align:left; font-size: 20px;} 
 .custom_input input:-ms-input-placeholder {color: #999; text-align:left;font-size: 20px;}
-
 .custom_input.val_check{padding-right: 40px;background: url(../images/app/ic_available.svg) no-repeat center right 16px;}
 .custom_input.pass_input input{width: calc(100% - 40px);}
 .custom_input.pass_input .btn_view{width: 40px;font-size: 0;height: 100%;text-indent: -9999px;background: url(../images/app/ic_eye_off.svg) no-repeat center left;}
@@ -32,21 +30,15 @@
 /* custom_radio */
 .custom_radio label{display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; display: flex;-webkit-box-align: center; -ms-flex-align: center;-webkit-align-items: center; align-items: center;cursor: pointer;}
 .custom_radio label input{display: none;-webkit-appearance: none;-moz-appearance: none;-ms-appearance: none;-o-appearance: none;appearance: none;}
-
-
 .custom_radio2 label input{display: none;-webkit-appearance: none;-moz-appearance: none;-ms-appearance: none;-o-appearance: none;appearance: none;}
 .custom_radio2 label .txt{text-align: center;font-size: 20px;font-weight: 500;color: #999;background: #FAF8FF;padding: 14px 5px;display: block;}
 .custom_radio2 label input:checked + .txt{color: #fff;background: #6840FD;}
-
 .custom_radio3 label input{display: none;-webkit-appearance: none;-moz-appearance: none;-ms-appearance: none;-o-appearance: none;appearance: none;}
 .custom_radio3 label .txt{text-align: center;font-size: 20px;font-weight: 500;color: #999;padding: 14px 5px;display: block;}
 .custom_radio3 label input:checked + .txt{color: #6840FD;}
-
 .custom_radio4 label input{display: none;-webkit-appearance: none;-moz-appearance: none;-ms-appearance: none;-o-appearance: none;appearance: none;}
 .custom_radio4 label .txt{text-align: center;font-size: 20px;font-weight: 500;color: #999;padding: 14px 5px;display: block;background: #F8F8F8;border: 1px solid #F8F8F8;border-radius: 8px;}
 .custom_radio4 label input:checked + .txt{color: #6840FD;background: #fff;border-color: #6840FD;}
-
-
 
 /* btn */
 .app_btn{width: 100%;height: 64px;border-radius: 8px;font-size: 20px;font-weight: 700;text-align: center;color: #fff;background: #373D49;line-height: 64px;}
@@ -55,7 +47,6 @@
 .app_btn4{width: 100%;height: 64px;border-radius: 8px;font-size: 20px;font-weight: 700;text-align: center;color: #fff;background: linear-gradient(255.03deg, #4144FD 11.16%, #7F40FF 89.36%);line-height: 64px;}
 .app_btn_s{width: 120px;height: 53px;line-height: 53px;font-size: 18px;font-weight: 700;border: 1px solid #6840FD;border-radius: 8px;color: #6840FD;}
 .app_btn_s:disabled{background: #EAEAEA;color: #999999;border-color: #EAEAEA;}
-
 
 
 /************************* header *****************************/
