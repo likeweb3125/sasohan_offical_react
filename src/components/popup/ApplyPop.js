@@ -221,7 +221,7 @@ const ApplyPop = () => {
 
     return(<>
         <div className="flex_center pop_wrap apply_pop">
-            <div className="dim" onClick={closePopHandler}></div>
+            <div className="dim"></div>
             <div className="pop_cont">
                 <button type="button" className="btn_close" onClick={closePopHandler}>닫기버튼</button>
                 <div className="inner_box">
