@@ -441,7 +441,7 @@ html,.body{height: auto;}
 .gender_ul li:nth-child(2) label input:checked + .box span{background: url(../images/ic_f_on.svg) no-repeat center left;}
 .apply_pop .inner_box .form_ul>li .address_box .input_box{width: calc(50% - 6px);}
 .input_box{border-bottom:2px solid #EAEAEA;}
-.input_box input{width: 100%;height: 60px;border: none;font-size: 20px;}
+.input_box input{width: 100%;height: 60px;border: none;font-size: 20px;background: none;}
 .input_box input::-webkit-input-placeholder {color: #999; text-align:left;font-size: 20px;} 
 .input_box input:-moz-placeholder {color: #999; opacity: 1; text-align:left;font-size: 20px;} 
 .input_box input::-moz-placeholder {color: #999; opacity: 1; text-align:left; font-size: 20px;} 

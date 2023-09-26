@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-scroll';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { applyPop } from '../../store/popupSlice';
 import ConfirmPop from '../popup/ConfirmPop';
 
 const Header = () => {
     const popup = useSelector((state)=>state.popup);
     const common = useSelector((state)=>state.common);
+    const dispatch = useDispatch();
     const [confirm, setConfirm] = useState(false);
     const [headerOn, setHeaderOn] = useState(false);
 
@@ -82,7 +84,7 @@ const Header = () => {
                     </ul>
                 </div>
                 <button type='button' className='btn_apply' onClick={()=>{
-                    alert("현재 준비중입니다.");
+                    dispatch(applyPop(true));
                 }}>소개팅 신청</button>
             </div>
         </header>

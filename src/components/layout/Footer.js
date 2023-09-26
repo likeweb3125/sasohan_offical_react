@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
-import { termsPop, confirmPop } from "../../store/popupSlice";
+import { termsPop, confirmPop, applyPop } from "../../store/popupSlice";
 import ConfirmPop from "../popup/ConfirmPop";
 import logo from "../../images/logo_foot.svg";
 
@@ -87,7 +87,7 @@ const Footer = () => {
                     </li>
                 </ul>
             </div>
-            <div className="copy">COPYRIGHT© 2023 사소한 ALL RIGHTS RESERVED.</div>
+            <div className="copy">COPYRIGHT© 2015 사소한 ALL RIGHTS RESERVED.</div>
         </footer>
         <div className="fixed_box">
             <ul className="list_sns">
@@ -116,7 +116,7 @@ const Footer = () => {
             <button type="button" className="btn_top" onClick={scrollToTop}></button>
         </div>
         <button type='button' className='btn_apply_foot' onClick={()=>{
-            alert("현재 준비중입니다.");
+            dispatch(applyPop(true));
         }}>소개팅 <br/>신청</button>
 
         {/* confirm팝업 */}

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { Formik } from "formik";
-import { NumericFormat } from "react-number-format";
+import { PatternFormat } from "react-number-format";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
 import { applyPop, confirmPop } from "../../store/popupSlice";
@@ -16,10 +16,12 @@ const ApplyPop = () => {
     const m_address2 = enum_api_uri.m_address2;
     const date_apply = enum_api_uri.date_apply;
     const [confirm, setConfirm] = useState(false);
+    const [submitConfirm, setSubmitConfirm] = useState(false);
     const [terms, setTerms] = useState({});
     const [yearList, setYearList] = useState([]);
     const [addressList, setAddressList] = useState([]);
     const [addressList2, setAddressList2] = useState([]);
+    const [yearSelected, setYearSelected] = useState(false);
     const [addrSelected, setAddrSelected] = useState(false);
     const [addr2Selected, setAddr2Selected] = useState(false);
 
@@ -28,6 +30,7 @@ const ApplyPop = () => {
     useEffect(()=>{
         if(popup.confirmPop === false){
             setConfirm(false);
+            setSubmitConfirm(false);
         }
     },[popup.confirmPop]);
 
@@ -119,7 +122,6 @@ const ApplyPop = () => {
     }
 
 
-    //맨처음 약관내용 가져오기
     useEffect(()=>{
         getYearList();
         getAddress();
@@ -129,7 +131,8 @@ const ApplyPop = () => {
 
     //소개팅 신청하기
     const submit = (values) => {
-        console.log(values)
+        console.log(values);
+        let tel = values.tel.replace(/[^0-9]/g, '');
 
         if(!values.name){
             dispatch(confirmPop({
@@ -163,7 +166,7 @@ const ApplyPop = () => {
                 confirmPopBtn:1,
             }));
             setConfirm(true);
-        }else if(!values.tel){
+        }else if(!tel || tel.length < 11){
             dispatch(confirmPop({
                 confirmPop:true,
                 confirmPopTit:'알림',
@@ -179,28 +182,40 @@ const ApplyPop = () => {
                 confirmPopBtn:1,
             }));
             setConfirm(true);
+        }else{
+            let body = {
+                name: values.name,
+                year: values.year,
+                gender: values.gender,
+                address1: values.address1,
+                address2: values.address2,
+                tel: values.tel,
+            };
+
+            axios.post(`${date_apply}`,body)
+            .then((res)=>{
+                if(res.status === 200){
+                    dispatch(confirmPop({
+                        confirmPop:true,
+                        confirmPopTit:'알림',
+                        confirmPopTxt:'소개팅신청이 완료되었습니다.',
+                        confirmPopBtn:1,
+                    }));
+                    setSubmitConfirm(true);
+                }
+            })
+            .catch((error) => {
+                const err_msg = CF.errorMsgHandler(error);
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt: err_msg,
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            }); 
         }
-
-        // let body = {
-        //     name:
-        // };
-
-        // axios.post(`${date_apply}`,body)
-        // .then((res)=>{
-        //     if(res.status === 200){
-                
-        //     }
-        // })
-        // .catch((error) => {
-        //     const err_msg = CF.errorMsgHandler(error);
-        //     dispatch(confirmPop({
-        //         confirmPop:true,
-        //         confirmPopTit:'알림',
-        //         confirmPopTxt: err_msg,
-        //         confirmPopBtn:1,
-        //     }));
-        //     setConfirm(true);
-        // }); 
+            
     };
 
 
@@ -244,7 +259,11 @@ const ApplyPop = () => {
                                                 <select 
                                                     name="year"
                                                     value={values.year}
-                                                    onChange={handleChange}
+                                                    onChange={(e)=>{
+                                                        handleChange(e);
+                                                        setYearSelected(true);
+                                                    }}
+                                                    className={yearSelected ? "selected" : ""}
                                                 >
                                                     <option value='' hidden>나이를 선택해주세요.</option>
                                                     {yearList.map((cont,i)=>{
@@ -326,7 +345,7 @@ const ApplyPop = () => {
                                         <li>
                                             <p>연락처 <span className="color_point">*</span></p>
                                             <div className="input_box">
-                                                <NumericFormat decimalScale={0} maxLength={11} name="tel" value={values.tel} onChange={handleChange} placeholder="숫자만 입력해주세요." />
+                                                <PatternFormat format="###-####-####" name="tel" value={values.tel} onChange={handleChange} placeholder="숫자만 입력해주세요." />
                                             </div>
                                         </li>
                                     </ul>
@@ -357,6 +376,9 @@ const ApplyPop = () => {
 
         {/* confirm팝업 */}
         {confirm && <ConfirmPop />}
+
+        {/* 소개팅신청 완료 confirm팝업 */}
+        {submitConfirm && <ConfirmPop closePop="custom" onCloseHandler={closePopHandler} />}
     </>);
 };
 

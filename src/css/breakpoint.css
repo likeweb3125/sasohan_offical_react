@@ -185,14 +185,11 @@
     #footer {padding-bottom: 43px;}
     #footer .top_box{padding: 40px 0;}
 
-
-    .apply_pop .pop_cont{width: calc(100% - 40px);padding: 60px 50px 40px;}
+    /* 소개팅신청 팝업 */
+    .apply_pop .pop_cont{width: calc(100% - 40px);padding: 60px 50px 40px;background: #fff url(../images/apply_pop_bg_tab.svg) no-repeat center top;background-size: 100%;}
     .apply_pop .inner_box{display: block;}
-    .apply_pop .inner_box .tit_box{width: 100%;padding-right: 0;}
-
-    .apply_pop .inner_box .form_box{width: 100%;}
-
-
+    .apply_pop .inner_box .tit_box{width: 100%;padding-right: 0;padding-bottom: 40px;}
+    .apply_pop .inner_box .form_box{width: 100%;max-height: 60vh;}
 }
 
 
@@ -381,6 +378,22 @@
     .terms_pop .scroll_wrap .tab_box{overflow-y: hidden;overflow-x: auto;}
     .terms_pop .scroll_wrap .tab_box ul{width: 640px;}
     .terms_pop .scroll_wrap .txt_box{padding-top: 20px;font-size: 16px;}
+
+    /* 소개팅신청 팝업 */
+    .apply_pop .pop_cont{padding: 40px 24px 32px;}
+    .apply_pop .inner_box .tit_box {padding-bottom: 32px;}
+    .apply_pop .inner_box .tit_box h4{font-size: 24px;}
+    .apply_pop .inner_box .tit_box h4 strong{font-size: 28px;}
+    .apply_pop .inner_box .tit_box h4 strong::before{height: 12px;}
+    .apply_pop .inner_box .tit_box p{padding-top: 12px;font-size: 16px;}
+    .apply_pop .inner_box .form_box>.tx_r{display: none;}
+    .apply_pop .inner_box .form_ul{padding: 0;}
+    .apply_pop .inner_box .form_ul>li{display: block;padding-bottom: 20px;}
+    .apply_pop .inner_box .form_ul>li>p{width: 100%;font-size: 16px;}
+    .apply_pop .inner_box .form_ul>li>p+*{width: 100%;}
+    .apply_pop .agree_box{padding: 20px 0;}
+
+
 }
 
 
