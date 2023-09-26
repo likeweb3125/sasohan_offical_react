@@ -81,7 +81,9 @@ const Header = () => {
                         </li>
                     </ul>
                 </div>
-                <button type='button' className='btn_apply'>소개팅 신청</button>
+                <button type='button' className='btn_apply' onClick={()=>{
+                    alert("현재 준비중입니다.");
+                }}>소개팅 신청</button>
             </div>
         </header>
 

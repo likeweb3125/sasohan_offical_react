@@ -115,7 +115,9 @@ const Footer = () => {
             </ul>
             <button type="button" className="btn_top" onClick={scrollToTop}></button>
         </div>
-        <button type='button' className='btn_apply_foot'>소개팅 <br/>신청</button>
+        <button type='button' className='btn_apply_foot' onClick={()=>{
+            alert("현재 준비중입니다.");
+        }}>소개팅 <br/>신청</button>
 
         {/* confirm팝업 */}
         {confirm && <ConfirmPop />}

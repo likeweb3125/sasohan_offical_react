@@ -26,7 +26,7 @@ const popup = createSlice({
         termsPopTab: null,
 
         //소개팅신청하기 팝업
-        applyPop: true,
+        applyPop: false,
         
         // 앱 팝업------------------------------------
         //회원가입 - 약관동의 팝업
