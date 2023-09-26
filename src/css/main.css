@@ -371,7 +371,7 @@ html,.body{height: auto;}
 .pop_wrap{position: fixed;width: 100%;height: 100%;top: 0;left: 0;z-index: 900;}
 .pop_wrap .dim{position: absolute;width: 100%;height:100%;top: 0;left: 0;background: rgba(0,0,0,0.6);}
 .pop_wrap .pop_cont{position: relative;width: 720px;border-radius: 20px;background:  #fff;padding: 40px 32px;overflow: hidden;}
-.pop_wrap .btn_close{position: absolute;width: 46px;height: 46px;font-size: 0;text-indent: -9999px;background: url(../images/ic_close.svg) no-repeat center left 8px;top: 40px;right: 32px;z-index: 1;}
+.pop_wrap .btn_close{position: absolute;width: 46px;height: 46px;font-size: 0;text-indent: -9999px;background: url(../images/ic_close.svg) no-repeat center left 8px;top: 40px;right: 32px;z-index: 2;}
 .pop_wrap .pop_tit{width: calc(100% - 46px);padding-bottom: 28px;}
 .pop_wrap .pop_tit .tit{font-size: 36px;color: #6840FD;font-weight: 700;}
 .confirm_pop .pop_cont{width: 500px;}
