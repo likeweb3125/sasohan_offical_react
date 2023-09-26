@@ -374,6 +374,7 @@ html,.body{height: auto;}
 .pop_wrap .btn_close{position: absolute;width: 46px;height: 46px;font-size: 0;text-indent: -9999px;background: url(../images/ic_close.svg) no-repeat center left 8px;top: 40px;right: 32px;z-index: 1;}
 .pop_wrap .pop_tit{width: calc(100% - 46px);padding-bottom: 28px;}
 .pop_wrap .pop_tit .tit{font-size: 36px;color: #6840FD;font-weight: 700;}
+.confirm_pop .pop_cont{width: 500px;}
 
 /* 챠밍매니저 팝업 */
 .manager_pop .pop_cont{border: 4px solid rgba(104, 64, 253, 0.2);}
