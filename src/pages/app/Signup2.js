@@ -23,8 +23,8 @@ const SignUp2 = () => {
     const m_id_check = enum_api_uri.m_id_check;
     const m_nick_check = enum_api_uri.m_nick_check;
     const m_join = enum_api_uri.m_join;
-    const tradeid = localStorage.getItem("tradeid");
-    const app_token = localStorage.getItem("app_token");
+    const tradeid = sessionStorage.getItem("tradeid");
+    // const app_token = localStorage.getItem("app_token");
     const [confirm, setConfirm] = useState(false);
     const [agreeList, setAgreeList] = useState(["개인정보 보호정책","이메일 무단 수집 거부","개인정보수집","이용약관"]);
     const [step, setStep] = useState(1);
@@ -999,7 +999,7 @@ const SignUp2 = () => {
                     t_smok: user.signupData.t_smok,
                     t_drink: user.signupData.t_drink,
                     t_religion: user.signupData.t_religion,
-                    app_token: app_token
+                    app_token: ""
                 };
 
                 axios.post(`${m_join}`,body)
@@ -1008,6 +1008,9 @@ const SignUp2 = () => {
                         //메인페이지 이동, 회원가입완료 팝업 띄우기
                         navigate("/");
                         dispatch(appSignupCompletePop({appSignupCompletePop:true,appSignupCompletePopUser:user.signupData.m_name}));
+
+                        //sessionStorage tradeid 삭제
+                        sessionStorage.removeItem("tradeid");
                     }
                 })
                 .catch((error) => {

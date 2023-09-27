@@ -81,12 +81,12 @@ const SignUp = () => {
     }, []);
   
 
-    //전체동의시 tradeid localStorage에 저장
+    //전체동의시 tradeid sessionStorage에 저장
     useEffect(()=>{
         if(allCheck){
             const id = moment().format("YYYYMMDDHHmmss");
             setTradeid(id);
-            localStorage.setItem("tradeid",id);
+            sessionStorage.setItem("tradeid",id);
         }
     },[allCheck]);
 
