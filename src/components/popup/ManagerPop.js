@@ -53,7 +53,7 @@ const ManagerPop = () => {
                     <img src={popup.managerPopData.photo ? popup.managerPopData.photo : none_img} alt="매니저프로필이미지" />
                 </div>
                 <div className="scroll_wrap">
-                    <div className="top_box flex">
+                    <div className="top_box flex_top">
                         <div className="img_box mo_none">
                             <img src={popup.managerPopData.photo ? popup.managerPopData.photo : none_img} alt="매니저프로필이미지" />
                         </div>
