@@ -723,7 +723,7 @@ const Main = () => {
             <div className="section_inner">
                 <div className="donation_wrap">
                     <div className="title_box">
-                        <p className="tit">회원님들을 위한 <br/><strong>사소한의 약속</strong></p>
+                        <p className="tit">회원님들을 위한 <br/><strong>사소한의 신뢰</strong></p>
                     </div>
                     <div className="inner_cont flex_between flex_bottom">
                         <div className="trust_cont">

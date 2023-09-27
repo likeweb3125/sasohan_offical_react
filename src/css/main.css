@@ -435,7 +435,7 @@ html,.body{height: auto;}
 .apply_pop .inner_box .form_ul>li>p+*{width: calc(100% - 112px);}
 .apply_pop .inner_box .form_ul>li .gender_ul li{width: calc(50% - 4px);}
 .gender_ul li label input{display: none;-webkit-appearance: none;-moz-appearance: none;-ms-appearance: none;-o-appearance: none;appearance: none;}
-.gender_ul li label .box{width: 100%;height: 56px;border: 1px solid #ddd;border-radius: 8px;text-align: center;line-height: 56px;font-size: 20px;font-weight: 500;color: #999;cursor: pointer;}
+.gender_ul li label .box{width: 100%;height: 56px;border: 1px solid #ddd;border-radius: 8px;text-align: center;line-height: 56px;font-size: 20px;font-weight: 500;color: #999;cursor: pointer;background: #fff;}
 .gender_ul li label .box span{padding-left: 36px;background: url(../images/ic_m.svg) no-repeat center left;}
 .gender_ul li:nth-child(2) label .box span{background: url(../images/ic_f.svg) no-repeat center left;}
 .gender_ul li label input:checked + .box{border-color: #6902FE;color: #6902FE;}
