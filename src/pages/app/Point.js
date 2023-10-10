@@ -51,26 +51,26 @@ const Point = () => {
             }));
             setConfirm(true);
         }else{
-            // if(window.PayApp) {
-            //     window.PayApp.setParam('userid','jjagg');
-            //     window.PayApp.setParam('shopname','사소한');
-            //     window.PayApp.setParam('goodname','포인트충전');
-            //     window.PayApp.setParam('price',price);
-            //     window.PayApp.setParam('recvphone',);
-            //     window.PayApp.setParam('memo','');
-            //     window.PayApp.setParam('reqaddr','');
-            //     window.PayApp.setParam('currency','krw');
-            //     window.PayApp.setParam('vccode','82');
-            //     window.PayApp.setParam('smsuse','n');
-            //     window.PayApp.setParam('openpaytype',pay);
-            //     window.PayApp.setParam('redirectpay','1');
-            //     window.PayApp.setParam('feedbackurl','');
-            //     window.PayApp.setParam('checkretry','y');
-            //     window.PayApp.setParam('var1',);
-            //     window.PayApp.setParam('buyerid',);
-            //     window.PayApp.call();
-            // }
-            dispatch(appPointPop(true));
+            if(window.PayApp) {
+                window.PayApp.setParam('userid','jjagg');
+                window.PayApp.setParam('shopname','사소한');
+                window.PayApp.setParam('goodname','포인트충전');
+                window.PayApp.setParam('price',price);
+                window.PayApp.setParam('recvphone',);
+                window.PayApp.setParam('memo','');
+                window.PayApp.setParam('reqaddr','');
+                window.PayApp.setParam('currency','krw');
+                window.PayApp.setParam('vccode','82');
+                window.PayApp.setParam('smsuse','n');
+                window.PayApp.setParam('openpaytype',pay);
+                window.PayApp.setParam('redirectpay','1');
+                window.PayApp.setParam('feedbackurl','');
+                window.PayApp.setParam('checkretry','y');
+                window.PayApp.setParam('var1',);
+                window.PayApp.setParam('buyerid',);
+                window.PayApp.call();
+            }
+            // dispatch(appPointPop(true));
         }
     };
 
