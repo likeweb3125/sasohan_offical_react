@@ -12,6 +12,10 @@ const SignupCompletePop = () => {
     //팝업닫기--------------
     const closePopHandler = () => {
         setOff(true);
+
+        //앱에 회원가입완료 보내기
+        const data = {}
+        window.flutterSignup.postMessage(JSON.stringify(data));
     };
 
     useEffect(()=>{
