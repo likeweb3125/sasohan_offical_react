@@ -56,7 +56,7 @@ const Point = () => {
                 window.PayApp.setParam('shopname','사소한');
                 window.PayApp.setParam('goodname','포인트충전');
                 window.PayApp.setParam('price',price);
-                window.PayApp.setParam('recvphone',);
+                window.PayApp.setParam('recvphone','');
                 window.PayApp.setParam('memo','');
                 window.PayApp.setParam('reqaddr','');
                 window.PayApp.setParam('currency','krw');
@@ -66,9 +66,10 @@ const Point = () => {
                 window.PayApp.setParam('redirectpay','1');
                 window.PayApp.setParam('feedbackurl','');
                 window.PayApp.setParam('checkretry','y');
-                window.PayApp.setParam('var1',);
-                window.PayApp.setParam('buyerid',);
-                window.PayApp.call('_self'); //새창말고 현재창 url 변경 (_self 추가)
+                window.PayApp.setParam('var1','');
+                window.PayApp.setParam('buyerid','');
+                window.PayApp.setTarget('_self'); //새창말고 현재창 url 변경 setTarget('_self') 추가
+                window.PayApp.call();
             }
         }
     };
