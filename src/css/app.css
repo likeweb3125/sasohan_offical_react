@@ -136,7 +136,7 @@
 .signup_wrap .step_ul{padding: 0 20px 12px;background: #fff;}
 .signup_wrap .step_ul li{width: calc(25% - 4.5px);height: 4px;border-radius: 2px;background: #DDDDDD;}
 .signup_wrap .step_ul li.on{background: #6840FD;}
-.signup_wrap .signup_cont{background: #F7F7FA;height: calc(100vh - 74px);padding: 28px 20px;scroll-behavior: smooth;}
+.signup_wrap .signup_cont{background: #F7F7FA;height: calc(100vh - 16px);padding: 28px 20px;scroll-behavior: smooth;}
 .signup_box{padding-bottom: 12px;animation: appAniStep .4s .3s cubic-bezier(0, 0, 0, 1.17) forwards;width: 100%;margin-left: -100%;opacity: 0;}
 .signup_box.done{animation:none;opacity: 1;margin-left: 0;}
 .signup_box .gray_box{background: #EFEFEF;text-align: center;padding: 12px 5px;font-size: 16px;color: #666;border-radius: 8px;margin: 28px 0;}
@@ -173,7 +173,7 @@
 
 /************************* 마이페이지 *****************************/
 /* 포인트충전 */
-.point_wrap{min-height: calc(100vh - 58px);background:#F7F7FA;}
+.point_wrap{min-height: 100vh;background:#F7F7FA;}
 .point_wrap .top_box{padding: 28px 20px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.04);border-radius: 0 0 20px 20px;background: #fff;}
 .point_wrap .top_box .box{border: 2px solid #EAEAEA;border-radius: 8px;padding: 32px 16px 20px;}
 .point_wrap .top_box .txt p{font-size: 17px;font-weight: 500;color: #666;}
