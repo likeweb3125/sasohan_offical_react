@@ -68,9 +68,8 @@ const Point = () => {
                 window.PayApp.setParam('checkretry','y');
                 window.PayApp.setParam('var1',);
                 window.PayApp.setParam('buyerid',);
-                window.PayApp.call();
+                window.PayApp.call('_self'); //새창말고 현재창 url 변경 (_self 추가)
             }
-            // dispatch(appPointPop(true));
         }
     };
 

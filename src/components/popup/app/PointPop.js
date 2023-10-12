@@ -1,16 +1,24 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { appPointPop } from "../../../store/popupSlice";
+import util from "../../../config/util";
 import ic_point from "../../../images/app/ic_point_big.svg";
 
 
 const PointPop = () => {
     const dispatch = useDispatch();
     const [off, setOff] = useState(false);
+    const ref_browser = util.getCookie("ref_browser");
 
     //팝업닫기--------------
     const closePopHandler = () => {
         setOff(true);
+
+        //앱에 포인트결제완료 보내기
+        if(ref_browser == "app"){
+            const data = {};
+            window.flutterPointUseHistory.postMessage(JSON.stringify(data));
+        }
     };
 
     useEffect(()=>{

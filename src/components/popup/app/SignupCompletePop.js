@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { appSignupCompletePop } from "../../../store/popupSlice";
+import util from "../../../config/util";
 import signup_complete_img from "../../../images/app/signup_complete_img.svg"; 
 
 
@@ -8,14 +9,17 @@ const SignupCompletePop = () => {
     const dispatch = useDispatch();
     const popup = useSelector((state)=>state.popup);
     const [off, setOff] = useState(false);
+    const ref_browser = util.getCookie("ref_browser");
 
     //팝업닫기--------------
     const closePopHandler = () => {
         setOff(true);
 
         //앱에 회원가입완료 보내기
-        const data = {}
-        window.flutterSignup.postMessage(JSON.stringify(data));
+        if(ref_browser == "app"){
+            const data = {}
+            window.flutterSignup.postMessage(JSON.stringify(data));
+        }
     };
 
     useEffect(()=>{

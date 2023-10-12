@@ -273,8 +273,10 @@ const SignUp2 = () => {
         const regExp = /[^a-z0-9_]/gi;
         const ele = event.target;
         if (regExp.test(ele.value)) {
-            ele.value = ele.value.replace(regExp, '');
+            ele.value = ele.value.replace(regExp, ''); // 허용된 문자만 남김
         }
+
+        ele.value = ele.value.toLowerCase(); // 소문자로 변경
     };
 
 
