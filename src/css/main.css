@@ -229,6 +229,17 @@ html,.body{height: auto;}
 .section2.on .about_wrap .bg_box .txt{animation: aniShow .8s .3s forwards;}
 .section2.on .about_wrap .txt_box .tab_ul{animation: aniTabUl 1s .3s forwards;}
 .section2.on .about_wrap .txt_box .txt_ul{animation: aniLeft 1.3s .3s forwards;}
+
+/* section2_2 실시간만남스토리*/
+.section2_2{background: url(../images/story_bg.jpg) no-repeat center;background-size: cover;padding: 100px 0 66px;margin-top: 80px;}
+.section2_2 .tit_box .tit{font-size: 48px;font-weight: 700;color: #fff;}
+.section2_2 .tit_box .tit strong{color: #6840FD; text-shadow:
+    1px 1px 0 #fff,
+    -1px 1px 0 #fff,
+    -1px -1px 0 #fff,
+    1px -1px 0 #fff;}
+
+
 /* section3 */
 .section3{padding-top: 150px;}
 .blog_wrap{padding-top: 60px;opacity: 0;}

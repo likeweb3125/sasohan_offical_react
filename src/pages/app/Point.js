@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
+import axios from "axios";
+import util from "../../config/util";
 import * as CF from "../../config/function";
+import { enum_api_uri } from "../../config/enum";
 import { appPointPop, confirmPop } from "../../store/popupSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 
@@ -8,11 +12,21 @@ import ConfirmPop from "../../components/popup/ConfirmPop";
 const Point = () => {
     const dispatch = useDispatch();
     const popup = useSelector((state)=>state.popup);
+    const m_info = enum_api_uri.m_info;
+    const m_point = enum_api_uri.m_point;
+    const m_pay_check = enum_api_uri.m_pay_check;
     const [pointList, setPointList] = useState([100,500,800,1000]);
     const [recommend, setRecommend] = useState(2);
     const [price, setPrice] = useState(0);
     const [pay, setPay] = useState("");
     const [confirm, setConfirm] = useState(false);
+    const [point, setPoint] = useState(0);
+    const [userPoint, setUserPoint] = useState(0);
+    const [userInfo, setUserInfo] = useState({});
+    const [var1, setVar1] = useState("");
+    const [checkStart, setCheckStart] = useState(false);
+    // const token = util.getCookie("token");
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJMOTAwMTM1NCIsInVzZXJMZXZlbCI6MSwiaWF0IjoxNjk3MDkzNjA2LCJleHAiOjE2OTcxMzY4MDZ9.SLEvGVcvfRr3KjjU90BF6u1Lsh4_1IdHG_J1GRoRbLs";
 
 
     // Confirm팝업 닫힐때
@@ -21,11 +35,66 @@ const Point = () => {
             setConfirm(false);
         }
     },[popup.confirmPop]);
+
+
+    //회원정보 가져오기
+    const getInfo = () => {
+        axios.get(`${m_info}`,
+            {headers:{Authorization: `Bearer ${token}`}}
+        )
+        .then((res)=>{
+            if(res.status === 200){
+                const data = res.data;
+                setUserInfo(data);
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
+    };
+
+    //회원 잔여포인트 가져오기
+    const getPoint = () => {
+        axios.get(`${m_point}`,
+            {headers:{Authorization: `Bearer ${token}`}}
+        )
+        .then((res)=>{
+            if(res.status === 200){
+                const data = res.data;
+                setUserPoint(data.point);
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
+    };
+
+    useEffect(()=>{
+        getInfo();
+        getPoint();
+    },[]);
     
 
     //결제하기
     const payHandler = () => {
         const agree = document.getElementById("agree_check");
+        const date = moment().format("YYYYMMDDHHmmSSS");
+        setVar1(userInfo.m_id+date);
+
         if(price === 0){
             dispatch(confirmPop({
                 confirmPop:true,
@@ -56,7 +125,7 @@ const Point = () => {
                 window.PayApp.setParam('shopname','사소한');
                 window.PayApp.setParam('goodname','포인트충전');
                 window.PayApp.setParam('price',price);
-                window.PayApp.setParam('recvphone','');
+                window.PayApp.setParam('recvphone',userInfo.phone);
                 window.PayApp.setParam('memo','');
                 window.PayApp.setParam('reqaddr','');
                 window.PayApp.setParam('currency','krw');
@@ -64,15 +133,66 @@ const Point = () => {
                 window.PayApp.setParam('smsuse','n');
                 window.PayApp.setParam('openpaytype',pay);
                 window.PayApp.setParam('redirectpay','1');
-                window.PayApp.setParam('feedbackurl','');
+                window.PayApp.setParam('feedbackurl','https://api.sasohan.net/v1/pay/notice');
                 window.PayApp.setParam('checkretry','y');
-                window.PayApp.setParam('var1','');
-                window.PayApp.setParam('buyerid','');
+                window.PayApp.setParam('var1',userInfo.m_id+date);
+                window.PayApp.setParam('buyerid',userInfo.m_id);
                 window.PayApp.setTarget('_self'); //새창말고 현재창 url 변경 setTarget('_self') 추가
                 window.PayApp.call();
+
+                setCheckStart(true);
             }
         }
     };
+
+
+    //결제처리 체크하기
+    const payCheckHandler = () => {
+        axios.get(`${m_pay_check.replace(":var1",var1)}`,
+            {headers:{Authorization: `Bearer ${token}`}}
+        )
+        .then((res)=>{
+            if(res.status === 200){
+                if(res.data.result){
+                    setCheckStart(false);
+
+                    // 포인트충전완료 팝업 띄우기
+                    let payType;
+
+                    if(pay == "card"){
+                        payType = "신용카드";
+                    }else if(pay == "phone"){
+                        payType = "휴대폰결제";
+                    }
+
+                    const data = {
+                        data: moment().format("YYYY.MM.DD"),
+                        payType: payType,
+                        price: price,
+                        point: point
+                    };
+                    dispatch(appPointPop({appPointPop:true,appPointPopData:data}));
+                }
+            }
+        })
+        .catch((error) => {
+            
+        });
+    };
+
+
+    //결제시작하면 1초마다 결제처리 체크하기
+    useEffect(()=>{
+        if(checkStart){
+            const timer = setInterval(() => {
+                payCheckHandler();
+            }, 1000);
+
+            return () => {
+                clearInterval(timer);
+            };
+        }
+    },[checkStart]);
 
 
     return(<>
@@ -81,7 +201,7 @@ const Point = () => {
                 <div className="box">
                     <div className="txt flex_between flex_wrap">
                         <p>잔여포인트</p>
-                        <h5><strong>3,000 </strong>포인트</h5>
+                        <h5><strong>{CF.MakeIntComma(userPoint)} </strong>포인트</h5>
                     </div>
                     <button type="button"><span>포인트 충전 및 사용 내역 보기</span></button>
                 </div>
@@ -93,7 +213,12 @@ const Point = () => {
                         {pointList.map((point,i)=>{
                             const totalPrice = point*100+(point*10);
                             return(
-                                <li key={i} className={`custom_radio${recommend === i ? " recommend" : ""}`} onClick={()=>{setPrice(totalPrice)}}>
+                                <li key={i} className={`custom_radio${recommend === i ? " recommend" : ""}`} 
+                                    onClick={()=>{
+                                        setPrice(totalPrice);
+                                        setPoint(point);
+                                    }}
+                                >
                                     <label htmlFor={`point_${point}`}>
                                         <input type={"radio"} id={`point_${point}`} name="point_check" />
                                         <div className="box w_100 flex_between flex_wrap">
@@ -160,7 +285,7 @@ const Point = () => {
                     </ul>
                     <div className="price_txt flex_between flex_wrap">
                         <p>총 결제 금액</p>
-                        <h6><strong>88,000 </strong>원</h6>
+                        <h6><strong>{CF.MakeIntComma(price)} </strong>원</h6>
                     </div>
                     <button type="button" className="app_btn2" onClick={payHandler}>결제</button>
                 </div>

@@ -65,12 +65,14 @@ const Main = () => {
     const [confirm, setConfirm] = useState(false);
     const sect1Ref = useRef(null);
     const sect2Ref = useRef(null);
+    const sect2_2Ref = useRef(null);
     const sect3Ref = useRef(null);
     const sect4Ref = useRef(null);
     const sect5Ref = useRef(null);
     const sect6Ref = useRef(null);
     const [sect1On, setSect1On] = useState(false);
     const [sect2On, setSect2On] = useState(false);
+    const [sect2_2On, setSect2_2On] = useState(false);
     const [sect3On, setSect3On] = useState(false);
     const [sect4On, setSect4On] = useState(false);
     const [sect5On, setSect5On] = useState(false);
@@ -581,7 +583,7 @@ const Main = () => {
         </section>
 
         
-        <section className={`section section3 ${sect3On ? "on" : ""}`} id="sect3" ref={sect3Ref}>
+        <section className={`section section2_2 ${sect2_2On ? "on" : ""}`} id="sect2_2" ref={sect2_2Ref}>
             {blogList.length > 0 &&
             <div className="section_inner">
                 <div className="tit_box">

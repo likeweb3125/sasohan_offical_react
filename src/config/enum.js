@@ -25,4 +25,8 @@ exports.enum_api_uri = {
     m_select_list: `${api_uri}/v1/select-list`,
     m_img_add: `${api_uri}/v1/app/user/user-profile-add`,
     m_join: `${api_uri}/v1/app/user/join`,
+    //포인트충전
+    m_info:`${api_uri}/v1/app/mypage/profile`,
+    m_point:`${api_uri}/v1/app/mypage/point`,
+    m_pay_check:`${api_uri}/v1/pay/notice/:var1`,
 }

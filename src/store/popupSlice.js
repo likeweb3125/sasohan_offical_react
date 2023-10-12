@@ -52,6 +52,7 @@ const popup = createSlice({
 
         //포인트충전완료 팝업
         appPointPop: false,
+        appPointPopData: {},
     },
     reducers:{
         // 공통 -----------------------------------
@@ -105,7 +106,8 @@ const popup = createSlice({
             state.appSignupCompletePopUser = action.payload.appSignupCompletePopUser;
         },
         appPointPop: (state, action) => {
-            state.appPointPop = action.payload;
+            state.appPointPop = action.payload.appPointPop;
+            state.appPointPopData = action.payload.appPointPopData;
         },
     }
 });

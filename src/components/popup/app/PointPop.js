@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { appPointPop } from "../../../store/popupSlice";
 import util from "../../../config/util";
+import * as CF from "../../../config/function";
 import ic_point from "../../../images/app/ic_point_big.svg";
 
 
 const PointPop = () => {
     const dispatch = useDispatch();
+    const popup = useSelector((state)=>state.popup);
     const [off, setOff] = useState(false);
     const ref_browser = util.getCookie("ref_browser");
 
@@ -24,7 +26,7 @@ const PointPop = () => {
     useEffect(()=>{
         if(off){
             setTimeout(()=>{
-                dispatch(appPointPop(false));
+                dispatch(appPointPop({appPointPop:false,appPointPopData:{}}));
             },500);
         }
     },[off]);
@@ -48,19 +50,19 @@ const PointPop = () => {
                     <ul className="txt_ul">
                         <li className="flex_between flex_wrap">
                             <p>충전일시</p>
-                            <p>2023.06.26</p>
+                            <p>{popup.appPointPopData.date}</p>
                         </li>
                         <li className="flex_between flex_wrap">
                             <p>결제수단</p>
-                            <p>신용카드</p>
+                            <p>{popup.appPointPopData.payType}</p>
                         </li>
                         <li className="flex_between flex_wrap">
                             <p>결제금액</p>
-                            <p>11,000원</p>
+                            <p>{CF.MakeIntComma(popup.appPointPopData.price)}원</p>
                         </li>
                         <li className="flex_between flex_wrap">
                             <p>총 충전 포인트</p>
-                            <p><strong>100 </strong>포인트</p>
+                            <p><strong>{CF.MakeIntComma(popup.appPointPopData.point)} </strong>포인트</p>
                         </li>
                     </ul>
                 </div>
