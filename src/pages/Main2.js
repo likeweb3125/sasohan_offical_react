@@ -87,11 +87,13 @@ const Main = () => {
     const [blogOn, setBlogOn] = useState(0);
     const [trustTab,setTrustTab] = useState(0);
     const m_list = enum_api_uri.m_list;
+    const story_list = enum_api_uri.story_list;
     const blog_list = enum_api_uri.blog_list;
     const ytb_list = enum_api_uri.ytb_list;
     const review_list = enum_api_uri.review_list;
     const user_count = enum_api_uri.user_count;
     const [managerList, setManagerList] = useState([]);
+    const [storyList, setStoryList] = useState([]);
     const [blogList, setBlogList] = useState([]);
     const [ytbList, setYtbList] = useState([]);
     const [ytbOn, setYtbOn] = useState(0);
@@ -208,6 +210,28 @@ const Main = () => {
     };
 
 
+    //스토리리스트 가져오기
+    const getStoryList = () => {
+        axios.get(`${story_list}`)
+        .then((res)=>{
+            if(res.status === 200){
+                let data = res.data;
+                setStoryList([...data]);
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
+    };
+
+
     //블로그리스트 가져오기
     const getBlogList = () => {
         axios.get(`${blog_list}`)
@@ -298,6 +322,7 @@ const Main = () => {
 
     useEffect(()=>{
         getManagerList();
+        getStoryList();
         getBlogList();
         getYtbList();
         getReviewList();
@@ -584,14 +609,42 @@ const Main = () => {
 
         
         <section className={`section section2_2 ${sect2_2On ? "on" : ""}`} id="sect2_2" ref={sect2_2Ref}>
-            {blogList.length > 0 &&
+            {storyList.length > 0 &&
             <div className="section_inner">
                 <div className="tit_box">
                     <p className="tit">실시간 만남 <strong>스토리</strong></p>
                     <p className="txt">정확하고 빠른 사소한만의 실시간 매칭 만남을 확인하세요! </p>
                 </div>
                 <div className="story_wrap">
-                    
+                    <Swiper 
+                        className={`story_slider`}
+                        slidesPerView={`auto`}
+                        spaceBetween={8}
+                        observer={true}
+                        observeParents={true}
+                        navigation={{nextEl: `.story_slider .swiper-button-next`,prevEl: `.story_slider .swiper-button-prev`}}
+                        scrollbar={{draggable: true}}
+                        breakpoints={
+                            {
+                                1420:{spaceBetween:24},//width >= 1420
+                                768:{spaceBetween:8},//width >= 768
+                            }
+                        }
+                    >
+                    {storyList.map((cont,i)=>{
+                        return(
+                            <SwiperSlide key={i}>
+                                <div className="img_box"><img src={cont.photo} alt="프로필이미지" /></div>
+                                <div className="txt_box">
+                                    <p className="name"><strong>{cont.manager_name}</strong>{cont.manager_type_txt}</p>
+                                    <p className="time">{cont.w_date}</p>
+                                </div>
+                            </SwiperSlide>
+                        );
+                    })}
+                        <div className="swiper-button-prev"></div>
+                        <div className="swiper-button-next"></div>
+                    </Swiper>
                 </div>
             </div>
             }

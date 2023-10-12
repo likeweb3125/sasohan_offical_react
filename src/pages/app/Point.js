@@ -25,8 +25,7 @@ const Point = () => {
     const [userInfo, setUserInfo] = useState({});
     const [var1, setVar1] = useState("");
     const [checkStart, setCheckStart] = useState(false);
-    // const token = util.getCookie("token");
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJMOTAwMTM1NCIsInVzZXJMZXZlbCI6MSwiaWF0IjoxNjk3MDkzNjA2LCJleHAiOjE2OTcxMzY4MDZ9.SLEvGVcvfRr3KjjU90BF6u1Lsh4_1IdHG_J1GRoRbLs";
+    const token = util.getCookie("token");
 
 
     // Confirm팝업 닫힐때

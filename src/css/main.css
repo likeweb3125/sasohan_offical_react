@@ -233,11 +233,10 @@ html,.body{height: auto;}
 /* section2_2 실시간만남스토리*/
 .section2_2{background: url(../images/story_bg.jpg) no-repeat center;background-size: cover;padding: 100px 0 66px;margin-top: 80px;}
 .section2_2 .tit_box .tit{font-size: 48px;font-weight: 700;color: #fff;}
-.section2_2 .tit_box .tit strong{color: #6840FD; text-shadow:
-    1px 1px 0 #fff,
-    -1px 1px 0 #fff,
-    -1px -1px 0 #fff,
-    1px -1px 0 #fff;}
+.section2_2 .tit_box .tit strong{color: #6840FD; text-shadow:1px 1px 0 #fff,-1px 1px 0 #fff,-1px -1px 0 #fff,1px -1px 0 #fff;}
+.section2_2 .tit_box .txt{font-size: 18px;color: #fff;padding-top: 16px;}
+
+
 
 
 /* section3 */

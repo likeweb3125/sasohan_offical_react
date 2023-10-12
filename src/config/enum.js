@@ -12,6 +12,7 @@ exports.enum_api_uri = {
     policy_cont: `${api_uri}/v1/site/policy/:policy_type`,
     site_info: `${api_uri}/v1/site/site-info`,
     date_apply: `${api_uri}/v1/main/requset`,
+    story_list: `${api_uri}/v1/main/story-list`,
 
 
     //앱----------------------------------------
