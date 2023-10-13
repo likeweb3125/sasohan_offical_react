@@ -216,6 +216,12 @@
 .point_wrap .bottom_box .price_txt h6{font-size: 24px;font-weight: 500;}
 .point_wrap .bottom_box .price_txt h6 strong{font-weight: 700;}
 
+/* 프로필수정 */
+.edit_profile_wrap{padding-top: 60px;}
+.edit_profile_wrap .top_tab{border-bottom:1px solid #ddd;padding: 8px 0 12px;background: #fff;position: fixed;width: 100%;top: 0;left: 0;}
+.edit_profile_wrap .top_tab li{margin-right: 4px;}
+.edit_profile_wrap .top_tab li:last-child{margin-right: 0;}
+.edit_profile_wrap .top_tab li a{border: 1px solid #ddd;font-size: 16px;font-weight: 500;color: #666;border-radius: 20px;padding: 10px 5px;text-align: center;width: 127px;}
 
 
 
