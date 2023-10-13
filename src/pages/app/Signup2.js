@@ -958,7 +958,7 @@ const SignUp2 = () => {
             //회원가입 다음버튼 클릭일때 회원가입 진행
             if(status == "signup"){
                 let address;
-                if(user.signupData.hasOwnProperty("m_address2" && user.signupData.m_address2.length > 0)){
+                if(user.signupData.hasOwnProperty("m_address2") && user.signupData.m_address2.length > 0){
                     address = user.signupData.m_address + " " + user.signupData.m_address2;
                 }else{
                     address = user.signupData.m_address;
@@ -998,28 +998,27 @@ const SignUp2 = () => {
                     app_token: ""
                 };
 
-                console.log(body);
-                // axios.post(`${m_join}`,body)
-                // .then((res)=>{
-                //     if(res.status === 200){
-                //         //메인페이지 이동, 회원가입완료 팝업 띄우기
-                //         navigate("/");
-                //         dispatch(appSignupCompletePop({appSignupCompletePop:true,appSignupCompletePopUser:user.signupData.m_name}));
+                axios.post(`${m_join}`,body)
+                .then((res)=>{
+                    if(res.status === 200){
+                        //메인페이지 이동, 회원가입완료 팝업 띄우기
+                        navigate("/");
+                        dispatch(appSignupCompletePop({appSignupCompletePop:true,appSignupCompletePopUser:user.signupData.m_name}));
 
-                //         //sessionStorage tradeid 삭제
-                //         sessionStorage.removeItem("tradeid");
-                //     }
-                // })
-                // .catch((error) => {
-                //     const err_msg = CF.errorMsgHandler(error);
-                //     dispatch(confirmPop({
-                //         confirmPop:true,
-                //         confirmPopTit:'알림',
-                //         confirmPopTxt: err_msg,
-                //         confirmPopBtn:1,
-                //     }));
-                //     setConfirm(true);
-                // }); 
+                        //sessionStorage tradeid 삭제
+                        sessionStorage.removeItem("tradeid");
+                    }
+                })
+                .catch((error) => {
+                    const err_msg = CF.errorMsgHandler(error);
+                    dispatch(confirmPop({
+                        confirmPop:true,
+                        confirmPopTit:'알림',
+                        confirmPopTxt: err_msg,
+                        confirmPopBtn:1,
+                    }));
+                    setConfirm(true);
+                }); 
             }
             
         }else if(!usableProfile2){
