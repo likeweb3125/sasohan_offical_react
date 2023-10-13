@@ -36,7 +36,6 @@ function App() {
 
                 {/* 앱 페이지-------------------------------------------- */}
                 {/* 회원가입 - 약관동의 */}
-                <Route path="/app/signup" element={<AppLayout title="회원가입"><AppSignup /></AppLayout>} />
                 <Route path="/app/signup" element={<AppLayout><AppSignup /></AppLayout>} />
 
                 {/* 회원가입 */}
