@@ -998,27 +998,28 @@ const SignUp2 = () => {
                     app_token: ""
                 };
 
-                axios.post(`${m_join}`,body)
-                .then((res)=>{
-                    if(res.status === 200){
-                        //메인페이지 이동, 회원가입완료 팝업 띄우기
-                        navigate("/");
-                        dispatch(appSignupCompletePop({appSignupCompletePop:true,appSignupCompletePopUser:user.signupData.m_name}));
+                console.log(body);
+                // axios.post(`${m_join}`,body)
+                // .then((res)=>{
+                //     if(res.status === 200){
+                //         //메인페이지 이동, 회원가입완료 팝업 띄우기
+                //         navigate("/");
+                //         dispatch(appSignupCompletePop({appSignupCompletePop:true,appSignupCompletePopUser:user.signupData.m_name}));
 
-                        //sessionStorage tradeid 삭제
-                        sessionStorage.removeItem("tradeid");
-                    }
-                })
-                .catch((error) => {
-                    const err_msg = CF.errorMsgHandler(error);
-                    dispatch(confirmPop({
-                        confirmPop:true,
-                        confirmPopTit:'알림',
-                        confirmPopTxt: err_msg,
-                        confirmPopBtn:1,
-                    }));
-                    setConfirm(true);
-                }); 
+                //         //sessionStorage tradeid 삭제
+                //         sessionStorage.removeItem("tradeid");
+                //     }
+                // })
+                // .catch((error) => {
+                //     const err_msg = CF.errorMsgHandler(error);
+                //     dispatch(confirmPop({
+                //         confirmPop:true,
+                //         confirmPopTit:'알림',
+                //         confirmPopTxt: err_msg,
+                //         confirmPopBtn:1,
+                //     }));
+                //     setConfirm(true);
+                // }); 
             }
             
         }else if(!usableProfile2){
