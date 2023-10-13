@@ -32,4 +32,6 @@ exports.enum_api_uri = {
     m_point:`${api_uri}/v1/app/mypage/point`,
     m_pay_check:`${api_uri}/v1/pay/notice/:var1`,
     m_pay_logs:`${api_uri}/v1/pay/logs`,
+    //프로필수정
+    m_profile_info:`${api_uri}/v1/app/mypage/profile-info`,
 }

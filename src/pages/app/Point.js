@@ -324,6 +324,15 @@ const Point = () => {
                         <h6><strong>{CF.MakeIntComma(price)} </strong>원</h6>
                     </div>
                     <button type="button" className="app_btn2" onClick={payHandler}>결제</button>
+                    <button type="button" className="app_btn tm20"
+                        onClick={()=>{
+                            //앱에 포인트결제완료 보내기
+                            if(window.flutterPointUseHistory){
+                                const data = {};
+                                window.flutterPointUseHistory.postMessage(JSON.stringify(data));
+                            }
+                        }}
+                    >결제완료</button>
                 </div>
             </div>
         </div>

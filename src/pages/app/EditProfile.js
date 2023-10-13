@@ -1,20 +1,119 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import * as CF from '../../config/function';
+import { enum_api_uri } from "../../config/enum";
+import util from "../../config/util";
+import { appProfilePop, appProfilePop2, confirmPop } from "../../store/popupSlice";
+import { profileData } from "../../store/userSlice";
 
-import { appProfilePop, appProfilePop2 } from "../../store/popupSlice";
+import ConfirmPop from "../../components/popup/ConfirmPop";
 
 
 const EditProfile = () => {
     const dispatch = useDispatch();
     const user = useSelector((state)=>state.user);
     const popup = useSelector((state)=>state.popup);
+    const m_profile_info = enum_api_uri.m_profile_info;
+    const [confirm, setConfirm] = useState(false);
+    const [tabOn, setTabOn] = useState(1);
+    // const token = util.getCookie("token");
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJzb2w3NzIxIiwidXNlckxldmVsIjoxLCJpYXQiOjE2OTcxNzk5NjQsImV4cCI6MTY5NzIyMzE2NH0.InIXZOyBH7TGA5pgohfAjopLAXmwFMM_8r65yiDKVZo";
+
     const [allData, setAllData] = useState({});
+    const [myInfo, setMyInfo] = useState({});
+
+    const [inputFocus, setInputFocus] = useState({});
+
+    const [valNickname, setValNickname] = useState("");
+    const [valEmail, setValEmail] = useState("");
+    const [usableNickname, setUsableNickname] = useState(true);
+    const [usableEmail, setUsableEmail] = useState(true);
+    const [errorNickname, setErrorNickname] = useState(false);
+    const [errorEmail, setErrorEmail] = useState(false);
+
     const [address, setAddress] = useState("");
     const [address2, setAddress2] = useState("");
     const [height, setHeight] = useState("");
     const [height2, setHeight2] = useState(""); //상대방 키
 
 
+    // Confirm팝업 닫힐때
+    useEffect(()=>{
+        if(popup.confirmPop === false){
+            setConfirm(false);
+        }
+    },[popup.confirmPop]);
+
+
+
+    //회원프로필정보 가져오기
+    const getProfileInfo = () => {
+        axios.get(`${m_profile_info}`,
+            {headers:{Authorization: `Bearer ${token}`}}
+        )
+        .then((res)=>{
+            if(res.status === 200){
+                let data = res.data;
+                setAllData(data);
+
+                setMyInfo(data.my_info);
+
+                //본인인증 데이터 signupData store 값에 저장
+                // let m_gender;
+                // if(data.Sex == "F"){
+                //     m_gender = "2";
+                // }else if(data.Sex == "M"){
+                //     m_gender = "1";
+                // }
+                // let newData = {...user.signupData};
+                // newData.m_name = data.Name;
+                // newData.m_born = data.Socialno;
+                // newData.m_c_phone = data.M_C_Phone;
+                // newData.m_gender = m_gender;
+                // dispatch(profileData(newData));
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        })
+    };
+
+
+    //맨처음 회원프로필정보 가져오기
+    useEffect(()=>{
+        getProfileInfo();
+    },[]);
+
+
+
+    useEffect(()=>{
+        setValNickname(myInfo.m_n_name);
+        setValEmail(myInfo.m_email);
+    },[myInfo]);
+
+
+    //닉네임, 이메일 인풋포커스 체크
+    const inputFocusHandler = (data) => {
+        setInputFocus((prevInputFocus) => {
+            // 이전 상태를 복사
+            const newInputFocus = { ...prevInputFocus };
+        
+            // data 객체를 반복하면서 값을 추가하거나 변경
+            for (const key in data) {
+                newInputFocus[key] = data[key];
+            }
+      
+            return newInputFocus;
+        });
+    };
     
 
 
@@ -22,9 +121,9 @@ const EditProfile = () => {
     return(<>
         <div className="edit_profile_wrap">
             <ul className="top_tab flex_center">
-                <li className="on"><a href="#box1">기본 정보</a></li>
-                <li><a href="#box2">나의 프로필</a></li>
-                <li><a href="#box3">이상형 프로필</a></li>
+                <li className={tabOn === 1 ? "on" : ""} onClick={()=>{setTabOn(1)}}><a href="#box1">기본 정보</a></li>
+                <li className={tabOn === 2 ? "on" : ""} onClick={()=>{setTabOn(2)}}><a href="#box2">나의 프로필</a></li>
+                <li className={tabOn === 3 ? "on" : ""} onClick={()=>{setTabOn(3)}}><a href="#box3">이상형 프로필</a></li>
             </ul>
             <div className="inner_cont">
                 <div className="line_box" id="box1">
@@ -32,15 +131,15 @@ const EditProfile = () => {
                     <ul className="gray_box">
                         <li className="flex_between">
                             <p>아이디</p>
-                            <p>아이디</p>
+                            <p>{myInfo.m_id}</p>
                         </li>
                         <li className="flex_between">
                             <p>이름</p>
-                            <p>이름</p>
+                            <p>{myInfo.m_name}</p>
                         </li>
                         <li className="flex_between">
                             <p>생년월일</p>
-                            <p>1998년 2월 18일</p>
+                            <p>{myInfo.birth}</p>
                         </li>
                         <li className="flex_between">
                             <p>휴대폰번호</p>
@@ -48,7 +147,7 @@ const EditProfile = () => {
                         </li>
                         <li className="flex_between">
                             <p>성별</p>
-                            <p>남성</p>
+                            <p>{myInfo.m_gender}</p>
                         </li>
                     </ul>
                     <ul className="form_ul">
@@ -58,17 +157,46 @@ const EditProfile = () => {
                         </li>
                         <li>
                             <p className="input_tit">닉네임</p>
-                            <div className="input_check_box">
-                                <div className="custom_input2">
-                                    <input type={"text"} placeholder="닉네임을 입력해주세요." />
+                            <div className={`input_check_box ${usableNickname ? " checked" : ""}`}>
+                                <div className={`custom_input2${inputFocus.hasOwnProperty("nick") && inputFocus.nick ? " on" : ""}`}>
+                                    <input type={"text"} placeholder="닉네임을 입력해주세요." 
+                                        value={valNickname}
+                                        onChange={(e)=>{
+                                            setValNickname(e.currentTarget.value);
+                                            setUsableNickname(false);
+                                        }}
+                                        onFocus={()=>{
+                                            let data = {nick:true};
+                                            inputFocusHandler(data);
+                                        }}
+                                        onBlur={()=>{
+                                            let data = {nick:false};
+                                            inputFocusHandler(data);
+                                        }}
+                                    />
                                 </div>
-                                <button type="button">중복 확인</button>
+                                <button type="button" disabled={usableNickname ? true : false}>중복 확인</button>
                             </div>
+                            <p className="alert_txt">최소 2자 이상 입력하세요.</p>
                         </li>
                         <li>
                             <p className="input_tit">이메일</p>
-                            <div className="custom_input2">
-                                <input type={"text"} placeholder="이메일을 입력해주세요." />
+                            <div className={`custom_input2${inputFocus.hasOwnProperty("email") && inputFocus.email ? " on" : ""}`}>
+                                <input type={"text"} placeholder="이메일을 입력해주세요." 
+                                    value={valEmail}
+                                    onChange={(e)=>{
+                                        setValEmail(e.currentTarget.value);
+                                        setUsableEmail(false);
+                                    }}
+                                    onFocus={()=>{
+                                        let data = {email:true};
+                                        inputFocusHandler(data);
+                                    }}
+                                    onBlur={()=>{
+                                        let data = {email:false};
+                                        inputFocusHandler(data);
+                                    }}
+                                />
                             </div>
                         </li>
                     </ul>
@@ -275,7 +403,13 @@ const EditProfile = () => {
                     </ul>
                 </div>
             </div>
+            <div className="btn_box">
+                <button type="button" className="app_btn2">저장</button>
+            </div>
         </div>
+
+        {/* confirm팝업 */}
+        {confirm && <ConfirmPop />}  
     </>);
 };
 

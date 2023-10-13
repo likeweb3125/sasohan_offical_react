@@ -225,14 +225,15 @@
 .point_wrap .bottom_box .price_txt h6 strong{font-weight: 700;}
 
 /* 프로필수정 */
-.edit_profile_wrap {}
 .edit_profile_wrap .top_tab{border-bottom:1px solid #ddd;padding: 8px 0 12px;background: #fff;position: fixed;width: 100%;top: 0;left: 0;z-index: 100;}
 .edit_profile_wrap .top_tab li{margin-right: 4px;}
 .edit_profile_wrap .top_tab li:last-child{margin-right: 0;}
 .edit_profile_wrap .top_tab li a{border: 1px solid #ddd;font-size: 16px;font-weight: 500;color: #666;border-radius: 20px;text-align: center;width: 127px;height: 40px;line-height: 40px; display: block;}
 .edit_profile_wrap .top_tab li.on a{background: #373D49;color: #fff;}
-.edit_profile_wrap .inner_cont .line_box{padding: 32px 20px;border-top: 12px solid #F8F8F8;}
-.edit_profile_wrap .inner_cont .line_box:first-child{border-top: none;padding-top: 93px;}
+.edit_profile_wrap .inner_cont .line_box{padding: 76px 20px 0;position: relative;}
+.edit_profile_wrap .inner_cont .line_box::after{position: absolute;content: '';width: 100%;height: 12px;background:#F8F8F8;top: 32px;left: 0;}
+.edit_profile_wrap .inner_cont .line_box:first-child{padding-top: 93px;margin-top: 0;}
+.edit_profile_wrap .inner_cont .line_box:first-child::after{display: none;}
 .edit_profile_wrap .inner_cont .line_box .top_tit{font-size: 22px;font-weight: 700;color: #373D49;padding-bottom: 24px;}
 .edit_profile_wrap .gray_box{background: #F7F7FA;border-radius: 8px;padding: 20px;margin-bottom: 24px;}
 .edit_profile_wrap .gray_box li{padding-bottom: 12px;font-size: 18px;font-weight: 500;color: #373D49;}
@@ -244,6 +245,8 @@
 .input_check_box{position: relative;}
 .input_check_box input{padding-right: 90px;}
 .input_check_box button{width: 83px;height: 43px;border: 1px solid #6840FD;font-size: 16px;font-weight: 700;color: #6840FD;border-radius: 8px;position: absolute;right: 0;top: 50%;transform: translateY(-50%);}
+.input_check_box.checked button {color: #999;background: #EAEAEA;border-color: #EAEAEA;}
+.edit_profile_wrap .btn_box{padding: 40px 20px 20px;}
 
 
 
