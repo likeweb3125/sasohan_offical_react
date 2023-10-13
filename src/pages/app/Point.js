@@ -27,6 +27,7 @@ const Point = () => {
     const [var1, setVar1] = useState("");
     const [checkStart, setCheckStart] = useState(false);
     const token = util.getCookie("token");
+    const [hasRunOnce, setHasRunOnce] = useState(false);
 
 
     // Confirm팝업 닫힐때
@@ -60,6 +61,7 @@ const Point = () => {
         });
     };
 
+    
     //회원 잔여포인트 가져오기
     const getPoint = () => {
         axios.get(`${m_point}`,
@@ -83,10 +85,15 @@ const Point = () => {
         });
     };
 
-    useEffect(()=>{
-        getInfo();
-        getPoint();
-    },[]);
+
+    //맨처음 token이 있고 getInfo,getPoint 함수들이 한번도 실행안됐을때 실행하기
+    useEffect(() => {
+        if (token && !hasRunOnce) {
+            getInfo();
+            getPoint();
+            setHasRunOnce(true);
+        }
+    }, [token]);
     
 
     //결제하기
@@ -239,7 +246,15 @@ const Point = () => {
                         <p>잔여포인트</p>
                         <h5><strong>{CF.MakeIntComma(userPoint)} </strong>포인트</h5>
                     </div>
-                    <button type="button"><span>포인트 충전 및 사용 내역 보기</span></button>
+                    <button type="button" 
+                        onClick={()=>{
+                            //앱에 포인트사용내역이동 보내기
+                            if(window.flutterPointUseHistory){
+                                const data = {};
+                                window.flutterPointUseHistory.postMessage(JSON.stringify(data));
+                            }
+                        }}
+                    ><span>포인트 충전 및 사용 내역 보기</span></button>
                 </div>
             </div>
             <div className="inner_box">
