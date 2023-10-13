@@ -9,7 +9,7 @@ import "swiper/css/scrollbar";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
 import { headerMenuOn } from "../store/commonSlice";
-import { managerPop, confirmPop, imgPop } from "../store/popupSlice";
+import { managerPop, confirmPop, imgPop, storyPop } from "../store/popupSlice";
 import ManagerBox from "../components/component/ManagerBox";
 import ConfirmPop from "../components/popup/ConfirmPop";
 import { enum_api_uri } from "../config/enum";
@@ -66,16 +66,25 @@ const Main = () => {
     const sect1Ref = useRef(null);
     const sect2Ref = useRef(null);
     const sect2_2Ref = useRef(null);
+
+
     const sect3Ref = useRef(null);
     const sect4Ref = useRef(null);
     const sect5Ref = useRef(null);
+    const sect5_1Ref = useRef(null);
+
+
     const sect6Ref = useRef(null);
     const [sect1On, setSect1On] = useState(false);
     const [sect2On, setSect2On] = useState(false);
     const [sect2_2On, setSect2_2On] = useState(false);
+
     const [sect3On, setSect3On] = useState(false);
     const [sect4On, setSect4On] = useState(false);
     const [sect5On, setSect5On] = useState(false);
+    const [sect5_1On, setSect5_1On] = useState(false);
+
+
     const [sect6On, setSect6On] = useState(false);
     const [managerSwiperActive, setManagerSwiperActive] = useState(false);
     const aboutBgImg = [about_bg1, about_bg2, about_bg3, about_bg4, about_bg5, about_bg6];
@@ -363,7 +372,6 @@ const Main = () => {
                 </div>
             </div>
         </div>
-
         
         <section className={`section section1 ${sect1On ? "on" : ""}`} id="sect1" ref={sect1Ref}>
             {managerList.length > 0 &&
@@ -607,13 +615,12 @@ const Main = () => {
             </div>
         </section>
 
-        
         <section className={`section section2_2 ${sect2_2On ? "on" : ""}`} id="sect2_2" ref={sect2_2Ref}>
             {storyList.length > 0 &&
             <div className="section_inner">
                 <div className="tit_box">
                     <p className="tit">실시간 만남 <strong>스토리</strong></p>
-                    <p className="txt">정확하고 빠른 사소한만의 실시간 매칭 만남을 확인하세요! </p>
+                    <p className="txt">정확하고 빠른 사소한만의 <br className="mo_show" />실시간 매칭 만남을 확인하세요! </p>
                 </div>
                 <div className="story_wrap">
                     <Swiper 
@@ -626,30 +633,35 @@ const Main = () => {
                         scrollbar={{draggable: true}}
                         breakpoints={
                             {
-                                1420:{spaceBetween:24},//width >= 1420
-                                768:{spaceBetween:8},//width >= 768
+                                1200:{spaceBetween:80},//width >= 1200
+                                768:{spaceBetween:50},//width >= 768
                             }
                         }
                     >
-                    {storyList.map((cont,i)=>{
-                        return(
-                            <SwiperSlide key={i}>
-                                <div className="img_box"><img src={cont.photo} alt="프로필이미지" /></div>
-                                <div className="txt_box">
-                                    <p className="name"><strong>{cont.manager_name}</strong>{cont.manager_type_txt}</p>
-                                    <p className="time">{cont.w_date}</p>
-                                </div>
-                            </SwiperSlide>
-                        );
-                    })}
-                        <div className="swiper-button-prev"></div>
-                        <div className="swiper-button-next"></div>
+                        {storyList.map((cont,i)=>{
+                            return(
+                                <SwiperSlide key={i} 
+                                    onClick={()=>{
+                                        dispatch(storyPop({storyPop:true,storyPopNo:cont.list_no}));
+                                    }}
+                                >
+                                    <div className="img_box"><img src={cont.photo} alt="프로필이미지" /></div>
+                                    <div className="txt_box">
+                                        <p className="name flex_center"><strong>{cont.manager_name}</strong>{cont.manager_type_txt}</p>
+                                        <p className="time">{cont.w_date}</p>
+                                    </div>
+                                </SwiperSlide>
+                            );
+                        })}
+                        <div className="btn_box flex_between mo_none">
+                            <div className="swiper-button-prev hover_btn_w"></div>
+                            <div className="swiper-button-next hover_btn_w"></div>
+                        </div>
                     </Swiper>
                 </div>
             </div>
             }
         </section>
-
 
         <section className={`section section3 ${sect3On ? "on" : ""}`} id="sect3" ref={sect3Ref}>
             {blogList.length > 0 &&
@@ -728,7 +740,6 @@ const Main = () => {
             }
         </section>
 
-        
         <section className={`section section4 ${sect4On ? "on" : ""}`} ref={sect4Ref}>
             {ytbList.length > 0 &&
             <div className="section_inner">
@@ -917,10 +928,72 @@ const Main = () => {
                                 </SwiperSlide>
                                 <div className="btn_box">
                                     <div className="swiper-pagination"></div>
-                                    <div className="swiper-button-prev"></div>
-                                    <div className="swiper-button-next"></div>
+                                    <div className="swiper-button-prev hover_btn_w"></div>
+                                    <div className="swiper-button-next hover_btn_w"></div>
                                 </div>
                             </Swiper>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section className={`section section5_1 ${sect5_1On ? "on" : ""}`} id="sect5" ref={sect5_1Ref}>
+            <div className="section_inner">
+                <div className="title_box">
+                    <p className="tit">회원님들을 위한 <br/><strong>사소한의 신뢰</strong></p>
+                </div>
+                <div className="trust_cont_inner">
+                    <div>
+                        <h5 className="top_tit">외부 평가</h5>
+                        <div className="slider_box external_slider_box">
+                            <Swiper
+                                className="external_slider"
+                                slidesPerView={`auto`}
+                                // spaceBetween={60}
+                                observer={true}
+                                observeParents={true}
+                                loop={true}
+                                navigation={{nextEl: ".external_slider_box .swiper-button-next",prevEl: ".external_slider_box .swiper-button-prev"}}
+                            >
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={award_img1_pop} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
+                                            <p className="txt2">고객만족 소개팅서비스업</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={award_img1_pop} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
+                                            <p className="txt2">고객만족 소개팅서비스업</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={award_img1_pop} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
+                                            <p className="txt2">고객만족 소개팅서비스업</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                            </Swiper>
+                            <div className="btn_box flex_between">
+                                <div className="swiper-button-prev hover_btn"></div>
+                                <div className="swiper-button-next hover_btn"></div>
+                            </div>
                         </div>
                     </div>
                 </div>

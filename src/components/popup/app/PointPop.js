@@ -10,14 +10,13 @@ const PointPop = () => {
     const dispatch = useDispatch();
     const popup = useSelector((state)=>state.popup);
     const [off, setOff] = useState(false);
-    const ref_browser = util.getCookie("ref_browser");
 
     //팝업닫기--------------
     const closePopHandler = () => {
         setOff(true);
 
         //앱에 포인트결제완료 보내기
-        if(ref_browser == "app"){
+        if(window.flutterPointUseHistory){
             const data = {};
             window.flutterPointUseHistory.postMessage(JSON.stringify(data));
         }

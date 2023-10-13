@@ -5,6 +5,7 @@ import ImgPop from "./ImgPop";
 import ReviewPop from "./ReviewPop";
 import TermsPop from "./TermsPop";
 import ApplyPop from "./ApplyPop";
+import StoryPop from "./StoryPop";
 import AppTermsPop from "./app/TermsPop";
 import AppProfilePop from "./app/ProfilePop";
 import AppProfileImgPop from "./app/ProfileImgPop";
@@ -32,6 +33,12 @@ const Popup = () => {
 
             {/* 소개팅신청하기 팝업 */}
             {popup.applyPop && <ApplyPop />}
+
+            {/* 소개팅신청하기 팝업 */}
+            {popup.applyPop && <ApplyPop />}
+
+            {/* 실시간만남스토리 팝업 */}
+            {popup.storyPop && <StoryPop />}
 
 
             {/* 앱 팝업----------------------------------------- */}
