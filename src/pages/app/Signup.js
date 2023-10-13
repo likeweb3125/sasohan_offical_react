@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment/moment";
 import { enum_api_uri } from "../../config/enum";
-import { appTermsCheckList, appTermsPop, confirmPop, appSignupCompletePop } from "../../store/popupSlice";
+import { appTermsCheckList, appTermsPop, confirmPop } from "../../store/popupSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 import profile_img from "../../images/app/profile_img.jpg";
 
@@ -18,11 +18,6 @@ const SignUp = () => {
     const [allCheck, setAllCheck] = useState(false);
     const [agreeCheckList, setAgreeCheckList] = useState([]);
     const contRef = useRef();
-
-
-    useEffect(()=>{
-        dispatch(appSignupCompletePop({appSignupCompletePop:true,appSignupCompletePopUser:"회원이름"}));
-    },[]);
     
 
     useEffect(()=>{
