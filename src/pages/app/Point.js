@@ -169,7 +169,7 @@ const Point = () => {
                     window.PayApp.setParam('checkretry','y');
                     window.PayApp.setParam('var1',data.var1);
                     window.PayApp.setParam('buyerid',userInfo.m_id);
-                    window.PayApp.setTarget('_self'); //새창말고 현재창 url 변경 setTarget('_self') 추가
+                    //window.PayApp.setTarget('_self'); //새창말고 현재창 url 변경 setTarget('_self') 추가
                     window.PayApp.call();
     
                     setCheckStart(true);

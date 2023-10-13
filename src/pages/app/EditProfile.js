@@ -15,13 +15,15 @@ const EditProfile = () => {
     const user = useSelector((state)=>state.user);
     const popup = useSelector((state)=>state.popup);
     const m_profile_info = enum_api_uri.m_profile_info;
+    const m_nick_check = enum_api_uri.m_nick_check;
     const [confirm, setConfirm] = useState(false);
     const [tabOn, setTabOn] = useState(1);
     // const token = util.getCookie("token");
     const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJzb2w3NzIxIiwidXNlckxldmVsIjoxLCJpYXQiOjE2OTcxNzk5NjQsImV4cCI6MTY5NzIyMzE2NH0.InIXZOyBH7TGA5pgohfAjopLAXmwFMM_8r65yiDKVZo";
 
-    const [allData, setAllData] = useState({});
     const [myInfo, setMyInfo] = useState({});
+    const [myType, setMyType] = useState({});
+    const [idealType, setIdealType] = useState({});
 
     const [inputFocus, setInputFocus] = useState({});
 
@@ -55,23 +57,18 @@ const EditProfile = () => {
         .then((res)=>{
             if(res.status === 200){
                 let data = res.data;
-                setAllData(data);
 
+                //나의 기본정보
                 setMyInfo(data.my_info);
 
-                //본인인증 데이터 signupData store 값에 저장
-                // let m_gender;
-                // if(data.Sex == "F"){
-                //     m_gender = "2";
-                // }else if(data.Sex == "M"){
-                //     m_gender = "1";
-                // }
-                // let newData = {...user.signupData};
-                // newData.m_name = data.Name;
-                // newData.m_born = data.Socialno;
-                // newData.m_c_phone = data.M_C_Phone;
-                // newData.m_gender = m_gender;
-                // dispatch(profileData(newData));
+                //나의 프로필정보
+                setMyType(data.my_type);
+
+                //나의 거주지
+                
+
+                //이상형 프로필정보
+                setIdealType(data.ideal_type);
             }
         })
         .catch((error) => {
@@ -93,7 +90,7 @@ const EditProfile = () => {
     },[]);
 
 
-
+    //회원 기본정보값 변경시 닉네임, 이메일값 변경
     useEffect(()=>{
         setValNickname(myInfo.m_n_name);
         setValEmail(myInfo.m_email);
@@ -113,6 +110,39 @@ const EditProfile = () => {
       
             return newInputFocus;
         });
+    };
+
+
+    // 닉네임 중복확인
+    const nickCheckHandler = () => {
+        if(valNickname.length < 2){
+            setErrorNickname(true);
+        }else{
+            setErrorNickname(false);
+
+            axios.get(`${m_nick_check}?m_n_name=${valNickname}`)
+            .then((res)=>{
+                if(res.status === 200){
+                    setUsableNickname(true);
+
+                    //닉네임 profileData store 값에 저장
+                    let newData = {...user.profileData};
+                    newData.m_n_name = valNickname;
+                    dispatch(profileData(newData));
+                }
+            })
+            .catch((error) => {
+                const err_msg = CF.errorMsgHandler(error);
+                setConfirm(true);
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:err_msg,
+                    confirmPopBtn:1,
+                }));
+                setUsableNickname(false);
+            })
+        }
     };
     
 
@@ -143,7 +173,7 @@ const EditProfile = () => {
                         </li>
                         <li className="flex_between">
                             <p>휴대폰번호</p>
-                            <p>010 - 1234 - 1234</p>
+                            <p>{myInfo.phone}</p>
                         </li>
                         <li className="flex_between">
                             <p>성별</p>
@@ -162,8 +192,13 @@ const EditProfile = () => {
                                     <input type={"text"} placeholder="닉네임을 입력해주세요." 
                                         value={valNickname}
                                         onChange={(e)=>{
-                                            setValNickname(e.currentTarget.value);
-                                            setUsableNickname(false);
+                                            const val = e.currentTarget.value;
+                                            setValNickname(val);
+                                            if(val === myInfo.m_n_name){
+                                                setUsableNickname(true);
+                                            }else{
+                                                setUsableNickname(false);
+                                            }
                                         }}
                                         onFocus={()=>{
                                             let data = {nick:true};
@@ -175,9 +210,9 @@ const EditProfile = () => {
                                         }}
                                     />
                                 </div>
-                                <button type="button" disabled={usableNickname ? true : false}>중복 확인</button>
+                                <button type="button" disabled={usableNickname ? true : false} onClick={nickCheckHandler}>중복 확인</button>
                             </div>
-                            <p className="alert_txt">최소 2자 이상 입력하세요.</p>
+                            {errorNickname && <p className="alert_txt tp4">최소 2자 이상 입력하세요.</p>}
                         </li>
                         <li>
                             <p className="input_tit">이메일</p>
@@ -233,7 +268,7 @@ const EditProfile = () => {
                                 onClick={()=>{
                                     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"직업",appProfilePopEdit:true}));
                                 }}
-                            ><span className="ellipsis">{allData.m_job ? allData.m_job : "선택"}</span></button>
+                            ><span className="ellipsis">{myType.m_job ? myType.m_job : "선택"}</span></button>
                         </li>
                         <li>
                             <p className="input_tit">나의 외모 점수</p>
@@ -241,7 +276,7 @@ const EditProfile = () => {
                                 onClick={()=>{
                                     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"외모 점수",appProfilePopEdit:true}));
                                 }}
-                            ><span className="ellipsis">{allData.m_visual ? allData.m_visual+"점" : "선택"}</span></button>
+                            ><span className="ellipsis">{myType.m_visual ? myType.m_visual+"점" : "선택"}</span></button>
                         </li>
                         <li>
                             <p className="input_tit">나의 관심사</p>
@@ -249,7 +284,7 @@ const EditProfile = () => {
                                 onClick={()=>{
                                     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"내 관심사",appProfilePopEdit:true}));
                                 }}
-                            ><span className="ellipsis">{allData.m_like && allData.m_like.length > 0 ? allData.m_like.join(", ") : "선택"}</span></button>
+                            ><span className="ellipsis">{myType.m_like && myType.m_like.length > 0 ? myType.m_like.join(", ") : "선택"}</span></button>
                         </li>
                         <li>
                             <p className="input_tit">나의 MBTI</p>
@@ -257,7 +292,7 @@ const EditProfile = () => {
                                 onClick={()=>{
                                     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"MBTI",appProfilePopEdit:true}));
                                 }}
-                            ><span className="ellipsis">{allData.m_mbti ? allData.m_mbti : "선택"}</span></button>
+                            ><span className="ellipsis">{myType.m_mbti ? myType.m_mbti : "선택"}</span></button>
                         </li>
                         <li>
                             <p className="input_tit">나의 타입</p>
@@ -265,7 +300,7 @@ const EditProfile = () => {
                                 onClick={()=>{
                                     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"타입",appProfilePopEdit:true}));
                                 }}
-                            ><span className="ellipsis">{allData.m_character && allData.m_character.length > 0 ? allData.m_character.join(", ") : "선택"}</span></button>
+                            ><span className="ellipsis">{myType.m_character && myType.m_character.length > 0 ? myType.m_character.join(", ") : "선택"}</span></button>
                         </li>
                         <li>
                             <p className="input_tit">나는 흡연을</p>
@@ -274,10 +309,10 @@ const EditProfile = () => {
                                     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"흡연 여부",appProfilePopEdit:true}));
                                 }}
                             ><span className="ellipsis">{
-                                allData.m_smok ?
-                                    allData.m_smok == "1" ? "한다"
-                                    :allData.m_smok == "2" ? "안 한다"
-                                    :allData.m_smok == "3" && "가끔 한다"
+                                myType.m_smok ?
+                                    myType.m_smok == "1" ? "한다"
+                                    :myType.m_smok == "2" ? "안 한다"
+                                    :myType.m_smok == "3" && "가끔 한다"
                                 : "선택"
                             }</span></button>
                         </li>
@@ -288,10 +323,10 @@ const EditProfile = () => {
                                     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"음주 여부",appProfilePopEdit:true}));
                                 }}
                                 ><span className="ellipsis">{
-                                    allData.m_drink ?
-                                        allData.m_drink == "1" ? "한다"
-                                        :allData.m_drink == "2" ? "가끔 한다"
-                                        :allData.m_drink == "3" && "안 한다"
+                                    myType.m_drink ?
+                                        myType.m_drink == "1" ? "한다"
+                                        :myType.m_drink == "2" ? "가끔 한다"
+                                        :myType.m_drink == "3" && "안 한다"
                                     : "선택"
                                 }</span></button>
                         </li>
@@ -301,7 +336,7 @@ const EditProfile = () => {
                                 onClick={()=>{
                                     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"종교",appProfilePopEdit:true}));
                                 }}
-                            ><span className="ellipsis">{allData.m_religion ? allData.m_religion : "선택"}</span></button>
+                            ><span className="ellipsis">{myType.m_religion ? myType.m_religion : "선택"}</span></button>
                         </li>
                         <li>
                             <p className="input_tit">나의 선호하는 데이트</p>
@@ -309,7 +344,7 @@ const EditProfile = () => {
                                 onClick={()=>{
                                     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"선호하는 데이트",appProfilePopEdit:true}));
                                 }}
-                            ><span className="ellipsis">{allData.m_date && allData.m_date.length > 0 ? allData.m_date.join(", ") : "선택"}</span></button>
+                            ><span className="ellipsis">{myType.m_date && myType.m_date.length > 0 ? myType.m_date.join(", ") : "선택"}</span></button>
                         </li>
                         <li>
                             <p className="input_tit">나의 가입경로</p>
@@ -317,7 +352,7 @@ const EditProfile = () => {
                                 onClick={()=>{
                                     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"가입경로",appProfilePopEdit:true}));
                                 }}
-                            ><span className="ellipsis">{allData.m_motive ? allData.m_motive : "선택"}</span></button>
+                            ><span className="ellipsis">{myType.m_motive ? myType.m_motive : "선택"}</span></button>
                         </li>
                     </ul>
                 </div>
@@ -338,7 +373,7 @@ const EditProfile = () => {
                                 onClick={()=>{
                                     dispatch(appProfilePop2({appProfilePop2:true,appProfilePopTit2:"직업",appProfilePopEdit2:true}));
                                 }}
-                            ><span className="ellipsis">{allData.t_job ? allData.t_job : "선택"}</span></button>
+                            ><span className="ellipsis">{idealType.t_job ? idealType.t_job : "선택"}</span></button>
                         </li>
                         <li>
                             <p className="input_tit">상대방의 외모 점수</p>
@@ -346,7 +381,7 @@ const EditProfile = () => {
                                 onClick={()=>{
                                     dispatch(appProfilePop2({appProfilePop2:true,appProfilePopTit2:"외모 점수",appProfilePopEdit2:true}));
                                 }}
-                            ><span className="ellipsis">{allData.t_visual ? allData.t_visual+"점" : "선택"}</span></button>
+                            ><span className="ellipsis">{idealType.t_visual ? idealType.t_visual+"점" : "선택"}</span></button>
                         </li>
                         <li>
                             <p className="input_tit">상대방의 MBTI</p>
@@ -354,7 +389,7 @@ const EditProfile = () => {
                                 onClick={()=>{
                                     dispatch(appProfilePop2({appProfilePop2:true,appProfilePopTit2:"MBTI",appProfilePopEdit2:true}));
                                 }}
-                            ><span className="ellipsis">{allData.t_mbti ? allData.t_mbti : "선택"}</span></button>
+                            ><span className="ellipsis">{idealType.t_mbti ? idealType.t_mbti : "선택"}</span></button>
                         </li>
                         <li>
                             <p className="input_tit">상대방의 타입</p>
@@ -362,7 +397,7 @@ const EditProfile = () => {
                                 onClick={()=>{
                                     dispatch(appProfilePop2({appProfilePop2:true,appProfilePopTit2:"타입",appProfilePopEdit2:true}));
                                 }}
-                            ><span className="ellipsis">{allData.t_character && allData.t_character.length > 0 ? allData.t_character.join(", ") : "선택"}</span></button>
+                            ><span className="ellipsis">{idealType.t_character && idealType.t_character.length > 0 ? idealType.t_character.join(", ") : "선택"}</span></button>
                         </li>
                         <li>
                             <p className="input_tit">상대방은 흡연을</p>
@@ -371,10 +406,10 @@ const EditProfile = () => {
                                     dispatch(appProfilePop2({appProfilePop2:true,appProfilePopTit2:"흡연 여부",appProfilePopEdit2:true}));
                                 }}
                             ><span className="ellipsis">{
-                                allData.t_smok ?
-                                    allData.t_smok == "1" ? "한다"
-                                    :allData.t_smok == "2" ? "안 한다"
-                                    :allData.t_smok == "3" && "가끔 한다"
+                                idealType.t_smok ?
+                                    idealType.t_smok == "1" ? "한다"
+                                    :idealType.t_smok == "2" ? "안 한다"
+                                    :idealType.t_smok == "3" && "가끔 한다"
                                 : "선택"
                             }</span></button>
                         </li>
@@ -385,10 +420,10 @@ const EditProfile = () => {
                                     dispatch(appProfilePop2({appProfilePop2:true,appProfilePopTit2:"음주 여부",appProfilePopEdit2:true}));
                                 }}
                                 ><span className="ellipsis">{
-                                    allData.t_drink ?
-                                        allData.t_drink == "1" ? "한다"
-                                        :allData.t_drink == "2" ? "가끔 한다"
-                                        :allData.t_drink == "3" && "안 한다"
+                                    idealType.t_drink ?
+                                        idealType.t_drink == "1" ? "한다"
+                                        :idealType.t_drink == "2" ? "가끔 한다"
+                                        :idealType.t_drink == "3" && "안 한다"
                                     : "선택"
                                 }</span></button>
                         </li>
@@ -398,7 +433,7 @@ const EditProfile = () => {
                                 onClick={()=>{
                                     dispatch(appProfilePop2({appProfilePop2:true,appProfilePopTit2:"종교",appProfilePopEdit2:true}));
                                 }}
-                            ><span className="ellipsis">{allData.t_religion ? allData.t_religion : "선택"}</span></button>
+                            ><span className="ellipsis">{idealType.t_religion ? idealType.t_religion : "선택"}</span></button>
                         </li>
                     </ul>
                 </div>
