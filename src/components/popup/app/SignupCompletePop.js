@@ -16,9 +16,7 @@ const SignupCompletePop = () => {
 
         //앱에 회원가입완료 보내기
         if(window.flutterSignup){
-            const data = {
-                m_id:"ddd"
-            }
+            const data = {};
             window.flutterSignup.postMessage(JSON.stringify(data));
         }
     };
