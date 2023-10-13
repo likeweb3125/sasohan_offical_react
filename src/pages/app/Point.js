@@ -158,7 +158,7 @@ const Point = () => {
                     window.PayApp.setParam('smsuse','n');
                     window.PayApp.setParam('openpaytype',pay);
                     window.PayApp.setParam('redirectpay','1');
-                    window.PayApp.setParam('feedbackurl','https://api.sasohan-ad.net:8080/v1/pay/notice');
+                    window.PayApp.setParam('feedbackurl','https://api.sasohan.net/v1/pay/notice');
                     window.PayApp.setParam('checkretry','y');
                     window.PayApp.setParam('var1',data.var1);
                     window.PayApp.setParam('buyerid',userInfo.m_id);
