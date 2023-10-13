@@ -15,6 +15,7 @@ const Point = () => {
     const m_info = enum_api_uri.m_info;
     const m_point = enum_api_uri.m_point;
     const m_pay_check = enum_api_uri.m_pay_check;
+    const m_pay_logs = enum_api_uri.m_pay_logs;
     const [pointList, setPointList] = useState([100,500,800,1000]);
     const [recommend, setRecommend] = useState(2);
     const [price, setPrice] = useState(0);
@@ -136,12 +137,49 @@ const Point = () => {
                 window.PayApp.setParam('checkretry','y');
                 window.PayApp.setParam('var1',userInfo.m_id+date);
                 window.PayApp.setParam('buyerid',userInfo.m_id);
-                window.PayApp.setTarget('_self'); //새창말고 현재창 url 변경 setTarget('_self') 추가
+                // window.PayApp.setTarget('_self'); //새창말고 현재창 url 변경 setTarget('_self') 추가
                 window.PayApp.call();
 
                 setCheckStart(true);
+
+                // 페이앱 결제하기 로그쌓기
+                const data = {
+                    m_id: userInfo.m_id,
+                    amount: price,
+                    pay_method: pay,
+                    var1: userInfo.m_id+date,
+                };
+                payLogs(data);
             }
         }
+    };
+
+
+    // 페이앱 결제하기 로그쌓기
+    const payLogs = (data) => {
+        const body = {
+            m_id: data.m_id,
+            amount: data.amount,
+            pay_method: data.pay_method,
+            var1: data.var1,
+        };
+
+        axios.post(`${m_pay_logs}`,body)
+        .then((res)=>{
+            if(res.status === 200){
+
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        }); 
     };
 
 
