@@ -4,7 +4,7 @@ import axios from "axios";
 import { enum_api_uri } from "../../../config/enum";
 import * as CF from "../../../config/function";
 import { appProfilePop, confirmPop } from "../../../store/popupSlice";
-import { signupData, profileData } from "../../../store/userSlice";
+import { signupData, profileData, profileDataChange } from "../../../store/userSlice";
 import ConfirmPop from "../ConfirmPop";
 
 
@@ -391,6 +391,9 @@ const ProfilePop = () => {
             }
     
             dispatch(profileData(newData));
+
+            //프로필정보 변경 true
+            dispatch(profileDataChange(true));
         }
         //회원가입일때
         else{

@@ -5,7 +5,7 @@ import * as CF from '../../config/function';
 import { enum_api_uri } from "../../config/enum";
 import util from "../../config/util";
 import { appProfilePop, appProfilePop2, confirmPop } from "../../store/popupSlice";
-import { profileData } from "../../store/userSlice";
+import { profileData, profileDataChange } from "../../store/userSlice";
 
 import ConfirmPop from "../../components/popup/ConfirmPop";
 
@@ -21,7 +21,7 @@ const EditProfile = () => {
     const [confirm, setConfirm] = useState(false);
     const [tabOn, setTabOn] = useState(1);
     const token = util.getCookie("token");
-    const [allData, setAllData] = useState({});
+
     const [addressList, setAddressList] = useState([]);
     const [addressList2, setAddressList2] = useState([]);
 
@@ -261,8 +261,6 @@ const EditProfile = () => {
     },[user.profileData]);
 
     useEffect(()=>{
-        setAllData(user.profileData);
-
         console.log(user.profileData);
 
         //나의 거주지
@@ -353,8 +351,32 @@ const EditProfile = () => {
         }else{
             setHeight2("");
         }
-
+        
     },[user.profileData]);
+
+
+    useEffect(()=>{
+        if(user.profileDataChange){
+            dispatch(profileDataChange(false));
+
+            //나의 프로필정보
+            const newMyType = {
+                m_job: user.profileData.m_job,
+                m_visual: user.profileData.m_visual,
+                m_like: user.profileData.m_like,
+                m_mbti: user.profileData.m_mbti,
+                m_character: user.profileData.m_character,
+                m_smok: user.profileData.m_smok,
+                m_drink: user.profileData.m_drink,
+                m_religion: user.profileData.m_religion,
+                m_date: user.profileData.m_date,
+                m_motive: user.profileData.m_motive,
+            };
+            console.log(newMyType)
+            // setMyType(newMyType);
+
+        }
+    },[user.profileDataChange]);
 
 
 
