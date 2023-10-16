@@ -171,7 +171,13 @@ const Point = () => {
                     window.PayApp.setParam('buyerid',userInfo.m_id);
                     //window.PayApp.setTarget('_self'); //새창말고 현재창 url 변경 setTarget('_self') 추가
                     window.PayApp.call();
-    
+
+                    console.log(`price : ${price}`);
+                    console.log(`recvphone : ${userInfo.phone}`);
+                    console.log(`openpaytype : ${pay}`);
+                    console.log(`var1 : ${data.var1}`);
+                    console.log(`buyerid : ${userInfo.m_id}`);
+
                     setCheckStart(true);
                 }
             }

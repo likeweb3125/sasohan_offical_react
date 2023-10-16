@@ -16,10 +16,14 @@ const EditProfile = () => {
     const popup = useSelector((state)=>state.popup);
     const m_profile_info = enum_api_uri.m_profile_info;
     const m_nick_check = enum_api_uri.m_nick_check;
+    const m_address = enum_api_uri.m_address;
     const [confirm, setConfirm] = useState(false);
     const [tabOn, setTabOn] = useState(1);
-    // const token = util.getCookie("token");
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJzb2w3NzIxIiwidXNlckxldmVsIjoxLCJpYXQiOjE2OTcxNzk5NjQsImV4cCI6MTY5NzIyMzE2NH0.InIXZOyBH7TGA5pgohfAjopLAXmwFMM_8r65yiDKVZo";
+    const token = util.getCookie("token");
+
+    const [addressList, setAddressList] = useState([]);
+    const [sido, setSido] = useState("");
+    const [localCode, setLocalCode] = useState("");
 
     const [myInfo, setMyInfo] = useState({});
     const [myType, setMyType] = useState({});
@@ -65,10 +69,90 @@ const EditProfile = () => {
                 setMyType(data.my_type);
 
                 //나의 거주지
-                
+                let addrArray = [];
+                let addr = "";
+                if(data.my_type.m_address.includes("·")){
+                    addrArray = data.my_type.m_address.split(" · ");
+                    setAddress(addrArray[0]);
+                    setAddress2(addrArray[1]);
+                    addr = addrArray[0] + " " + addrArray[1];
+                }else{
+                    setAddress(data.my_type.m_address);
+                    setAddress2("");
+                    addr = data.my_type.m_address;
+                }
+
+                //나의 키
+                if(data.my_type.hasOwnProperty("m_height")){
+                    let h = data.my_type.m_height;
+                    if(h == "149"){
+                        setHeight("149cm 이하");
+                    }
+                    if(h == "150"){
+                        setHeight("150cm ~ 154cm");
+                    }
+                    if(h == "155"){
+                        setHeight("155cm ~ 159cm");
+                    }
+                    if(h == "160"){
+                        setHeight("160cm ~ 164cm");
+                    }
+                    if(h == "165"){
+                        setHeight("165cm ~ 169cm");
+                    }
+                    if(h == "170"){
+                        setHeight("170cm ~ 174cm");
+                    }
+                    if(h == "175"){
+                        setHeight("175cm ~ 179cm");
+                    }
+                    if(h == "180"){
+                        setHeight("180cm ~ 184cm");
+                    }
+                    if(h == "185"){
+                        setHeight("185cm ~ 189cm");
+                    }
+                    if(h == "190"){
+                        setHeight("190cm ~ 194cm");
+                    }
+                    if(h == "195"){
+                        setHeight("195cm ~ 200cm");
+                    }
+                }else{
+                    setHeight("");
+                }
 
                 //이상형 프로필정보
                 setIdealType(data.ideal_type);
+
+                //회원프로필정보 profileData store 값에 저장
+                const infoData = {
+                    m_n_name: data.my_info.m_n_name,
+                    m_address: addrArray.length > 1 ? addrArray[0] : addr,
+                    m_address2: addrArray.length > 1 ? addrArray[1] : "",
+                    m_address_code:"",
+                    m_height: data.my_type.m_height,
+                    m_job: data.my_type.m_job,
+                    m_visual: data.my_type.m_visual,
+                    m_like: data.my_type.m_like,
+                    m_mbti: data.my_type.m_mbti,
+                    m_character: data.my_type.m_character,
+                    m_smok: data.my_type.m_smok,
+                    m_drink: data.my_type.m_drink,
+                    m_religion: data.my_type.m_religion,
+                    m_date: data.my_type.m_date,
+                    m_motive: data.my_type.m_motive,
+                    t_height1: data.ideal_type.t_height1,
+                    t_height2: data.ideal_type.t_height2,
+                    t_job: data.ideal_type.t_job,
+                    t_visual: data.ideal_type.t_visual,
+                    t_mbti: data.ideal_type.t_mbti,
+                    t_character: data.ideal_type.t_character,
+                    t_smok: data.ideal_type.t_smok,
+                    t_drink: data.ideal_type.t_drink,
+                    t_religion: data.ideal_type.t_religion,
+                };
+                dispatch(profileData(infoData));
             }
         })
         .catch((error) => {
@@ -87,6 +171,8 @@ const EditProfile = () => {
     //맨처음 회원프로필정보 가져오기
     useEffect(()=>{
         getProfileInfo();
+
+        getAddress();
     },[]);
 
 
@@ -94,6 +180,8 @@ const EditProfile = () => {
     useEffect(()=>{
         setValNickname(myInfo.m_n_name);
         setValEmail(myInfo.m_email);
+
+
     },[myInfo]);
 
 
@@ -146,6 +234,66 @@ const EditProfile = () => {
     };
     
 
+    //주소 시,도 가져오기
+    const getAddress = () => {
+        axios.get(`${m_address}`)
+        .then((res)=>{
+            if(res.status === 200){
+                setAddressList(res.data);
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        })
+    };
+
+    useEffect(()=>{
+        console.log(user.profileData);
+
+        if(user.profileData.hasOwnProperty("m_address")){
+            let addr = user.profileData.m_address;
+            if(addr.includes(" ")){
+                addr = addr.split(" ");
+                addr = addr[0];
+            }
+            
+            const matchingItem = addressList.find(item => item.sido_gugun.includes(addr));
+            let txt = "";
+            let code = "";
+            if (matchingItem) {
+                txt = matchingItem.sido_gugun;
+                code = matchingItem.local_code;
+            } else {
+                code = "01";
+            }
+            setSido(txt);
+            setLocalCode(code);
+        }
+
+    },[user.profileData]);
+
+
+
+    useEffect(()=>{
+        console.log(sido)
+        let newData = {...user.profileData};
+        newData.m_address = sido;
+        dispatch(profileData(newData));
+    },[sido]);
+
+
+    useEffect(()=>{
+        let newData = {...user.profileData};
+        newData.m_address_code = localCode;
+        dispatch(profileData(newData));
+    },[localCode]);
 
 
     return(<>
@@ -190,7 +338,7 @@ const EditProfile = () => {
                             <div className={`input_check_box ${usableNickname ? " checked" : ""}`}>
                                 <div className={`custom_input2${inputFocus.hasOwnProperty("nick") && inputFocus.nick ? " on" : ""}`}>
                                     <input type={"text"} placeholder="닉네임을 입력해주세요." 
-                                        value={valNickname}
+                                        value={valNickname || ""}
                                         onChange={(e)=>{
                                             const val = e.currentTarget.value;
                                             setValNickname(val);
@@ -218,7 +366,7 @@ const EditProfile = () => {
                             <p className="input_tit">이메일</p>
                             <div className={`custom_input2${inputFocus.hasOwnProperty("email") && inputFocus.email ? " on" : ""}`}>
                                 <input type={"text"} placeholder="이메일을 입력해주세요." 
-                                    value={valEmail}
+                                    value={valEmail || ""}
                                     onChange={(e)=>{
                                         setValEmail(e.currentTarget.value);
                                         setUsableEmail(false);

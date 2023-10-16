@@ -4,7 +4,7 @@ import axios from "axios";
 import { enum_api_uri } from "../../../config/enum";
 import * as CF from "../../../config/function";
 import { appProfilePop, confirmPop } from "../../../store/popupSlice";
-import { signupData } from "../../../store/userSlice";
+import { signupData, profileData } from "../../../store/userSlice";
 import ConfirmPop from "../ConfirmPop";
 
 
@@ -135,65 +135,129 @@ const ProfilePop = () => {
         //select 리스트 가져오기
         getSelectList();
 
-        //선택한 거주지 시,도 값있는지 체크
-        if(user.signupData.hasOwnProperty("m_address_code")){
-            getAddress2(user.signupData.m_address_code);
-            
+
+        if(popup.appProfilePopEdit){
+            //선택한 거주지 시,도 값있는지 체크
+            if(user.profileData.hasOwnProperty("m_address_code")){
+                getAddress2(user.profileData.m_address_code);
+                
+            }else{
+                getAddress2("01");
+            }
+
+            //선택한 값들 있는지 체크-------------------------------
+            if(user.profileData.hasOwnProperty("m_address")){
+                setAddress(user.profileData.m_address);
+            }
+
+            if(user.profileData.hasOwnProperty("m_address2")){
+                setAddress2(user.profileData.m_address2);
+            }
+
+            if(user.profileData.hasOwnProperty("m_height")){
+                setHeight(user.profileData.m_height);
+            }
+
+            if(user.profileData.hasOwnProperty("m_job")){
+                setJob(user.profileData.m_job);
+            }
+
+            if(user.profileData.hasOwnProperty("m_visual")){
+                setVisual(user.profileData.m_visual);
+            }
+
+            if(user.profileData.hasOwnProperty("m_like")){
+                setLike(user.profileData.m_like);
+            }
+
+            if(user.profileData.hasOwnProperty("m_mbti")){
+                setMbti(user.profileData.m_mbti);
+            }
+
+            if(user.profileData.hasOwnProperty("m_character")){
+                setType(user.profileData.m_character);
+            }
+
+            if(user.profileData.hasOwnProperty("m_smok")){
+                setSmok(user.profileData.m_smok);
+            }
+
+            if(user.profileData.hasOwnProperty("m_drink")){
+                setDrink(user.profileData.m_drink);
+            }
+
+            if(user.profileData.hasOwnProperty("m_religion")){
+                setReligion(user.profileData.m_religion);
+            }
+
+            if(user.profileData.hasOwnProperty("m_date")){
+                setDate(user.profileData.m_date);
+            }
+
+            if(user.profileData.hasOwnProperty("m_motive")){
+                setRoute(user.profileData.m_motive);
+            }
         }else{
-            getAddress2("01");
-        }
+            //선택한 거주지 시,도 값있는지 체크
+            if(user.signupData.hasOwnProperty("m_address_code")){
+                getAddress2(user.signupData.m_address_code);
+                
+            }else{
+                getAddress2("01");
+            }
 
-        //선택한 값들 있는지 체크-------------------------------
-        if(user.signupData.hasOwnProperty("m_address")){
-            setAddress(user.signupData.m_address);
-        }
+            //선택한 값들 있는지 체크-------------------------------
+            if(user.signupData.hasOwnProperty("m_address")){
+                setAddress(user.signupData.m_address);
+            }
 
-        if(user.signupData.hasOwnProperty("m_address2")){
-            setAddress2(user.signupData.m_address2);
-        }
+            if(user.signupData.hasOwnProperty("m_address2")){
+                setAddress2(user.signupData.m_address2);
+            }
 
-        if(user.signupData.hasOwnProperty("m_height")){
-            setHeight(user.signupData.m_height);
-        }
+            if(user.signupData.hasOwnProperty("m_height")){
+                setHeight(user.signupData.m_height);
+            }
 
-        if(user.signupData.hasOwnProperty("m_job")){
-            setJob(user.signupData.m_job);
-        }
+            if(user.signupData.hasOwnProperty("m_job")){
+                setJob(user.signupData.m_job);
+            }
 
-        if(user.signupData.hasOwnProperty("m_visual")){
-            setVisual(user.signupData.m_visual);
-        }
+            if(user.signupData.hasOwnProperty("m_visual")){
+                setVisual(user.signupData.m_visual);
+            }
 
-        if(user.signupData.hasOwnProperty("m_like")){
-            setLike(user.signupData.m_like);
-        }
+            if(user.signupData.hasOwnProperty("m_like")){
+                setLike(user.signupData.m_like);
+            }
 
-        if(user.signupData.hasOwnProperty("m_mbti")){
-            setMbti(user.signupData.m_mbti);
-        }
+            if(user.signupData.hasOwnProperty("m_mbti")){
+                setMbti(user.signupData.m_mbti);
+            }
 
-        if(user.signupData.hasOwnProperty("m_character")){
-            setType(user.signupData.m_character);
-        }
+            if(user.signupData.hasOwnProperty("m_character")){
+                setType(user.signupData.m_character);
+            }
 
-        if(user.signupData.hasOwnProperty("m_smok")){
-            setSmok(user.signupData.m_smok);
-        }
+            if(user.signupData.hasOwnProperty("m_smok")){
+                setSmok(user.signupData.m_smok);
+            }
 
-        if(user.signupData.hasOwnProperty("m_drink")){
-            setDrink(user.signupData.m_drink);
-        }
+            if(user.signupData.hasOwnProperty("m_drink")){
+                setDrink(user.signupData.m_drink);
+            }
 
-        if(user.signupData.hasOwnProperty("m_religion")){
-            setReligion(user.signupData.m_religion);
-        }
+            if(user.signupData.hasOwnProperty("m_religion")){
+                setReligion(user.signupData.m_religion);
+            }
 
-        if(user.signupData.hasOwnProperty("m_date")){
-            setDate(user.signupData.m_date);
-        }
+            if(user.signupData.hasOwnProperty("m_date")){
+                setDate(user.signupData.m_date);
+            }
 
-        if(user.signupData.hasOwnProperty("m_motive")){
-            setRoute(user.signupData.m_motive);
+            if(user.signupData.hasOwnProperty("m_motive")){
+                setRoute(user.signupData.m_motive);
+            }
         }
 
     },[]);
@@ -300,23 +364,43 @@ const ProfilePop = () => {
 
     //선택시 signupData store 값에 저장
     const selectHandler = (name,val,addrCode) => {
-        let newData = {...user.signupData};
-        newData[name] = val;
-
-        //거주지 주소선택시 시,도 코드저장 && 주소 구군 값 지우기
-        if(addrCode){
-            newData.m_address_code = addrCode;
-            newData.m_address2 = "";
-        }
-
-        //m_address 없을때 m_address2 선택시 거주지 시도 리스트 맨처음값 m_address에 넣기
-        if(name == "m_address2"){
-            if(!user.signupData.hasOwnProperty("m_address")){
-                newData.m_address = addressList[0].sido_gugun;
+        if(popup.appProfilePopEdit){
+            let newData = {...user.profileData};
+            newData[name] = val;
+    
+            //거주지 주소선택시 시,도 코드저장 && 주소 구군 값 지우기
+            if(addrCode){
+                newData.m_address_code = addrCode;
+                newData.m_address2 = "";
             }
-        }
+    
+            //m_address 없을때 m_address2 선택시 거주지 시도 리스트 맨처음값 m_address에 넣기
+            if(name == "m_address2"){
+                if(!user.profileData.hasOwnProperty("m_address")){
+                    newData.m_address = addressList[0].sido_gugun;
+                }
+            }
+    
+            dispatch(profileData(newData));
+        }else{
+            let newData = {...user.signupData};
+            newData[name] = val;
 
-        dispatch(signupData(newData));
+            //거주지 주소선택시 시,도 코드저장 && 주소 구군 값 지우기
+            if(addrCode){
+                newData.m_address_code = addrCode;
+                newData.m_address2 = "";
+            }
+
+            //m_address 없을때 m_address2 선택시 거주지 시도 리스트 맨처음값 m_address에 넣기
+            if(name == "m_address2"){
+                if(!user.signupData.hasOwnProperty("m_address")){
+                    newData.m_address = addressList[0].sido_gugun;
+                }
+            }
+
+            dispatch(signupData(newData));
+        }
     };
 
 
@@ -834,7 +918,11 @@ const ProfilePop = () => {
 
                 </div>
                 <div className="btn_box">
-                    <button type="button" className="app_btn" onClick={nextStepHandler}>{step < 11 ? "다음" : "확인"}</button>
+                    <button type="button" className="app_btn" onClick={nextStepHandler}>
+                        {!popup.appProfilePopEdit ? step < 11 ? "다음" : "확인"
+                            : popup.appProfilePopEdit && "확인"
+                        }
+                    </button>
                 </div>
             </div>
         </div>
