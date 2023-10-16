@@ -192,23 +192,25 @@ const EditProfile = () => {
         if(Object.keys(myType).length > 0){
             //나의 거주지
             let addrArray = [];
-            let addr1 = "";
-            let addr2 = "";
+            let addr1;
+            let addr2;
             if(myType.m_address.includes("·")){
                 addrArray = myType.m_address.split(" · ");
                 addr1 = addrArray[0];
                 addr2 = addrArray[1];
             }else{
                 addr1 = myType.m_address;
+                addr2 = "";
             }
 
             const matchingItem = addressList.find(item => item.sido_gugun.includes(addr1));
-            let txt = "";
-            let code = "";
+            let txt;
+            let code;
             if (matchingItem) {
                 txt = matchingItem.sido_gugun;
                 code = matchingItem.local_code;
             } else {
+                txt = "";
                 code = "01";
             }
 
@@ -230,10 +232,15 @@ const EditProfile = () => {
         .then((res)=>{
             if(res.status === 200){
                 const data = res.data;
-                const matchingItem = data.find(item => item.sido_gugun.includes(addr2));
+                
                 let txt = "";
-                if (matchingItem) {
-                    txt = matchingItem.sido_gugun;
+
+                //주소 구,군 값이 있는지 체크
+                if(addr2.length > 0){
+                    const matchingItem = data.find(item => item.sido_gugun.includes(addr2));
+                    if (matchingItem) {
+                        txt = matchingItem.sido_gugun;
+                    }
                 }
 
                 let newData = {...infoData};
@@ -255,10 +262,6 @@ const EditProfile = () => {
         })
     };
 
-
-    useEffect(()=>{
-        console.log(user.profileData); 
-    },[user.profileData]);
 
     useEffect(()=>{
         console.log(user.profileData);
@@ -360,7 +363,15 @@ const EditProfile = () => {
             dispatch(profileDataChange(false));
 
             //나의 프로필정보
+            let addr = "";
+            if(user.profileData.m_address2.length > 0){
+                addr = user.profileData.m_address + " · " + user.profileData.m_address2;
+            }else{
+                addr = user.profileData.m_address;
+            }
             const newMyType = {
+                m_address: addr,
+                m_height: user.profileData.m_height,
                 m_job: user.profileData.m_job,
                 m_visual: user.profileData.m_visual,
                 m_like: user.profileData.m_like,
@@ -372,8 +383,7 @@ const EditProfile = () => {
                 m_date: user.profileData.m_date,
                 m_motive: user.profileData.m_motive,
             };
-            console.log(newMyType)
-            // setMyType(newMyType);
+            setMyType(newMyType);
 
         }
     },[user.profileDataChange]);

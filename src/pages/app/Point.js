@@ -169,6 +169,7 @@ const Point = () => {
                     window.PayApp.setParam('checkretry','y');
                     window.PayApp.setParam('var1','LP165561');
                     window.PayApp.setParam('buyerid','LP165561');
+                    window.PayApp.setParam('redirect', '_self');
                     //window.PayApp.setTarget('_self'); //새창말고 현재창 url 변경 setTarget('_self') 추가
                     window.PayApp.call();
 
