@@ -34,4 +34,5 @@ exports.enum_api_uri = {
     m_pay_logs:`${api_uri}/v1/pay/logs`,
     //프로필수정
     m_profile_info:`${api_uri}/v1/app/mypage/profile-info`,
+    m_change_password:`${api_uri}/v1/app/mypage/change-password`,
 }

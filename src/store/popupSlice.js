@@ -59,6 +59,9 @@ const popup = createSlice({
         //포인트충전완료 팝업
         appPointPop: false,
         appPointPopData: {},
+
+        //마이페이지 - 프로필수정 - 비밀번호변경 팝업
+        appChangePasswordPop: false,
     },
     reducers:{
         // 공통 -----------------------------------
@@ -111,7 +114,7 @@ const popup = createSlice({
         appProfilePop2: (state, action) => {
             state.appProfilePop2 = action.payload.appProfilePop2;
             state.appProfilePopTit2 = action.payload.appProfilePopTit2;
-            state.appProfilePopEdit = action.payload.appProfilePopEdit;
+            state.appProfilePopEdit2 = action.payload.appProfilePopEdit2;
         },
         appSignupCompletePop: (state, action) => {
             state.appSignupCompletePop = action.payload.appSignupCompletePop;
@@ -120,6 +123,9 @@ const popup = createSlice({
         appPointPop: (state, action) => {
             state.appPointPop = action.payload.appPointPop;
             state.appPointPopData = action.payload.appPointPopData;
+        },
+        appChangePasswordPop: (state, action) => {
+            state.appChangePasswordPop = action.payload;
         },
     }
 });
@@ -139,5 +145,6 @@ export const {
     appProfilePop2,
     appSignupCompletePop,
     appPointPop,
+    appChangePasswordPop,
 } = popup.actions;
 export default popup;

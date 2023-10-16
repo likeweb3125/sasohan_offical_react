@@ -370,9 +370,9 @@ const ProfilePop = () => {
     },[date]);
 
 
-    //선택시 signupData store 값에 저장
+    //선택시 
     const selectHandler = (name,val,addrCode) => {
-        //프로필수정일때
+        //프로필수정일때 profileData store 값에 저장
         if(popup.appProfilePopEdit){
             let newData = {...user.profileData};
             newData[name] = val;
@@ -395,7 +395,7 @@ const ProfilePop = () => {
             //프로필정보 변경 true
             dispatch(profileDataChange(true));
         }
-        //회원가입일때
+        //회원가입일때 signupData store 값에 저장
         else{
             let newData = {...user.signupData};
             newData[name] = val;

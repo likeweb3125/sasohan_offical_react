@@ -12,6 +12,7 @@ import AppProfileImgPop from "./app/ProfileImgPop";
 import AppProfilePop2 from "./app/ProfilePop2";
 import AppSignupCompletePop from "./app/SignupCompletePop";
 import AppPointPop from "./app/PointPop";
+import AppChangePasswordPop from "./app/ChangePasswordPop";
 
 
 const Popup = () => {
@@ -59,6 +60,9 @@ const Popup = () => {
 
             {/* 포인트충전완료 팝업 */}
             {popup.appPointPop && <AppPointPop />}
+
+            {/* 마이페이지 - 프로필수정 - 비밀번호변경 팝업 */}
+            {popup.appChangePasswordPop && <AppChangePasswordPop />}
 
         </>,
         document.getElementById('modal-root')

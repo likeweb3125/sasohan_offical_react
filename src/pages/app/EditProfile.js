@@ -4,7 +4,7 @@ import axios from "axios";
 import * as CF from '../../config/function';
 import { enum_api_uri } from "../../config/enum";
 import util from "../../config/util";
-import { appProfilePop, appProfilePop2, confirmPop } from "../../store/popupSlice";
+import { appProfilePop, appProfilePop2, confirmPop, appChangePasswordPop } from "../../store/popupSlice";
 import { profileData, profileDataChange } from "../../store/userSlice";
 
 import ConfirmPop from "../../components/popup/ConfirmPop";
@@ -385,6 +385,20 @@ const EditProfile = () => {
             };
             setMyType(newMyType);
 
+            //이상형정보
+            const newIdealType = {
+                t_height1: user.profileData.t_height1,
+                t_height2: user.profileData.t_height2,
+                t_job: user.profileData.t_job,
+                t_visual: user.profileData.t_visual,
+                t_mbti: user.profileData.t_mbti,
+                t_character: user.profileData.t_character,
+                t_smok: user.profileData.t_smok,
+                t_drink: user.profileData.t_drink,
+                t_religion: user.profileData.t_religion,
+            };
+            setIdealType(newIdealType);
+
         }
     },[user.profileDataChange]);
 
@@ -478,7 +492,7 @@ const EditProfile = () => {
                     <ul className="form_ul">
                         <li>
                             <p className="input_tit bm12">비밀번호</p>
-                            <button type="button" className="app_btn_s w_100 normal">비밀번호 변경</button>
+                            <button type="button" className="app_btn_s w_100 normal" onClick={()=>{dispatch(appChangePasswordPop(true))}}>비밀번호 변경</button>
                         </li>
                         <li>
                             <p className="input_tit">닉네임</p>
