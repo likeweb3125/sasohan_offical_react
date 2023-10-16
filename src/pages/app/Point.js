@@ -156,27 +156,47 @@ const Point = () => {
                     window.PayApp.setParam('userid','jjagg');
                     window.PayApp.setParam('shopname','사소한');
                     window.PayApp.setParam('goodname','포인트충전');
-                    window.PayApp.setParam('price',price);
-                    window.PayApp.setParam('recvphone',userInfo.phone);
+                    window.PayApp.setParam('price','1100');
+                    window.PayApp.setParam('recvphone','010-6445-7206');
                     window.PayApp.setParam('memo','');
                     window.PayApp.setParam('reqaddr','');
                     window.PayApp.setParam('currency','krw');
                     window.PayApp.setParam('vccode','82');
                     window.PayApp.setParam('smsuse','n');
-                    window.PayApp.setParam('openpaytype',pay);
+                    window.PayApp.setParam('openpaytype','card');
                     window.PayApp.setParam('redirectpay','1');
                     window.PayApp.setParam('feedbackurl','https://api.sasohan.net/v1/pay/notice');
                     window.PayApp.setParam('checkretry','y');
-                    window.PayApp.setParam('var1',data.var1);
-                    window.PayApp.setParam('buyerid',userInfo.m_id);
-                    //window.PayApp.setTarget('_self'); //새창말고 현재창 url 변경 setTarget('_self') 추가
+                    window.PayApp.setParam('var1','LP165561');
+                    window.PayApp.setParam('buyerid','LP165561');
+                    window.PayApp.setTarget('_self'); //새창말고 현재창 url 변경 setTarget('_self') 추가
                     window.PayApp.call();
 
-                    console.log(`price : ${price}`);
-                    console.log(`recvphone : ${userInfo.phone}`);
-                    console.log(`openpaytype : ${pay}`);
-                    console.log(`var1 : ${data.var1}`);
-                    console.log(`buyerid : ${userInfo.m_id}`);
+
+                    // window.PayApp.setParam('userid','jjagg');
+                    // window.PayApp.setParam('shopname','사소한');
+                    // window.PayApp.setParam('goodname','포인트충전');
+                    // window.PayApp.setParam('price',price);
+                    // window.PayApp.setParam('recvphone',userInfo.phone);
+                    // window.PayApp.setParam('memo','');
+                    // window.PayApp.setParam('reqaddr','');
+                    // window.PayApp.setParam('currency','krw');
+                    // window.PayApp.setParam('vccode','82');
+                    // window.PayApp.setParam('smsuse','n');
+                    // window.PayApp.setParam('openpaytype',pay);
+                    // window.PayApp.setParam('redirectpay','1');
+                    // window.PayApp.setParam('feedbackurl','https://api.sasohan.net/v1/pay/notice');
+                    // window.PayApp.setParam('checkretry','y');
+                    // window.PayApp.setParam('var1',data.var1);
+                    // window.PayApp.setParam('buyerid',userInfo.m_id);
+                    // //window.PayApp.setTarget('_self'); //새창말고 현재창 url 변경 setTarget('_self') 추가
+                    // window.PayApp.call();
+
+                    // console.log(`price : ${price}`);
+                    // console.log(`recvphone : ${userInfo.phone}`);
+                    // console.log(`openpaytype : ${pay}`);
+                    // console.log(`var1 : ${data.var1}`);
+                    // console.log(`buyerid : ${userInfo.m_id}`);
 
                     setCheckStart(true);
                 }

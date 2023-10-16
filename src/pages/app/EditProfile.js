@@ -17,13 +17,13 @@ const EditProfile = () => {
     const m_profile_info = enum_api_uri.m_profile_info;
     const m_nick_check = enum_api_uri.m_nick_check;
     const m_address = enum_api_uri.m_address;
+    const m_address2 = enum_api_uri.m_address2;
     const [confirm, setConfirm] = useState(false);
     const [tabOn, setTabOn] = useState(1);
     const token = util.getCookie("token");
-
+    const [allData, setAllData] = useState({});
     const [addressList, setAddressList] = useState([]);
-    const [sido, setSido] = useState("");
-    const [localCode, setLocalCode] = useState("");
+    const [addressList2, setAddressList2] = useState([]);
 
     const [myInfo, setMyInfo] = useState({});
     const [myType, setMyType] = useState({});
@@ -52,7 +52,6 @@ const EditProfile = () => {
     },[popup.confirmPop]);
 
 
-
     //회원프로필정보 가져오기
     const getProfileInfo = () => {
         axios.get(`${m_profile_info}`,
@@ -67,20 +66,6 @@ const EditProfile = () => {
 
                 //나의 프로필정보
                 setMyType(data.my_type);
-
-                //나의 거주지
-                let addrArray = [];
-                let addr = "";
-                if(data.my_type.m_address.includes("·")){
-                    addrArray = data.my_type.m_address.split(" · ");
-                    setAddress(addrArray[0]);
-                    setAddress2(addrArray[1]);
-                    addr = addrArray[0] + " " + addrArray[1];
-                }else{
-                    setAddress(data.my_type.m_address);
-                    setAddress2("");
-                    addr = data.my_type.m_address;
-                }
 
                 //나의 키
                 if(data.my_type.hasOwnProperty("m_height")){
@@ -125,12 +110,9 @@ const EditProfile = () => {
                 //이상형 프로필정보
                 setIdealType(data.ideal_type);
 
-                //회원프로필정보 profileData store 값에 저장
+                //회원프로필정보 profileData store 값에 저장 (나의거주지 제외 m_address,m_address2,m_address_code)
                 const infoData = {
                     m_n_name: data.my_info.m_n_name,
-                    m_address: addrArray.length > 1 ? addrArray[0] : addr,
-                    m_address2: addrArray.length > 1 ? addrArray[1] : "",
-                    m_address_code:"",
                     m_height: data.my_type.m_height,
                     m_job: data.my_type.m_job,
                     m_visual: data.my_type.m_visual,
@@ -168,21 +150,212 @@ const EditProfile = () => {
     };
 
 
-    //맨처음 회원프로필정보 가져오기
+    //주소 시,도 가져오기
+    const getAddress = () => {
+        axios.get(`${m_address}`)
+        .then((res)=>{
+            if(res.status === 200){
+                setAddressList(res.data);
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        })
+    };
+
+
+    //맨처음 회원프로필정보, 주소 시,도 가져오기
     useEffect(()=>{
         getProfileInfo();
-
         getAddress();
     },[]);
 
 
     //회원 기본정보값 변경시 닉네임, 이메일값 변경
     useEffect(()=>{
-        setValNickname(myInfo.m_n_name);
-        setValEmail(myInfo.m_email);
-
-
+        if(Object.keys(myInfo).length > 0){
+            setValNickname(myInfo.m_n_name);
+            setValEmail(myInfo.m_email);
+        }
     },[myInfo]);
+
+
+    //회원 나의프로필정보값 변경시 나의 거주지 설정
+    useEffect(()=>{
+        if(Object.keys(myType).length > 0){
+            //나의 거주지
+            let addrArray = [];
+            let addr1 = "";
+            let addr2 = "";
+            if(myType.m_address.includes("·")){
+                addrArray = myType.m_address.split(" · ");
+                addr1 = addrArray[0];
+                addr2 = addrArray[1];
+            }else{
+                addr1 = myType.m_address;
+            }
+
+            const matchingItem = addressList.find(item => item.sido_gugun.includes(addr1));
+            let txt = "";
+            let code = "";
+            if (matchingItem) {
+                txt = matchingItem.sido_gugun;
+                code = matchingItem.local_code;
+            } else {
+                code = "01";
+            }
+
+            let newData = {...user.profileData};
+            newData.m_address = txt;
+            newData.m_address_code = code;
+            dispatch(profileData(newData)); //profileData store 값에 저장 (m_address, m_address_code)
+
+            setAddress(txt);
+
+            getAddress2(newData, code, addr2);
+        }
+    },[myType]);
+
+
+    //주소 구,군 가져오기
+    const getAddress2 = (infoData, code, addr2) => {
+        axios.get(`${m_address2.replace(':parent_local_code',code)}`)
+        .then((res)=>{
+            if(res.status === 200){
+                const data = res.data;
+                const matchingItem = data.find(item => item.sido_gugun.includes(addr2));
+                let txt = "";
+                if (matchingItem) {
+                    txt = matchingItem.sido_gugun;
+                }
+
+                let newData = {...infoData};
+                newData.m_address2 = txt;
+                dispatch(profileData(newData)); //profileData store 값에 저장 (m_address2)
+
+                setAddress2(txt);
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        })
+    };
+
+
+    useEffect(()=>{
+        console.log(user.profileData); 
+    },[user.profileData]);
+
+    useEffect(()=>{
+        setAllData(user.profileData);
+
+        console.log(user.profileData);
+
+        //나의 거주지
+        if(user.profileData.hasOwnProperty("m_address")){
+            setAddress(user.profileData.m_address);
+            setAddress2(user.profileData.m_address2);
+        }else{
+            setAddress("");
+            setAddress2("");
+        }
+
+        //나의 키
+        if(user.profileData.hasOwnProperty("m_height")){
+            let h = user.profileData.m_height;
+            if(h == "149"){
+                setHeight("149cm 이하");
+            }
+            if(h == "150"){
+                setHeight("150cm ~ 154cm");
+            }
+            if(h == "155"){
+                setHeight("155cm ~ 159cm");
+            }
+            if(h == "160"){
+                setHeight("160cm ~ 164cm");
+            }
+            if(h == "165"){
+                setHeight("165cm ~ 169cm");
+            }
+            if(h == "170"){
+                setHeight("170cm ~ 174cm");
+            }
+            if(h == "175"){
+                setHeight("175cm ~ 179cm");
+            }
+            if(h == "180"){
+                setHeight("180cm ~ 184cm");
+            }
+            if(h == "185"){
+                setHeight("185cm ~ 189cm");
+            }
+            if(h == "190"){
+                setHeight("190cm ~ 194cm");
+            }
+            if(h == "195"){
+                setHeight("195cm ~ 200cm");
+            }
+        }else{
+            setHeight("");
+        }
+
+        //이상형 키
+        if(user.profileData.hasOwnProperty("t_height1")){
+            let h = user.profileData.t_height1;
+            if(h == "0"){
+                setHeight2("149cm 이하");
+            }
+            if(h == "150"){
+                setHeight2("150cm ~ 154cm");
+            }
+            if(h == "155"){
+                setHeight2("155cm ~ 159cm");
+            }
+            if(h == "160"){
+                setHeight2("160cm ~ 164cm");
+            }
+            if(h == "165"){
+                setHeight2("165cm ~ 169cm");
+            }
+            if(h == "170"){
+                setHeight2("170cm ~ 174cm");
+            }
+            if(h == "175"){
+                setHeight2("175cm ~ 179cm");
+            }
+            if(h == "180"){
+                setHeight2("180cm ~ 184cm");
+            }
+            if(h == "185"){
+                setHeight2("185cm ~ 189cm");
+            }
+            if(h == "190"){
+                setHeight2("190cm ~ 194cm");
+            }
+            if(h == "195"){
+                setHeight2("195cm ~ 200cm");
+            }
+        }else{
+            setHeight2("");
+        }
+
+    },[user.profileData]);
+
 
 
     //닉네임, 이메일 인풋포커스 체크
@@ -234,66 +407,8 @@ const EditProfile = () => {
     };
     
 
-    //주소 시,도 가져오기
-    const getAddress = () => {
-        axios.get(`${m_address}`)
-        .then((res)=>{
-            if(res.status === 200){
-                setAddressList(res.data);
-            }
-        })
-        .catch((error) => {
-            const err_msg = CF.errorMsgHandler(error);
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt: err_msg,
-                confirmPopBtn:1,
-            }));
-            setConfirm(true);
-        })
-    };
+   
 
-    useEffect(()=>{
-        console.log(user.profileData);
-
-        if(user.profileData.hasOwnProperty("m_address")){
-            let addr = user.profileData.m_address;
-            if(addr.includes(" ")){
-                addr = addr.split(" ");
-                addr = addr[0];
-            }
-            
-            const matchingItem = addressList.find(item => item.sido_gugun.includes(addr));
-            let txt = "";
-            let code = "";
-            if (matchingItem) {
-                txt = matchingItem.sido_gugun;
-                code = matchingItem.local_code;
-            } else {
-                code = "01";
-            }
-            setSido(txt);
-            setLocalCode(code);
-        }
-
-    },[user.profileData]);
-
-
-
-    useEffect(()=>{
-        console.log(sido)
-        let newData = {...user.profileData};
-        newData.m_address = sido;
-        dispatch(profileData(newData));
-    },[sido]);
-
-
-    useEffect(()=>{
-        let newData = {...user.profileData};
-        newData.m_address_code = localCode;
-        dispatch(profileData(newData));
-    },[localCode]);
 
 
     return(<>

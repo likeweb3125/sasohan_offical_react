@@ -90,9 +90,16 @@ const ProfilePop = () => {
                 setAddressList(res.data);
                 
                 //선택한 거주지정보없으면 리스트 맨첫번째 checked
-                if(!user.signupData.hasOwnProperty("m_address_code")){
-                    let sido = res.data[0].sido_gugun;
-                    setAddress(sido);
+                if(popup.appProfilePopEdit){ //프로필수정일때
+                    if(!user.profileData.hasOwnProperty("m_address_code")){
+                        let sido = res.data[0].sido_gugun;
+                        setAddress(sido);
+                    }
+                }else{ //회원가입일때
+                    if(!user.signupData.hasOwnProperty("m_address_code")){
+                        let sido = res.data[0].sido_gugun;
+                        setAddress(sido);
+                    }
                 }
             }
         })
@@ -134,13 +141,12 @@ const ProfilePop = () => {
     useEffect(()=>{
         //select 리스트 가져오기
         getSelectList();
-
-
+        
+        //프로필수정일때
         if(popup.appProfilePopEdit){
             //선택한 거주지 시,도 값있는지 체크
             if(user.profileData.hasOwnProperty("m_address_code")){
                 getAddress2(user.profileData.m_address_code);
-                
             }else{
                 getAddress2("01");
             }
@@ -197,7 +203,9 @@ const ProfilePop = () => {
             if(user.profileData.hasOwnProperty("m_motive")){
                 setRoute(user.profileData.m_motive);
             }
-        }else{
+        }
+        //회원가입일때
+        else{
             //선택한 거주지 시,도 값있는지 체크
             if(user.signupData.hasOwnProperty("m_address_code")){
                 getAddress2(user.signupData.m_address_code);
@@ -364,6 +372,7 @@ const ProfilePop = () => {
 
     //선택시 signupData store 값에 저장
     const selectHandler = (name,val,addrCode) => {
+        //프로필수정일때
         if(popup.appProfilePopEdit){
             let newData = {...user.profileData};
             newData[name] = val;
@@ -382,7 +391,9 @@ const ProfilePop = () => {
             }
     
             dispatch(profileData(newData));
-        }else{
+        }
+        //회원가입일때
+        else{
             let newData = {...user.signupData};
             newData[name] = val;
 
@@ -406,19 +417,29 @@ const ProfilePop = () => {
 
     //다음버튼 클릭시 다음스탭으로 넘어가기 or 마지막스탭일시 팝업닫기
     const nextStepHandler = () => {
-        let data = user.signupData;
+        let data;
+        //프로필수정일때
+        if(popup.appProfilePopEdit){
+            data = user.profileData;
+        }
+        //회원가입일때
+        else{
+            data = user.signupData;
+        }
+
         let idx = step + 1;
-        // if(idx > 11){
-        //     closePopHandler();
-        // }else{
-        //     setTit(stepList[idx]);
-        //     setStep(idx);
-        // }
 
         if(step === 0){
             if(data.hasOwnProperty("m_address") && data.m_address.length > 0){
-                setTit(stepList[idx]);
-                setStep(idx);
+                //프로필수정일때 팝업닫기
+                if(popup.appProfilePopEdit){
+                    closePopHandler();
+                }
+                //회원가입일때 다음스탭으로 넘어가기
+                else{
+                    setTit(stepList[idx]);
+                    setStep(idx);
+                }
             }else{
                 dispatch(confirmPop({
                     confirmPop:true,
@@ -431,8 +452,15 @@ const ProfilePop = () => {
         }
         if(step === 1){
             if(data.hasOwnProperty("m_height") && data.m_height.length > 0){
-                setTit(stepList[idx]);
-                setStep(idx);
+                //프로필수정일때
+                if(popup.appProfilePopEdit){
+                    closePopHandler();
+                }
+                //회원가입일때
+                else{
+                    setTit(stepList[idx]);
+                    setStep(idx);
+                }
             }else{
                 dispatch(confirmPop({
                     confirmPop:true,
@@ -445,8 +473,15 @@ const ProfilePop = () => {
         }
         if(step === 2){
             if(data.hasOwnProperty("m_job") && data.m_job.length > 0){
-                setTit(stepList[idx]);
-                setStep(idx);
+                //프로필수정일때
+                if(popup.appProfilePopEdit){
+                    closePopHandler();
+                }
+                //회원가입일때
+                else{
+                    setTit(stepList[idx]);
+                    setStep(idx);
+                }
             }else{
                 dispatch(confirmPop({
                     confirmPop:true,
@@ -459,8 +494,15 @@ const ProfilePop = () => {
         }
         if(step === 3){
             if(data.hasOwnProperty("m_visual") && data.m_visual.length > 0){
-                setTit(stepList[idx]);
-                setStep(idx);
+                //프로필수정일때
+                if(popup.appProfilePopEdit){
+                    closePopHandler();
+                }
+                //회원가입일때
+                else{
+                    setTit(stepList[idx]);
+                    setStep(idx);
+                }
             }else{
                 dispatch(confirmPop({
                     confirmPop:true,
@@ -473,8 +515,15 @@ const ProfilePop = () => {
         }
         if(step === 4){
             if(like.length > 0){
-                setTit(stepList[idx]);
-                setStep(idx);
+                //프로필수정일때
+                if(popup.appProfilePopEdit){
+                    closePopHandler();
+                }
+                //회원가입일때
+                else{
+                    setTit(stepList[idx]);
+                    setStep(idx);
+                }
             }else{
                 dispatch(confirmPop({
                     confirmPop:true,
@@ -487,8 +536,15 @@ const ProfilePop = () => {
         }
         if(step === 5){
             if(data.hasOwnProperty("m_mbti") && data.m_mbti.length > 0){
-                setTit(stepList[idx]);
-                setStep(idx);
+                //프로필수정일때
+                if(popup.appProfilePopEdit){
+                    closePopHandler();
+                }
+                //회원가입일때
+                else{
+                    setTit(stepList[idx]);
+                    setStep(idx);
+                }
             }else{
                 dispatch(confirmPop({
                     confirmPop:true,
@@ -501,8 +557,15 @@ const ProfilePop = () => {
         }
         if(step === 6){
             if(type.length > 0){
-                setTit(stepList[idx]);
-                setStep(idx);
+                //프로필수정일때
+                if(popup.appProfilePopEdit){
+                    closePopHandler();
+                }
+                //회원가입일때
+                else{
+                    setTit(stepList[idx]);
+                    setStep(idx);
+                }
             }else{
                 dispatch(confirmPop({
                     confirmPop:true,
@@ -515,8 +578,15 @@ const ProfilePop = () => {
         }
         if(step === 7){
             if(data.hasOwnProperty("m_smok") && data.m_smok.length > 0){
-                setTit(stepList[idx]);
-                setStep(idx);
+                //프로필수정일때
+                if(popup.appProfilePopEdit){
+                    closePopHandler();
+                }
+                //회원가입일때
+                else{
+                    setTit(stepList[idx]);
+                    setStep(idx);
+                }
             }else{
                 dispatch(confirmPop({
                     confirmPop:true,
@@ -529,8 +599,15 @@ const ProfilePop = () => {
         }
         if(step === 8){
             if(data.hasOwnProperty("m_drink") && data.m_drink.length > 0){
-                setTit(stepList[idx]);
-                setStep(idx);
+                //프로필수정일때
+                if(popup.appProfilePopEdit){
+                    closePopHandler();
+                }
+                //회원가입일때
+                else{
+                    setTit(stepList[idx]);
+                    setStep(idx);
+                }
             }else{
                 dispatch(confirmPop({
                     confirmPop:true,
@@ -543,8 +620,15 @@ const ProfilePop = () => {
         }
         if(step === 9){
             if(data.hasOwnProperty("m_religion") && data.m_religion.length > 0){
-                setTit(stepList[idx]);
-                setStep(idx);
+                //프로필수정일때
+                if(popup.appProfilePopEdit){
+                    closePopHandler();
+                }
+                //회원가입일때
+                else{
+                    setTit(stepList[idx]);
+                    setStep(idx);
+                }
             }else{
                 dispatch(confirmPop({
                     confirmPop:true,
@@ -557,8 +641,15 @@ const ProfilePop = () => {
         }
         if(step === 10){
             if(data.hasOwnProperty("m_date") && data.m_date.length > 0){
-                setTit(stepList[idx]);
-                setStep(idx);
+                //프로필수정일때
+                if(popup.appProfilePopEdit){
+                    closePopHandler();
+                }
+                //회원가입일때
+                else{
+                    setTit(stepList[idx]);
+                    setStep(idx);
+                }
             }else{
                 dispatch(confirmPop({
                     confirmPop:true,
@@ -571,8 +662,15 @@ const ProfilePop = () => {
         }
         if(step === 11){
             if(data.hasOwnProperty("m_motive") && data.m_motive.length > 0){
-                setTit(stepList[idx]);
-                setStep(idx);
+                //프로필수정일때
+                if(popup.appProfilePopEdit){
+                    closePopHandler();
+                }
+                //회원가입일때
+                else{
+                    setTit(stepList[idx]);
+                    setStep(idx);
+                }
             }else{
                 dispatch(confirmPop({
                     confirmPop:true,
@@ -920,7 +1018,7 @@ const ProfilePop = () => {
                 <div className="btn_box">
                     <button type="button" className="app_btn" onClick={nextStepHandler}>
                         {!popup.appProfilePopEdit ? step < 11 ? "다음" : "확인"
-                            : popup.appProfilePopEdit && "확인"
+                            : popup.appProfilePopEdit && "닫기"
                         }
                     </button>
                 </div>
