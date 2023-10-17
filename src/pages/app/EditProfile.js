@@ -17,13 +17,11 @@ const EditProfile = () => {
     const m_profile_modify = enum_api_uri.m_profile_modify;
     const m_nick_check = enum_api_uri.m_nick_check;
     const m_address = enum_api_uri.m_address;
-    const m_address2 = enum_api_uri.m_address2;
     const [confirm, setConfirm] = useState(false);
     const [editOkConfirm, setEditOkConfirm] = useState(false);
     const [tabOn, setTabOn] = useState(1);
     const token = util.getCookie("token");
     const [addressList, setAddressList] = useState([]);
-    const [addressList2, setAddressList2] = useState([]);
     const [myInfo, setMyInfo] = useState({});
     const [myType, setMyType] = useState({});
     const [idealType, setIdealType] = useState({});
@@ -189,78 +187,39 @@ const EditProfile = () => {
 
     //회원 나의프로필정보값 변경시 나의 거주지 설정
     useEffect(()=>{
-        if(Object.keys(myType).length > 0){
-            //나의 거주지
+        if(myType.hasOwnProperty("m_address_full")){
             let addrArray = [];
-            let addr1;
-            let addr2;
-            if(myType.m_address.includes("·")){
-                addrArray = myType.m_address.split(" · ");
+            let addr1 = "";
+            let addr2 = "";
+            if(myType.m_address_full.includes(" ")){
+                addrArray = myType.m_address_full.split(" ");
+                setAddress(addrArray[0]);
+                setAddress2(addrArray[1]);
                 addr1 = addrArray[0];
                 addr2 = addrArray[1];
             }else{
-                addr1 = myType.m_address;
+                setAddress(myType.m_address_full);
+                setAddress2("");
+                addr1 = myType.m_address_full;
                 addr2 = "";
             }
 
             const matchingItem = addressList.find(item => item.sido_gugun.includes(addr1));
-            let txt;
             let code;
             if (matchingItem) {
-                txt = matchingItem.sido_gugun;
                 code = matchingItem.local_code;
             } else {
-                txt = "";
                 code = "01";
             }
 
             let newData = {...user.profileData};
-            newData.m_address = txt;
+            newData.m_address = addr1;
+            newData.m_address2 = addr2;
             newData.m_address_code = code;
-            dispatch(profileData(newData)); //profileData store 값에 저장 (m_address, m_address_code)
-
-            setAddress(txt);
-
-            getAddress2(newData, code, addr2);
+            dispatch(profileData(newData)); //profileData store 값에 저장 (m_address, m_address2, m_address_code)
         }
     },[myType]);
 
-
-    //주소 구,군 가져오기
-    const getAddress2 = (infoData, code, addr2) => {
-        axios.get(`${m_address2.replace(':parent_local_code',code)}`)
-        .then((res)=>{
-            if(res.status === 200){
-                const data = res.data;
-                
-                let txt = "";
-
-                //주소 구,군 값이 있는지 체크
-                if(addr2.length > 0){
-                    const matchingItem = data.find(item => item.sido_gugun.includes(addr2));
-                    if (matchingItem) {
-                        txt = matchingItem.sido_gugun;
-                    }
-                }
-
-                let newData = {...infoData};
-                newData.m_address2 = txt;
-                dispatch(profileData(newData)); //profileData store 값에 저장 (m_address2)
-
-                setAddress2(txt);
-            }
-        })
-        .catch((error) => {
-            const err_msg = CF.errorMsgHandler(error);
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt: err_msg,
-                confirmPopBtn:1,
-            }));
-            setConfirm(true);
-        })
-    };
 
 
     useEffect(()=>{
