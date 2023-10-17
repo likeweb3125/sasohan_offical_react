@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import * as CF from '../../config/function';
@@ -6,7 +6,6 @@ import { enum_api_uri } from "../../config/enum";
 import util from "../../config/util";
 import { appProfilePop, appProfilePop2, confirmPop, appChangePasswordPop } from "../../store/popupSlice";
 import { profileData, profileDataChange } from "../../store/userSlice";
-
 import ConfirmPop from "../../components/popup/ConfirmPop";
 
 
@@ -15,29 +14,25 @@ const EditProfile = () => {
     const user = useSelector((state)=>state.user);
     const popup = useSelector((state)=>state.popup);
     const m_profile_info = enum_api_uri.m_profile_info;
+    const m_profile_modify = enum_api_uri.m_profile_modify;
     const m_nick_check = enum_api_uri.m_nick_check;
     const m_address = enum_api_uri.m_address;
     const m_address2 = enum_api_uri.m_address2;
     const [confirm, setConfirm] = useState(false);
+    const [editOkConfirm, setEditOkConfirm] = useState(false);
     const [tabOn, setTabOn] = useState(1);
     const token = util.getCookie("token");
-
     const [addressList, setAddressList] = useState([]);
     const [addressList2, setAddressList2] = useState([]);
-
     const [myInfo, setMyInfo] = useState({});
     const [myType, setMyType] = useState({});
     const [idealType, setIdealType] = useState({});
-
     const [inputFocus, setInputFocus] = useState({});
-
     const [valNickname, setValNickname] = useState("");
     const [valEmail, setValEmail] = useState("");
     const [usableNickname, setUsableNickname] = useState(true);
     const [usableEmail, setUsableEmail] = useState(true);
     const [errorNickname, setErrorNickname] = useState(false);
-    const [errorEmail, setErrorEmail] = useState(false);
-
     const [address, setAddress] = useState("");
     const [address2, setAddress2] = useState("");
     const [height, setHeight] = useState("");
@@ -48,6 +43,7 @@ const EditProfile = () => {
     useEffect(()=>{
         if(popup.confirmPop === false){
             setConfirm(false);
+            setEditOkConfirm(false);
         }
     },[popup.confirmPop]);
 
@@ -453,8 +449,71 @@ const EditProfile = () => {
     };
     
 
-   
+    //프로필수정하기
+    const EditHandler = () => {
+        let addr = "";
+        if(user.profileData.m_address2.length > 0){
+            addr = user.profileData.m_address + " " + user.profileData.m_address2;
+        }else{
+            addr = user.profileData.m_address;
+        }
 
+        const body = {
+            m_n_name: valNickname,
+            m_address: addr,
+            m_height: user.profileData.m_height,
+            m_job: user.profileData.m_job,
+            m_visual: user.profileData.m_visual,
+            m_like: user.profileData.m_like,
+            m_mbti: user.profileData.m_mbti,
+            m_character: user.profileData.m_character,
+            m_smok: user.profileData.m_smok,
+            m_drink: user.profileData.m_drink,
+            m_religion: user.profileData.m_religion,
+            m_date: user.profileData.m_date,
+            m_motive: user.profileData.m_motive,
+            t_height1: user.profileData.t_height1,
+            t_height2: user.profileData.t_height2,
+            t_job: user.profileData.t_job,
+            t_visual: user.profileData.t_visual,
+            t_mbti: user.profileData.t_mbti,
+            t_character: user.profileData.t_character,
+            t_smok: user.profileData.t_smok,
+            t_drink: user.profileData.t_drink,
+            t_religion: user.profileData.t_religion,
+        };
+
+        axios.post(`${m_profile_modify}`, body,
+            {headers:{Authorization: `Bearer ${token}`}}
+        )
+        .then((res)=>{
+            if(res.status === 200){
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt: '프로필 수정이 완료되었습니다.',
+                    confirmPopBtn:1,
+                }));
+                setEditOkConfirm(true);
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        }); 
+    };
+
+
+    //프로필수정완료 팝업 확인클릭시
+    const editOkHandler = () => {
+        setEditOkConfirm(false);
+    };
 
 
     return(<>
@@ -536,9 +595,16 @@ const EditProfile = () => {
                                         let data = {email:true};
                                         inputFocusHandler(data);
                                     }}
-                                    onBlur={()=>{
+                                    onBlur={(e)=>{
                                         let data = {email:false};
                                         inputFocusHandler(data);
+
+                                        let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+                                        if(regExp.test(e.currentTarget.value)){
+                                            setUsableEmail(true);
+                                        }else{
+                                            setUsableEmail(false);
+                                        }
                                     }}
                                 />
                             </div>
@@ -748,9 +814,34 @@ const EditProfile = () => {
                 </div>
             </div>
             <div className="btn_box">
-                <button type="button" className="app_btn2">저장</button>
+                <button type="button" className="app_btn2" 
+                    onClick={()=>{
+                        if(usableNickname && usableEmail){
+                            EditHandler();
+                        }else if(!usableNickname){
+                            setConfirm(true);
+                            dispatch(confirmPop({
+                                confirmPop:true,
+                                confirmPopTit:'알림',
+                                confirmPopTxt:'닉네임 중복확인을 해주세요.',
+                                confirmPopBtn:1,
+                            }));
+                        }else if(!usableEmail){
+                            setConfirm(true);
+                            dispatch(confirmPop({
+                                confirmPop:true,
+                                confirmPopTit:'알림',
+                                confirmPopTxt:'이메일을 입력해주세요.',
+                                confirmPopBtn:1,
+                            }));
+                        }
+                    }}
+                >저장</button>
             </div>
         </div>
+
+        {/* 프로필수정완료 confirm팝업 */}
+        {editOkConfirm && <ConfirmPop closePop="custom" onCloseHandler={editOkHandler} />}  
 
         {/* confirm팝업 */}
         {confirm && <ConfirmPop />}  

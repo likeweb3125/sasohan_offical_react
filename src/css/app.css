@@ -6,7 +6,7 @@
     65% { margin-left: -5px; }
     100% { margin-left: 0; }
 }
-.alert_txt{color: #FC5862;animation: appAniAlert .3s ease-out forwards;}
+.alert_txt{color: #FC5862 !important;animation: appAniAlert .3s ease-out forwards;}
 
 /* custom_input */
 .custom_input {height: 56px;background: #fff;}
@@ -53,9 +53,12 @@
 
 /* btn */
 .app_btn{width: 100%;height: 64px;border-radius: 8px;font-size: 20px;font-weight: 700;text-align: center;color: #fff;background: #373D49;line-height: 64px;}
+.app_btn:disabled{background: #EAEAEA;color: #999999;border-color: #EAEAEA;}
 .app_btn2{width: 100%;height: 64px;border-radius: 8px;font-size: 20px;font-weight: 700;text-align: center;color: #fff;background: #6840FD;line-height: 64px;}
+.app_btn2:disabled{background: #EAEAEA;color: #999999;border-color: #EAEAEA;}
 .app_btn3{width: 100%;height: 64px;border-radius: 8px;font-size: 20px;font-weight: 700;text-align: center;color: #6840FD;background: #fff;line-height: 64px;border: 1px solid #6840FD;}
 .app_btn4{width: 100%;height: 64px;border-radius: 8px;font-size: 20px;font-weight: 700;text-align: center;color: #fff;background: linear-gradient(255.03deg, #4144FD 11.16%, #7F40FF 89.36%);line-height: 64px;}
+.app_btn5{width: 100%;height: 64px;border-radius: 8px;font-size: 20px;font-weight: 700;text-align: center;color: #999999;background: #EAEAEA;line-height: 64px;}
 .app_btn_s{width: 120px;height: 53px;line-height: 53px;font-size: 18px;font-weight: 700;border: 1px solid #6840FD;border-radius: 8px;color: #6840FD;}
 .app_btn_s:disabled{background: #EAEAEA;color: #999999;border-color: #EAEAEA;}
 
@@ -250,6 +253,25 @@
 .input_check_box button{width: 83px;height: 43px;border: 1px solid #6840FD;font-size: 16px;font-weight: 700;color: #6840FD;border-radius: 8px;position: absolute;right: 0;top: 50%;transform: translateY(-50%);}
 .input_check_box.checked button {color: #999;background: #EAEAEA;border-color: #EAEAEA;}
 .edit_profile_wrap .btn_box{padding: 40px 20px 20px;}
+
+/* 회원탈퇴 */
+.withdraw_wrap .inner_cont{padding: 28px 20px 104px;min-height: 100vh;position: relative;}
+.withdraw_wrap .tit_box h5{font-size: 28px;font-weight: 700;color: #1B171E;line-height: 1.5;}
+.withdraw_wrap .tit_box p{font-size: 18px;color: #666;padding-top: 8px;}
+.withdraw_wrap .info_box{padding-top: 36px;}
+.withdraw_wrap .info_box .txt{font-size: 18px;color: #1B171E;padding-bottom: 16px;}
+.withdraw_wrap .info_box .info_ul {padding: 16px 20px;background: #FAF8FF;border-radius: 8px;}
+.withdraw_wrap .info_box .info_ul li{color: #999;padding-bottom: 8px;}
+.withdraw_wrap .info_box .info_ul li:last-child{padding-bottom: 0;}
+.withdraw_wrap .info_box .info_ul li h6{font-size: 22px;font-weight: 500;color: #6840FD;}
+.withdraw_wrap .info_box .txt_ul{padding:16px 0;}
+.withdraw_wrap .info_box .txt_ul li{color: #666;padding-bottom: 5px;padding-left: 14px;position: relative;line-height: 1.5;}
+.withdraw_wrap .info_box .txt_ul li::after{position: absolute;content: "";top: 0;left: 0;background: url(../images/app/ic_star.svg) no-repeat center left;width: 14px;height: 20px;}
+.withdraw_wrap .info_box .txt_ul li span{font-weight: 500;}
+
+
+.withdraw_wrap .inner_cont .btn_box{position: absolute;width: 100%;left: 0;bottom: 0;padding: 20px;}
+.withdraw_wrap .inner_cont .btn_box.flex_between button{width: calc(50% - 2px);}
 
 
 

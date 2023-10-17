@@ -27,12 +27,17 @@ exports.enum_api_uri = {
     m_select_list: `${api_uri}/v1/select-list`,
     m_img_add: `${api_uri}/v1/app/user/user-profile-add`,
     m_join: `${api_uri}/v1/app/user/join`,
-    //포인트충전
+    //마이페이지 - 포인트충전
     m_info:`${api_uri}/v1/app/mypage/profile`,
     m_point:`${api_uri}/v1/app/mypage/point`,
     m_pay_check:`${api_uri}/v1/pay/notice/:var1`,
     m_pay_logs:`${api_uri}/v1/pay/logs`,
-    //프로필수정
+    //마이페이지 - 프로필수정
     m_profile_info:`${api_uri}/v1/app/mypage/profile-info`,
+    m_profile_modify:`${api_uri}/v1/app/mypage/profile-modify`,
     m_change_password:`${api_uri}/v1/app/mypage/change-password`,
+    //마이페이지 - 회원탈퇴
+    m_leave_info:`${api_uri}/v1/app/mypage/leave-info`,
+    m_leave:`${api_uri}/v1/app/mypage/leave`,
+
 }

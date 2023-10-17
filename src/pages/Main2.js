@@ -949,13 +949,25 @@ const Main = () => {
                         <div className="slider_box external_slider_box">
                             <Swiper
                                 className="external_slider"
-                                slidesPerView={`auto`}
-                                // spaceBetween={60}
+                                slidesPerView={3}
+                                // slidesPerGroup={1}
                                 observer={true}
                                 observeParents={true}
                                 loop={true}
+                                loopedSlides={2}
                                 navigation={{nextEl: ".external_slider_box .swiper-button-next",prevEl: ".external_slider_box .swiper-button-prev"}}
                             >
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={award_img1_pop} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
+                                            <p className="txt2">고객만족 소개팅서비스업</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
                                 <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
                                     <div className="box">
                                         <div className="img_box">

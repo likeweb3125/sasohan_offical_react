@@ -156,6 +156,8 @@
     .about_wrap .txt_box .tab_ul li{padding: 16px 0;}
     .about_wrap .txt_box .txt_ul li img{left: auto;right: 20px;}
     .section2_2{padding: 80px 0;}
+    .section2_2::after{width: 298px;height: 298px;}
+    .section2_2::before{left: -150px; bottom: -100px;}
     .section2_2 .section_inner::after{display: none;}
     .section3{padding-top: 60px;}
     .blog_wrap{padding-top: 50px;}
@@ -270,6 +272,8 @@
     .about_wrap .txt_box .txt_ul li .txt2{font-size: 15px;}
 
     .section2_2{margin-top: 60px;padding: 60px 0;}
+    .section2_2::after{background-size: 100%;right: -60px;}
+    .section2_2::before{width: 271px;height: 271px;}
     .section2_2 .tit_box .tit{font-size: 36px;}
     .section2_2 .tit_box .tit::after{width: 8px;height: 8px;right: -12px;}
     .section2_2 .tit_box .txt{padding-top: 12px;line-height: 1.5;}

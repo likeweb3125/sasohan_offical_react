@@ -10,6 +10,7 @@ import AppSignup from './pages/app/Signup';
 import AppSignup2 from './pages/app/Signup2';
 import AppPoint from './pages/app/Point';
 import AppEditProfile from './pages/app/EditProfile';
+import AppWithdraw from './pages/app/Withdraw';
 import './css/reset.css';
 import './css/main.css';
 import './css/breakpoint.css';
@@ -46,6 +47,9 @@ function App() {
 
                 {/* 마이페이지 - 프로필수정 */}
                 <Route path="/app/edit_profile" element={<AppLayout><AppEditProfile /></AppLayout>} />
+
+                {/* 마이페이지 - 회원탈퇴 */}
+                <Route path="/app/withdraw" element={<AppLayout><AppWithdraw /></AppLayout>} />
 
             </Routes>
 
