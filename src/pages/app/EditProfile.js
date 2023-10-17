@@ -37,6 +37,7 @@ const EditProfile = () => {
     const [address2, setAddress2] = useState("");
     const [height, setHeight] = useState("");
     const [height2, setHeight2] = useState(""); //상대방 키
+    const [hasRunOnce, setHasRunOnce] = useState(false);
 
 
     // Confirm팝업 닫힐때
@@ -167,11 +168,14 @@ const EditProfile = () => {
     };
 
 
-    //맨처음 회원프로필정보, 주소 시,도 가져오기
+    //맨처음 token이 있고 getProfileInfo,getAddress 함수들이 한번도 실행안됐을때 회원프로필정보, 주소 시,도 가져오기
     useEffect(()=>{
-        getProfileInfo();
-        getAddress();
-    },[]);
+        if (token && !hasRunOnce) {
+            getProfileInfo();
+            getAddress();
+            setHasRunOnce(true);
+        }
+    },[token]);
 
 
     //회원 기본정보값 변경시 닉네임, 이메일값 변경
@@ -354,6 +358,7 @@ const EditProfile = () => {
     },[user.profileData]);
 
 
+    //회원프로필 선택 팝업에서 값 변경시 변경한값으로 바꾸기
     useEffect(()=>{
         if(user.profileDataChange){
             dispatch(profileDataChange(false));
