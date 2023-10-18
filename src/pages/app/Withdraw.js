@@ -84,6 +84,16 @@ const Withdraw = () => {
     };
 
 
+    //회원탈퇴 취소시 마이페이지로 이동
+    const cancelHandler = () => {
+        //앱에 회원탈퇴취소 보내기
+        if(window.flutterMyPage){
+            const data = {};
+            window.flutterMyPage.postMessage(JSON.stringify(data));
+        }
+    };
+
+
     //회원탈퇴 버튼 클릭시
     const withdrawBtnClickHandler = () => {
         if(valReason.length > 0 && agreeCheck){
@@ -144,6 +154,17 @@ const Withdraw = () => {
             setConfirm(true);
         }); 
     };
+
+
+    //회원탈퇴 완료 팝업 확인버튼클릭시 마이페이지로 이동
+    const withdrawOkHandler = () => {
+        //앱에 회원탈퇴완료 보내기
+        if(window.flutterWithdraw){
+            const data = {};
+            window.flutterWithdraw.postMessage(JSON.stringify(data));
+        }
+    };
+
 
 
     return(<>
@@ -239,7 +260,7 @@ const Withdraw = () => {
                         </label>
                     </div>
                     <div className="btn_box flex_between">
-                        <button type="button" className="app_btn2">계속 사용할래요!</button>
+                        <button type="button" className="app_btn2" onClick={cancelHandler}>계속 사용할래요!</button>
                         <button type="button" className="app_btn5" onClick={withdrawBtnClickHandler}>회원탈퇴</button>
                     </div>
                 </div>
@@ -250,7 +271,7 @@ const Withdraw = () => {
         {withdrawConfirm && <ConfirmPop onClickHandler={withdrawHandler} />}  
 
         {/* 회원탈퇴완료 confirm팝업 */}
-        {withdrawOkConfirm && <ConfirmPop closePop="custom" onCloseHandler={()=>{setWithdrawOkConfirm(false)}} />}  
+        {withdrawOkConfirm && <ConfirmPop onClickHandler={withdrawOkHandler} />}  
 
         {/* confirm팝업 */}
         {confirm && <ConfirmPop />}  

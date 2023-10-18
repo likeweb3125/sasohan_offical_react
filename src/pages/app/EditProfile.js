@@ -221,7 +221,6 @@ const EditProfile = () => {
     },[myType]);
 
 
-
     useEffect(()=>{
         console.log(user.profileData);
 
@@ -476,7 +475,11 @@ const EditProfile = () => {
 
     //프로필수정완료 팝업 확인클릭시
     const editOkHandler = () => {
-        setEditOkConfirm(false);
+        //앱에 프로필수정완료 보내기
+        if(window.flutterEditProfile){
+            const data = {};
+            window.flutterEditProfile.postMessage(JSON.stringify(data));
+        }
     };
 
 
@@ -805,7 +808,7 @@ const EditProfile = () => {
         </div>
 
         {/* 프로필수정완료 confirm팝업 */}
-        {editOkConfirm && <ConfirmPop closePop="custom" onCloseHandler={editOkHandler} />}  
+        {editOkConfirm && <ConfirmPop onClickHandler={editOkHandler} />}  
 
         {/* confirm팝업 */}
         {confirm && <ConfirmPop />}  
