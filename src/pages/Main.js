@@ -847,8 +847,8 @@ const Main = () => {
                                 </SwiperSlide>
                                 <div className="btn_box">
                                     <div className="swiper-pagination"></div>
-                                    <div className="swiper-button-prev"></div>
-                                    <div className="swiper-button-next"></div>
+                                    <div className="swiper-button-prev hover_btn_w"></div>
+                                    <div className="swiper-button-next hover_btn_w"></div>
                                 </div>
                             </Swiper>
                         </div>
