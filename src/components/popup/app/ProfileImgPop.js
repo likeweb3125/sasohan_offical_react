@@ -83,7 +83,7 @@ const ProfileImgPop = () => {
                 </div>
                 <div className="scroll_wrap">
                     <ul className="list_ul">
-                        <li>
+                        {/* <li>
                             <label htmlFor="img">
                                 <input type={`file`} accept={`image/*`} capture={`environment`} id="img"
                                     onChange={(e) => {
@@ -92,7 +92,7 @@ const ProfileImgPop = () => {
                                 />
                                 <span>카메라</span>
                             </label>
-                        </li>
+                        </li> */}
                         <li>
                             <label htmlFor="img2">
                                 <input type={`file`} accept={`image/*`} id="img2"
@@ -100,7 +100,7 @@ const ProfileImgPop = () => {
                                         imgUpHandler(e);
                                     }}
                                 />
-                                <span>갤러리</span>
+                                <span>사진선택</span>
                             </label>
                         </li>
                     </ul>
