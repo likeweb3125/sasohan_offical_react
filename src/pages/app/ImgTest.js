@@ -64,6 +64,16 @@ const ImgTest = () => {
                         </div>
                     </div>
                 </div>
+
+                <div>
+                    <button type="button" className="app_btn_s" onClick={()=>{
+                        //앱에 회원가입완료 보내기
+                        if(window.flutterSignup){
+                            const data = {};
+                            window.flutterSignup.postMessage(JSON.stringify(data));
+                        }
+                    }}>회원가입완료</button>
+                </div>
             </div>
         </div>
     );

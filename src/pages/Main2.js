@@ -1033,8 +1033,8 @@ const Main = () => {
                         <div className="slider">
                             <Swiper
                                 className="external_slider"
-                                slidesPerView={3}
-                                spaceBetween={60}
+                                slidesPerView={1.7}
+                                spaceBetween={0}
                                 centeredSlides={true}
                                 observer={true}
                                 observeParents={true}
@@ -1049,7 +1049,8 @@ const Main = () => {
                                     {
                                         1421:{slidesPerView:3,spaceBetween:60,centeredSlides:false},//width >= 1421
                                         1200:{slidesPerView:3,spaceBetween:0,centeredSlides:true},//width >= 1200
-                                        768:{slidesPerView:1.2,spaceBetween:0,centeredSlides:true},//width >= 768
+                                        900:{slidesPerView:2.5,spaceBetween:0,centeredSlides:true},//width >= 900
+                                        //768:{slidesPerView:1.7,spaceBetween:0,centeredSlides:true},//width >= 768
                                     }
                                 }
                             >
@@ -1206,8 +1207,9 @@ const Main = () => {
                         <div className="slider">
                             <Swiper
                                 className="paper_slider"
-                                slidesPerView={3}
-                                spaceBetween={60}
+                                slidesPerView={1.7}
+                                spaceBetween={0}
+                                centeredSlides={true}
                                 observer={true}
                                 observeParents={true}
                                 loop={true}
@@ -1219,7 +1221,9 @@ const Main = () => {
                                 breakpoints={
                                     {
                                         1421:{slidesPerView:3,spaceBetween:60,centeredSlides:false},//width >= 1421
-                                        768:{slidesPerView:3,spaceBetween:0,centeredSlides:true},//width >= 768
+                                        1200:{slidesPerView:3,spaceBetween:0,centeredSlides:true},//width >= 1200
+                                        900:{slidesPerView:2.5,spaceBetween:0,centeredSlides:true},//width >= 900
+                                        //768:{slidesPerView:1.7,spaceBetween:0,centeredSlides:true},//width >= 768
                                     }
                                 }
                             >
