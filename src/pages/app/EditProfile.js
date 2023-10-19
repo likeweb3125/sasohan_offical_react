@@ -47,6 +47,26 @@ const EditProfile = () => {
     },[popup.confirmPop]);
 
 
+    // 탭클릭시 위치로 스크롤
+    const scrollToBox = (boxNumber) => {
+        const boxId = `box${boxNumber}`;
+        const element = document.getElementById(boxId);
+    
+        if (element) {
+            element.scrollIntoView({
+                behavior: 'smooth',
+            });
+        }
+    };
+
+    
+    // 탭클릭 이벤트
+    const tabClickHandler = (tabNumber) => {
+        setTabOn(tabNumber); // 선택한 탭 활성화
+        scrollToBox(tabNumber); // 해당 박스로 스크롤
+    };
+
+
     //회원프로필정보 가져오기
     const getProfileInfo = () => {
         axios.get(`${m_profile_info}`,
@@ -362,7 +382,6 @@ const EditProfile = () => {
     },[user.profileDataChange]);
 
 
-
     //닉네임, 이메일 인풋포커스 체크
     const inputFocusHandler = (data) => {
         setInputFocus((prevInputFocus) => {
@@ -483,12 +502,13 @@ const EditProfile = () => {
     };
 
 
+
     return(<>
         <div className="edit_profile_wrap">
             <ul className="top_tab flex_center">
-                <li className={tabOn === 1 ? "on" : ""} onClick={()=>{setTabOn(1)}}><a href="#box1">기본 정보</a></li>
-                <li className={tabOn === 2 ? "on" : ""} onClick={()=>{setTabOn(2)}}><a href="#box2">나의 프로필</a></li>
-                <li className={tabOn === 3 ? "on" : ""} onClick={()=>{setTabOn(3)}}><a href="#box3">이상형 프로필</a></li>
+                <li className={tabOn === 1 ? "on" : ""} onClick={()=>{tabClickHandler(1)}}>기본 정보</li>
+                <li className={tabOn === 2 ? "on" : ""} onClick={()=>{tabClickHandler(2)}}>나의 프로필</li>
+                <li className={tabOn === 3 ? "on" : ""} onClick={()=>{tabClickHandler(3)}}>이상형 프로필</li>
             </ul>
             <div className="inner_cont">
                 <div className="line_box" id="box1">
