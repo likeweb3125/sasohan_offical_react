@@ -364,6 +364,11 @@ const Main = () => {
 
     const [externalSliderActive,setExternalSliderActive] = useState(0);
     const [paperSliderActive,setPaperSliderActive] = useState(0);
+    const [donaSliderActive, setDonaSliderActive] = useState(1);
+
+    useEffect(()=>{
+        console.log(donaSliderActive);
+    },[donaSliderActive]);
 
 
     return(<>
@@ -1286,22 +1291,38 @@ const Main = () => {
                 <div className="tit_box">
                     <p>정기적인 기부</p>
                 </div>
-                <div className="left_txt_box">
-                    <h6>밀알복지재단 후원</h6>
-                    <p>사소한은 정기적인 기부를 진행하고 있습니다.</p>
-                </div>
+                <ul className="left_txt_box">
+                    <li className={donaSliderActive == 1 ? "on" : ""}>
+                        <h6>밀알복지재단 후원</h6>
+                        <p>사소한은 정기적인 기부를 진행하고 있습니다.</p>
+                    </li>
+                    <li className={donaSliderActive == 2 ? "on" : ""}>
+                        <h6>Save the Children</h6>
+                        <p>사소한은 정기적인 기부를 진행하고 있습니다.</p>
+                    </li>
+                    <li className={donaSliderActive == 3 ? "on" : ""}>
+                        <h6>World Vision</h6>
+                        <p>사소한은 정기적인 기부를 진행하고 있습니다.</p>
+                    </li>
+                </ul>
             </div>
-            <div className="donation_slider_box">
+            <div className="donation_slider_box flex_end">
                 <div className="slider_box">
                     <Swiper
                         className="donation_slider"
                         slidesPerView={`auto`}
                         navigation={{nextEl: ".donation_slider_box .swiper-button-next",prevEl: ".donation_slider_box .swiper-button-prev"}}
-                        pagination={{el: ".donation_slider_box .swiper-pagination",type: "fraction"}}
                         loop={true}
                         spaceBetween={80}
+                        onSlideChange={(swiper)=>{
+                            const activeSlide = swiper.slides[swiper.activeIndex];
+                            const activeSlideClassNames = activeSlide.className.split(' ');
+                            let idx = activeSlideClassNames.find(className => className.startsWith('slide_'));
+                                idx = idx.replace("slide_","");
+                            setDonaSliderActive(idx);
+                        }}
                     >
-                        <SwiperSlide>
+                        <SwiperSlide className="slide_1">
                             <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:dona_img1}))}}>
                                 <img src={dona_img1} alt="이미지" />
                             </div>
@@ -1310,7 +1331,7 @@ const Main = () => {
                                 <p className="txt2">사소한은 정기적인 기부를 진행하고 있습니다.</p>
                             </div>
                         </SwiperSlide>
-                        <SwiperSlide>
+                        <SwiperSlide className="slide_2">
                             <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:dona_img2}))}}>
                                 <img src={dona_img2} alt="이미지" />
                             </div>
@@ -1319,7 +1340,7 @@ const Main = () => {
                                 <p className="txt2">사소한은 정기적인 기부를 진행하고 있습니다.</p>
                             </div>
                         </SwiperSlide>
-                        <SwiperSlide>
+                        <SwiperSlide className="slide_3">
                             <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:dona_img3}))}}>
                                 <img src={dona_img3} alt="이미지" />
                             </div>
@@ -1328,7 +1349,7 @@ const Main = () => {
                                 <p className="txt2">사소한은 정기적인 기부를 진행하고 있습니다.</p>
                             </div>
                         </SwiperSlide>
-                        <SwiperSlide>
+                        <SwiperSlide className="slide_1">
                             <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:dona_img1}))}}>
                                 <img src={dona_img1} alt="이미지" />
                             </div>
@@ -1337,7 +1358,7 @@ const Main = () => {
                                 <p className="txt2">사소한은 정기적인 기부를 진행하고 있습니다.</p>
                             </div>
                         </SwiperSlide>
-                        <SwiperSlide>
+                        <SwiperSlide  className="slide_2">
                             <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:dona_img2}))}}>
                                 <img src={dona_img2} alt="이미지" />
                             </div>
@@ -1346,7 +1367,7 @@ const Main = () => {
                                 <p className="txt2">사소한은 정기적인 기부를 진행하고 있습니다.</p>
                             </div>
                         </SwiperSlide>
-                        <SwiperSlide>
+                        <SwiperSlide className="slide_3">
                             <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:dona_img3}))}}>
                                 <img src={dona_img3} alt="이미지" />
                             </div>
@@ -1358,9 +1379,11 @@ const Main = () => {
                     </Swiper>
                 </div>
                 <div className="btn_box">
-                    <div className="swiper-pagination"></div>
-                    <div className="swiper-button-prev hover_btn_w"></div>
-                    <div className="swiper-button-next hover_btn_w"></div>
+                    <div className="inner">
+                        <div className="swiper-pagination"></div>
+                        <div className="swiper-button-prev hover_btn_w"></div>
+                        <div className="swiper-button-next hover_btn_w"></div>
+                    </div>
                 </div>
             </div>
         </section>
