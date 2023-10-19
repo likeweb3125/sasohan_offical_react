@@ -1001,8 +1001,7 @@ const SignUp2 = () => {
                 axios.post(`${m_join}`,body)
                 .then((res)=>{
                     if(res.status === 200){
-                        //메인페이지 이동, 회원가입완료 팝업 띄우기
-                        navigate("/");
+                        //회원가입완료 팝업 띄우기
                         dispatch(appSignupCompletePop({appSignupCompletePop:true,appSignupCompletePopUser:user.signupData.m_name}));
 
                         //sessionStorage tradeid 삭제
