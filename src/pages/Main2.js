@@ -1035,6 +1035,7 @@ const Main = () => {
                                 className="external_slider"
                                 slidesPerView={3}
                                 spaceBetween={60}
+                                centeredSlides={true}
                                 observer={true}
                                 observeParents={true}
                                 loop={true}
@@ -1044,6 +1045,13 @@ const Main = () => {
                                     const idx = e.realIndex;
                                     setExternalSliderActive(idx);
                                 }}
+                                breakpoints={
+                                    {
+                                        1421:{slidesPerView:3,spaceBetween:60,centeredSlides:false},//width >= 1421
+                                        1200:{slidesPerView:3,spaceBetween:0,centeredSlides:true},//width >= 1200
+                                        768:{slidesPerView:1.2,spaceBetween:0,centeredSlides:true},//width >= 768
+                                    }
+                                }
                             >
                                 <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
                                     <div className="box">
@@ -1208,6 +1216,12 @@ const Main = () => {
                                     const idx = e.realIndex;
                                     setPaperSliderActive(idx);
                                 }}
+                                breakpoints={
+                                    {
+                                        1421:{slidesPerView:3,spaceBetween:60,centeredSlides:false},//width >= 1421
+                                        768:{slidesPerView:3,spaceBetween:0,centeredSlides:true},//width >= 768
+                                    }
+                                }
                             >
                                 <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img3_pop}))}}>
                                     <div className="box">
@@ -1313,7 +1327,7 @@ const Main = () => {
                         slidesPerView={`auto`}
                         navigation={{nextEl: ".donation_slider_box .swiper-button-next",prevEl: ".donation_slider_box .swiper-button-prev"}}
                         loop={true}
-                        spaceBetween={80}
+                        spaceBetween={50}
                         onSlideChange={(swiper)=>{
                             const activeSlide = swiper.slides[swiper.activeIndex];
                             const activeSlideClassNames = activeSlide.className.split(' ');
@@ -1379,10 +1393,10 @@ const Main = () => {
                     </Swiper>
                 </div>
                 <div className="btn_box">
-                    <div className="inner">
-                        <div className="swiper-pagination"></div>
-                        <div className="swiper-button-prev hover_btn_w"></div>
-                        <div className="swiper-button-next hover_btn_w"></div>
+                    <div className="inner flex">
+                        <div className="swiper-button-prev hover_btn"></div>
+                        <div className="num_box"><span>{donaSliderActive}</span>&nbsp;&nbsp;/&nbsp;&nbsp;3</div>
+                        <div className="swiper-button-next hover_btn"></div>
                     </div>
                 </div>
             </div>
@@ -1400,6 +1414,10 @@ const Main = () => {
                         <div className="btn_box flex mo_none">
                             <div className="swiper-button-prev hover_btn"></div>
                             <div className="swiper-button-next hover_btn"></div>
+                        </div>
+                        <div className="alert_txt_box">
+                            <p className="txt">소비자에게 혼동을 주는 <strong>조작된 후기는 <br/>표시광고법 위반</strong>으로 엄연한 위법입니다.</p>
+                            <p className="txt2">사소한 공식 홈페이지의 후기는 모두 진실된 후기입니다.</p>
                         </div>
                     </div>
                     <Swiper
@@ -1432,6 +1450,10 @@ const Main = () => {
                             );
                         })}
                     </Swiper>
+                    <div className="alert_txt_box bottom">
+                        <p className="txt">소비자에게 혼동을 주는 <strong>조작된 후기는 <br/>표시광고법 위반</strong>으로 엄연한 위법입니다.</p>
+                        <p className="txt2">사소한 공식 홈페이지의 후기는 모두 진실된 후기입니다.</p>
+                    </div>
                 </div>
             </div>
             }

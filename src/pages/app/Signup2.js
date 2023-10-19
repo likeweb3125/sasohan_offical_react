@@ -995,7 +995,7 @@ const SignUp2 = () => {
                     t_smok: user.signupData.t_smok,
                     t_drink: user.signupData.t_drink,
                     t_religion: user.signupData.t_religion,
-                    app_token: ""
+                    app_token: "Y"
                 };
 
                 axios.post(`${m_join}`,body)

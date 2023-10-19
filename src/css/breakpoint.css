@@ -64,6 +64,8 @@
     .manager_wrap .swiper-pagination.manager_pagin{display: block;/*width: auto;*/left: 50%;transform: translateX(-50%);font-size: 16px;color: #999;top: auto;bottom: 25px;}
     .manager_wrap .swiper-pagination.manager_pagin .swiper-pagination-current{color: #373D49;position: relative;padding-left: 97px;}
     .manager_wrap .swiper-pagination .swiper-pagination-current::after{position: absolute;content: "매니저 더보기";left:0;width: 97px;height: 100%;text-align: left;}
+
+
 }
 
 
@@ -75,6 +77,7 @@
     .about_wrap .txt_box .tab_ul{left: 0;}
     .about_wrap .txt_box .txt_ul li{padding-right: 10px;}
     
+    .trust_cont_inner .slider_box > .btn_box{display: none;}
 }
 
 
@@ -115,9 +118,27 @@
     .donation_wrap .inner_cont{margin-top: 50px;display: block;}
     .trust_cont{width: 100%;}
     .dona_cont{width: 100%;padding-top: 30px;}
+
+    .trust_cont_inner .top_tit{text-align: center;padding-bottom: 0;}
+    .trust_cont_inner .slider_box{display: block;}
+    .trust_cont_inner .slider_box .slider_big{display: none;}
+    .trust_cont_inner .slider_box .slider{padding: 32px 0 80px;width:calc(100% + 60px);overflow: visible;margin-left: -30px;}
+    .trust_cont_inner .slider_box .swiper-slide{opacity: 0.6 !important;padding: 0 30px;}
+    .trust_cont_inner .slider_box .swiper-slide .txt_box{padding-top: 50px;text-align: center;opacity: 0;transition: all .3s;}
+    .trust_cont_inner .slider_box .swiper-slide .txt_box .txt{font-size: 40px;font-weight: 700;word-break: keep-all;}
+    .trust_cont_inner .slider_box .swiper-slide .txt_box .txt br{display: none;}
+    .trust_cont_inner .slider_box .swiper-slide .txt_box .txt2{font-size: 18px;padding-top: 10px;font-weight: 500;color: #222;}
+    .trust_cont_inner .slider_box .swiper-slide.swiper-slide-active{opacity: 1 !important;}
+    .trust_cont_inner .slider_box .swiper-slide.swiper-slide-active .img_box{box-shadow: 20px 20px 32px 0px #00000014;}
+    .trust_cont_inner .slider_box .swiper-slide.swiper-slide-active .txt_box{opacity: 1;}
+
+
+
     .review_wrap{display: block;}
     .review_wrap .tit_cont{width: 100%;display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; display: flex; -webkit-box-pack: justify; -ms-flex-pack: justify;-webkit-justify-content: space-between; justify-content: space-between;-webkit-box-align: end; -ms-flex-align: end;-webkit-align-items: flex-end; align-items: flex-end;padding-bottom: 50px;}
     .review_wrap .tit_cont .btn_box{margin-top: 0;}
+    .review_wrap .tit_cont .alert_txt_box{display: none;}
+    .review_wrap .alert_txt_box.bottom{display: block;margin-top: 40px;text-align: center;background-position: center top;}
     .review_slider{width: calc(100% + 30px);padding-right: 30px;opacity: 0;}
     .review_slider .swiper-slide{width: auto;}
     .review_slider .swiper-slide:nth-child(2n){padding-top: 0;}
