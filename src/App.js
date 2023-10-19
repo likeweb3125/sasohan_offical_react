@@ -5,7 +5,7 @@ import ConfirmPop from './components/popup/ConfirmPop';
 import Popup from './components/popup/Popup';
 import Layout from './components/layout/Layout';
 import AppLayout from './components/layout/app/Layout';
-import Main from './pages/Main2';
+import Main from './pages/Main';
 import AppSignup from './pages/app/Signup';
 import AppSignup2 from './pages/app/Signup2';
 import AppPoint from './pages/app/Point';
