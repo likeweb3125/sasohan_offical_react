@@ -48,11 +48,11 @@ const Header = () => {
                 </h1>
                 <nav className="gnb_wrap">
                     <ul className="gnb">
-                        <li className={common.headerMenuOn === 1 ? "on" : ""}><Link to="sect1" smooth={true} duration={500}>매니저 소개</Link></li>
-                        <li className={common.headerMenuOn === 2 ? "on" : ""}><Link to="sect2" smooth={true} duration={500}>About 사소한</Link></li>
-                        <li className={common.headerMenuOn === 3 ? "on" : ""}><Link to="sect3" smooth={true} duration={500}>사소한 칼럼</Link></li>
-                        <li className={common.headerMenuOn === 4 ? "on" : ""}><Link to="sect5" smooth={true} duration={500}>사소한의 신뢰</Link></li>
-                        <li className={common.headerMenuOn === 5 ? "on" : ""}><Link to="sect6" smooth={true} duration={500}>사소한 후기</Link></li>
+                        <li className={common.headerMenuOn === 1 ? "on" : ""}><Link to="sect1">매니저 소개</Link></li>
+                        <li className={common.headerMenuOn === 2 ? "on" : ""}><Link to="sect2">About 사소한</Link></li>
+                        <li className={common.headerMenuOn === 3 ? "on" : ""}><Link to="sect3">사소한 칼럼</Link></li>
+                        <li className={common.headerMenuOn === 4 ? "on" : ""}><Link to="sect5">사소한의 신뢰</Link></li>
+                        <li className={common.headerMenuOn === 5 ? "on" : ""}><Link to="sect6">사소한 후기</Link></li>
                     </ul>
                 </nav>
                 <div className="sns_wrap">
@@ -90,11 +90,11 @@ const Header = () => {
         </header>
 
         <ul className='fix_menu_box'>
-            <li className={common.headerMenuOn === 1 ? "on" : ""}><Link to="sect1" smooth={true} duration={500}><span>매니저 소개</span></Link></li>
-            <li className={common.headerMenuOn === 2 ? "on" : ""}><Link to="sect2" smooth={true} duration={500}><span>About 사소한</span></Link></li>
-            <li className={common.headerMenuOn === 3 ? "on" : ""}><Link to="sect3" smooth={true} duration={500}><span>사소한 칼럼</span></Link></li>
-            <li className={common.headerMenuOn === 4 ? "on" : ""}><Link to="sect5" smooth={true} duration={500}><span>사소한의 신뢰</span></Link></li>
-            <li className={common.headerMenuOn === 5 ? "on" : ""}><Link to="sect6" smooth={true} duration={500}><span>사소한 후기</span></Link></li>
+            <li className={common.headerMenuOn === 1 ? "on" : ""}><Link to="sect1"><span>매니저 소개</span></Link></li>
+            <li className={common.headerMenuOn === 2 ? "on" : ""}><Link to="sect2"><span>About 사소한</span></Link></li>
+            <li className={common.headerMenuOn === 3 ? "on" : ""}><Link to="sect3"><span>사소한 칼럼</span></Link></li>
+            <li className={common.headerMenuOn === 4 ? "on" : ""}><Link to="sect5"><span>사소한의 신뢰</span></Link></li>
+            <li className={common.headerMenuOn === 5 ? "on" : ""}><Link to="sect6"><span>사소한 후기</span></Link></li>
         </ul>
 
         {/* confirm팝업 */}

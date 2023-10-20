@@ -2,14 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Pagination, Scrollbar, Navigation, EffectFade } from "swiper";
+import SwiperCore, { Pagination, Scrollbar, Navigation, EffectFade, Controller } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
 import { headerMenuOn } from "../store/commonSlice";
-import { managerPop, confirmPop, imgPop } from "../store/popupSlice";
+import { managerPop, confirmPop, imgPop, storyPop } from "../store/popupSlice";
 import ManagerBox from "../components/component/ManagerBox";
 import ConfirmPop from "../components/popup/ConfirmPop";
 import { enum_api_uri } from "../config/enum";
@@ -57,7 +57,7 @@ import dona_img2 from "../images/dona_img2.jpg";
 import dona_img3 from "../images/dona_img3.jpg";
 import none_img from "../images/none_img.jpg";
 
-SwiperCore.use([Pagination,Scrollbar,Navigation,EffectFade]);
+SwiperCore.use([Pagination,Scrollbar,Navigation,EffectFade,Controller]);
 
 const Main = () => {
     const dispatch = useDispatch();
@@ -65,15 +65,28 @@ const Main = () => {
     const [confirm, setConfirm] = useState(false);
     const sect1Ref = useRef(null);
     const sect2Ref = useRef(null);
+    const sect2_2Ref = useRef(null);
+
+
     const sect3Ref = useRef(null);
     const sect4Ref = useRef(null);
     const sect5Ref = useRef(null);
+    const sect5_2Ref = useRef(null);
+    const sect5_3Ref = useRef(null);
+
+
     const sect6Ref = useRef(null);
     const [sect1On, setSect1On] = useState(false);
     const [sect2On, setSect2On] = useState(false);
+    const [sect2_2On, setSect2_2On] = useState(false);
+
     const [sect3On, setSect3On] = useState(false);
     const [sect4On, setSect4On] = useState(false);
     const [sect5On, setSect5On] = useState(false);
+    const [sect5_2On, setSect5_2On] = useState(false);
+    const [sect5_3On, setSect5_3On] = useState(false);
+
+
     const [sect6On, setSect6On] = useState(false);
     const [managerSwiperActive, setManagerSwiperActive] = useState(false);
     const aboutBgImg = [about_bg1, about_bg2, about_bg3, about_bg4, about_bg5, about_bg6];
@@ -85,11 +98,13 @@ const Main = () => {
     const [blogOn, setBlogOn] = useState(0);
     const [trustTab,setTrustTab] = useState(0);
     const m_list = enum_api_uri.m_list;
+    const story_list = enum_api_uri.story_list;
     const blog_list = enum_api_uri.blog_list;
     const ytb_list = enum_api_uri.ytb_list;
     const review_list = enum_api_uri.review_list;
     const user_count = enum_api_uri.user_count;
     const [managerList, setManagerList] = useState([]);
+    const [storyList, setStoryList] = useState([]);
     const [blogList, setBlogList] = useState([]);
     const [ytbList, setYtbList] = useState([]);
     const [ytbOn, setYtbOn] = useState(0);
@@ -97,6 +112,9 @@ const Main = () => {
     const [count, setCount] = useState(0);
     const charmingSliderRef = useRef();
     const ref_browser = util.getCookie("ref_browser");
+    const [externalSliderActive,setExternalSliderActive] = useState(0);
+    const [paperSliderActive,setPaperSliderActive] = useState(0);
+    const [donaSliderActive, setDonaSliderActive] = useState(1);
 
 
     // Confirm팝업 닫힐때
@@ -130,13 +148,15 @@ const Main = () => {
         const scroll = window.scrollY;
         const sect1 = sect1Ref.current.offsetTop;
         const sect2 = sect2Ref.current.offsetTop;
+        const sect2_2 = sect2_2Ref.current.offsetTop;
         const sect3 = sect3Ref.current.offsetTop;
         const sect5 = sect5Ref.current.offsetTop;
         const sect6 = sect6Ref.current.offsetTop;
+
         if(scroll >= sect1 && scroll < sect2){
             dispatch(headerMenuOn(1));
         }
-        if(scroll >= sect2 && scroll < sect3){
+        if(scroll >= sect2 && scroll < sect2_2 && scroll < sect3){
             dispatch(headerMenuOn(2));
         }
         if(scroll >= sect3 && scroll < sect5){
@@ -159,9 +179,12 @@ const Main = () => {
         const sections = [
             { ref: sect1Ref, onSet: setSect1On },
             { ref: sect2Ref, onSet: setSect2On },
+            { ref: sect2_2Ref, onSet: setSect2_2On },
             { ref: sect3Ref, onSet: setSect3On },
             { ref: sect4Ref, onSet: setSect4On },
             { ref: sect5Ref, onSet: setSect5On },
+            { ref: sect5_2Ref, onSet: setSect5_2On },
+            { ref: sect5_3Ref, onSet: setSect5_3On },
             { ref: sect6Ref, onSet: setSect6On }
         ];
       
@@ -191,6 +214,28 @@ const Main = () => {
             if(res.status === 200){
                 let data = res.data;
                 setManagerList(data);
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
+    };
+
+
+    //스토리리스트 가져오기
+    const getStoryList = () => {
+        axios.get(`${story_list}`)
+        .then((res)=>{
+            if(res.status === 200){
+                let data = res.data;
+                setStoryList([...data]);
             }
         })
         .catch((error) => {
@@ -296,6 +341,7 @@ const Main = () => {
 
     useEffect(()=>{
         getManagerList();
+        getStoryList();
         getBlogList();
         getYtbList();
         getReviewList();
@@ -321,6 +367,10 @@ const Main = () => {
     };
 
 
+
+
+
+
     return(<>
         <div className="main_visual_wrap">
             <div className="main_visual flex_center">
@@ -336,7 +386,6 @@ const Main = () => {
                 </div>
             </div>
         </div>
-
         
         <section className={`section section1 ${sect1On ? "on" : ""}`} id="sect1" ref={sect1Ref}>
             {managerList.length > 0 &&
@@ -580,7 +629,54 @@ const Main = () => {
             </div>
         </section>
 
-        
+        <section className={`section section2_2 ${sect2_2On ? "on" : ""}`} id="sect2_2" ref={sect2_2Ref}>
+            {storyList.length > 0 &&
+            <div className="section_inner">
+                <div className="tit_box">
+                    <p className="tit">실시간 만남 <strong>스토리</strong></p>
+                    <p className="txt">정확하고 빠른 사소한만의 <br className="mo_show" />실시간 매칭 만남을 확인하세요! </p>
+                </div>
+                <div className="story_wrap">
+                    <Swiper 
+                        className={`story_slider`}
+                        slidesPerView={`auto`}
+                        spaceBetween={8}
+                        observer={true}
+                        observeParents={true}
+                        navigation={{nextEl: `.story_slider .swiper-button-next`,prevEl: `.story_slider .swiper-button-prev`}}
+                        scrollbar={{draggable: true}}
+                        breakpoints={
+                            {
+                                1200:{spaceBetween:80},//width >= 1200
+                                768:{spaceBetween:50},//width >= 768
+                            }
+                        }
+                    >
+                        {storyList.map((cont,i)=>{
+                            return(
+                                <SwiperSlide key={i} 
+                                    onClick={()=>{
+                                        dispatch(storyPop({storyPop:true,storyPopNo:cont.list_no}));
+                                    }}
+                                >
+                                    <div className="img_box"><img src={cont.photo} alt="프로필이미지" /></div>
+                                    <div className="txt_box">
+                                        <p className="name flex_center"><strong>{cont.manager_name}</strong>{cont.manager_type_txt}</p>
+                                        <p className="time">{cont.w_date}</p>
+                                    </div>
+                                </SwiperSlide>
+                            );
+                        })}
+                        <div className="btn_box flex_between mo_none">
+                            <div className="swiper-button-prev hover_btn_w"></div>
+                            <div className="swiper-button-next hover_btn_w"></div>
+                        </div>
+                    </Swiper>
+                </div>
+            </div>
+            }
+        </section>
+
         <section className={`section section3 ${sect3On ? "on" : ""}`} id="sect3" ref={sect3Ref}>
             {blogList.length > 0 &&
             <div className="section_inner">
@@ -658,7 +754,6 @@ const Main = () => {
             }
         </section>
 
-        
         <section className={`section section4 ${sect4On ? "on" : ""}`} ref={sect4Ref}>
             {ytbList.length > 0 &&
             <div className="section_inner">
@@ -719,144 +814,466 @@ const Main = () => {
             }
         </section>
 
-        <section className={`section section5 ${sect5On ? "on" : ""}`} id="sect5" ref={sect5Ref}>
+        <section className={`section section5_1 ${sect5On ? "on" : ""}`} id="sect5" ref={sect5Ref}>
             <div className="section_inner">
-                <div className="donation_wrap">
-                    <div className="title_box">
-                        <p className="tit">회원님들을 위한 <br/><strong>사소한의 신뢰</strong></p>
-                    </div>
-                    <div className="inner_cont flex_between flex_bottom">
-                        <div className="trust_cont">
-                            <div className="tit_box flex_between">
-                                <h5>사소한의 신뢰</h5>
-                                <ul className="tab_ul flex">
-                                    <li className={trustTab === 0 ? "on" : ""} onClick={()=>{setTrustTab(0)}}>외부평가</li>
-                                    <li className={trustTab === 1 ? "on" : ""} onClick={()=>{setTrustTab(1)}}>인허가서류</li>
-                                </ul>
-                            </div>
-                            <div className={`slider_box trust_slider_box ${trustTab === 0 ? "on" : ""}`}>
-                                <Swiper
-                                    className="trust_slider"
-                                    slidesPerView={2}
-                                    spaceBetween={12}
-                                    observer={true}
-                                    observeParents={true}
-                                    navigation={{nextEl: ".trust_slider_box .swiper-button-next",prevEl: ".trust_slider_box .swiper-button-prev"}}
-                                >
-                                    <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
-                                        <div className="flex">
-                                            <div className="img_box">
-                                                <img src={award_img1} alt="이미지" />
-                                            </div>
-                                            <div className="txt_box">
-                                                <p className="txt">2023 한국소비자 베스트브랜드대상 1위</p>
-                                                <p className="date">고객만족 소개팅서비스업 <br/>2023.01.10</p>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
-                                </Swiper>
-                                <div className="swiper-button-prev"></div>
-                                <div className="swiper-button-next"></div>
-                            </div>
-                            <div className={`slider_box trust_slider_box2 ${trustTab === 1 ? "on" : ""}`}>
-                                <Swiper
-                                    className="trust_slider2"
-                                    slidesPerView={2}
-                                    spaceBetween={12}
-                                    observer={true}
-                                    observeParents={true}
-                                    navigation={{nextEl: ".trust_slider_box2 .swiper-button-next",prevEl: ".trust_slider_box2 .swiper-button-prev"}}
-                                >
-                                    <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img3_pop}))}}>
-                                        <div className="flex flex_bottom">
-                                            <div className="img_box">
-                                                <img src={trust_img1} alt="이미지" />
-                                            </div>
-                                            <div className="txt_box">
-                                                <p className="txt">상표등록증</p>
-                                                <p className="date">2023.05.18</p>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
-                                    <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img1_pop}))}}>
-                                        <div className="flex flex_bottom">
-                                            <div className="img_box">
-                                                <img src={trust_img1} alt="이미지" />
-                                            </div>
-                                            <div className="txt_box">
-                                                <p className="txt">사업자등록증</p>
-                                                <p className="date">2015.04.28</p>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
-                                    <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2_pop}))}}>
-                                        <div className="flex flex_bottom">
-                                            <div className="img_box">
-                                                <img src={trust_img2} alt="이미지" />
-                                            </div>
-                                            <div className="txt_box">
-                                                <p className="txt">통신판매업</p>
-                                                <p className="date">2017.04.18</p>
-                                            </div>
-                                        </div>
-                                    </SwiperSlide>
-                                </Swiper>
-                                <div className="swiper-button-prev"></div>
-                                <div className="swiper-button-next"></div>
-                            </div>
-                        </div>
-                        <div className="dona_cont">
-                            <h5>정기적인 기부</h5>
-                            <Swiper
-                                className="dona_slider"
-                                slidesPerView={1}
-                                navigation={{nextEl: ".dona_slider .swiper-button-next",prevEl: ".dona_slider .swiper-button-prev"}}
-                                pagination={{el: ".dona_slider .swiper-pagination",type: "fraction"}}
-                                effect="fade"
-                                fadeEffect={{crossFade: true}}
-                            >
-                                <SwiperSlide className="flex_between flex_top">
-                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:dona_img1}))}}>
-                                        <img src={dona_img1} alt="이미지" />
+                <div className="title_box">
+                    <p className="tit">회원님들을 위한 <br/><strong>사소한의 신뢰</strong></p>
+                </div>
+                <div className="trust_cont_inner">
+                    <h5 className="top_tit">외부 평가</h5>
+                    <div className="slider_box external_slider_box flex_end">
+                        <ul className="slider_big">
+                            <li className={externalSliderActive === 0 ? "on" : ""}>
+                                <div className="box flex">
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
+                                        <img src={award_img1_pop} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
-                                        <p className="txt">밀알복지재단 후원</p>
-                                        <p className="ellipsis4 mo_none">사소한은 정기적인 기부를 진행하고 있습니다.</p>
-                                        {/* <p className="date">2023.05.31</p> */}
+                                        <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
+                                        <p className="txt2">고객만족 소개팅서비스업</p>
                                     </div>
-                                </SwiperSlide>
-                                <SwiperSlide className="flex_between flex_top">
-                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:dona_img2}))}}>
-                                        <img src={dona_img2} alt="이미지" />
-                                    </div>
-                                    <div className="txt_box">
-                                        <p className="txt">Save the Children</p>
-                                        <p className="ellipsis4 mo_none">사소한은 정기적인 기부를 진행하고 있습니다.</p>
-                                        {/* <p className="date">2023.05.31</p> */}
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide className="flex_between flex_top">
-                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:dona_img3}))}}>
-                                        <img src={dona_img3} alt="이미지" />
-                                    </div>
-                                    <div className="txt_box">
-                                        <p className="txt">World Vision</p>
-                                        <p className="ellipsis4 mo_none">사소한은 정기적인 기부를 진행하고 있습니다.</p>
-                                        {/* <p className="date">2023.05.31</p> */}
-                                    </div>
-                                </SwiperSlide>
-                                <div className="btn_box">
-                                    <div className="swiper-pagination"></div>
-                                    <div className="swiper-button-prev hover_btn_w"></div>
-                                    <div className="swiper-button-next hover_btn_w"></div>
                                 </div>
+                            </li>
+                            <li className={externalSliderActive === 1 ? "on" : ""}>
+                                <div className="box flex">
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
+                                        <img src={award_img1_pop} alt="이미지" />
+                                    </div>
+                                    <div className="txt_box">
+                                        <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
+                                        <p className="txt2">고객만족 소개팅서비스업</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className={externalSliderActive === 2 ? "on" : ""}>
+                                <div className="box flex">
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
+                                        <img src={award_img1_pop} alt="이미지" />
+                                    </div>
+                                    <div className="txt_box">
+                                        <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
+                                        <p className="txt2">고객만족 소개팅서비스업</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className={externalSliderActive === 3 ? "on" : ""}>
+                                <div className="box flex">
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
+                                        <img src={award_img1_pop} alt="이미지" />
+                                    </div>
+                                    <div className="txt_box">
+                                        <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
+                                        <p className="txt2">고객만족 소개팅서비스업</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className={externalSliderActive === 4 ? "on" : ""}>
+                                <div className="box flex">
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
+                                        <img src={award_img1_pop} alt="이미지" />
+                                    </div>
+                                    <div className="txt_box">
+                                        <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
+                                        <p className="txt2">고객만족 소개팅서비스업</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className={externalSliderActive === 5 ? "on" : ""}>
+                                <div className="box flex">
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
+                                        <img src={award_img1_pop} alt="이미지" />
+                                    </div>
+                                    <div className="txt_box">
+                                        <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
+                                        <p className="txt2">고객만족 소개팅서비스업</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div className="slider">
+                            <Swiper
+                                className="external_slider"
+                                slidesPerView={1.7}
+                                spaceBetween={0}
+                                centeredSlides={true}
+                                observer={true}
+                                observeParents={true}
+                                loop={true}
+                                slidesPerGroup={1}
+                                navigation={{nextEl: ".external_slider_box .swiper-button-next",prevEl: ".external_slider_box .swiper-button-prev"}}
+                                onSlideChange={(e)=>{
+                                    const idx = e.realIndex;
+                                    setExternalSliderActive(idx);
+                                }}
+                                breakpoints={
+                                    {
+                                        1421:{slidesPerView:3,spaceBetween:60,centeredSlides:false},//width >= 1421
+                                        1200:{slidesPerView:3,spaceBetween:0,centeredSlides:true},//width >= 1200
+                                        900:{slidesPerView:2.5,spaceBetween:0,centeredSlides:true},//width >= 900
+                                        //768:{slidesPerView:1.7,spaceBetween:0,centeredSlides:true},//width >= 768
+                                    }
+                                }
+                            >
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={award_img1_pop} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
+                                            <p className="txt2">고객만족 소개팅서비스업</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={award_img1_pop} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
+                                            <p className="txt2">고객만족 소개팅서비스업</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={award_img1_pop} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
+                                            <p className="txt2">고객만족 소개팅서비스업</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={award_img1_pop} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
+                                            <p className="txt2">고객만족 소개팅서비스업</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={award_img1_pop} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
+                                            <p className="txt2">고객만족 소개팅서비스업</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={award_img1_pop} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
+                                            <p className="txt2">고객만족 소개팅서비스업</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
                             </Swiper>
+                        </div>
+                        <div className="btn_box flex_between">
+                            <div className="swiper-button-prev hover_btn"></div>
+                            <div className="swiper-button-next hover_btn"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <section className={`section section5_2 ${sect5_2On ? "on" : ""}`} ref={sect5_2Ref}>
+            <div className="section_inner">
+                <div className="trust_cont_inner">
+                    <h5 className="top_tit">인허가서류</h5>
+                    <div className="slider_box paper_slider_box flex_end">
+                        <ul className="slider_big">
+                            <li className={paperSliderActive === 0 ? "on" : ""}>
+                                <div className="box flex">
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img3_pop}))}}>
+                                        <img src={trust_img3_pop} alt="이미지" />
+                                    </div>
+                                    <div className="txt_box">
+                                        <p className="txt">상표등록증</p>
+                                        <p className="txt2">2023.05.18</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className={paperSliderActive === 1 ? "on" : ""}>
+                                <div className="box flex">
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img1_pop}))}}>
+                                        <img src={trust_img1_pop} alt="이미지" />
+                                    </div>
+                                    <div className="txt_box">
+                                        <p className="txt">사업자등록증</p>
+                                        <p className="txt2">2015.04.28</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className={paperSliderActive === 2 ? "on" : ""}>
+                                <div className="box flex">
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2_pop}))}}>
+                                        <img src={trust_img2_pop} alt="이미지" />
+                                    </div>
+                                    <div className="txt_box">
+                                        <p className="txt">통신판매업</p>
+                                        <p className="txt2">2017.04.18</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className={paperSliderActive === 3 ? "on" : ""}>
+                                <div className="box flex">
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img3_pop}))}}>
+                                        <img src={trust_img3_pop} alt="이미지" />
+                                    </div>
+                                    <div className="txt_box">
+                                        <p className="txt">상표등록증</p>
+                                        <p className="txt2">2023.05.18</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className={paperSliderActive === 4 ? "on" : ""}>
+                                <div className="box flex">
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img1_pop}))}}>
+                                        <img src={trust_img1_pop} alt="이미지" />
+                                    </div>
+                                    <div className="txt_box">
+                                        <p className="txt">사업자등록증</p>
+                                        <p className="txt2">2015.04.28</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className={paperSliderActive === 5 ? "on" : ""}>
+                                <div className="box flex">
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2_pop}))}}>
+                                        <img src={trust_img2_pop} alt="이미지" />
+                                    </div>
+                                    <div className="txt_box">
+                                        <p className="txt">통신판매업</p>
+                                        <p className="txt2">2017.04.18</p>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div className="slider">
+                            <Swiper
+                                className="paper_slider"
+                                slidesPerView={1.7}
+                                spaceBetween={0}
+                                centeredSlides={true}
+                                observer={true}
+                                observeParents={true}
+                                loop={true}
+                                navigation={{nextEl: ".paper_slider_box .swiper-button-next",prevEl: ".paper_slider_box .swiper-button-prev"}}
+                                onSlideChange={(e)=>{
+                                    const idx = e.realIndex;
+                                    setPaperSliderActive(idx);
+                                }}
+                                breakpoints={
+                                    {
+                                        1421:{slidesPerView:3,spaceBetween:60,centeredSlides:false},//width >= 1421
+                                        1200:{slidesPerView:3,spaceBetween:0,centeredSlides:true},//width >= 1200
+                                        900:{slidesPerView:2.5,spaceBetween:0,centeredSlides:true},//width >= 900
+                                        //768:{slidesPerView:1.7,spaceBetween:0,centeredSlides:true},//width >= 768
+                                    }
+                                }
+                            >
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img3_pop}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={trust_img3_pop} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">상표등록증</p>
+                                            <p className="txt2">2023.05.18</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img1_pop}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={trust_img1_pop} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">사업자등록증</p>
+                                            <p className="txt2">2015.04.28</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2_pop}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={trust_img2_pop} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">통신판매업</p>
+                                            <p className="txt2">2017.04.18</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img3_pop}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={trust_img3_pop} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">상표등록증</p>
+                                            <p className="txt2">2023.05.18</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img1_pop}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={trust_img1_pop} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">사업자등록증</p>
+                                            <p className="txt2">2015.04.28</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2_pop}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={trust_img2_pop} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">통신판매업</p>
+                                            <p className="txt2">2017.04.18</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                            </Swiper>
+                        </div>
+                        <div className="btn_box flex_between">
+                            <div className="swiper-button-prev hover_btn"></div>
+                            <div className="swiper-button-next hover_btn"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section className={`section section5_3 ${sect5_3On ? "on" : ""}`} ref={sect5_3Ref}>
+            <div className="section_inner">
+                <div className="tit_box">
+                    <p>정기적인 기부</p>
+                </div>
+                <ul className="left_txt_box">
+                    <li className={donaSliderActive == 1 ? "on" : ""}>
+                        <h6>밀알복지재단 후원</h6>
+                        <p>사소한은 정기적인 기부를 진행하고 있습니다.</p>
+                    </li>
+                    <li className={donaSliderActive == 2 ? "on" : ""}>
+                        <h6>Save the Children</h6>
+                        <p>사소한은 정기적인 기부를 진행하고 있습니다.</p>
+                    </li>
+                    <li className={donaSliderActive == 3 ? "on" : ""}>
+                        <h6>World Vision</h6>
+                        <p>사소한은 정기적인 기부를 진행하고 있습니다.</p>
+                    </li>
+                </ul>
+            </div>
+            <div className="donation_slider_box flex_end">
+                <div className="slider_box">
+                    <Swiper
+                        className="donation_slider"
+                        slidesPerView={1.7}
+                        spaceBetween={0}
+                        centeredSlides={true}
+                        navigation={{nextEl: ".donation_slider_box .swiper-button-next",prevEl: ".donation_slider_box .swiper-button-prev"}}
+                        loop={true}
+                        onSlideChange={(swiper)=>{
+                            const activeSlide = swiper.slides[swiper.activeIndex];
+                            const activeSlideClassNames = activeSlide.className.split(' ');
+                            let idx = activeSlideClassNames.find(className => className.startsWith('slide_'));
+                                idx = idx.replace("slide_","");
+                            setDonaSliderActive(idx);
+                        }}
+                        breakpoints={
+                            {
+                                1421:{slidesPerView:`auto`,spaceBetween:50,centeredSlides:false},//width >= 1421
+                                1200:{slidesPerView:3,spaceBetween:0,centeredSlides:true},//width >= 1200
+                                900:{slidesPerView:2.5,spaceBetween:0,centeredSlides:true},//width >= 900
+                                //768:{slidesPerView:1.7,spaceBetween:0,centeredSlides:true},//width >= 768
+                            }
+                        }
+                    >
+                        <SwiperSlide className="slide_1">
+                            <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:dona_img1}))}}>
+                                <img src={dona_img1} alt="이미지" />
+                            </div>
+                            <div className="txt_box">
+                                <p className="txt">밀알복지재단 후원</p>
+                                <p className="txt2">사소한은 정기적인 기부를 진행하고 있습니다.</p>
+                            </div>
+                        </SwiperSlide>
+                        <SwiperSlide className="slide_2">
+                            <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:dona_img2}))}}>
+                                <img src={dona_img2} alt="이미지" />
+                            </div>
+                            <div className="txt_box">
+                                <p className="txt">Save the Children</p>
+                                <p className="txt2">사소한은 정기적인 기부를 진행하고 있습니다.</p>
+                            </div>
+                        </SwiperSlide>
+                        <SwiperSlide className="slide_3">
+                            <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:dona_img3}))}}>
+                                <img src={dona_img3} alt="이미지" />
+                            </div>
+                            <div className="txt_box">
+                                <p className="txt">World Vision</p>
+                                <p className="txt2">사소한은 정기적인 기부를 진행하고 있습니다.</p>
+                            </div>
+                        </SwiperSlide>
+                        <SwiperSlide className="slide_1">
+                            <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:dona_img1}))}}>
+                                <img src={dona_img1} alt="이미지" />
+                            </div>
+                            <div className="txt_box">
+                                <p className="txt">밀알복지재단 후원</p>
+                                <p className="txt2">사소한은 정기적인 기부를 진행하고 있습니다.</p>
+                            </div>
+                        </SwiperSlide>
+                        <SwiperSlide  className="slide_2">
+                            <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:dona_img2}))}}>
+                                <img src={dona_img2} alt="이미지" />
+                            </div>
+                            <div className="txt_box">
+                                <p className="txt">Save the Children</p>
+                                <p className="txt2">사소한은 정기적인 기부를 진행하고 있습니다.</p>
+                            </div>
+                        </SwiperSlide>
+                        <SwiperSlide className="slide_3">
+                            <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:dona_img3}))}}>
+                                <img src={dona_img3} alt="이미지" />
+                            </div>
+                            <div className="txt_box">
+                                <p className="txt">World Vision</p>
+                                <p className="txt2">사소한은 정기적인 기부를 진행하고 있습니다.</p>
+                            </div>
+                        </SwiperSlide>
+                    </Swiper>
+                </div>
+                <div className="btn_box">
+                    <div className="inner flex">
+                        <div className="swiper-button-prev hover_btn"></div>
+                        <div className="num_box"><span>{donaSliderActive}</span>&nbsp;&nbsp;/&nbsp;&nbsp;3</div>
+                        <div className="swiper-button-next hover_btn"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
         
         <section className={`section section6 ${sect6On ? "on" : ""} ${reviewList.length > 0 ? "" : "none"}`} id="sect6" ref={sect6Ref}>
             {reviewList.length > 0 &&
@@ -869,6 +1286,10 @@ const Main = () => {
                         <div className="btn_box flex mo_none">
                             <div className="swiper-button-prev hover_btn"></div>
                             <div className="swiper-button-next hover_btn"></div>
+                        </div>
+                        <div className="alert_txt_box">
+                            <p className="txt">소비자에게 혼동을 주는 <strong>조작된 후기는 <br/>표시광고법 위반</strong>으로 엄연한 위법입니다.</p>
+                            <p className="txt2">사소한 공식 홈페이지의 후기는 모두 진실된 후기입니다.</p>
                         </div>
                     </div>
                     <Swiper
@@ -901,6 +1322,10 @@ const Main = () => {
                             );
                         })}
                     </Swiper>
+                    <div className="alert_txt_box bottom">
+                        <p className="txt">소비자에게 혼동을 주는 <strong>조작된 후기는 <br/>표시광고법 위반</strong>으로 엄연한 위법입니다.</p>
+                        <p className="txt2">사소한 공식 홈페이지의 후기는 모두 진실된 후기입니다.</p>
+                    </div>
                 </div>
             </div>
             }
