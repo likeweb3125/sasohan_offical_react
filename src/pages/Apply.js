@@ -3,12 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { Formik } from "formik";
 import { PatternFormat } from "react-number-format";
-import * as CF from "../../config/function";
-import { enum_api_uri } from "../../config/enum";
-import { applyPop, confirmPop } from "../../store/popupSlice";
-import ConfirmPop from "./ConfirmPop";
+import * as CF from "../config/function";
+import { enum_api_uri } from "../config/enum";
+import { confirmPop } from "../store/popupSlice";
+import ConfirmPop from "../components/popup/ConfirmPop";
+import logo from "../images/logo_big.svg";
+import img_complete from "../images/apply_complete_img.svg";
 
-const ApplyPop = () => {
+
+const Apply = () => {
     const dispatch = useDispatch();
     const popup = useSelector((state)=>state.popup);
     const policy_cont = enum_api_uri.policy_cont;
@@ -16,33 +19,26 @@ const ApplyPop = () => {
     const m_address2 = enum_api_uri.m_address2;
     const date_apply = enum_api_uri.date_apply;
     const [confirm, setConfirm] = useState(false);
-    const [submitConfirm, setSubmitConfirm] = useState(false);
     const [terms, setTerms] = useState({});
     const [yearList, setYearList] = useState([]);
+    const [montList, setMonthList] = useState([]);
+    const [dayList, setDayList] = useState([]);
     const [addressList, setAddressList] = useState([]);
     const [addressList2, setAddressList2] = useState([]);
-    const [yearSelected, setYearSelected] = useState(false);
-    const [addrSelected, setAddrSelected] = useState(false);
-    const [addr2Selected, setAddr2Selected] = useState(false);
     const [addrSelectList, setAddrSelectList] = useState([]);
+    const [step, setStep] = useState(1);
+
 
 
     // Confirm팝업 닫힐때
     useEffect(()=>{
         if(popup.confirmPop === false){
             setConfirm(false);
-            setSubmitConfirm(false);
         }
     },[popup.confirmPop]);
 
 
-    //팝업닫기
-    const closePopHandler = () => {
-        dispatch(applyPop(false));
-    };
-
-
-    //나이 년도 구하기
+    //나이 년도,월,일 구하기
     const getYearList = () => {
         const currentYear = new Date().getFullYear(); // 현재 년도 구하기
         const startYear = currentYear - 19; // 시작 년도 설정 (현재 년도에서 19를 뺍니다.)
@@ -55,6 +51,20 @@ const ApplyPop = () => {
         }
 
         setYearList([...yearsArray]);
+
+        //월 리스트 넣기
+        const monthList = Array.from({ length: 12 }, (_, index) => {
+            const month = (index + 1).toString().padStart(2, '0'); // 변환하고 0으로 채움
+            return month;
+        });
+        setMonthList(monthList);
+
+        //일 리스트 넣기
+        const dayList = Array.from({ length: 31 }, (_, index) => {
+            const day = (index + 1).toString().padStart(2, '0'); // 변환하고 0으로 채움
+            return day;
+        });
+        setDayList(dayList);
     };
 
 
@@ -140,7 +150,7 @@ const ApplyPop = () => {
     };
 
 
-    //소개팅 신청하기
+    //신청서 제출하기
     const submit = (values) => {
         console.log(values);
         let tel = values.tel.replace(/[^0-9]/g, '');
@@ -157,7 +167,23 @@ const ApplyPop = () => {
             dispatch(confirmPop({
                 confirmPop:true,
                 confirmPopTit:'알림',
-                confirmPopTxt:'나이를 선택해주세요.',
+                confirmPopTxt:'생년월일을 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        }else if(!values.month){
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'생년월일을 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        }else if(!values.day){
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'생년월일을 선택해주세요.',
                 confirmPopBtn:1,
             }));
             setConfirm(true);
@@ -169,19 +195,19 @@ const ApplyPop = () => {
                 confirmPopBtn:1,
             }));
             setConfirm(true);
-        }else if(addrSelectList.length < 3){
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt:'지역은 최소 3개를 선택해주세요.',
-                confirmPopBtn:1,
-            }));
-            setConfirm(true);
         }else if(!tel || tel.length < 11){
             dispatch(confirmPop({
                 confirmPop:true,
                 confirmPopTit:'알림',
                 confirmPopTxt:'연락처를 입력해주세요.',
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        }else if(addrSelectList.length < 3){
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'지역은 최소 3개를 선택해주세요.',
                 confirmPopBtn:1,
             }));
             setConfirm(true);
@@ -194,9 +220,10 @@ const ApplyPop = () => {
             }));
             setConfirm(true);
         }else{
+            const year = values.year+"-"+values.month+"-"+values.day;
             let body = {
                 name: values.name,
-                year: values.year,
+                year: year,
                 gender: values.gender,
                 address1: addrSelectList,
                 tel: values.tel,
@@ -205,13 +232,7 @@ const ApplyPop = () => {
             axios.post(`${date_apply}`,body)
             .then((res)=>{
                 if(res.status === 200){
-                    dispatch(confirmPop({
-                        confirmPop:true,
-                        confirmPopTit:'알림',
-                        confirmPopTxt:'소개팅신청이 완료되었습니다.',
-                        confirmPopBtn:1,
-                    }));
-                    setSubmitConfirm(true);
+                    setStep(2);
                 }
             })
             .catch((error) => {
@@ -230,27 +251,30 @@ const ApplyPop = () => {
 
 
     return(<>
-        <div className="flex_center pop_wrap apply_pop">
-            <div className="dim"></div>
-            <div className="pop_cont">
-                <button type="button" className="btn_close" onClick={closePopHandler}>닫기버튼</button>
-                <div className="inner_box">
-                    <div className="tit_box">
-                        <h4>간단하게 <br/><strong>소개팅을 신청하세요.</strong></h4>
-                        <p>사소한의 매니저와 함께 새로운 인연을 만들어 보세요!</p>
-                    </div>
-                    <div className="form_box scroll_wrap">
-                        <div className="tx_r">
-                            <p><span className="color_point">*</span> 표시는 필수 입력 항목입니다.</p>
+        <div className="apply_wrap">
+            <div className="top_banner">
+                <div className="logo">
+                    <img src={logo} alt="로고" />
+                </div>
+                <p>사람이 사람을 소개합니다.</p>
+            </div>
+            {step === 1 ? 
+                <div className="cont_box">
+                    <div className="inner">
+                        <div className="top_tit_box tx_c">
+                            <h5 className="title">간편 가입 신청서</h5>
+                            <p className="sub_title">원활한 매칭을 위해 모든 항목은 필수 항목입니다. <br/>정확하게 입력해 주세요!</p>
                         </div>
                         <Formik
                             initialValues={{
                                 name: "",
                                 year: "",
+                                month: "",
+                                day: "",
                                 gender: "",
+                                tel: "",
                                 address1: "",
                                 address2: "",
-                                tel: "",
                                 agree: false
                             }}
                         >
@@ -258,34 +282,60 @@ const ApplyPop = () => {
                                 <form>
                                     <ul className="form_ul">
                                         <li>
-                                            <p>이름 <span className="color_point">*</span></p>
-                                            <div className="input_box">
+                                            <p className="tit">이름 <span className="color_point">*</span></p>
+                                            <div className="input_box2">
                                                 <input type={`text`} placeholder="이름을 입력해주세요." name="name" value={values.name} onChange={handleChange} />
                                             </div>
                                         </li>
                                         <li>
-                                            <p>나이 <span className="color_point">*</span></p>
-                                            <div className="input_box">
-                                                <select 
-                                                    name="year"
-                                                    value={values.year}
-                                                    onChange={(e)=>{
-                                                        handleChange(e);
-                                                        setYearSelected(true);
-                                                    }}
-                                                    className={yearSelected ? "selected" : ""}
-                                                >
-                                                    <option value='' hidden>나이를 선택해주세요.</option>
-                                                    {yearList.map((cont,i)=>{
-                                                        return(
-                                                            <option value={cont} key={i}>{cont} 년생</option>
-                                                        );
-                                                    })}
-                                                </select>
+                                            <p className="tit">생년월일 <span className="color_point">*</span></p>
+                                            <div className="year_input_box flex_between">
+                                                <div className="input_box2">
+                                                    <select 
+                                                        name="year"
+                                                        value={values.year}
+                                                        onChange={handleChange}
+                                                    >
+                                                        <option value='' hidden>생년</option>
+                                                        {yearList.map((cont,i)=>{
+                                                            return(
+                                                                <option value={cont} key={i}>{cont}</option>
+                                                            );
+                                                        })}
+                                                    </select>
+                                                </div>
+                                                <div className="input_box2">
+                                                    <select 
+                                                        name="month"
+                                                        value={values.month}
+                                                        onChange={handleChange}
+                                                    >
+                                                        <option value='' hidden>월</option>
+                                                        {montList.map((cont,i)=>{
+                                                            return(
+                                                                <option value={cont} key={i}>{cont}</option>
+                                                            );
+                                                        })}
+                                                    </select>
+                                                </div>
+                                                <div className="input_box2">
+                                                    <select 
+                                                        name="day"
+                                                        value={values.day}
+                                                        onChange={handleChange}
+                                                    >
+                                                        <option value='' hidden>일</option>
+                                                        {dayList.map((cont,i)=>{
+                                                            return(
+                                                                <option value={cont} key={i}>{cont}</option>
+                                                            );
+                                                        })}
+                                                    </select>
+                                                </div>
                                             </div>
                                         </li>
                                         <li>
-                                            <p>성별 <span className="color_point">*</span></p>
+                                            <p className="tit">성별 <span className="color_point">*</span></p>
                                             <ul className="gender_ul flex_between">
                                                 <li>
                                                     <label>
@@ -308,21 +358,25 @@ const ApplyPop = () => {
                                                     </label>
                                                 </li>
                                             </ul>
-                                        </li> 
+                                        </li>
+                                        <li>
+                                            <p className="tit">연락처 <span className="color_point">*</span></p>
+                                            <div className="input_box2">
+                                                <PatternFormat format="###-####-####" name="tel" value={values.tel} onChange={handleChange} placeholder="숫자만 입력해주세요." />
+                                            </div>
+                                        </li>
                                         <li className="bp0">
-                                            <p>지역 <span className="color_point">*</span></p>
+                                            <p className="tit">지역 <span className="color_point">*</span></p>
                                             <div className="address_box flex_between">
-                                                <div className="input_box">
+                                                <div className="input_box2">
                                                     <select 
                                                         name="address1" 
                                                         value={values.address1} 
                                                         onChange={(e)=>{
                                                             const code = e.target.options[e.target.selectedIndex].getAttribute("data-code");
                                                             handleChange(e);
-                                                            setAddrSelected(true);
                                                             getAddress2(code);
                                                         }}
-                                                        className={addrSelected ? "selected" : ""}
                                                     >
                                                         <option value='' hidden >시/도</option>
                                                         {addressList.map((cont, i)=>{
@@ -332,20 +386,18 @@ const ApplyPop = () => {
                                                         })}
                                                     </select>
                                                 </div>
-                                                <div className="input_box">
+                                                <div className="input_box2">
                                                     <select 
                                                         name="address2" 
                                                         value={values.address2} 
                                                         onChange={(e)=>{
                                                             handleChange(e);
-                                                            setAddr2Selected(true);
 
                                                             const txt = values.address1 + " " + e.currentTarget.value;
                                                             const updatedList = [...addrSelectList];
                                                                 updatedList.push(txt);
                                                             setAddrSelectList(updatedList);
                                                         }}
-                                                        className={addr2Selected ? "selected" : ""}
                                                     >
                                                         <option value='' hidden >구</option>
                                                         {addressList2.map((cont, i)=>{
@@ -371,12 +423,6 @@ const ApplyPop = () => {
                                                 </p>
                                             </div>
                                         </li>
-                                        <li>
-                                            <p>연락처 <span className="color_point">*</span></p>
-                                            <div className="input_box">
-                                                <PatternFormat format="###-####-####" name="tel" value={values.tel} onChange={handleChange} placeholder="숫자만 입력해주세요." />
-                                            </div>
-                                        </li>
                                     </ul>
                                     <div className="agree_box">
                                         <div className="all_check custom_check">
@@ -394,21 +440,44 @@ const ApplyPop = () => {
                                         onClick={()=>{
                                             submit(values);
                                         }}
-                                    >소개팅 신청</button>
+                                    >간편 가입 신청할게요!</button>
                                 </form>
                             )}
                         </Formik>
                     </div>
                 </div>
-            </div>
+                : 
+                <div className="cont_box complete_box">
+                    <div className="inner">
+                        <div className="top_tit_box tx_c">
+                            <h5 className="title">신청서 제출이 완료되었어요!</h5>
+                            <div className="img">
+                                <img src={img_complete} alt="이미지" />
+                            </div>
+                            <p className="sub_title">신청서를 제출해 주셔서 감사합니다. <br/>제출한 신청서가 확인될 때까지 기다려 주세요!</p>
+                        </div>
+                        <ul className="link_ul">
+                            <li>
+                                <a href="/" target="_blank"  rel="noopener noreferrer" >사소한 사이트 바로가기</a>
+                            </li>
+                            <li>
+                                <a href="https://www.youtube.com/@user-sasohan" target="_blank" rel="noopener noreferrer" >사소한 공식 유튜브 바로가기</a>
+                            </li>
+                            <li>
+                                <a href="https://blog.naver.com/sasohan_official" target="_blank" rel="noopener noreferrer" >사소한 공식 블로그 바로가기</a>
+                            </li>
+                            <li>
+                                <a href="https://www.instagram.com/sasohan_official_/" target="_blank" rel="noopener noreferrer" >사소한 공식 인스타그램 바로가기</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            }
         </div>
 
         {/* confirm팝업 */}
         {confirm && <ConfirmPop />}
-
-        {/* 소개팅신청 완료 confirm팝업 */}
-        {submitConfirm && <ConfirmPop closePop="custom" onCloseHandler={closePopHandler} />}
     </>);
 };
 
-export default ApplyPop;
+export default Apply;

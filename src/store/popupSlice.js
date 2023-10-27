@@ -31,6 +31,7 @@ const popup = createSlice({
         //실시간만남스토리 팝업
         storyPop: false,
         storyPopNo: null,
+        storyPopList: [],
         
         // 앱 팝업------------------------------------
         //회원가입 - 약관동의 팝업
@@ -94,6 +95,9 @@ const popup = createSlice({
             state.storyPop = action.payload.storyPop;
             state.storyPopNo = action.payload.storyPopNo;
         },
+        storyPopList: (state, action) => {
+            state.storyPopList = action.payload;
+        },
         // 앱 팝업------------------------------------
         appTermsPop: (state, action) => {
             state.appTermsPop = action.payload.appTermsPop;
@@ -138,6 +142,7 @@ export const {
     termsPop,
     applyPop,
     storyPop,
+    storyPopList,
     appTermsPop,
     appTermsCheckList,
     appProfilePop,

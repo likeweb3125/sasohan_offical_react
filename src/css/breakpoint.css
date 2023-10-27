@@ -159,6 +159,13 @@
 }
 
 
+@media screen and (max-width: 1260px){
+    /* 간편가입신청서 */
+    .apply_wrap .cont_box{width: calc(100% - 60px);}
+
+}
+
+
 @media screen and (max-width: 1199px){
     /* 공통 */
     #wrap * {word-break: keep-all;}
@@ -226,6 +233,12 @@
     .apply_pop .inner_box{display: block;}
     .apply_pop .inner_box .tit_box{width: 100%;padding-right: 0;padding-bottom: 40px;}
     .apply_pop .inner_box .form_box{width: 100%;max-height: 60vh;}
+
+
+    /* 간편가입신청서 */
+    .apply_wrap .top_banner{background: url(../images/apply_bg_tab.jpg) no-repeat center;background-size: cover; padding-bottom: 280px;}
+    .apply_wrap .cont_box{margin-top: -220px;}
+
 }
 
 
@@ -406,6 +419,18 @@
     .manager_pop .bottom_box .id_box a span:nth-child(2){font-size: 12px;}
     .manager_pop .insta_list li{width: calc(25% - 3px);margin:0 4px 4px 0;}
 
+    /* 스토리 팝업 */
+    .story_pop .top_box{padding-right: 30px;}
+    .story_pop .top_box .img {width: 60px;height: 60px;}
+    .story_pop .top_box .txt_box{width: calc(100% - 60px);padding-left: 8px;}
+    .story_pop .top_box .txt_box .name{font-size: 16px;}
+    .story_pop .top_box .txt_box .name strong{font-size: 16px;padding: 0 4px 0 20px;background-size: 16px;}
+    .story_pop .top_box .txt_box .time{font-size: 14px;padding-top: 4px;}
+    .story_pop .img_box{padding: 20px 0 0;}
+    .story_pop .btn_prev{width: 20px;}
+    .story_pop .btn_next{width: 20px;}
+
+
     /* 이미지 팝업 */
     .img_pop .pop_cont{width: auto;max-width: calc(100% - 40px);padding: 40px 20px 20px;}
     .img_pop .btn_close{height: 40px;}
@@ -435,7 +460,32 @@
     .apply_pop .inner_box .form_ul>li>p{width: 100%;font-size: 16px;}
     .apply_pop .inner_box .form_ul>li>p+*{width: 100%;}
     .apply_pop .agree_box{padding: 20px 0;}
+    .addr_list_box{padding: 8px;}
+    .addr_list_box .txt{font-size: 12px;}
+    .addr_list_box ul li{padding: 8px 28px 8px 10px;font-size: 13px;}
+    .addr_list_box ul li .btn_delt{width: 28px;background-position: center left 4px;background-size: 14px;}
+    .apply_pop .agree_box .custom_check label>.check{width: 24px;height: 24px;}
+    .apply_pop .agree_box .custom_check label>.txt{font-size: 16px;padding-left: 8px;}
+    .apply_pop .agree_box .scroll_wrap{margin-top: 8px;}
 
+
+    /* 간편가입신청서 */
+    .apply_wrap{padding-bottom: 80px;}
+    .apply_wrap .top_banner{background: url(../images/apply_bg_mo.jpg) no-repeat center;background-size: cover; padding:40px 0 95px;}
+    .apply_wrap .top_banner .logo{padding-top: 50px;background-size: 32px;}
+    .apply_wrap .top_banner .logo img{max-width: 240px;}
+    .apply_wrap .top_banner p{padding-top: 8px;font-size: 24px;}
+    .apply_wrap .cont_box{width: calc(100% - 40px);margin-top: -55px;padding: 40px 12px;}
+    .apply_wrap .cont_box .title{font-size: 26px;}
+    .apply_wrap .form_ul>li>.tit{font-size: 16px;}
+    .input_box2 input{height: 50px;}
+    .input_box2 select{height: 50px;}
+    .apply_wrap .agree_box .custom_check label>.check{width: 28px;height: 28px;}
+    .apply_wrap .agree_box .custom_check label>.txt{font-size: 18px;padding-left: 0;}
+    .apply_wrap .complete_box .top_tit_box .img{padding: 40px 0 4px;}
+    .apply_wrap .complete_box .link_ul{padding-top: 40px;}
+    .apply_wrap .complete_box .link_ul li a{height: 52px;line-height: 52px;padding: 0 20px 0 60px;font-size: 16px;}
+    .apply_wrap .complete_box .link_ul li a::after{width: 28px !important;left: 20px !important;background-size: 28px !important;}
 
 }
 

@@ -9,7 +9,7 @@ import "swiper/css/scrollbar";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
 import { headerMenuOn } from "../store/commonSlice";
-import { managerPop, confirmPop, imgPop, storyPop } from "../store/popupSlice";
+import { managerPop, confirmPop, imgPop, storyPop, storyPopList } from "../store/popupSlice";
 import ManagerBox from "../components/component/ManagerBox";
 import ConfirmPop from "../components/popup/ConfirmPop";
 import { enum_api_uri } from "../config/enum";
@@ -111,6 +111,7 @@ const Main = () => {
     const [reviewList, setReviewList] = useState([]);
     const [count, setCount] = useState(0);
     const charmingSliderRef = useRef();
+    const storySliderRef = useRef();
     const ref_browser = util.getCookie("ref_browser");
     const [externalSliderActive,setExternalSliderActive] = useState(0);
     const [paperSliderActive,setPaperSliderActive] = useState(0);
@@ -236,6 +237,7 @@ const Main = () => {
             if(res.status === 200){
                 let data = res.data;
                 setStoryList([...data]);
+                dispatch(storyPopList(data));
             }
         })
         .catch((error) => {
@@ -367,8 +369,13 @@ const Main = () => {
     };
 
 
-
-
+    //스토리팝업 다음버튼,이전버튼으로 넘길때 스토리슬라이드 active 변경
+    useEffect(()=>{
+        if(popup.storyPopNo != null){
+            const idx = popup.storyPopNo;
+            storySliderRef.current.swiper.slideTo(idx);
+        }
+    },[popup.storyPopNo]);
 
 
     return(<>
@@ -651,12 +658,13 @@ const Main = () => {
                                 768:{spaceBetween:50},//width >= 768
                             }
                         }
+                        ref={storySliderRef}
                     >
                         {storyList.map((cont,i)=>{
                             return(
                                 <SwiperSlide key={i} 
                                     onClick={()=>{
-                                        dispatch(storyPop({storyPop:true,storyPopNo:cont.list_no}));
+                                        dispatch(storyPop({storyPop:true,storyPopNo:i}));
                                     }}
                                 >
                                     <div className="img_box"><img src={cont.photo} alt="프로필이미지" /></div>

@@ -34,6 +34,7 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .section_inner {position: relative; max-width: 1400px; width: 100%; margin: 0 auto;}
 .mo_show{display: none;}
 .color_point{color: #6840FD;}
+.bp0{padding-bottom: 0 !important;}
 
 /* animation */
 @keyframes aniUp {
@@ -450,6 +451,19 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .manager_pop .insta_list li{margin: 0 8px 8px 0;width: calc(25% - 6px);}
 .manager_pop .insta_list li:nth-child(4n){margin-right: 0;}
 
+/* 스토리팝업 */
+.story_pop .pop_cont{border: 4px solid rgba(104, 64, 253, 0.2);}
+.story_pop .scroll_wrap{max-height: 80vh;}
+.story_pop .top_box{padding-right: 46px;}
+.story_pop .top_box .img{width: 80px;height: 80px;border-radius: 50%;overflow: hidden;}
+.story_pop .top_box .txt_box{width: calc(100% - 80px);padding-left: 12px;}
+.story_pop .top_box .txt_box .name{font-size: 22px;font-weight: 600;}
+.story_pop .top_box .txt_box .name strong{font-size: 20px;font-weight: 700;padding:0 4px 0 24px;color: #6840FD;background: url(../images/ic_charming.svg) no-repeat center left;background-size: 20px;}
+.story_pop .top_box .txt_box .time{color: #999;padding-top: 8px;font-weight: 500;}
+.story_pop .img_box{text-align: center;padding: 20px 40px 0;}
+.story_pop .btn_prev{position: absolute;top: 50%;left: 0; width: 80px;height: 80px;background: url(../images/arrow_prev.svg) no-repeat center;font-size: 0;text-indent: -9999px;}
+.story_pop .btn_next{position: absolute;top: 50%;right: 0; width: 80px;height: 80px;background: url(../images/arrow_next.svg) no-repeat center;font-size: 0;text-indent: -9999px;}
+
 /* 이미지 팝업 */
 .img_pop .pop_cont{width: auto;padding: 45px;max-width: 720px;padding: 52px 20px 20px;}
 .img_pop .btn_close{background: url(../images/ic_close_b.svg) no-repeat center;background-size: 20px; width: 60px !important;height: 52px;top: 0 !important;right: 0 !important;}
@@ -489,7 +503,7 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .apply_pop .inner_box .form_ul>li{display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; display: flex;-webkit-box-align: center; -ms-flex-align: center;-webkit-align-items: center; align-items: center;}
 .apply_pop .inner_box .form_ul>li>p{width: 112px;font-size: 20px;font-weight: 500;}
 .apply_pop .inner_box .form_ul>li>p+*{width: calc(100% - 112px);}
-.apply_pop .inner_box .form_ul>li .gender_ul li{width: calc(50% - 4px);}
+.gender_ul li{width: calc(50% - 4px);}
 .gender_ul li label input{display: none;-webkit-appearance: none;-moz-appearance: none;-ms-appearance: none;-o-appearance: none;appearance: none;}
 .gender_ul li label .box{width: 100%;height: 56px;border: 1px solid #ddd;border-radius: 8px;text-align: center;line-height: 56px;font-size: 20px;font-weight: 500;color: #999;cursor: pointer;background: #fff;}
 .gender_ul li label .box span{padding-left: 36px;background: url(../images/ic_m.svg) no-repeat center left;}
@@ -498,6 +512,11 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .gender_ul li label input:checked + .box span{background: url(../images/ic_m_on.svg) no-repeat center left;}
 .gender_ul li:nth-child(2) label input:checked + .box span{background: url(../images/ic_f_on.svg) no-repeat center left;}
 .apply_pop .inner_box .form_ul>li .address_box .input_box{width: calc(50% - 6px);}
+.addr_list_box{margin-top: 8px;background: #F8F9FB;border-radius: 8px;padding: 16px;width: 100%;}
+.addr_list_box .txt{font-size: 14px;font-weight: 500;color: #FC5862;}
+.addr_list_box .txt.on{color: #6840FD;}
+.addr_list_box ul li{padding: 8px 40px 8px 16px;border-radius: 20px;background: #fff;border: 1px solid #EAEAEA;margin: 0 8px 8px 0;font-size: 15px;font-weight: 500;color: #1B171E;position: relative;line-height: 1.2;}
+.addr_list_box ul li .btn_delt{position: absolute;width: 32px;height: 100%;font-size: 0;text-indent: -9999px;background: url(../images/ic_close_g.svg) no-repeat center left;top: 0;right: 0;}
 .input_box{border-bottom:2px solid #EAEAEA;}
 .input_box input{width: 100%;height: 60px;border: none;font-size: 20px;background: none;}
 .input_box input::-webkit-input-placeholder {color: #999; text-align:left;font-size: 20px;} 
