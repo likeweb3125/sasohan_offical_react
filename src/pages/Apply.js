@@ -152,8 +152,7 @@ const Apply = () => {
 
     //신청서 제출하기
     const submit = (values) => {
-        console.log(values);
-        let tel = values.tel.replace(/[^0-9]/g, '');
+        const tel = values.tel.replace(/[^0-9]/g, '');
 
         if(!values.name){
             dispatch(confirmPop({
@@ -226,7 +225,7 @@ const Apply = () => {
                 year: year,
                 gender: values.gender,
                 address1: addrSelectList,
-                tel: values.tel,
+                tel: tel,
             };
 
             axios.post(`${date_apply}`,body)
