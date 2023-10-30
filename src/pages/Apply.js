@@ -74,45 +74,6 @@ const Apply = () => {
         .then((res)=>{
             if(res.status === 200){
                 const data = res.data;
-                // const modifiedAddress = data.map(item => {
-                //     if(item.sido_gugun === "강원도"){
-                //         item.sido_gugun = "강원";
-                //     }
-                //     if(item.sido_gugun === "경기도"){
-                //         item.sido_gugun = "경기";
-                //     }
-                //     if(item.sido_gugun === "경상남도"){
-                //         item.sido_gugun = "경남";
-                //     }
-                //     if(item.sido_gugun === "경상북도"){
-                //         item.sido_gugun = "경북";
-                //     }
-                //     if(item.sido_gugun === "전라남도"){
-                //         item.sido_gugun = "전남";
-                //     }
-                //     if(item.sido_gugun === "전라북도"){
-                //         item.sido_gugun = "전북";
-                //     }
-                //     if(item.sido_gugun === "충청남도"){
-                //         item.sido_gugun = "충남";
-                //     }
-                //     if(item.sido_gugun === "충청북도"){
-                //         item.sido_gugun = "충북";
-                //     }
-                //     if(item.sido_gugun.includes("광역시")){
-                //         item.sido_gugun = item.sido_gugun.replace("광역시","");
-                //     }
-                //     if(item.sido_gugun.includes("특별시")){
-                //         item.sido_gugun = item.sido_gugun.replace("특별시","");
-                //     }
-                //     if(item.sido_gugun.includes("특별자치시")){
-                //         item.sido_gugun = item.sido_gugun.replace("특별자치시","");
-                //     }
-                //     if(item.sido_gugun.includes("특별자치도")){
-                //         item.sido_gugun = item.sido_gugun.replace("특별자치도","");
-                //     }
-                //     return item;
-                // });
                 setAddressList(data);
             }
         })
@@ -416,14 +377,24 @@ const Apply = () => {
                                                             getAddress2(code);
 
                                                             const val = e.currentTarget.value;
-                                                            if(val == "세종특별자치시"){
-                                                                const updatedList = [...addrSelectList];
-                                                                    updatedList.push("세종");
-                                                                setAddrSelectList(updatedList);
+                                                            if(val == "세종특별자치시" && !addrSelectList.includes("세종")){
+                                                                if(addrSelectList.length > 9){
+                                                                    dispatch(confirmPop({
+                                                                        confirmPop:true,
+                                                                        confirmPopTit:'알림',
+                                                                        confirmPopTxt:'선호지역은 최대 10개까지만 선택해주세요.',
+                                                                        confirmPopBtn:1,
+                                                                    }));
+                                                                    setConfirm(true);
+                                                                }else{
+                                                                    const updatedList = [...addrSelectList];
+                                                                        updatedList.push("세종");
+                                                                    setAddrSelectList(updatedList);
+                                                                }
                                                             }
                                                         }}
                                                     >
-                                                        <option value='' hidden >시/도</option>
+                                                        <option value='' hidden disabled>시/도</option>
                                                         {addressList.map((cont, i)=>{
                                                             return(
                                                                 <option value={cont.sido_gugun} key={i} data-code={cont.local_code}>{cont.sido_gugun}</option>
@@ -437,6 +408,9 @@ const Apply = () => {
                                                         value={values.address2} 
                                                         onChange={(e)=>{
                                                             handleChange(e);
+
+                                                            const val = e.currentTarget.value;
+
                                                             let address1_txt = values.address1;
                                                             if(address1_txt === "강원도"){
                                                                 address1_txt = "강원";
@@ -475,13 +449,27 @@ const Apply = () => {
                                                                 address1_txt = address1_txt.replace("특별자치도","");
                                                             }
 
-                                                            const txt = address1_txt + " " + e.currentTarget.value;
-                                                            const updatedList = [...addrSelectList];
-                                                                updatedList.push(txt);
-                                                            setAddrSelectList(updatedList);
+                                                            if(val.length > 0){
+                                                                if(addrSelectList.length > 9){
+                                                                    dispatch(confirmPop({
+                                                                        confirmPop:true,
+                                                                        confirmPopTit:'알림',
+                                                                        confirmPopTxt:'선호지역은 최대 10개까지만 선택해주세요.',
+                                                                        confirmPopBtn:1,
+                                                                    }));
+                                                                    setConfirm(true);
+                                                                }else{
+                                                                    const txt = address1_txt + " " + val;
+                                                                    if(!addrSelectList.includes(txt)){
+                                                                        const updatedList = [...addrSelectList];
+                                                                            updatedList.push(txt);
+                                                                        setAddrSelectList(updatedList);
+                                                                    }
+                                                                }
+                                                            }  
                                                         }}
                                                     >
-                                                        <option value='' hidden >구</option>
+                                                        <option value='' hidden disabled>구</option>
                                                         {addressList2.map((cont, i)=>{
                                                             return(
                                                                 <option value={cont.sido_gugun} key={i}>{cont.sido_gugun}</option>
@@ -500,9 +488,9 @@ const Apply = () => {
                                                         );
                                                     })}
                                                 </ul>
-                                                <p className={`txt${addrSelectList.length > 2 ? " on" : ""}`}>
-                                                    {addrSelectList.length > 2 ? "선호 지역을 더 많이 추가할 수록 폭넓은 소개팅을 받을 수 있어요." : "지역은 최소 3개를 선택해야 신청할 수 있습니다."}
-                                                </p>
+                                                {addrSelectList.length > 2 ? <p className="txt on">이제 소개팅을 받을 수 있어요! <br/>선호 지역을 더 많이 추가할 수록 폭넓은 소개팅을 받을 수 있어요.</p>
+                                                    : <p className="txt">선호지역은 최소 3개를 선택해야 신청할 수 있습니다.</p>
+                                                }
                                             </div>
                                         </li>
                                     </ul>
