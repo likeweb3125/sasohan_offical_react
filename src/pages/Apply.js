@@ -415,12 +415,12 @@ const Apply = () => {
                                                             handleChange(e);
                                                             getAddress2(code);
 
-                                                            // const val = e.currentTarget.value;
-                                                            // if(val == "세종"){
-                                                            //     const updatedList = [...addrSelectList];
-                                                            //         updatedList.push(val);
-                                                            //     setAddrSelectList(updatedList);
-                                                            // }
+                                                            const val = e.currentTarget.value;
+                                                            if(val == "세종특별자치시"){
+                                                                const updatedList = [...addrSelectList];
+                                                                    updatedList.push("세종");
+                                                                setAddrSelectList(updatedList);
+                                                            }
                                                         }}
                                                     >
                                                         <option value='' hidden >시/도</option>
@@ -437,8 +437,45 @@ const Apply = () => {
                                                         value={values.address2} 
                                                         onChange={(e)=>{
                                                             handleChange(e);
+                                                            let address1_txt = values.address1;
+                                                            if(address1_txt === "강원도"){
+                                                                address1_txt = "강원";
+                                                            }
+                                                            if(address1_txt === "경기도"){
+                                                                address1_txt = "경기";
+                                                            }
+                                                            if(address1_txt === "경상남도"){
+                                                                address1_txt = "경남";
+                                                            }
+                                                            if(address1_txt === "경상북도"){
+                                                                address1_txt = "경북";
+                                                            }
+                                                            if(address1_txt === "전라남도"){
+                                                                address1_txt = "전남";
+                                                            }
+                                                            if(address1_txt === "전라북도"){
+                                                                address1_txt = "전북";
+                                                            }
+                                                            if(address1_txt === "충청남도"){
+                                                                address1_txt = "충남";
+                                                            }
+                                                            if(address1_txt === "충청북도"){
+                                                                address1_txt = "충북";
+                                                            }
+                                                            if(address1_txt.includes("광역시")){
+                                                                address1_txt = address1_txt.replace("광역시","");
+                                                            }
+                                                            if(address1_txt.includes("특별시")){
+                                                                address1_txt = address1_txt.replace("특별시","");
+                                                            }
+                                                            if(address1_txt.includes("특별자치시")){
+                                                                address1_txt = address1_txt.replace("특별자치시","");
+                                                            }
+                                                            if(address1_txt.includes("특별자치도")){
+                                                                address1_txt = address1_txt.replace("특별자치도","");
+                                                            }
 
-                                                            const txt = values.address1 + " " + e.currentTarget.value;
+                                                            const txt = address1_txt + " " + e.currentTarget.value;
                                                             const updatedList = [...addrSelectList];
                                                                 updatedList.push(txt);
                                                             setAddrSelectList(updatedList);
