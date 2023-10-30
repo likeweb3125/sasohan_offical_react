@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { storyPop, confirmPop } from "../../store/popupSlice";
@@ -14,6 +14,7 @@ const StoryPop = () => {
     const [img, setImg] = useState(null);
     const [prevBtn, setPrevBtn] = useState(null);
     const [nextBtn, setNextBtn] = useState(null);
+    const contRef = useRef(null);
 
 
     //팝업닫기
@@ -62,6 +63,7 @@ const StoryPop = () => {
             setNextBtn(true);
         }
 
+        contRef.current.scrollTop = 0; //스크롤항상 위
     },[popup.storyPopNo,popup.storyPopList]);
 
 
@@ -99,7 +101,7 @@ const StoryPop = () => {
             <div className="dim" onClick={closePopHandler}></div>
             <div className="pop_cont">
                 <button type="button" className="btn_close" onClick={closePopHandler}>닫기버튼</button>
-                <div className="scroll_wrap">
+                <div className="scroll_wrap" ref={contRef}>
                     <div className="top_box flex">
                         <div className="img">
                             <img src={data.photo} alt="이미지" />
