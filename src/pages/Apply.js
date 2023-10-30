@@ -73,8 +73,47 @@ const Apply = () => {
         axios.get(`${m_address}`)
         .then((res)=>{
             if(res.status === 200){
-                setAddressList(res.data);
-
+                const data = res.data;
+                const modifiedAddress = data.map(item => {
+                    if(item.sido_gugun === "강원도"){
+                        item.sido_gugun = "강원";
+                    }
+                    if(item.sido_gugun === "경기도"){
+                        item.sido_gugun = "경기";
+                    }
+                    if(item.sido_gugun === "경상남도"){
+                        item.sido_gugun = "경남";
+                    }
+                    if(item.sido_gugun === "경상북도"){
+                        item.sido_gugun = "경북";
+                    }
+                    if(item.sido_gugun === "전라남도"){
+                        item.sido_gugun = "전남";
+                    }
+                    if(item.sido_gugun === "전라북도"){
+                        item.sido_gugun = "전북";
+                    }
+                    if(item.sido_gugun === "충청남도"){
+                        item.sido_gugun = "충남";
+                    }
+                    if(item.sido_gugun === "충청북도"){
+                        item.sido_gugun = "충북";
+                    }
+                    if(item.sido_gugun.includes("광역시")){
+                        item.sido_gugun = item.sido_gugun.replace("광역시","");
+                    }
+                    if(item.sido_gugun.includes("특별시")){
+                        item.sido_gugun = item.sido_gugun.replace("특별시","");
+                    }
+                    if(item.sido_gugun.includes("특별자치시")){
+                        item.sido_gugun = item.sido_gugun.replace("특별자치시","");
+                    }
+                    if(item.sido_gugun.includes("특별자치도")){
+                        item.sido_gugun = item.sido_gugun.replace("특별자치도","");
+                    }
+                    return item;
+                });
+                setAddressList(modifiedAddress);
             }
         })
         .catch((error) => {
@@ -206,7 +245,7 @@ const Apply = () => {
             dispatch(confirmPop({
                 confirmPop:true,
                 confirmPopTit:'알림',
-                confirmPopTxt:'지역은 최소 3개를 선택해주세요.',
+                confirmPopTxt:'선호지역은 최소 3개를 선택해주세요.',
                 confirmPopBtn:1,
             }));
             setConfirm(true);
@@ -365,7 +404,7 @@ const Apply = () => {
                                             </div>
                                         </li>
                                         <li className="bp0">
-                                            <p className="tit">지역 <span className="color_point">*</span></p>
+                                            <p className="tit">선호지역 <span className="color_point">*</span></p>
                                             <div className="address_box flex_between">
                                                 <div className="input_box2">
                                                     <select 
@@ -375,6 +414,13 @@ const Apply = () => {
                                                             const code = e.target.options[e.target.selectedIndex].getAttribute("data-code");
                                                             handleChange(e);
                                                             getAddress2(code);
+
+                                                            const val = e.currentTarget.value;
+                                                            if(val == "세종"){
+                                                                const updatedList = [...addrSelectList];
+                                                                    updatedList.push(val);
+                                                                setAddrSelectList(updatedList);
+                                                            }
                                                         }}
                                                     >
                                                         <option value='' hidden >시/도</option>
@@ -418,7 +464,7 @@ const Apply = () => {
                                                     })}
                                                 </ul>
                                                 <p className={`txt${addrSelectList.length > 2 ? " on" : ""}`}>
-                                                    {addrSelectList.length > 2 ? "선호 지역을 다 선택했어요! 이제 소개팅을 받을 수 있습니다." : "지역은 최소 3개를 선택해야 신청할 수 있습니다."}
+                                                    {addrSelectList.length > 2 ? "선호 지역을 더 많이 추가할 수록 폭넓은 소개팅을 받을 수 있어요." : "지역은 최소 3개를 선택해야 신청할 수 있습니다."}
                                                 </p>
                                             </div>
                                         </li>
