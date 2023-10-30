@@ -64,46 +64,46 @@ const ApplyPop = () => {
         .then((res)=>{
             if(res.status === 200){
                 const data = res.data;
-                const modifiedAddress = data.map(item => {
-                    if(item.sido_gugun === "강원도"){
-                        item.sido_gugun = "강원";
-                    }
-                    if(item.sido_gugun === "경기도"){
-                        item.sido_gugun = "경기";
-                    }
-                    if(item.sido_gugun === "경상남도"){
-                        item.sido_gugun = "경남";
-                    }
-                    if(item.sido_gugun === "경상북도"){
-                        item.sido_gugun = "경북";
-                    }
-                    if(item.sido_gugun === "전라남도"){
-                        item.sido_gugun = "전남";
-                    }
-                    if(item.sido_gugun === "전라북도"){
-                        item.sido_gugun = "전북";
-                    }
-                    if(item.sido_gugun === "충청남도"){
-                        item.sido_gugun = "충남";
-                    }
-                    if(item.sido_gugun === "충청북도"){
-                        item.sido_gugun = "충북";
-                    }
-                    if(item.sido_gugun.includes("광역시")){
-                        item.sido_gugun = item.sido_gugun.replace("광역시","");
-                    }
-                    if(item.sido_gugun.includes("특별시")){
-                        item.sido_gugun = item.sido_gugun.replace("특별시","");
-                    }
-                    if(item.sido_gugun.includes("특별자치시")){
-                        item.sido_gugun = item.sido_gugun.replace("특별자치시","");
-                    }
-                    if(item.sido_gugun.includes("특별자치도")){
-                        item.sido_gugun = item.sido_gugun.replace("특별자치도","");
-                    }
-                    return item;
-                });
-                setAddressList(modifiedAddress);
+                // const modifiedAddress = data.map(item => {
+                //     if(item.sido_gugun === "강원도"){
+                //         item.sido_gugun = "강원";
+                //     }
+                //     if(item.sido_gugun === "경기도"){
+                //         item.sido_gugun = "경기";
+                //     }
+                //     if(item.sido_gugun === "경상남도"){
+                //         item.sido_gugun = "경남";
+                //     }
+                //     if(item.sido_gugun === "경상북도"){
+                //         item.sido_gugun = "경북";
+                //     }
+                //     if(item.sido_gugun === "전라남도"){
+                //         item.sido_gugun = "전남";
+                //     }
+                //     if(item.sido_gugun === "전라북도"){
+                //         item.sido_gugun = "전북";
+                //     }
+                //     if(item.sido_gugun === "충청남도"){
+                //         item.sido_gugun = "충남";
+                //     }
+                //     if(item.sido_gugun === "충청북도"){
+                //         item.sido_gugun = "충북";
+                //     }
+                //     if(item.sido_gugun.includes("광역시")){
+                //         item.sido_gugun = item.sido_gugun.replace("광역시","");
+                //     }
+                //     if(item.sido_gugun.includes("특별시")){
+                //         item.sido_gugun = item.sido_gugun.replace("특별시","");
+                //     }
+                //     if(item.sido_gugun.includes("특별자치시")){
+                //         item.sido_gugun = item.sido_gugun.replace("특별자치시","");
+                //     }
+                //     if(item.sido_gugun.includes("특별자치도")){
+                //         item.sido_gugun = item.sido_gugun.replace("특별자치도","");
+                //     }
+                //     return item;
+                // });
+                setAddressList(data);
             }
         })
         .catch((error) => {
@@ -360,12 +360,12 @@ const ApplyPop = () => {
                                                             setAddrSelected(true);
                                                             getAddress2(code);
 
-                                                            const val = e.currentTarget.value;
-                                                            if(val == "세종"){
-                                                                const updatedList = [...addrSelectList];
-                                                                    updatedList.push(val);
-                                                                setAddrSelectList(updatedList);
-                                                            }
+                                                            // const val = e.currentTarget.value;
+                                                            // if(val == "세종"){
+                                                            //     const updatedList = [...addrSelectList];
+                                                            //         updatedList.push(val);
+                                                            //     setAddrSelectList(updatedList);
+                                                            // }
                                                         }}
                                                         className={addrSelected ? "selected" : ""}
                                                     >
