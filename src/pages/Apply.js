@@ -261,7 +261,7 @@ const Apply = () => {
                 <div className="cont_box">
                     <div className="inner">
                         <div className="top_tit_box tx_c">
-                            <h5 className="title">간편 가입 신청서</h5>
+                            <h5 className="title">간편 소개 신청서</h5>
                             <p className="sub_title">원활한 매칭을 위해 모든 항목은 필수 항목입니다. <br/>정확하게 입력해 주세요!</p>
                         </div>
                         <Formik
