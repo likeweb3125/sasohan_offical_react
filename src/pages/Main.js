@@ -9,7 +9,7 @@ import "swiper/css/scrollbar";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
 import { headerMenuOn } from "../store/commonSlice";
-import { managerPop, confirmPop, imgPop, storyPop, storyPopList } from "../store/popupSlice";
+import { managerPop, confirmPop, imgPop, storyPop, storyPopList, imgPopLink } from "../store/popupSlice";
 import ManagerBox from "../components/component/ManagerBox";
 import ConfirmPop from "../components/popup/ConfirmPop";
 import { enum_api_uri } from "../config/enum";
@@ -45,13 +45,17 @@ import blog_img1 from "../images/blog_img1.jpg";
 import blog_img2 from "../images/blog_img2.jpg";
 import blog_img3 from "../images/blog_img3.jpg";
 import blog_img4 from "../images/blog_img4.jpg";
-import award_img1 from "../images/award_img1.svg";
-import award_img1_pop from "../images/award_img1_pop.png";
-import trust_img1 from "../images/trust_img1.svg";
-import trust_img2 from "../images/trust_img2.svg";
-import trust_img1_pop from "../images/trust_img1_pop.jpg";
-import trust_img2_pop from "../images/trust_img2_pop.png";
-import trust_img3_pop from "../images/trust_img3_pop.jpg";
+
+import award_img1 from "../images/award_img1.png";
+import award_img2 from "../images/award_img2.png";
+import award_img3 from "../images/award_img3.png";
+
+import trust_img1 from "../images/trust_img1.jpg";
+import trust_img2 from "../images/trust_img2.png";
+import trust_img3 from "../images/trust_img3.jpg";
+import trust_img4 from "../images/trust_img4.jpg";
+import trust_img5 from "../images/trust_img5.jpg";
+
 import dona_img1 from "../images/dona_img1.jpg";
 import dona_img2 from "../images/dona_img2.jpg";
 import dona_img3 from "../images/dona_img3.jpg";
@@ -833,8 +837,8 @@ const Main = () => {
                         <ul className="slider_big">
                             <li className={externalSliderActive === 0 ? "on" : ""}>
                                 <div className="box flex">
-                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
-                                        <img src={award_img1_pop} alt="이미지" />
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1}))}}>
+                                        <img src={award_img1} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
                                         <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
@@ -844,30 +848,40 @@ const Main = () => {
                             </li>
                             <li className={externalSliderActive === 1 ? "on" : ""}>
                                 <div className="box flex">
-                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
-                                        <img src={award_img1_pop} alt="이미지" />
+                                    <div className="img_box" 
+                                        onClick={()=>{
+                                            dispatch(imgPop({imgPop:true,imgPopSrc:award_img2}));
+                                            dispatch(imgPopLink(true));
+                                        }}
+                                    >
+                                        <img src={award_img2} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
-                                        <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
-                                        <p className="txt2">고객만족 소개팅서비스업</p>
+                                        <p className="txt">사소한 나무위키</p>
+                                        <p className="txt2">링크이동</p>
                                     </div>
                                 </div>
                             </li>
                             <li className={externalSliderActive === 2 ? "on" : ""}>
                                 <div className="box flex">
-                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
-                                        <img src={award_img1_pop} alt="이미지" />
+                                    <div className="img_box"
+                                        onClick={()=>{
+                                            dispatch(imgPop({imgPop:true,imgPopSrc:award_img3}));
+                                            dispatch(imgPopLink("https://www.itbiznews.com/news/articleView.html?idxno=111265"));
+                                        }}
+                                    >
+                                        <img src={award_img3} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
-                                        <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
-                                        <p className="txt2">고객만족 소개팅서비스업</p>
+                                        <p className="txt">사소한 매너베이트 기사</p>
+                                        <p className="txt2">링크이동</p>
                                     </div>
                                 </div>
                             </li>
                             <li className={externalSliderActive === 3 ? "on" : ""}>
                                 <div className="box flex">
-                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
-                                        <img src={award_img1_pop} alt="이미지" />
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1}))}}>
+                                        <img src={award_img1} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
                                         <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
@@ -877,23 +891,33 @@ const Main = () => {
                             </li>
                             <li className={externalSliderActive === 4 ? "on" : ""}>
                                 <div className="box flex">
-                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
-                                        <img src={award_img1_pop} alt="이미지" />
+                                    <div className="img_box" 
+                                        onClick={()=>{
+                                            dispatch(imgPop({imgPop:true,imgPopSrc:award_img2}));
+                                            dispatch(imgPopLink("https://namu.wiki/w/사소한%20소개팅"));
+                                        }}
+                                    >
+                                        <img src={award_img2} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
-                                        <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
-                                        <p className="txt2">고객만족 소개팅서비스업</p>
+                                        <p className="txt">사소한 나무위키</p>
+                                        <p className="txt2">링크이동</p>
                                     </div>
                                 </div>
                             </li>
                             <li className={externalSliderActive === 5 ? "on" : ""}>
                                 <div className="box flex">
-                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
-                                        <img src={award_img1_pop} alt="이미지" />
+                                    <div className="img_box"
+                                        onClick={()=>{
+                                            dispatch(imgPop({imgPop:true,imgPopSrc:award_img3}));
+                                            dispatch(imgPopLink("https://www.itbiznews.com/news/articleView.html?idxno=111265"));
+                                        }}
+                                    >
+                                        <img src={award_img3} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
-                                        <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
-                                        <p className="txt2">고객만족 소개팅서비스업</p>
+                                        <p className="txt">사소한 매너베이트 기사</p>
+                                        <p className="txt2">링크이동</p>
                                     </div>
                                 </div>
                             </li>
@@ -922,10 +946,10 @@ const Main = () => {
                                     }
                                 }
                             >
-                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1}))}}>
                                     <div className="box">
                                         <div className="img_box">
-                                            <img src={award_img1_pop} alt="이미지" />
+                                            <img src={award_img1} alt="이미지" />
                                         </div>
                                         <div className="txt_box">
                                             <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
@@ -933,10 +957,42 @@ const Main = () => {
                                         </div>
                                     </div>
                                 </SwiperSlide>
-                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
+                                <SwiperSlide 
+                                    onClick={()=>{
+                                        dispatch(imgPop({imgPop:true,imgPopSrc:award_img2}));
+                                        dispatch(imgPopLink("https://namu.wiki/w/사소한%20소개팅"));
+                                    }}
+                                >
                                     <div className="box">
                                         <div className="img_box">
-                                            <img src={award_img1_pop} alt="이미지" />
+                                            <img src={award_img2} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">사소한 나무위키</p>
+                                            <p className="txt2">링크이동</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide 
+                                    onClick={()=>{
+                                        dispatch(imgPop({imgPop:true,imgPopSrc:award_img3}));
+                                        dispatch(imgPopLink("https://www.itbiznews.com/news/articleView.html?idxno=111265"));
+                                    }}
+                                >
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={award_img3} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">사소한 매너베이트 기사</p>
+                                            <p className="txt2">링크이동</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={award_img1} alt="이미지" />
                                         </div>
                                         <div className="txt_box">
                                             <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
@@ -944,47 +1000,35 @@ const Main = () => {
                                         </div>
                                     </div>
                                 </SwiperSlide>
-                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
+                                <SwiperSlide 
+                                    onClick={()=>{
+                                        dispatch(imgPop({imgPop:true,imgPopSrc:award_img2}));
+                                        dispatch(imgPopLink("https://namu.wiki/w/사소한%20소개팅"));
+                                    }}
+                                >
                                     <div className="box">
                                         <div className="img_box">
-                                            <img src={award_img1_pop} alt="이미지" />
+                                            <img src={award_img2} alt="이미지" />
                                         </div>
                                         <div className="txt_box">
-                                            <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
-                                            <p className="txt2">고객만족 소개팅서비스업</p>
+                                            <p className="txt">사소한 나무위키</p>
+                                            <p className="txt2">링크이동</p>
                                         </div>
                                     </div>
                                 </SwiperSlide>
-                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
+                                <SwiperSlide 
+                                    onClick={()=>{
+                                        dispatch(imgPop({imgPop:true,imgPopSrc:award_img3}));
+                                        dispatch(imgPopLink("https://www.itbiznews.com/news/articleView.html?idxno=111265"));
+                                    }}
+                                >
                                     <div className="box">
                                         <div className="img_box">
-                                            <img src={award_img1_pop} alt="이미지" />
+                                            <img src={award_img3} alt="이미지" />
                                         </div>
                                         <div className="txt_box">
-                                            <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
-                                            <p className="txt2">고객만족 소개팅서비스업</p>
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
-                                    <div className="box">
-                                        <div className="img_box">
-                                            <img src={award_img1_pop} alt="이미지" />
-                                        </div>
-                                        <div className="txt_box">
-                                            <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
-                                            <p className="txt2">고객만족 소개팅서비스업</p>
-                                        </div>
-                                    </div>
-                                </SwiperSlide>
-                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:award_img1_pop}))}}>
-                                    <div className="box">
-                                        <div className="img_box">
-                                            <img src={award_img1_pop} alt="이미지" />
-                                        </div>
-                                        <div className="txt_box">
-                                            <p className="txt">2023 한국소비자 <br/>베스트브랜드대상 1위</p>
-                                            <p className="txt2">고객만족 소개팅서비스업</p>
+                                            <p className="txt">사소한 매너베이트 기사</p>
+                                            <p className="txt2">링크이동</p>
                                         </div>
                                     </div>
                                 </SwiperSlide>
@@ -1007,8 +1051,8 @@ const Main = () => {
                         <ul className="slider_big">
                             <li className={paperSliderActive === 0 ? "on" : ""}>
                                 <div className="box flex">
-                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img3_pop}))}}>
-                                        <img src={trust_img3_pop} alt="이미지" />
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img3}))}}>
+                                        <img src={trust_img3} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
                                         <p className="txt">상표등록증</p>
@@ -1018,8 +1062,8 @@ const Main = () => {
                             </li>
                             <li className={paperSliderActive === 1 ? "on" : ""}>
                                 <div className="box flex">
-                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img1_pop}))}}>
-                                        <img src={trust_img1_pop} alt="이미지" />
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img1}))}}>
+                                        <img src={trust_img1} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
                                         <p className="txt">사업자등록증</p>
@@ -1029,8 +1073,8 @@ const Main = () => {
                             </li>
                             <li className={paperSliderActive === 2 ? "on" : ""}>
                                 <div className="box flex">
-                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2_pop}))}}>
-                                        <img src={trust_img2_pop} alt="이미지" />
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2}))}}>
+                                        <img src={trust_img2} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
                                         <p className="txt">통신판매업</p>
@@ -1040,8 +1084,30 @@ const Main = () => {
                             </li>
                             <li className={paperSliderActive === 3 ? "on" : ""}>
                                 <div className="box flex">
-                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img3_pop}))}}>
-                                        <img src={trust_img3_pop} alt="이미지" />
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img4}))}}>
+                                        <img src={trust_img4} alt="이미지" />
+                                    </div>
+                                    <div className="txt_box">
+                                        <p className="txt">개인정보 보호 교육</p>
+                                        <p className="txt2">2023.09.12</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className={paperSliderActive === 4 ? "on" : ""}>
+                                <div className="box flex">
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img5}))}}>
+                                        <img src={trust_img5} alt="이미지" />
+                                    </div>
+                                    <div className="txt_box">
+                                        <p className="txt">테헤란 법률자문</p>
+                                        <p className="txt2">2023.05.23</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className={paperSliderActive === 5 ? "on" : ""}>
+                                <div className="box flex">
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img3}))}}>
+                                        <img src={trust_img3} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
                                         <p className="txt">상표등록증</p>
@@ -1049,10 +1115,10 @@ const Main = () => {
                                     </div>
                                 </div>
                             </li>
-                            <li className={paperSliderActive === 4 ? "on" : ""}>
+                            <li className={paperSliderActive === 6 ? "on" : ""}>
                                 <div className="box flex">
-                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img1_pop}))}}>
-                                        <img src={trust_img1_pop} alt="이미지" />
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img1}))}}>
+                                        <img src={trust_img1} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
                                         <p className="txt">사업자등록증</p>
@@ -1060,14 +1126,36 @@ const Main = () => {
                                     </div>
                                 </div>
                             </li>
-                            <li className={paperSliderActive === 5 ? "on" : ""}>
+                            <li className={paperSliderActive === 7 ? "on" : ""}>
                                 <div className="box flex">
-                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2_pop}))}}>
-                                        <img src={trust_img2_pop} alt="이미지" />
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2}))}}>
+                                        <img src={trust_img2} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
                                         <p className="txt">통신판매업</p>
                                         <p className="txt2">2017.04.18</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className={paperSliderActive === 8 ? "on" : ""}>
+                                <div className="box flex">
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img4}))}}>
+                                        <img src={trust_img4} alt="이미지" />
+                                    </div>
+                                    <div className="txt_box">
+                                        <p className="txt">개인정보 보호 교육</p>
+                                        <p className="txt2">2023.09.12</p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li className={paperSliderActive === 9 ? "on" : ""}>
+                                <div className="box flex">
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img5}))}}>
+                                        <img src={trust_img5} alt="이미지" />
+                                    </div>
+                                    <div className="txt_box">
+                                        <p className="txt">테헤란 법률자문</p>
+                                        <p className="txt2">2023.05.23</p>
                                     </div>
                                 </div>
                             </li>
@@ -1095,10 +1183,10 @@ const Main = () => {
                                     }
                                 }
                             >
-                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img3_pop}))}}>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img3}))}}>
                                     <div className="box">
                                         <div className="img_box">
-                                            <img src={trust_img3_pop} alt="이미지" />
+                                            <img src={trust_img3} alt="이미지" />
                                         </div>
                                         <div className="txt_box">
                                             <p className="txt">상표등록증</p>
@@ -1106,10 +1194,10 @@ const Main = () => {
                                         </div>
                                     </div>
                                 </SwiperSlide>
-                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img1_pop}))}}>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img1}))}}>
                                     <div className="box">
                                         <div className="img_box">
-                                            <img src={trust_img1_pop} alt="이미지" />
+                                            <img src={trust_img1} alt="이미지" />
                                         </div>
                                         <div className="txt_box">
                                             <p className="txt">사업자등록증</p>
@@ -1117,10 +1205,10 @@ const Main = () => {
                                         </div>
                                     </div>
                                 </SwiperSlide>
-                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2_pop}))}}>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2}))}}>
                                     <div className="box">
                                         <div className="img_box">
-                                            <img src={trust_img2_pop} alt="이미지" />
+                                            <img src={trust_img2} alt="이미지" />
                                         </div>
                                         <div className="txt_box">
                                             <p className="txt">통신판매업</p>
@@ -1128,10 +1216,32 @@ const Main = () => {
                                         </div>
                                     </div>
                                 </SwiperSlide>
-                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img3_pop}))}}>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img4}))}}>
                                     <div className="box">
                                         <div className="img_box">
-                                            <img src={trust_img3_pop} alt="이미지" />
+                                            <img src={trust_img4} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">개인정보 보호 교육</p>
+                                            <p className="txt2">2023.09.12</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img5}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={trust_img5} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">테헤란 법률자문</p>
+                                            <p className="txt2">2023.05.23</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img3}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={trust_img3} alt="이미지" />
                                         </div>
                                         <div className="txt_box">
                                             <p className="txt">상표등록증</p>
@@ -1139,10 +1249,10 @@ const Main = () => {
                                         </div>
                                     </div>
                                 </SwiperSlide>
-                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img1_pop}))}}>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img1}))}}>
                                     <div className="box">
                                         <div className="img_box">
-                                            <img src={trust_img1_pop} alt="이미지" />
+                                            <img src={trust_img1} alt="이미지" />
                                         </div>
                                         <div className="txt_box">
                                             <p className="txt">사업자등록증</p>
@@ -1150,14 +1260,36 @@ const Main = () => {
                                         </div>
                                     </div>
                                 </SwiperSlide>
-                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2_pop}))}}>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2}))}}>
                                     <div className="box">
                                         <div className="img_box">
-                                            <img src={trust_img2_pop} alt="이미지" />
+                                            <img src={trust_img2} alt="이미지" />
                                         </div>
                                         <div className="txt_box">
                                             <p className="txt">통신판매업</p>
                                             <p className="txt2">2017.04.18</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img4}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={trust_img4} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">개인정보 보호 교육</p>
+                                            <p className="txt2">2023.09.12</p>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img5}))}}>
+                                    <div className="box">
+                                        <div className="img_box">
+                                            <img src={trust_img5} alt="이미지" />
+                                        </div>
+                                        <div className="txt_box">
+                                            <p className="txt">테헤란 법률자문</p>
+                                            <p className="txt2">2023.05.23</p>
                                         </div>
                                     </div>
                                 </SwiperSlide>

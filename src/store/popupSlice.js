@@ -16,6 +16,7 @@ const popup = createSlice({
         //이미지 팝업
         imgPop: false,
         imgPopSrc: "",
+        imgPopLink: null,
 
         //후기 팝업
         reviewPop: false,
@@ -80,6 +81,9 @@ const popup = createSlice({
             state.imgPop = action.payload.imgPop;
             state.imgPopSrc = action.payload.imgPopSrc;
         },
+        imgPopLink: (state, action) => {
+            state.imgPopLink = action.payload;
+        },
         reviewPop: (state, action) => {
             state.reviewPop = action.payload.reviewPop;
             state.reviewPopNo = action.payload.reviewPopNo;
@@ -138,6 +142,7 @@ export const {
     confirmPop,
     managerPop,
     imgPop,
+    imgPopLink,
     reviewPop,
     termsPop,
     applyPop,
