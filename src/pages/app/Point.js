@@ -331,10 +331,12 @@ const Point = () => {
                     </div>
                 </div>
                 <div className="bottom_box">
-                    <ul className="flex">
-                        <li>800 포인트</li>
-                        <li>신용카드</li>
-                    </ul>
+                    {price !== 0 && pay.length > 0 &&
+                        <ul className="flex">
+                            <li>{point} 포인트</li>
+                            <li>{pay === "card" ? "신용카드" : pay === "phone" && "휴대폰결제"}</li>
+                        </ul>
+                    }
                     <div className="price_txt flex_between flex_wrap">
                         <p>총 결제 금액</p>
                         <h6><strong>{CF.MakeIntComma(price)} </strong>원</h6>
