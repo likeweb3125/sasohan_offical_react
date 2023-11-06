@@ -874,7 +874,7 @@ const Main = () => {
                                     </div>
                                     <div className="txt_box">
                                         <p className="txt">사소한 매너베이트 기사</p>
-                                        <p className="txt2" onClick={()=>window.open("https://www.itbiznews.com/news/articleView.html?idxno=111265")}>링크이동</p>
+                                        <p className="txt2" onClick={()=>window.open("https://www.itbiznews.com/news/articleView.html?idxno=111265")}>링크이동 &gt;</p>
                                     </div>
                                 </div>
                             </li>
@@ -901,7 +901,7 @@ const Main = () => {
                                     </div>
                                     <div className="txt_box">
                                         <p className="txt">사소한 나무위키</p>
-                                        <p className="txt2" onClick={()=>window.open("https://namu.wiki/w/사소한%20소개팅")}>링크이동</p>
+                                        <p className="txt2" onClick={()=>window.open("https://namu.wiki/w/사소한%20소개팅")}>링크이동 &gt;</p>
                                     </div>
                                 </div>
                             </li>
@@ -917,7 +917,7 @@ const Main = () => {
                                     </div>
                                     <div className="txt_box">
                                         <p className="txt">사소한 매너베이트 기사</p>
-                                        <p className="txt2" onClick={()=>window.open("https://www.itbiznews.com/news/articleView.html?idxno=111265")}>링크이동</p>
+                                        <p className="txt2" onClick={()=>window.open("https://www.itbiznews.com/news/articleView.html?idxno=111265")}>링크이동 &gt;</p>
                                     </div>
                                 </div>
                             </li>
@@ -969,7 +969,7 @@ const Main = () => {
                                         </div>
                                         <div className="txt_box">
                                             <p className="txt">사소한 나무위키</p>
-                                            <p className="txt2" onClick={()=>window.open("https://namu.wiki/w/사소한%20소개팅")}>링크이동</p>
+                                            <p className="txt2" onClick={()=>window.open("https://namu.wiki/w/사소한%20소개팅")}>링크이동 &gt;</p>
                                         </div>
                                     </div>
                                 </SwiperSlide>
@@ -985,7 +985,7 @@ const Main = () => {
                                         </div>
                                         <div className="txt_box">
                                             <p className="txt">사소한 매너베이트 기사</p>
-                                            <p className="txt2" onClick={()=>window.open("https://www.itbiznews.com/news/articleView.html?idxno=111265")}>링크이동</p>
+                                            <p className="txt2" onClick={()=>window.open("https://www.itbiznews.com/news/articleView.html?idxno=111265")}>링크이동 &gt;</p>
                                         </div>
                                     </div>
                                 </SwiperSlide>
@@ -1012,7 +1012,7 @@ const Main = () => {
                                         </div>
                                         <div className="txt_box">
                                             <p className="txt">사소한 나무위키</p>
-                                            <p className="txt2" onClick={()=>window.open("https://namu.wiki/w/사소한%20소개팅")}>링크이동</p>
+                                            <p className="txt2" onClick={()=>window.open("https://namu.wiki/w/사소한%20소개팅")}>링크이동 &gt;</p>
                                         </div>
                                     </div>
                                 </SwiperSlide>
@@ -1028,7 +1028,7 @@ const Main = () => {
                                         </div>
                                         <div className="txt_box">
                                             <p className="txt">사소한 매너베이트 기사</p>
-                                            <p className="txt2" onClick={()=>window.open("https://www.itbiznews.com/news/articleView.html?idxno=111265")}>링크이동</p>
+                                            <p className="txt2" onClick={()=>window.open("https://www.itbiznews.com/news/articleView.html?idxno=111265")}>링크이동 &gt;</p>
                                         </div>
                                     </div>
                                 </SwiperSlide>
