@@ -358,7 +358,7 @@ const Main = () => {
     //모바일 매니저슬라이드 더보기버튼 클릭시 슬라이드
     const slideMoreHandler = () => {
         charmingSliderRef.current.swiper.slideNext();
-    };
+    }; 
 
 
     //앱일때 링크이동 클릭시 
