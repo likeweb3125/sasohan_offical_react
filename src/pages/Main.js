@@ -47,11 +47,14 @@ import blog_img3 from "../images/blog_img3.jpg";
 import blog_img4 from "../images/blog_img4.jpg";
 
 import award_img1 from "../images/award_img1.png";
-import award_img2 from "../images/award_img2.png";
-import award_img3 from "../images/award_img3.png";
+import award_img2 from "../images/award_img2.jpg";
+import award_img3 from "../images/award_img3.jpg";
+import award_img2_pop from "../images/award_img2_pop.png";
+import award_img3_pop from "../images/award_img3_pop.png";
 
 import trust_img1 from "../images/trust_img1.jpg";
-import trust_img2 from "../images/trust_img2.png";
+import trust_img2 from "../images/trust_img2.jpg";
+import trust_img2_pop from "../images/trust_img2_pop.png";
 import trust_img3 from "../images/trust_img3.jpg";
 import trust_img4 from "../images/trust_img4.jpg";
 import trust_img5 from "../images/trust_img5.jpg";
@@ -850,7 +853,7 @@ const Main = () => {
                                 <div className="box flex">
                                     <div className="img_box" 
                                         onClick={()=>{
-                                            dispatch(imgPop({imgPop:true,imgPopSrc:award_img2}));
+                                            dispatch(imgPop({imgPop:true,imgPopSrc:award_img2_pop}));
                                             dispatch(imgPopLink("https://namu.wiki/w/사소한%20소개팅"));
                                         }}
                                     >
@@ -866,7 +869,7 @@ const Main = () => {
                                 <div className="box flex">
                                     <div className="img_box"
                                         onClick={()=>{
-                                            dispatch(imgPop({imgPop:true,imgPopSrc:award_img3}));
+                                            dispatch(imgPop({imgPop:true,imgPopSrc:award_img3_pop}));
                                             dispatch(imgPopLink("https://www.itbiznews.com/news/articleView.html?idxno=111265"));
                                         }}
                                     >
@@ -893,7 +896,7 @@ const Main = () => {
                                 <div className="box flex">
                                     <div className="img_box" 
                                         onClick={()=>{
-                                            dispatch(imgPop({imgPop:true,imgPopSrc:award_img2}));
+                                            dispatch(imgPop({imgPop:true,imgPopSrc:award_img2_pop}));
                                             dispatch(imgPopLink("https://namu.wiki/w/사소한%20소개팅"));
                                         }}
                                     >
@@ -909,7 +912,7 @@ const Main = () => {
                                 <div className="box flex">
                                     <div className="img_box"
                                         onClick={()=>{
-                                            dispatch(imgPop({imgPop:true,imgPopSrc:award_img3}));
+                                            dispatch(imgPop({imgPop:true,imgPopSrc:award_img3_pop}));
                                             dispatch(imgPopLink("https://www.itbiznews.com/news/articleView.html?idxno=111265"));
                                         }}
                                     >
@@ -959,7 +962,7 @@ const Main = () => {
                                 </SwiperSlide>
                                 <SwiperSlide 
                                     onClick={()=>{
-                                        dispatch(imgPop({imgPop:true,imgPopSrc:award_img2}));
+                                        dispatch(imgPop({imgPop:true,imgPopSrc:award_img2_pop}));
                                         dispatch(imgPopLink("https://namu.wiki/w/사소한%20소개팅"));
                                     }}
                                 >
@@ -975,7 +978,7 @@ const Main = () => {
                                 </SwiperSlide>
                                 <SwiperSlide 
                                     onClick={()=>{
-                                        dispatch(imgPop({imgPop:true,imgPopSrc:award_img3}));
+                                        dispatch(imgPop({imgPop:true,imgPopSrc:award_img3_pop}));
                                         dispatch(imgPopLink("https://www.itbiznews.com/news/articleView.html?idxno=111265"));
                                     }}
                                 >
@@ -1002,7 +1005,7 @@ const Main = () => {
                                 </SwiperSlide>
                                 <SwiperSlide 
                                     onClick={()=>{
-                                        dispatch(imgPop({imgPop:true,imgPopSrc:award_img2}));
+                                        dispatch(imgPop({imgPop:true,imgPopSrc:award_img2_pop}));
                                         dispatch(imgPopLink("https://namu.wiki/w/사소한%20소개팅"));
                                     }}
                                 >
@@ -1018,7 +1021,7 @@ const Main = () => {
                                 </SwiperSlide>
                                 <SwiperSlide 
                                     onClick={()=>{
-                                        dispatch(imgPop({imgPop:true,imgPopSrc:award_img3}));
+                                        dispatch(imgPop({imgPop:true,imgPopSrc:award_img3_pop}));
                                         dispatch(imgPopLink("https://www.itbiznews.com/news/articleView.html?idxno=111265"));
                                     }}
                                 >
@@ -1073,7 +1076,7 @@ const Main = () => {
                             </li>
                             <li className={paperSliderActive === 2 ? "on" : ""}>
                                 <div className="box flex">
-                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2}))}}>
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2_pop}))}}>
                                         <img src={trust_img2} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
@@ -1128,7 +1131,7 @@ const Main = () => {
                             </li>
                             <li className={paperSliderActive === 7 ? "on" : ""}>
                                 <div className="box flex">
-                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2}))}}>
+                                    <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2_pop}))}}>
                                         <img src={trust_img2} alt="이미지" />
                                     </div>
                                     <div className="txt_box">
@@ -1205,7 +1208,7 @@ const Main = () => {
                                         </div>
                                     </div>
                                 </SwiperSlide>
-                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2}))}}>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2_pop}))}}>
                                     <div className="box">
                                         <div className="img_box">
                                             <img src={trust_img2} alt="이미지" />
@@ -1260,7 +1263,7 @@ const Main = () => {
                                         </div>
                                     </div>
                                 </SwiperSlide>
-                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2}))}}>
+                                <SwiperSlide onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:trust_img2_pop}))}}>
                                     <div className="box">
                                         <div className="img_box">
                                             <img src={trust_img2} alt="이미지" />
