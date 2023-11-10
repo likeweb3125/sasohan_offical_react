@@ -9,6 +9,7 @@ import { confirmPop } from "../store/popupSlice";
 import ConfirmPop from "../components/popup/ConfirmPop";
 import logo from "../images/logo_big.svg";
 import img_complete from "../images/apply_complete_img.svg";
+import { useLocation } from "react-router-dom";
 
 
 const Apply = () => {
@@ -27,7 +28,15 @@ const Apply = () => {
     const [addressList2, setAddressList2] = useState([]);
     const [addrSelectList, setAddrSelectList] = useState([]);
     const [step, setStep] = useState(1);
+    const location = useLocation();
+    const [applyIdx, setApplyIdx] = useState(null);
 
+
+    //신청페이지 url 에서 idx 값 가져오기
+    useEffect(()=>{
+        let idx = location.search.replace("?idx=","");
+        setApplyIdx(idx);
+    },[location.search]);
 
 
     // Confirm팝업 닫힐때
@@ -226,6 +235,7 @@ const Apply = () => {
                 gender: values.gender,
                 address1: addrSelectList,
                 tel: tel,
+                idx: applyIdx
             };
 
             axios.post(`${date_apply}`,body)
