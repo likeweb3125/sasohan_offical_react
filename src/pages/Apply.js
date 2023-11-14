@@ -386,6 +386,8 @@ const Apply = () => {
                                                             handleChange(e);
                                                             getAddress2(code);
 
+                                                            setFieldValue("address2","");
+
                                                             const val = e.currentTarget.value;
                                                             if(val == "세종특별자치시" && !addrSelectList.includes("세종")){
                                                                 if(addrSelectList.length > 9){
