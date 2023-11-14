@@ -39,5 +39,7 @@ exports.enum_api_uri = {
     //마이페이지 - 회원탈퇴
     m_leave_info:`${api_uri}/v1/app/mypage/leave-info`,
     m_leave:`${api_uri}/v1/app/mypage/leave`,
+    //공지사항 - 상세
+    m_list_detail:`${api_uri}/v1/app/bbs/:list_no`,
 
 }

@@ -12,6 +12,7 @@ import AppSignup2 from './pages/app/Signup2';
 import AppPoint from './pages/app/Point';
 import AppEditProfile from './pages/app/EditProfile';
 import AppWithdraw from './pages/app/Withdraw';
+import AppListDetail from './pages/app/ListDetail';
 import AppImgTest from './pages/app/ImgTest';
 import './css/reset.css';
 import './css/main.css';
@@ -56,6 +57,9 @@ function App() {
 
                 {/* 마이페이지 - 회원탈퇴 */}
                 <Route path="/app/withdraw" element={<AppLayout><AppWithdraw /></AppLayout>} />
+
+                {/* 공지사항 - 상세 */}
+                <Route path="/app/bbs/:list_no" element={<AppLayout><AppListDetail /></AppLayout>} />
 
 
                 {/* 회원가입 프로필사진등록 테스트 */}
