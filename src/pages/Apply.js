@@ -522,7 +522,7 @@ const Apply = () => {
                                         onClick={()=>{
                                             submit(values);
                                         }}
-                                    >간편 가입 신청할게요!</button>
+                                    >간편 소개 신청할게요!</button>
                                 </form>
                             )}
                         </Formik>
