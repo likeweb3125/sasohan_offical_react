@@ -14,6 +14,7 @@ exports.enum_api_uri = {
     date_apply: `${api_uri}/v1/main/requset`,
     story_list: `${api_uri}/v1/main/story-list`,
     story_view: `${api_uri}/v1/main/story-view/:list_no`,
+    license_list: `${api_uri}/v1/main/app-license/:idx`,
 
 
     //앱----------------------------------------
