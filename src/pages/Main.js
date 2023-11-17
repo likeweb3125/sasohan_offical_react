@@ -117,9 +117,10 @@ const Main = () => {
     const [externalSliderActive,setExternalSliderActive] = useState(0);
     const [paperSliderActive,setPaperSliderActive] = useState(0);
     const [donaSliderActive, setDonaSliderActive] = useState(1);
-
     const [trustList, setTrustList] = useState([]);
     const [trustList2, setTrustList2] = useState([]);
+    const trustSwiper = useRef();
+    const trustSwiper2 = useRef();
 
 
     // Confirm팝업 닫힐때
@@ -307,8 +308,8 @@ const Main = () => {
         .then((res)=>{
             if(res.status === 200){
                 let data = res.data;
-                let list = data.concat(data);
-                setTrustList(list);
+                data = data.concat(data);
+                setTrustList(data);
             }
         })
         .catch((error) => {
@@ -424,18 +425,19 @@ const Main = () => {
         }
     },[popup.storyPopNo]);
 
-    const trustSwiper = useRef();
-    const trustSwiper2 = useRef();
-
+   
+    //사소한의 신뢰 슬라이드부분-------
     useEffect(() => {
-        if (trustSwiper.current.swiper) {
+        if (trustList.length > 0 && trustSwiper.current && trustSwiper.current.swiper) {
             trustSwiper.current.swiper.slideTo(0);
+            setExternalSliderActive(0);
         }
     }, [trustList]);
 
     useEffect(() => {
-        if (trustSwiper2.current.swiper) {
+        if (trustList2.length > 0 && trustSwiper2.current && trustSwiper2.current.swiper) {
             trustSwiper2.current.swiper.slideTo(0);
+            setPaperSliderActive(0);
         }
     }, [trustList2]);
 
@@ -919,6 +921,7 @@ const Main = () => {
                             <Swiper
                                 ref={trustSwiper}
                                 initialSlide={0}
+                                key={`swiper-instance-${trustList.length}`}//키값 변경시 해당컴포넌트 새로 마운트됨
                                 className="external_slider"
                                 slidesPerView={1.7}
                                 spaceBetween={0}
@@ -1012,6 +1015,7 @@ const Main = () => {
                             <Swiper
                                 ref={trustSwiper2}
                                 initialSlide={0}
+                                key={`swiper-instance-${trustList2.length}`}//키값 변경시 해당컴포넌트 새로 마운트됨
                                 className="paper_slider"
                                 slidesPerView={1.7}
                                 spaceBetween={0}
