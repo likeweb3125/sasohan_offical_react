@@ -319,7 +319,8 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .trust_cont_inner .slider_box .slider_big li .img_box{width: 300px;box-shadow: 20px 20px 32px 0px #00000014;cursor: pointer;opacity: 0;max-height: 428px;overflow: hidden;}
 .trust_cont_inner .slider_box .slider_big li .txt_box{width: calc(100% - 300px);padding-left: 70px;opacity: 0;}
 .trust_cont_inner .slider_box .slider_big li .txt_box .txt{font-size: 40px;font-weight: 700;white-space: pre-line;}
-.trust_cont_inner .slider_box .slider_big li .txt_box .txt2{font-size: 18px;font-weight: 500;color: #222;white-space: pre-line;}
+.trust_cont_inner .slider_box .slider_big li .txt_box .txt2{font-size: 18px;font-weight: 500;color: #222;white-space: pre-line;display: inline-block;}
+.trust_cont_inner .slider_box .slider_big li .txt_box .txt2.link{cursor: pointer;}
 .trust_cont_inner .slider_box .slider{position: relative;z-index: 1;width: 720px;padding: 28px 0 155px;opacity: 0;}
 .trust_cont_inner .slider_box .swiper-slide{width: 200px;opacity: 0;cursor: pointer;}
 .trust_cont_inner .slider_box .swiper-slide.swiper-slide-next{opacity: 1;}

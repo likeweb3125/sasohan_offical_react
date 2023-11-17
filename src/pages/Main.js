@@ -904,7 +904,7 @@ const Main = () => {
                                             </div>
                                             <div className="txt_box">
                                                 <p className="txt">{cont.subject.replace(/\\n/g, '\n')}</p>
-                                                <p className="txt2" 
+                                                <p className={`txt2${cont.link ? " link" : ""}`} 
                                                     onClick={()=>{
                                                         if(cont.link){
                                                             window.open(cont.link);
@@ -998,7 +998,7 @@ const Main = () => {
                                             </div>
                                             <div className="txt_box">
                                                 <p className="txt">{cont.subject.replace(/\\n/g, '\n')}</p>
-                                                <p className="txt2" 
+                                                <p className={`txt2${cont.link ? " link" : ""}`} 
                                                     onClick={()=>{
                                                         if(cont.link){
                                                             window.open(cont.link);
