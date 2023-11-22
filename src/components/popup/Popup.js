@@ -9,6 +9,7 @@ import StoryPop from "./StoryPop";
 import AppTermsPop from "./app/TermsPop";
 import AppProfilePop from "./app/ProfilePop";
 import AppProfileImgPop from "./app/ProfileImgPop";
+import AppProfileImgPop2 from "./app/ProfileImgPop2";
 import AppProfilePop2 from "./app/ProfilePop2";
 import AppSignupCompletePop from "./app/SignupCompletePop";
 import AppPointPop from "./app/PointPop";
@@ -51,6 +52,8 @@ const Popup = () => {
 
             {/* 회원가입 프로필사진 팝업 */}
             {popup.appProfileImgPop && <AppProfileImgPop />}
+
+            {popup.appProfileImgPop2 && <AppProfileImgPop2 />}
 
             {/* 회원가입 이상형정보설정 팝업 */}
             {popup.appProfilePop2 && <AppProfilePop2 />}

@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { appTermsPop, confirmPop, appProfilePop, appProfileImgPop, appProfilePop2, appSignupCompletePop } from "../../store/popupSlice";
+import { appTermsPop, confirmPop, appProfilePop, appProfileImgPop2, appProfilePop2, appSignupCompletePop } from "../../store/popupSlice";
 import { profileImgs } from "../../store/commonSlice";
 import profile_img from "../../images/app/profile_img.jpg";
 
@@ -48,7 +48,7 @@ const ImgTest = () => {
                                         <li key={`imgUp${i}`} className={imgNameList[i] ? "on" : ""}>
                                             <div className="img"
                                                 onClick={()=>{
-                                                    dispatch(appProfileImgPop({appProfileImgPop:true, appProfileImgPopIdx:i}));
+                                                    dispatch(appProfileImgPop2({appProfileImgPop2:true, appProfileImgPopIdx2:i}));
                                                 }}
                                             >
                                                 {imgNameList[i] && <img src={imgNameList[i]} alt="프로필이미지"/>}

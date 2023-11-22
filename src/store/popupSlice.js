@@ -49,6 +49,9 @@ const popup = createSlice({
         appProfileImgPop: false,
         appProfileImgPopIdx: null,
 
+        appProfileImgPop2: false,
+        appProfileImgPopIdx2: null,
+
         //회원가입 - 이상형정보설정 팝업
         appProfilePop2: false,
         appProfilePopTit2: "",
@@ -119,6 +122,11 @@ const popup = createSlice({
             state.appProfileImgPop = action.payload.appProfileImgPop;
             state.appProfileImgPopIdx = action.payload.appProfileImgPopIdx;
         },
+        appProfileImgPop2: (state, action) => {
+            state.appProfileImgPop2 = action.payload.appProfileImgPop2;
+            state.appProfileImgPopIdx2 = action.payload.appProfileImgPopIdx2;
+        },
+
         appProfilePop2: (state, action) => {
             state.appProfilePop2 = action.payload.appProfilePop2;
             state.appProfilePopTit2 = action.payload.appProfilePopTit2;
@@ -152,6 +160,7 @@ export const {
     appTermsCheckList,
     appProfilePop,
     appProfileImgPop,
+    appProfileImgPop2,
     appProfilePop2,
     appSignupCompletePop,
     appPointPop,
