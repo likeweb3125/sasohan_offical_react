@@ -1008,7 +1008,12 @@ const SignUp2 = () => {
                     }
                 })
                 .catch((error) => {
-                    const err_msg = CF.errorMsgHandler(error);
+                    let err_msg;
+                    if(error.response.status === 422){
+                        err_msg = error.response.data.errors[0].msg;
+                    }else{
+                        err_msg = CF.errorMsgHandler(error);
+                    }
                     dispatch(confirmPop({
                         confirmPop:true,
                         confirmPopTit:'알림',
