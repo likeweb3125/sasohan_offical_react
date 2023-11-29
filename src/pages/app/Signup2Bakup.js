@@ -1,3 +1,5 @@
+//이메일 삭제전 백업 (231129)
+
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -23,7 +25,7 @@ const SignUp2 = () => {
     const m_join = enum_api_uri.m_join;
     const tradeid = sessionStorage.getItem("tradeid");
     const [confirm, setConfirm] = useState(false);
-    const [agreeList, setAgreeList] = useState(["개인정보 보호정책","개인정보수집","이용약관"]);
+    const [agreeList, setAgreeList] = useState(["개인정보 보호정책","이메일 무단 수집 거부","개인정보수집","이용약관"]);
     const [step, setStep] = useState(1);
     const contRef = useRef();
     const [realData ,setRealData] = useState({});
@@ -38,9 +40,11 @@ const SignUp2 = () => {
     const [valPassword, setValPassword] = useState("");
     const [valPassword2, setValPassword2] = useState("");
     const [valNickname, setValNickname] = useState("");
+    const [valEmail, setValEmail] = useState("");
     const [usableId, setUsableId] = useState(false);
     const [usablePass, setUsablePass] = useState(false);
     const [usableNickname, setUsableNickname] = useState(false);
+    const [usableEmail, setUsableEmail] = useState(false);
     const [usableProfile, setUsableProfile] = useState(false);
     const [usableProfile2, setUsableProfile2] = useState(false);
     const [usableProfileImg, setUsableProfileImg] = useState(false);
@@ -50,6 +54,7 @@ const SignUp2 = () => {
     const [passView, setPassView] = useState(false);
     const [pass2View, setPass2View] = useState(false);
     const [errorNickname, setErrorNickname] = useState(false);
+    const [errorEmail, setErrorEmail] = useState(false);
     const [errorAddress, setErrorAddress] = useState(false);
     const [errorHeight, setErrorHeight] = useState(false);
     const [errorHeight2, setErrorHeight2] = useState(false);
@@ -436,18 +441,83 @@ const SignUp2 = () => {
     };
 
 
+    //이메일 다음버튼 클릭시
+    const emailCheckHandler = () => {
+        let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+        if(regExp.test(valEmail)){
+            setErrorEmail(false);
+
+            //아이디랑 비밀번호,닉네임 사용가능인지 확인
+            if(usableId && usablePass && usableNickname){
+                setUsableEmail(true);
+
+                //이메일 signupData store 값에 저장
+                let newData = {...user.signupData};
+                newData.m_email = valEmail;
+                dispatch(signupData(newData));
+
+                if(step < 7){
+                    setStep(7);
+                }
+            }else if(!usableId){
+                if(valId.length < 4){
+                    setErrorId(true);
+                }
+
+                setConfirm(true);
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'아이디 사용가능을 확인해주세요.',
+                    confirmPopBtn:1,
+                }));
+            }else if(!usablePass){
+                let num = valPassword.search(/[0-9]/g);
+                let eng = valPassword.search(/[a-z]/ig);
+                if(valPassword.length < 8 || valPassword.length > 13 || valPassword.search(/\s/) != -1 || num < 0 || eng < 0){
+                    setErrorPassword(true);
+                }
+                if(valPassword !== valPassword2){
+                    setErrorPassword2(true);
+                }
+
+                setConfirm(true);
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'비밀번호를 입력해주세요.',
+                    confirmPopBtn:1,
+                }));
+            }else if(!usableNickname){
+                if(valNickname.length < 2){
+                    setErrorNickname(true);
+                }
+
+                setConfirm(true);
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'닉네임 사용가능을 확인해주세요.',
+                    confirmPopBtn:1,
+                }));
+            }
+        }else{
+            setErrorEmail(true);
+        }
+    };
+
+
     //기본정보입력 다음버튼 클릭시
     const infoCheckHandler = () => {
-        // if(step < 7){
-        //     setStep(7);
+        // if(step < 8){
+        //     setStep(8);
         //     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"거주지"}));
         // }
 
-        //아이디랑 비밀번호,닉네임 사용가능인지 확인
-        if(usableId && usablePass && usableNickname){
-            if(step < 7){
-                setStep(7);
-                dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"거주지"}));
+        //아이디랑 비밀번호,닉네임,이메일 사용가능인지 확인
+        if(usableId && usablePass && usableNickname && usableEmail){
+            if(step < 8){
+                setStep(8);
             }
         }else if(!usableId){
             if(valId.length < 4){
@@ -490,6 +560,21 @@ const SignUp2 = () => {
                 confirmPopTxt:'닉네임 사용가능을 확인해주세요.',
                 confirmPopBtn:1,
             }));
+        }else if(!usableEmail){
+            let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+            if(regExp.test(valEmail)){
+                setErrorEmail(false);
+            }else{
+                setErrorEmail(true);
+            }
+
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'이메일을 입력해주세요.',
+                confirmPopBtn:1,
+            }));
         }
     };
 
@@ -497,10 +582,10 @@ const SignUp2 = () => {
     //프로필정보입력 다음버튼 클릭시
     const profileCheckHandler = () => {
 
-        //아이디랑 비밀번호,닉네임,프로필정보 입력 확인
-        if(usableId && usablePass && usableNickname && usableProfile){
-            if(step < 8){
-                setStep(8);
+        //아이디랑 비밀번호,닉네임,이메일,프로필정보 입력 확인
+        if(usableId && usablePass && usableNickname && usableEmail && usableProfile){
+            if(step < 9){
+                setStep(9);
             }
         }else if(!usableProfile){
             setConfirm(true);
@@ -550,6 +635,21 @@ const SignUp2 = () => {
                 confirmPop:true,
                 confirmPopTit:'알림',
                 confirmPopTxt:'닉네임 사용가능을 확인해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usableEmail){
+            let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+            if(regExp.test(valEmail)){
+                setErrorEmail(false);
+            }else{
+                setErrorEmail(true);
+            }
+
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'이메일을 입력해주세요.',
                 confirmPopBtn:1,
             }));
         }
@@ -677,16 +777,15 @@ const SignUp2 = () => {
         //         confirmPopBtn:1,
         //     }));
         // }else{
-        //     if(step < 9){
-        //         setStep(9);
+        //     if(step < 10){
+        //         setStep(10);
         //     }
         // }
 
-        //아이디랑 비밀번호,닉네임,프로필정보,프로필사진 입력 확인
-        if(usableId && usablePass && usableNickname && usableProfile && usableProfileImg){
-            if(step < 9){
-                setStep(9);
-                dispatch(appProfilePop2({appProfilePop2:true,appProfilePopTit2:"키"}));
+        //아이디랑 비밀번호,닉네임,이메일,프로필정보,프로필사진 입력 확인
+        if(usableId && usablePass && usableNickname && usableEmail && usableProfile && usableProfileImg){
+            if(step < 10){
+                setStep(10);
             }
         }else if(!usableProfileImg){
             setConfirm(true);
@@ -736,6 +835,21 @@ const SignUp2 = () => {
                 confirmPop:true,
                 confirmPopTit:'알림',
                 confirmPopTxt:'닉네임 사용가능을 확인해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usableEmail){
+            let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+            if(regExp.test(valEmail)){
+                setErrorEmail(false);
+            }else{
+                setErrorEmail(true);
+            }
+
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'이메일을 입력해주세요.',
                 confirmPopBtn:1,
             }));
         }else if(!usableProfile){
@@ -825,19 +939,19 @@ const SignUp2 = () => {
 
     //이상형정보등록, 좋은결과, 회원가입 다음버튼 클릭시
     const signupHandler = (status) => {
-        //아이디랑 비밀번호,닉네임,프로필정보,프로필사진,이상형정보 입력 확인
-        if(usableId && usablePass && usableNickname && usableProfile && usableProfileImg && usableProfile2){
+        //아이디랑 비밀번호,닉네임,이메일,프로필정보,프로필사진,이상형정보 입력 확인
+        if(usableId && usablePass && usableNickname && usableEmail && usableProfile && usableProfileImg && usableProfile2){
 
             //이상형정보등록 다음버튼 클릭일때
             if(status == "profileCheck"){
-                if(step < 10){
-                    setStep(10);
+                if(step < 11){
+                    setStep(11);
                 }
             }
             //좋은결과 다음버튼 클릭일때
             if(status == "profileCheck2"){
-                if(step < 11){
-                    setStep(11);
+                if(step < 12){
+                    setStep(12);
                 }
             }
             //회원가입 다음버튼 클릭일때 회원가입 진행
@@ -857,6 +971,7 @@ const SignUp2 = () => {
                     m_id: user.signupData.m_id,
                     m_password: user.signupData.m_password,
                     m_n_name: user.signupData.m_n_name,
+                    m_email: user.signupData.m_email,
                     m_address: address,
                     m_height: user.signupData.m_height,
                     m_job: user.signupData.m_job,
@@ -952,6 +1067,21 @@ const SignUp2 = () => {
                 confirmPop:true,
                 confirmPopTit:'알림',
                 confirmPopTxt:'닉네임 사용가능을 확인해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usableEmail){
+            let regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+            if(regExp.test(valEmail)){
+                setErrorEmail(false);
+            }else{
+                setErrorEmail(true);
+            }
+
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'이메일을 입력해주세요.',
                 confirmPopBtn:1,
             }));
         }else if(!usableProfile){
@@ -1134,15 +1264,7 @@ const SignUp2 = () => {
                                 </div>
                                 <ul>
                                     {agreeList.map((txt,i)=>{
-                                        let idx;
-                                        if(i === 0){
-                                            idx = 1;
-                                        }else if(i === 1){
-                                            idx = 3;
-                                        }else if(i === 2){
-                                            idx = 4;
-                                        }
-
+                                        const idx = i+1;
                                         const val = "agree_"+(i+1);
                                         return(
                                             <li key={i} className="flex">
@@ -1320,8 +1442,40 @@ const SignUp2 = () => {
                     </div>
                 }
 
-                {/* 기본정보입력 완료 */}
+                {/* 이메일 입력 */}
                 {step > 5 &&
+                    <div className="signup_box flex_top">
+                        <div className="img_box">
+                            <img src={profile_img} alt="이미지" />
+                        </div>
+                        <div className="txt_box">
+                            <p className="name">사소한 매니저 하니</p>
+                            <div className="inner_box">
+                                <div className="tit_box">
+                                    <p className="f_20 medium">회원님의 이메일도 입력해주세요 :D</p>
+                                    <p className={`f_17 tp4${errorEmail ? " alert_txt" : ""}`}>올바른 이메일 주소를 입력하세요.</p>
+                                </div>
+                                <div className={`custom_input${usableEmail ? " val_check" : ""}`}>
+                                    <input type={"text"} placeholder="이메일을 입력해주세요." 
+                                        onChange={(e)=>{
+                                            setValEmail(e.currentTarget.value);
+                                            setUsableEmail(false);
+                                        }}
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex_end tp10">
+                                <button type="button" className="app_btn_s"
+                                    onClick={emailCheckHandler}
+                                    disabled={step > 6 && usableEmail ? true : false}
+                                >다음</button>
+                            </div>
+                        </div> 
+                    </div>
+                }
+
+                {/* 기본정보입력 완료 */}
+                {step > 6 &&
                     <div className="signup_box flex_top">
                         <div className="img_box">
                             <img src={profile_img} alt="이미지" />
@@ -1337,7 +1491,7 @@ const SignUp2 = () => {
                             <div className="flex_end tp10">
                                 <button type="button" className="app_btn_s"
                                     onClick={infoCheckHandler}
-                                    disabled={step > 6 ? true : false}
+                                    disabled={step > 7 ? true : false}
                                 >다음</button>
                             </div>
                         </div> 
@@ -1345,7 +1499,7 @@ const SignUp2 = () => {
                 }
 
                 {/* 프로필정보 입력 */}
-                {step > 6 &&
+                {step > 7 &&
                     <div className="signup_box">
                         <div className="gray_box">회원님의 프로필 정보를 입력해주세요!</div>
                         <div className="flex_top">
@@ -1505,7 +1659,7 @@ const SignUp2 = () => {
                                 <div className="flex_end tp10">
                                     <button type="button" className="app_btn_s"
                                         onClick={profileCheckHandler}
-                                        disabled={step > 7 && usableProfile ? true : false}
+                                        disabled={step > 8 && usableProfile ? true : false}
                                     >다음</button>
                                 </div>
                             </div> 
@@ -1514,7 +1668,7 @@ const SignUp2 = () => {
                 }
 
                 {/* 프로필사진 등록 */}
-                {step > 7 &&
+                {step > 8 &&
                     <div className="signup_box">
                         <div className="gray_box">회원님의 프로필 사진을 등록해주세요!</div>
                         <div className="flex_top">
@@ -1547,7 +1701,7 @@ const SignUp2 = () => {
                                 <div className="flex_end tp10">
                                     <button type="button" className="app_btn_s"
                                         onClick={profileImgCheckHandler}
-                                        disabled={step > 8 && usableProfileImg ? true : false}
+                                        disabled={step > 9 && usableProfileImg ? true : false}
                                     >다음</button>
                                 </div>
                             </div>
@@ -1556,7 +1710,7 @@ const SignUp2 = () => {
                 }
 
                 {/* 이상형정보 입력 */}
-                {step > 8 &&
+                {step > 9 &&
                     <div className="signup_box">
                         <div className="gray_box">회원님의 이상형 정보를 입력해주세요!</div>
                         <div className="flex_top">
@@ -1671,7 +1825,7 @@ const SignUp2 = () => {
                                 <div className="flex_end tp10">
                                     <button type="button" className="app_btn_s"
                                         onClick={()=>signupHandler("profileCheck")}
-                                        disabled={step > 9 && usableProfile2 ? true : false}
+                                        disabled={step > 10 && usableProfile2 ? true : false}
                                     >다음</button>
                                 </div>
                             </div> 
@@ -1680,7 +1834,7 @@ const SignUp2 = () => {
                 }
 
                 {/* 좋은결과 */}
-                {step > 9 &&
+                {step > 10 &&
                     <div className="signup_box">
                         <div className="flex_top">
                             <div className="img_box">
@@ -1696,7 +1850,7 @@ const SignUp2 = () => {
                                 <div className="flex_end tp10">
                                     <button type="button" className="app_btn_s"
                                         onClick={()=>signupHandler("profileCheck2")}
-                                        disabled={step > 10 ? true : false}
+                                        disabled={step > 11 ? true : false}
                                     >네!</button>
                                 </div>
                             </div> 
@@ -1705,7 +1859,7 @@ const SignUp2 = () => {
                 }
 
                 {/* 회원가입 */}
-                {step > 10 &&
+                {step > 11 &&
                     <div className="signup_box">
                         <div className="flex_top">
                             <div className="img_box">
@@ -1721,7 +1875,7 @@ const SignUp2 = () => {
                                 <div className="flex_end tp10">
                                     <button type="button" className="app_btn_s"
                                         onClick={()=>signupHandler("signup")}
-                                        disabled={step > 11 ? true : false}
+                                        disabled={step > 12 ? true : false}
                                     >다음</button>
                                 </div>
                             </div> 
