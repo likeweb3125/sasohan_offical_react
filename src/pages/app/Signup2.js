@@ -519,6 +519,7 @@ const SignUp2 = () => {
         if(usableId && usablePass && usableNickname && usableEmail){
             if(step < 8){
                 setStep(8);
+                dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"거주지"}));
             }
         }else if(!usableId){
             if(valId.length < 4){
@@ -787,6 +788,7 @@ const SignUp2 = () => {
         if(usableId && usablePass && usableNickname && usableEmail && usableProfile && usableProfileImg){
             if(step < 10){
                 setStep(10);
+                dispatch(appProfilePop2({appProfilePop2:true,appProfilePopTit2:"키"}));
             }
         }else if(!usableProfileImg){
             setConfirm(true);
