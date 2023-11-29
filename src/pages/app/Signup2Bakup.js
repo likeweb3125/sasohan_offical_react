@@ -1358,6 +1358,7 @@ const SignUp2 = () => {
                                                 setUsableId(false);
                                             }}
                                             onKeyUp={(e)=>{idInputCheck(e)}} 
+                                            maxLength={12}
                                         />
                                     </div>
                                 </div>
