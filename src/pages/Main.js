@@ -307,8 +307,32 @@ const Main = () => {
         axios.get(license_list.replace(":idx",1))
         .then((res)=>{
             if(res.status === 200){
-                let data = res.data;
-                data = data.concat(data);
+                // let data = res.data;
+                let data = [
+                    {
+                        "list_no": 230906,
+                        "subject": "2023 한국소비자\\n베스트브랜드대상 1위",
+                        "sub_subject": "고객만족 소개팅서비스업",
+                        "thumbnail": "https://jja-gg.com/upload/board/Iapp_license1202311161354542_award_img1.822d84d1bec1d51e7e15.png",
+                        "image": "https://jja-gg.com/upload/board/Iapp_license120231116135454_award_img1.822d84d1bec1d51e7e15.png",
+                        "link": ""
+                    },
+                    {
+                        "list_no": 230908,
+                        "subject": "사소한 매너베이트 기사",
+                        "sub_subject": "",
+                        "thumbnail": "https://jja-gg.com/upload/board/Iapp_license120231116135722_kakaotalk_20231114_153307301_01.jpg",
+                        "image": "https://jja-gg.com/upload/board/Iapp_license12023111613572_kakaotalk_20231114_153307301_01.jpg",
+                        "link": "https://www.itbiznews.com/news/articleView.html?idxno=111265"
+                    },
+
+                ]
+
+                // data의 길이가 6보다 작을 때만 6개까지 복사 (슬라이드 루프때문)
+                while (data.length < 6) {
+                    data = data.concat([...data]);
+                }
+
                 setTrustList(data);
             }
         })
