@@ -1,23 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { PatternFormat } from "react-number-format";
 
 import { enum_api_uri } from "../config/enum";
+import * as CF from "../config/function";
+import { confirmPop } from "../store/popupSlice";
+import ConfirmPop from "../components/popup/ConfirmPop";
+
 import ranking_tip_box from "../images/ranking_tip_box.svg";
 import ranking_tip_box_mo from "../images/ranking_tip_box_mo.svg";
 import more_view from "../images/more_view.png";
 
 const Ranking = () => {
+    const dispatch = useDispatch();
+    const popup = useSelector((state)=>state.popup);
     const rank_list = enum_api_uri.rank_list;
+    const [confirm, setConfirm] = useState(false);
     const [tel, setTel] = useState("");
     const [number, setNumber] = useState("");
     const [focusInput, setFocusInput] = useState({});
     const [authStep, setAuthStep] = useState(1);
     const [selectList, setSelectList] = useState([{name:"X클래스",val:1},{name:"SS클래스",val:2},{name:"S클래스",val:3},{name:"A클래스",val:4},{name:"B클래스",val:5}]);
-    const [rank, setRank] = useState(null);
+    const [rank, setRank] = useState("");
     const [listData, setListData] = useState({});
     const [list, setList] = useState([]);
 
+
+    // Confirm팝업 닫힐때
+    useEffect(()=>{
+        if(popup.confirmPop === false){
+            setConfirm(false);
+        }
+    },[popup.confirmPop]);
+
+
+    //인풋 포커스
     const focusHandler = (e,val) => {
         const id = e.target.id;
         let newList = {...focusInput};
@@ -26,6 +44,33 @@ const Ranking = () => {
         setFocusInput(newList);
     };
 
+
+    const getList = () => {
+        axios.get(rank_list)
+        .then((res)=>{
+            if(res.status === 200){
+                let data = res.data;
+                let list = data.result;
+                setListData(data);
+                setList(list);
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
+    };
+
+    
+    useEffect(()=>{
+        getList();
+    },[]);
 
 
 
@@ -147,11 +192,13 @@ const Ranking = () => {
                             </thead>
                             <tbody>
                                 {list.map((cont,i)=>{
+                                    const rank = cont.rank;
                                     return(
-                                        <tr>
-                                            <td className="rank_td">
+                                        <tr key={i}>
+                                            <td className={`rank_td${rank < 4 ? " top" : ""}`}>
                                                 <div className="flex_center">
-                                                    <p>1 위</p>
+                                                    {rank < 4 && <img src={require(`../images/medal_${rank}.svg`)} alt="메달이미지" />}
+                                                    <p>{rank} 위</p>
                                                     <span>-</span>
                                                 </div>
                                             </td>
@@ -187,6 +234,9 @@ const Ranking = () => {
                 </div>
             </div>
         </div>
+
+        {/* confirm팝업 */}
+        {confirm && <ConfirmPop />}
     </>);
 };
 
