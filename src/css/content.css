@@ -1,3 +1,17 @@
+
+/* 랭킹 */
+.rankin_wrap .top_banner{height: 540px;position: absolute;width: 100%;top: 0;left: 0;}
+.rankin_wrap .tip_box {z-index: 1;}
+.rankin_wrap .tip_box .tip_txt{padding: 0 0 0 30px;background: url(../images/ic_tip2.svg) no-repeat center left;font-size: 16px;color: #373D49;font-weight: 500;}
+.rankin_wrap .inner_cont{max-width: 1200px;margin: 0 auto;padding-top:200px;}
+
+
+
+
+
+
+
+/* 간편가입신청 랜딩페이지 */
 .apply_wrap{background: #F7F7FA;min-height: 100vh;padding-bottom: 120px;}
 .apply_wrap .top_banner{padding: 50px 0 320px;position: relative;text-align: center;background: url(../images/apply_bg.jpg) no-repeat center;background-size: cover;border-radius: 0 0 40px 40px;}
 .apply_wrap .top_banner .logo{padding-top: 70px;background: url(../images/ic_snow.svg)no-repeat center top;}

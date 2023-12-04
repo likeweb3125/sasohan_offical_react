@@ -6,6 +6,7 @@ import Popup from './components/popup/Popup';
 import Layout from './components/layout/Layout';
 import AppLayout from './components/layout/app/Layout';
 import Main from './pages/Main';
+import Ranking from './pages/Ranking';
 import Apply from './pages/Apply';
 import AppSignup from './pages/app/Signup';
 import AppSignup2 from './pages/app/Signup2';
@@ -37,6 +38,9 @@ function App() {
             <Routes>
                 {/* 메인 */}
                 <Route path="/" element={<Layout><Main /></Layout>} />
+
+                {/* 랭킹 */}
+                <Route path="/ranking" element={<Layout><Ranking /></Layout>} />
 
                 {/* 간편가입신청 */}
                 <Route path="/apply" element={<Apply />} />
