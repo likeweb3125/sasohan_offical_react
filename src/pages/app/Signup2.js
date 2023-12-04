@@ -1149,7 +1149,7 @@ const SignUp2 = () => {
                                             idx = 4;
                                         }
 
-                                        const val = "agree_"+(i+1);
+                                        const val = "agree_"+(idx);
                                         return(
                                             <li key={i} className="flex">
                                                 <div className="custom_check">

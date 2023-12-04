@@ -6,7 +6,7 @@
 
 /* 랭킹 */
 .rankin_wrap .top_banner{height: 540px;position: absolute;width: 100%;top: 0;left: 0;background: url(../images/ranking_banner.jpg) no-repeat center;background-size: cover;}
-.rankin_wrap .inner_cont{max-width: 1200px;margin: 0 auto;padding-top:200px;position: relative;z-index: 1;}
+.rankin_wrap .inner_cont{max-width: 1200px;margin: 0 auto;padding:200px 0 112px;position: relative;z-index: 1;}
 .rankin_wrap .tit_box .tit{font-size: 48px;font-weight: 700;position: relative;display: inline-block;}
 .rankin_wrap .tit_box .tit::before{position: absolute;content: "";width: 110%;height: 16px;border-radius: 8px;background: #6840FD;opacity: 0.6;bottom: 0;left: 12px;z-index: -1;}
 .rankin_wrap .tit_box .txt{font-size: 22px;padding-top: 20px;line-height: 1.8;}
@@ -33,8 +33,21 @@
 .input_time_box{position: relative;}
 .input_time_box .input_box{padding-right: 50px;}
 .input_time_box .time{position: absolute;font-size: 15px;color: #FC5862;right: 0;top: 50%;transform: translateY(-50%);}
-.rankin_wrap .list_box p{padding-left: 30px;background: url(../images/ic_time.svg) no-repeat left center;font-size: 18px;font-weight: 500;color: #6840FD;}
-.rankin_wrap .list_box p span{font-weight: 400;font-size: 16px;color: #999;}
+.rankin_wrap .list_box .top_box p{padding-left: 30px;background: url(../images/ic_time.svg) no-repeat left center;font-size: 18px;font-weight: 500;color: #6840FD;}
+.rankin_wrap .list_box .top_box p span{font-weight: 400;font-size: 16px;color: #999;}
+.rankin_wrap .table_box{border-top: 2px solid #3E3D55;margin-top: 12px;}
+.rankin_wrap .table_box th:nth-child(odd){text-align: center;border-bottom: 1px solid #3E3D55;font-size: 18px;font-weight: 500;color: #373D49;padding: 16px 5px;}
+.rankin_wrap .table_box td:nth-child(odd){text-align: center;border-bottom: 1px solid #ddd;padding: 20px 5px;text-align: center;}
+.rankin_wrap .table_box .rank_td.top{background: #FBF8FF;}
+
+
+
+.rankin_wrap .list_box .btn_box{text-align: center;margin-top: 40px;}
+.rankin_wrap .list_box .btn_box button{position: relative;}
+.rankin_wrap .list_box .btn_box button::after{position: absolute;content: "";width: 0;height: 4px;left: 0;bottom: 0;background: #6840FD;transition: all 0.3s;}
+.rankin_wrap .list_box .btn_box button:hover::after{width: 100%;}
+
+
 
 
 /* 간편가입신청 랜딩페이지 */

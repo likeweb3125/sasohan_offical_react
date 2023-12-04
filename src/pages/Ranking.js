@@ -1,11 +1,14 @@
-
-
 import { useState } from "react";
+import axios from "axios";
 import { PatternFormat } from "react-number-format";
+
+import { enum_api_uri } from "../config/enum";
 import ranking_tip_box from "../images/ranking_tip_box.svg";
 import ranking_tip_box_mo from "../images/ranking_tip_box_mo.svg";
+import more_view from "../images/more_view.png";
 
 const Ranking = () => {
+    const rank_list = enum_api_uri.rank_list;
     const [tel, setTel] = useState("");
     const [number, setNumber] = useState("");
     const [focusInput, setFocusInput] = useState({});
@@ -120,33 +123,66 @@ const Ranking = () => {
                             </select>
                         </div>
                     </div>
-                    <div>
+                    <div className="table_box">
                         <table>
                             <colgroup>
                                 <col style={{"width":"auto"}} />
+                                <col style={{"width":"20px"}} />
                                 <col style={{"width":"auto"}} />
+                                <col style={{"width":"20px"}} />
                                 <col style={{"width":"auto"}} />
+                                <col style={{"width":"20px"}} />
                                 <col style={{"width":"auto"}} />
                             </colgroup>
                             <thead>
                                 <tr>
                                     <th>순위</th>
+                                    <th></th>
                                     <th>레벨</th>
+                                    <th></th>
                                     <th>닉네임</th>
+                                    <th></th>
                                     <th>클래스</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <div className="flex">
-                                            <p>1 위</p>
-                                            <span>-</span>
-                                        </div>
-                                    </td>
-                                </tr>
+                                {list.map((cont,i)=>{
+                                    return(
+                                        <tr>
+                                            <td className="rank_td">
+                                                <div className="flex_center">
+                                                    <p>1 위</p>
+                                                    <span>-</span>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td className="level_td">
+                                                <div className="flex_center">
+                                                    <span>LV.</span>
+                                                    <p>900</p>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td className="name_td">
+                                                <div className="flex">
+                                                    <img src="" alt="성별이미지" />
+                                                    <p>라이크웹</p>
+                                                </div>
+                                            </td>
+                                            <td></td>
+                                            <td>
+                                                <div>
+                                                    <img src="" alt="클래스이미지" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
+                    </div>
+                    <div className="btn_box">
+                        <button type="button"><img src={more_view} alt="이미지" /></button>
                     </div>
                 </div>
             </div>

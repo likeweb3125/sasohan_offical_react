@@ -3,6 +3,7 @@ const api_uri = "https://api.sasohan.net";
 exports.enum_api_uri = {
     api_uri: `${api_uri}`,
 
+    //메인---
     m_list: `${api_uri}/v1/main/manager`,
     blog_list: `${api_uri}/v1/main/blog`,
     ytb_list: `${api_uri}/v1/main/youtube`,
@@ -15,6 +16,9 @@ exports.enum_api_uri = {
     story_list: `${api_uri}/v1/main/story-list`,
     story_view: `${api_uri}/v1/main/story-view/:list_no`,
     license_list: `${api_uri}/v1/main/app-license/:idx`,
+
+    //랭킹---
+    rank_list: `${api_uri}/v1/main/ranking`,
 
 
     //앱----------------------------------------

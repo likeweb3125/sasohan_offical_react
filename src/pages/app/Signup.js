@@ -13,7 +13,7 @@ const SignUp = () => {
     const m_realname_okurl = enum_api_uri.m_realname_okurl;
     const [tradeid, setTradeid] = useState("");
     const [confirm, setConfirm] = useState(false);
-    const [agreeList, setAgreeList] = useState(["개인정보 보호정책","이메일 무단 수집 거부","개인정보수집","이용약관"]);
+    const [agreeList, setAgreeList] = useState(["개인정보 보호정책","개인정보수집","이용약관"]);
     const [step, setStep] = useState(1);
     const [allCheck, setAllCheck] = useState(false);
     const [agreeCheckList, setAgreeCheckList] = useState([]);
@@ -35,8 +35,8 @@ const SignUp = () => {
     const allAgreeHandler = (checked) => {
         setAllCheck(!allCheck)
         if (checked) {
-            setAgreeCheckList(['agree_1', 'agree_2', 'agree_3', 'agree_4']);
-        } else if ((!checked && agreeCheckList.includes('agree_1')) || (!checked && agreeCheckList.includes('agree_2')) || (!checked && agreeCheckList.includes('agree_3')) || (!checked && agreeCheckList.includes('agree_4')) ) {
+            setAgreeCheckList(['agree_1', 'agree_3', 'agree_4']);
+        } else if ((!checked && agreeCheckList.includes('agree_1')) || (!checked && agreeCheckList.includes('agree_3')) || (!checked && agreeCheckList.includes('agree_4')) ) {
             setAgreeCheckList([]);
         }
     }
@@ -151,8 +151,15 @@ const SignUp = () => {
                                 </div>
                                 <ul>
                                     {agreeList.map((txt,i)=>{
-                                        const idx = i+1;
-                                        const val = "agree_"+(i+1);
+                                        let idx;
+                                        if(i === 0){
+                                            idx = 1;
+                                        }else if(i === 1){
+                                            idx = 3;
+                                        }else if(i === 2){
+                                            idx = 4;
+                                        }
+                                        const val = "agree_"+(idx);
                                         return(
                                             <li key={i} className="flex">
                                                 <div className="custom_check">
