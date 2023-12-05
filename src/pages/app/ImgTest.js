@@ -74,7 +74,7 @@ const ImgTest = () => {
                         // }
                         window.flutter_inappwebview.callHandler('flutterSignupComplete');
 
-                    }}>회원가입완료</button>
+                    }}>회원가입완료 InAppWebView 테스트</button>
                 </div>
             </div>
         </div>
