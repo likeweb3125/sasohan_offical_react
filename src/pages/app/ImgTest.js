@@ -72,7 +72,9 @@ const ImgTest = () => {
                         //     const data = {};
                         //     window.flutterSignup.postMessage(JSON.stringify(data));
                         // }
-                        window.flutter_inappwebview.callHandler('flutterSignupComplete');
+                        if(window.flutterSignup){
+                            window.flutter_inappwebview.callHandler('flutterSignupComplete');
+                        }
 
                     }}>회원가입완료 InAppWebView 테스트</button>
                 </div>
