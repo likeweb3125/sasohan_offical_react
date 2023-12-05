@@ -19,6 +19,8 @@ exports.enum_api_uri = {
 
     //랭킹---
     rank_list: `${api_uri}/v1/main/ranking`,
+    rank_sms: `${api_uri}/v1/main/ranking-sms`,
+    rank_done: `${api_uri}/v1/main/ranking-confirm`,
 
 
     //앱----------------------------------------

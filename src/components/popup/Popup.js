@@ -14,6 +14,7 @@ import AppProfilePop2 from "./app/ProfilePop2";
 import AppSignupCompletePop from "./app/SignupCompletePop";
 import AppPointPop from "./app/PointPop";
 import AppChangePasswordPop from "./app/ChangePasswordPop";
+import LoadingPop from "./LoadingPop";
 
 
 const Popup = () => {
@@ -66,6 +67,11 @@ const Popup = () => {
 
             {/* 마이페이지 - 프로필수정 - 비밀번호변경 팝업 */}
             {popup.appChangePasswordPop && <AppChangePasswordPop />}
+
+
+
+            {/* 로딩 팝업 */}
+            {popup.loadingPop && <LoadingPop />}
 
         </>,
         document.getElementById('modal-root')

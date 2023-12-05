@@ -9,6 +9,9 @@ const popup = createSlice({
         confirmPopTxt: "",
         confirmPopBtn: "",
 
+        //로딩팝업
+        loadingPop: false,
+
         //챠밍매니저 팝업
         managerPop: false,
         managerPopData: {},
@@ -75,6 +78,9 @@ const popup = createSlice({
             state.confirmPopTit = action.payload.confirmPopTit;
             state.confirmPopTxt = action.payload.confirmPopTxt;
             state.confirmPopBtn = action.payload.confirmPopBtn;
+        },
+        loadingPop: (state, action) => {
+            state.loadingPop = action.payload;
         },
         managerPop: (state, action) => {
             state.managerPop = action.payload.managerPop;
@@ -148,6 +154,7 @@ const popup = createSlice({
 
 export const {
     confirmPop,
+    loadingPop,
     managerPop,
     imgPop,
     imgPopLink,

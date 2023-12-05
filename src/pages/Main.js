@@ -12,13 +12,13 @@ import { headerMenuOn } from "../store/commonSlice";
 import { managerPop, confirmPop, imgPop, storyPop, storyPopList, imgPopLink } from "../store/popupSlice";
 import ManagerBox from "../components/component/ManagerBox";
 import ConfirmPop from "../components/popup/ConfirmPop";
+import MainFixMenu from "../components/layout/MainFixMenu";
 import { enum_api_uri } from "../config/enum";
 import * as CF from "../config/function";
 import util from "../config/util";
 import m_visual_tag from "../images/main_visual_tag.svg";
 import m_visual_img1 from "../images/main_visual_txt1.png";
 import m_visual_img2 from "../images/main_visual_txt2.png";
-import manager_img from "../images/sample/manager0.png";
 import tip_box_img from "../images/tip_box.svg";
 import tip_box_img_mo from "../images/tip_box_mo.svg";
 import ic_badge from "../images/ic_badge.svg";
@@ -35,30 +35,11 @@ import about_bg4_tab from "../images/about_bg4_tab.jpg";
 import about_bg5_tab from "../images/about_bg5_tab.jpg";
 import about_bg6_tab from "../images/about_bg6_tab.jpg";
 import about_img1 from "../images/about_img1.svg";
-import about_img2 from "../images/about_img2.svg";
 import about_img3 from "../images/about_img3.svg";
 import about_img3_mo from "../images/about_img3_mo.svg";
 import about_img4 from "../images/about_img4.svg";
 import about_img5 from "../images/about_img5.svg";
 import about_img6 from "../images/about_img6.svg";
-import blog_img1 from "../images/blog_img1.jpg";
-import blog_img2 from "../images/blog_img2.jpg";
-import blog_img3 from "../images/blog_img3.jpg";
-import blog_img4 from "../images/blog_img4.jpg";
-
-import award_img1 from "../images/award_img1.png";
-import award_img2 from "../images/award_img2.jpg";
-import award_img3 from "../images/award_img3.jpg";
-import award_img2_pop from "../images/award_img2_pop.png";
-import award_img3_pop from "../images/award_img3_pop.png";
-
-import trust_img1 from "../images/trust_img1.jpg";
-import trust_img2 from "../images/trust_img2.jpg";
-import trust_img2_pop from "../images/trust_img2_pop.png";
-import trust_img3 from "../images/trust_img3.jpg";
-import trust_img4 from "../images/trust_img4.jpg";
-import trust_img5 from "../images/trust_img5.jpg";
-
 import dona_img1 from "../images/dona_img1.jpg";
 import dona_img2 from "../images/dona_img2.jpg";
 import dona_img3 from "../images/dona_img3.jpg";
@@ -1278,6 +1259,8 @@ const Main = () => {
                 </div>
             </div>
         </div>
+
+        <MainFixMenu />
 
         {/* confirm팝업 */}
         {confirm && <ConfirmPop />}
