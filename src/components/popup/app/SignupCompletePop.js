@@ -20,11 +20,8 @@ const SignupCompletePop = () => {
             window.flutterSignup.postMessage(JSON.stringify(data));
         }
 
-        
         // 앱에 회원가입완료 보내기 -- inAppView
-        if(window.flutterSignup){
-            window.flutter_inappwebview.callHandler('flutterSignup');
-        }
+        window.flutter_inappwebview.callHandler('flutterSignupComplete');
     };
 
     useEffect(()=>{
