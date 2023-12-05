@@ -32,45 +32,48 @@ const ProfileImgPop = () => {
 
 
     //이미지 등록
-    const imgUpHandler = (postData) => {
+    const imgUpHandler =  (postData) => {
         const idx = popup.appProfileImgPopIdx;
         const formData = new FormData();
         formData.append("media", postData.target.files[0]);
-        axios.post(`${m_img_add}`, formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-        })
-        .then((res) => {
-            if (res.status === 201) {
-                let imgName = res.data.mediaUrls[0];
-                let newList = [...common.profileImgs];
-                    newList[idx] = imgName;
-                dispatch(profileImgs(newList));
+        setTimeout(()=>{      
+            axios.post(`${m_img_add}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            })
+            .then((res) => {
+                if (res.status === 201) {
+                    let imgName = res.data.mediaUrls[0];
+                    let newList = [...common.profileImgs];
+                        newList[idx] = imgName;
+                    dispatch(profileImgs(newList));
 
-                setTimeout(()=>{
-                    closePopHandler();
-                },100);
-            }else{
+                    setTimeout(()=>{
+                        closePopHandler();
+                    },100);
+                }else{
+                    dispatch(confirmPop({
+                        confirmPop:true,
+                        confirmPopTit:'알림',
+                        confirmPopTxt: "",
+                        confirmPopBtn:1,
+                    }));
+                    setConfirm(true);
+                }
+            })
+            .catch((error) => {
+                const err_msg = CF.errorMsgHandler(error);
                 dispatch(confirmPop({
                     confirmPop:true,
                     confirmPopTit:'알림',
-                    confirmPopTxt: "",
+                    confirmPopTxt: err_msg,
                     confirmPopBtn:1,
                 }));
                 setConfirm(true);
-            }
-        })
-        .catch((error) => {
-            const err_msg = CF.errorMsgHandler(error);
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt: err_msg,
-                confirmPopBtn:1,
-            }));
-            setConfirm(true);
-        });
+            });    
+        }  ,200);
+        
     };
 
 
