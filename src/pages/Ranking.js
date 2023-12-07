@@ -407,7 +407,7 @@ const Ranking = () => {
                                             </div>
                                             <div className="mo_show">
                                                 <ul className="flex">
-                                                    <li><img src={require(`../images/class_${classImg}.svg`)} alt="클래스이미지" /></li>
+                                                    <li><img src={require(`../images/class_${classImg}.png`)} alt="클래스이미지" /></li>
                                                     <li className="flex">
                                                         <span>LV.</span>
                                                         <p>{CF.MakeIntComma(cont.level)}</p>
@@ -416,7 +416,7 @@ const Ranking = () => {
                                             </div>
                                         </div>
                                         <div className="box class_box flex_center">
-                                            <img src={require(`../images/class_${classImg}.svg`)} alt="클래스이미지" />
+                                            <img src={require(`../images/class_${classImg}.png`)} alt="클래스이미지" />
                                         </div>
                                         <div className="box level_box flex_center">
                                             <span>LV.</span>
