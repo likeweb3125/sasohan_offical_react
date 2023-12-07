@@ -32,7 +32,7 @@ const Ranking = () => {
     const [date, setDate] = useState("");
     const [codeBtn, setCodeBtn] = useState(false);
     const [doneBtn, setDoneBtn] = useState(false);
-    const [minutes, setMinutes] = useState(5);
+    const [minutes, setMinutes] = useState(3);
     const [seconds, setSeconds] = useState(0);
     const formatTime = (time) => time.toString().padStart(2, '0');
     const [myData, setMyData] = useState(false);
@@ -178,7 +178,7 @@ const Ranking = () => {
                         clearInterval(countdown);
 
                         setAuthStep(1);
-                        setMinutes(5);
+                        setMinutes(3);
                         setSeconds(0);
     
                         dispatch(confirmPop({
@@ -218,7 +218,7 @@ const Ranking = () => {
                 setMyData(true);
 
                 setAuthStep(1);
-                setMinutes(5);
+                setMinutes(3);
                 setSeconds(0);
                 setCode("");
             }
@@ -265,7 +265,7 @@ const Ranking = () => {
                             <li className="flex_between">
                                 <p>연락처</p>
                                 <div className="input_btn_box">
-                                    <div className={`input_box${focusInput.tel ? " on" : ""}`}>
+                                    <div className={`input_box h_50${focusInput.tel ? " on" : ""}`}>
                                         <PatternFormat format="###-####-####" value={tel} placeholder="숫자만 입력해주세요."
                                             id="tel" 
                                             onChange={(e)=>{
@@ -298,7 +298,7 @@ const Ranking = () => {
                                 <li className="flex_between">
                                     <p>인증번호</p>
                                     <div className="input_time_box">
-                                        <div className={`input_box${focusInput.code ? " on" : ""}`}>
+                                        <div className={`input_box h_50${focusInput.code ? " on" : ""}`}>
                                             <input type={`text`} value={code} placeholder="인증번호를 입력해주세요."
                                                 id="code" 
                                                 onChange={(e)=>{
@@ -363,7 +363,7 @@ const Ranking = () => {
                                 let diff_num = cont.diff_rank;
                                 let tag;
 
-                                if(diff === 0){
+                                if(diff == 0){
                                     tag = "";
                                 }else{
                                     if(diff.includes("-")){

@@ -5,6 +5,12 @@
 .sub_wrap .top_banner{height: 540px;position: absolute;width: 100%;top: 0;left: 0;background: url(../images/ranking_banner.jpg) no-repeat center;background-size: cover;}
 .sub_wrap .inner_cont{max-width: 1200px;margin: 0 auto;position: relative;z-index: 1;padding: 240px 0 112px;}
 
+.input_box.h_50 input{height: 50px;font-size: 18px;}
+.input_box.h_50 input::-webkit-input-placeholder {font-size: 18px;} 
+.input_box.h_50 input:-moz-placeholder {font-size: 18px;} 
+.input_box.h_50 input::-moz-placeholder {font-size: 18px;} 
+.input_box.h_50 input:-ms-input-placeholder {font-size: 18px;}
+
 
 /* 랭킹 */
 .rankin_wrap .inner_cont{padding-top:200px;}
@@ -22,11 +28,6 @@
 .rankin_wrap .form_box li{padding-bottom: 20px;}
 .rankin_wrap .form_box li>p{width: 20%;}
 .rankin_wrap .form_box li>div{width: 80%;}
-.rankin_wrap .form_box .input_box input{height: 50px;font-size: 18px;}
-.rankin_wrap .form_box .input_box input::-webkit-input-placeholder {font-size: 18px;} 
-.rankin_wrap .form_box .input_box input:-moz-placeholder {font-size: 18px;} 
-.rankin_wrap .form_box .input_box input::-moz-placeholder {font-size: 18px;} 
-.rankin_wrap .form_box .input_box input:-ms-input-placeholder {font-size: 18px;}
 .input_btn_box{position: relative;}
 .input_btn_box .input_box{padding-right: 105px;}
 .input_btn_box button{position: absolute;width: 101px;height: 36px;border-radius: 8px;border: 1px solid #6840FD;font-size: 14px;font-weight: 500;color: #6840FD;right: 0;top: 50%;transform: translateY(-50%);}

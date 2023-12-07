@@ -12,8 +12,8 @@ const PasswordChange = () => {
                         <ul>
                             <li>
                                 <p>비밀번호</p>
-                                <div className="input_box">
-                                    <input type={`text`} placeholder="이름을 입력해주세요." name="name"  />
+                                <div className="input_box h_50">
+                                    <input type={`password`} placeholder="비밀번호를 입력해주세요." name="name" />
                                 </div>
                             </li>
                         </ul>
