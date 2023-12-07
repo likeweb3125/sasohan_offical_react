@@ -3,11 +3,11 @@
 .btn_type1:disabled{background: #F8F8F8;color: #666;cursor: default;}
 .input_box3 select{height: 50px;border: 1px solid #ddd;border-radius: 5px;padding: 0 40px 0 16px;font-size: 18px;color: #373D49;background: url(../images/arrow_select3.svg) no-repeat center right 22px;}
 .sub_wrap .top_banner{height: 540px;position: absolute;width: 100%;top: 0;left: 0;background: url(../images/ranking_banner.jpg) no-repeat center;background-size: cover;}
-.sub_wrap .inner_cont{max-width: 1200px;margin: 0 auto;}
+.sub_wrap .inner_cont{max-width: 1200px;margin: 0 auto;position: relative;z-index: 1;padding: 240px 0 112px;}
 
 
 /* 랭킹 */
-.rankin_wrap .inner_cont{padding:200px 0 112px;position: relative;z-index: 1;}
+.rankin_wrap .inner_cont{padding-top:200px;}
 .rankin_wrap .tit_box .tit{font-size: 48px;font-weight: 700;position: relative;display: inline-block;}
 .rankin_wrap .tit_box .tit::before{position: absolute;content: "";width: 110%;height: 16px;border-radius: 8px;background: #6840FD;opacity: 0.6;bottom: 0;left: 12px;z-index: -1;}
 .rankin_wrap .tit_box .txt{font-size: 22px;padding-top: 20px;line-height: 1.8;}
@@ -69,6 +69,14 @@
 .rankin_wrap .list_box .btn_box button{position: relative;}
 .rankin_wrap .list_box .btn_box button::after{position: absolute;content: "";width: 0;height: 4px;left: 0;bottom: 0;background: #6840FD;transition: all 0.3s;}
 .rankin_wrap .list_box .btn_box button:hover::after{width: 100%;}
+
+/* 비밀번호변경 */
+.pass_change_wrap .round_box{box-shadow: 0px 0px 20px 0px #6840FD14;background: #fff;border-radius: 20px;padding: 80px 0 80px;}
+.pass_change_wrap .round_box .inner{max-width: 620px;margin: 0 auto;}
+.pass_change_wrap .round_box .tit_box .tit{font-size: 36px;font-weight: 700;}
+.pass_change_wrap .round_box .tit_box .txt{font-size: 16px;font-weight: 500;padding-top: 16px;}
+
+
 
 
 /* 간편가입신청 랜딩페이지 */
