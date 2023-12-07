@@ -7,6 +7,7 @@ import Layout from './components/layout/Layout';
 import AppLayout from './components/layout/app/Layout';
 import Main from './pages/Main';
 import Ranking from './pages/Ranking';
+import PasswordChange from './pages/PasswordChange';
 import Apply from './pages/Apply';
 import AppSignup from './pages/app/Signup';
 import AppSignup2 from './pages/app/Signup2';
@@ -41,6 +42,9 @@ function App() {
 
                 {/* 랭킹 */}
                 <Route path="/ranking" element={<Layout><Ranking /></Layout>} />
+
+                {/* 비밀번호변경 */}
+                <Route path="/reset/:token" element={<Layout><PasswordChange /></Layout>} />
 
                 {/* 간편가입신청 */}
                 <Route path="/apply" element={<Apply />} />

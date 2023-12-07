@@ -217,6 +217,11 @@ const Ranking = () => {
                 setList([data]);
 
                 setMyData(true);
+
+                setAuthStep(1);
+                setMinutes(5);
+                setSeconds(0);
+                setCode("");
             }
         })
         .catch((error) => {
@@ -235,7 +240,7 @@ const Ranking = () => {
     
 
     return(<>
-        <div className="rankin_wrap">
+        <div className="sub_wrap rankin_wrap">
             <div className="top_banner"></div>
             <div className="inner_cont">
                 <div className="tit_box flex_between flex_bottom">
@@ -384,7 +389,7 @@ const Ranking = () => {
                                         <div className="box rank_box flex_center">
                                             <div className="flex_center">
                                                 {rank < 4 && <img src={require(`../images/medal_${rank}.svg`)} alt="메달이미지" />}
-                                                <p>{rank}<span>위</span></p>
+                                                <p>{CF.MakeIntComma(rank)}<span>위</span></p>
                                             </div>
                                             <div className={`tag flex_center${tag}`}><span>{tag.length > 0 ? CF.MakeIntComma(diff_num) : "-"}</span></div>
                                         </div>

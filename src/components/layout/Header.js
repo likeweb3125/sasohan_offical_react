@@ -1,15 +1,22 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-scroll';
+import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { applyPop } from '../../store/popupSlice';
 import ConfirmPop from '../popup/ConfirmPop';
+import logo_big_b from "../../images/logo_big_b.svg";
+
 
 const Header = () => {
     const popup = useSelector((state)=>state.popup);
     const common = useSelector((state)=>state.common);
     const dispatch = useDispatch();
     const [confirm, setConfirm] = useState(false);
-    const [headerOn, setHeaderOn] = useState(false);
+    const [headerOn, setHeaderOn] = useState(null);
+    const [menuOn, setMenuOn] = useState(1);
+    const location = useLocation();
+    const [mainPage, setMainPage] = useState(null);
+    const [menuWrap, setMenuWrap] = useState(false);
+
 
     // Confirm팝업 닫힐때
     useEffect(()=>{
@@ -18,12 +25,15 @@ const Header = () => {
         }
     },[popup.confirmPop]);
 
-    //스크롤시 header active-----------
+
+    //메인페이지일때만 스크롤시 header active-----------
     const handleScroll = () => {
-        if(window.scrollY > 0) {
-            setHeaderOn(true);
-        }else{
-            setHeaderOn(false);
+        if(mainPage){
+            if(window.scrollY > 0) {
+                setHeaderOn(true);
+            }else{
+                setHeaderOn(false);
+            }
         }
     };
     
@@ -35,24 +45,47 @@ const Header = () => {
             clearInterval(timer);
             window.removeEventListener("scroll", handleScroll);
         };
-    }, []);
+    }, [mainPage]);
+
+
+    //페이지이동시 메뉴on 변경
+    useEffect(()=>{
+        setMenuWrap(false);
+
+        const path = location.pathname;
+        if(path == "/"){
+            setMenuOn(1);
+            setMainPage(true);
+        }else{
+            setMainPage(false);
+        }
+        
+        if(path == "/ranking"){
+            setMenuOn(2);
+        }
+    },[location]);
+
+
+    //메인페이지일때만 headerOn false
+    useEffect(()=>{
+        if(mainPage){
+            setHeaderOn(false);
+        }else{
+            setHeaderOn(true);
+        }
+    },[mainPage]);
+
 
     return(<>
         <header id="header" className={`flex_center ${headerOn ? "on" : ""}`}>
             <div className="header_inner">
-                <h1 className="logo">
-                    <a
-                        href="/"
-                        rel="noopener noreferrer"
-                    >사소한</a>
+                <h1 className={`logo${!mainPage ? " logo_b" : ""}`}>
+                    <Link to="/">사소한</Link>
                 </h1>
                 <nav className="gnb_wrap">
                     <ul className="gnb">
-                        <li className={common.headerMenuOn === 1 ? "on" : ""}><Link to="sect1">매니저 소개</Link></li>
-                        <li className={common.headerMenuOn === 2 ? "on" : ""}><Link to="sect2">About 사소한</Link></li>
-                        <li className={common.headerMenuOn === 3 ? "on" : ""}><Link to="sect3">사소한 칼럼</Link></li>
-                        <li className={common.headerMenuOn === 4 ? "on" : ""}><Link to="sect5">사소한의 신뢰</Link></li>
-                        <li className={common.headerMenuOn === 5 ? "on" : ""}><Link to="sect6">사소한 후기</Link></li>
+                        <li className={menuOn === 1 ? "on" : ""}><Link to="/">About 사소한</Link></li>
+                        {/* <li className={menuOn === 2 ? "on" : ""}><Link to="/ranking">사소한 랭킹</Link></li> */}
                     </ul>
                 </nav>
                 <div className="sns_wrap">
@@ -86,6 +119,24 @@ const Header = () => {
                 <button type='button' className='btn_apply' onClick={()=>{
                     dispatch(applyPop(true));
                 }}>소개팅 신청</button>
+                <button type='button' className='btn_menu' onClick={()=>setMenuWrap(true)}>모바일메뉴열기버튼</button>
+            </div>
+            <div className={`menu_wrap${menuWrap ? " on" : ""}`}>
+                <div className='dim'></div>
+                <div className='menu_box'>
+                    <div className='top_box flex_between'>
+                        <img src={logo_big_b} alt="로고" />
+                        <button type='button' className='btn_close' onClick={()=>setMenuWrap(false)}>모바일메뉴닫기버튼</button>
+                    </div>
+                    <ul className='menu_list'>
+                        <li className={menuOn === 1 ? "on" : ""}>
+                            <Link to="/">About 사소한</Link>
+                        </li>
+                        {/* <li className={menuOn === 2 ? "on" : ""}>
+                            <Link to="/ranking">사소한 랭킹</Link>
+                        </li> */}
+                    </ul>
+                </div>
             </div>
         </header>
 

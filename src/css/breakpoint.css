@@ -176,7 +176,7 @@
     #header .header_inner{background: none;width: 100%;height: 60px; -webkit-backdrop-filter: none;backdrop-filter: none;}
     #header .logo{left: 0;width: 280px;height: 43px;}
     #header .gnb_wrap{display: none;}
-    #header .btn_m{display: block;}
+    #header .btn_menu{display: block;}
     .fix_menu_box{display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; display: flex;-webkit-box-pack: center; -ms-flex-pack: center;-webkit-justify-content: center; justify-content: center;-webkit-box-align: center; -ms-flex-align: center;-webkit-align-items: center; align-items: center;}
 
     /* 메인 */
@@ -239,9 +239,13 @@
     .apply_wrap .cont_box{margin-top: -220px;}
 
 
+    /* 서브페이지 공통 */
+    .sub_wrap .top_banner{height: 560px;background: url(../images/ranking_banner_tab.jpg) no-repeat center;background-size: cover;}
+    .sub_wrap .inner_cont{width: calc(100% - 60px);}
+
+
     /* 랭킹 */
-    .rankin_wrap .top_banner{height: 560px;background: url(../images/ranking_banner_tab.jpg) no-repeat center;background-size: cover;}
-    .rankin_wrap .inner_cont{width: calc(100% - 60px);padding: 168px 0 100px;}
+    .rankin_wrap .inner_cont{padding: 168px 0 100px;}
     .rankin_wrap .tit_box{display: block;}
     .rankin_wrap .tit_box .txt{padding-bottom: 36px;}
     .rankin_wrap .auth_box{margin: 20px auto 32px;padding: 36px 20px;min-height: 280px;}
@@ -276,6 +280,13 @@
     #header {padding: 20px 20px 0;}
     #header .header_inner{height: 50px;}
     #header .logo{width: 128px;height: 20px;}
+    #header .btn_menu{width: 50px;height: 50px;background-size: 36px;background-position: right center;}
+    #header .menu_box{width: 280px;padding: 18px 20px;background-size: 90%;}
+    #header .menu_box .top_box img{width: 160px;}
+    #header .menu_box .btn_close{width: 24px;height: 24px;background-size: 100%;}
+    #header .menu_box .menu_list{padding-top: 40%;}
+    #header .menu_box .menu_list li a{font-size: 28px;}
+    #header .menu_box .menu_list li a::before{height: 8px;}
     .fix_menu_box{width: calc(100% - 24px);height: 40px;}
     .fix_menu_box li a{margin-right: 24px;font-size: 16px;}
     .fix_menu_box li.on a{padding: 0 48px 0 20px;}
@@ -509,9 +520,13 @@
     .apply_wrap .complete_box .link_ul li a::after{width: 28px !important;left: 20px !important;background-size: 28px !important;}
 
 
+    /* 서브페이지 공통 */
+    .sub_wrap .top_banner{background: url(../images/ranking_banner_mo.jpg) no-repeat center;background-size: cover;}
+    .sub_wrap .inner_cont{width: calc(100% - 40px);}
+    
+
     /* 랭킹 */
-    .rankin_wrap .top_banner{background: url(../images/ranking_banner_mo.jpg) no-repeat center;background-size: cover;}
-    .rankin_wrap .inner_cont{padding: 100px 0;width: calc(100% - 40px);}
+    .rankin_wrap .inner_cont{padding: 100px 0;}
     .rankin_wrap .tit_box .tit{font-size: 36px;}
     .rankin_wrap .tit_box .tit::before{height: 12px;}
     .rankin_wrap .tit_box .txt{padding-bottom: 28px;font-size: 18px;}

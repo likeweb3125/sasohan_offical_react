@@ -260,6 +260,7 @@ const Point = () => {
             </div>
             <div className="inner_box">
                 <div className="box">
+                    <p>{token}</p>
                     <p className="tit">충전 포인트</p>
                     <ul className="point_ul">
                         {pointList.map((point,i)=>{
