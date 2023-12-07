@@ -7,7 +7,6 @@ import { enum_api_uri } from "../config/enum";
 import * as CF from "../config/function";
 import { confirmPop, loadingPop } from "../store/popupSlice";
 import ConfirmPop from "../components/popup/ConfirmPop";
-import LoadingPop from "../components/popup/LoadingPop";
 import ranking_tip_box from "../images/ranking_tip_box.svg";
 import ranking_tip_box_mo from "../images/ranking_tip_box_mo.svg";
 import more_view from "../images/more_view.png";

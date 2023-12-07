@@ -346,10 +346,11 @@ const Point = () => {
                     <button type="button" className="app_btn tm20"
                         onClick={()=>{
                             //앱에 포인트결제완료 보내기
-                            if(window.flutterPointUseHistory){
-                                const data = {};
-                                window.flutterPointUseHistory.postMessage(JSON.stringify(data));
-                            }
+                            // if(window.flutterPointUseHistory){
+                            //     const data = {};
+                            //     window.flutterPointUseHistory.postMessage(JSON.stringify(data));
+                            // }
+                            window.flutter_inappwebview.callHandler('flutterPointChargeComplete');
                         }}
                     >결제완료</button>
                 </div>
