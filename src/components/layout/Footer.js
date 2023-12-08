@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
@@ -12,6 +13,8 @@ const Footer = () => {
     const site_info = enum_api_uri.site_info;
     const [confirm, setConfirm] = useState(false);
     const [info, setInfo] = useState({});
+    const location = useLocation();
+    const [mainPage, setMainPage] = useState(null);
 
 
     //사이트정보 가져오기
@@ -49,8 +52,19 @@ const Footer = () => {
         })
     }
 
+    //메인페이지인지 확인
+    useEffect(()=>{
+        const path = location.pathname;
+        if(path == "/"){
+            setMainPage(true);
+        }else{
+            setMainPage(false);
+        }
+    },[location]);
+
+
     return(<>
-        <footer id="footer">
+        <footer id="footer" className={mainPage ? "main" : ""}>
             <div className="top_box">
                 <div className="logo"><img src={logo} alt="로고" /></div>
                 <ul>

@@ -16,10 +16,7 @@ const PointPop = () => {
         setOff(true);
 
         //앱에 포인트결제완료 보내기
-        if(window.flutterPointUseHistory){
-            const data = {};
-            window.flutterPointUseHistory.postMessage(JSON.stringify(data));
-        }
+        window.flutter_inappwebview.callHandler('flutterPointChargeComplete');
     };
 
     useEffect(()=>{

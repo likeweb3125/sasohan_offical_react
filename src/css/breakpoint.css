@@ -225,7 +225,7 @@
     .app_wrap .txt{padding-bottom: 20px;}
 
     /* footer */
-    #footer {padding-bottom: 43px;}
+    #footer.main {padding-bottom: 43px;}
     #footer .top_box{padding: 40px 0;}
 
     /* 소개팅신청 팝업 */
@@ -557,6 +557,15 @@
     .rankin_wrap .ul_box .list_ul>li .name_box ul li:nth-child(2)::after{position: absolute;content: "";width: 4px;height: 4px;border-radius: 50%;background: #ddd;top: 50%;transform: translateY(-50%);left: 8px;}
     .rankin_wrap .ul_box .list_ul>li .name_box ul li:nth-child(2) span{width: 29px;height: 17px;color: #fff;background: linear-gradient(255.03deg, #6902FE 11.16%, #F530EB 89.36%);border-radius: 5px;font-size: 9px;font-weight: 600;line-height: 17px;text-align: center;}
     .rankin_wrap .ul_box .list_ul>li .name_box ul li:nth-child(2) p{font-size: 14px;font-weight: 500;color: #373D49;margin-left: 6px;}
+
+    /* 비밀번호변경 */
+    .pass_change_wrap .round_box{padding: 40px 12px;}
+    .pass_change_wrap .round_box .tit_box .tit{font-size: 26px;}
+    .pass_change_wrap .round_box .inner{max-width: 100%;}
+    .pass_change_wrap .form_box{margin: 40px auto 0;}
+    .pass_change_wrap .form_box>li{display: block;}
+    .pass_change_wrap .form_box>li>p{width: 100%;font-size: 16px;}
+    .pass_change_wrap .form_box>li>div{width: 100%;}
 
 }
 

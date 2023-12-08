@@ -89,9 +89,11 @@ const Point = () => {
     //맨처음 token이 있고 getInfo,getPoint 함수들이 한번도 실행안됐을때 실행하기
     useEffect(() => {
         if (token && !hasRunOnce) {
-            getInfo();
-            getPoint();
-            setHasRunOnce(true);
+            setTimeout(()=>{
+                getInfo();
+                getPoint();
+                setHasRunOnce(true);
+            },500);
         }
     }, [token]);
     
@@ -260,7 +262,6 @@ const Point = () => {
             </div>
             <div className="inner_box">
                 <div className="box">
-                    <p>토큰:{token}</p>
                     <p className="tit">충전 포인트</p>
                     <ul className="point_ul">
                         {pointList.map((point,i)=>{
@@ -343,16 +344,6 @@ const Point = () => {
                         <h6><strong>{CF.MakeIntComma(price)} </strong>원</h6>
                     </div>
                     <button type="button" className="app_btn2" onClick={payHandler}>결제</button>
-                    <button type="button" className="app_btn tm20"
-                        onClick={()=>{
-                            //앱에 포인트결제완료 보내기
-                            // if(window.flutterPointUseHistory){
-                            //     const data = {};
-                            //     window.flutterPointUseHistory.postMessage(JSON.stringify(data));
-                            // }
-                            window.flutter_inappwebview.callHandler('flutterPointChargeComplete');
-                        }}
-                    >결제완료</button>
                 </div>
             </div>
         </div>

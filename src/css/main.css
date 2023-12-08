@@ -35,6 +35,40 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .mo_show{display: none;}
 .color_point{color: #6840FD;}
 .bp0{padding-bottom: 0 !important;}
+.error_txt{font-size: 15px;color: #FC5862;padding-top: 8px;}
+
+/* input_box */
+.input_box{border-bottom:2px solid #EAEAEA;}
+.input_box input{width: 100%;height: 60px;border: none;font-size: 20px;background: none;}
+.input_box input::-webkit-input-placeholder {color: #999; text-align:left;font-size: 20px;} 
+.input_box input:-moz-placeholder {color: #999; opacity: 1; text-align:left;font-size: 20px;} 
+.input_box input::-moz-placeholder {color: #999; opacity: 1; text-align:left; font-size: 20px;} 
+.input_box input:-ms-input-placeholder {color: #999; text-align:left;font-size: 20px;}
+.input_box select{width: 100%;height: 60px;border: none;padding-right: 24px;background: url(../images/arrow_select.svg) no-repeat center right;font-size: 20px;color: #999;}
+.input_box select.selected{color: #222;}
+.input_box.on{border-color: #6840FD;}
+
+.input_box.h_50 input{height: 50px;font-size: 18px;}
+.input_box.h_50 input::-webkit-input-placeholder {font-size: 18px;} 
+.input_box.h_50 input:-moz-placeholder {font-size: 18px;} 
+.input_box.h_50 input::-moz-placeholder {font-size: 18px;} 
+.input_box.h_50 input:-ms-input-placeholder {font-size: 18px;}
+
+.input_box2 input{width: 100%;height: 56px;border: 1px solid #ddd;font-size: 16px;padding: 0 16px;border-radius: 8px;}
+.input_box2 input::-webkit-input-placeholder {color: #999; text-align:left;font-size: 16px;} 
+.input_box2 input:-moz-placeholder {color: #999; opacity: 1; text-align:left;font-size: 16px;} 
+.input_box2 input::-moz-placeholder {color: #999; opacity: 1; text-align:left; font-size: 16px;} 
+.input_box2 input:-ms-input-placeholder {color: #999; text-align:left;font-size: 16px;}
+.input_box2 input:focus{border-color: #6840FD;}
+.input_box2 select{width: 100%;height: 56px;border: 1px solid #ddd;font-size: 16px;border-radius: 8px;padding:0 40px 0 16px;background: url(../images/arrow_select2.svg) no-repeat center right 16px;}
+.input_box2 select:focus{border-color: #6840FD;}
+
+.input_box3 select{height: 50px;border: 1px solid #ddd;border-radius: 5px;padding: 0 40px 0 16px;font-size: 18px;color: #373D49;background: url(../images/arrow_select3.svg) no-repeat center right 22px;}
+
+.pass_input_box{position: relative;}
+.pass_input_box .input_box{padding-right: 24px;}
+.pass_input_box button{position: absolute;width: 24px;height: 100%;right: 0;top: 0;text-indent: -9999px;font-size: 0;background: url(../images/ic_eye.svg) no-repeat center;}
+.pass_input_box.on button{background: url(../images/ic_eye_on.svg) no-repeat center;}
 
 /* animation */
 @keyframes aniUp {
@@ -80,8 +114,9 @@ html,.body{height: auto;scroll-behavior: smooth;}
 }
 
 /* btn */
-.btn{width: 100%;height:44px;text-align: center;font-size: 14px;color: #fff;background: #373D49;border: 1px solid #999;border-radius: 8px;line-height: 43px;}
+.btn{width: 100%;height:44px;text-align: center;font-size: 14px;color: #fff;background: #373D49;border-radius: 8px;line-height: 43px;}
 .btn2{width: 100%;height:44px;text-align: center;font-size: 14px;color: #999;background: #fff;border: 1px solid #ddd;border-radius: 8px;line-height: 43px;}
+
 
 /************************* header *****************************/
 #header {position: fixed; left: 0; top: 40px; width: 100%; height: 60px; z-index: 200;}
@@ -532,15 +567,6 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .addr_list_box .txt.on{color: #6840FD;}
 .addr_list_box ul li{padding: 8px 40px 8px 16px;border-radius: 20px;background: #fff;border: 1px solid #EAEAEA;margin: 0 8px 8px 0;font-size: 15px;font-weight: 500;color: #1B171E;position: relative;line-height: 1.2;}
 .addr_list_box ul li .btn_delt{position: absolute;width: 32px;height: 100%;font-size: 0;text-indent: -9999px;background: url(../images/ic_close_g.svg) no-repeat center left;top: 0;right: 0;}
-.input_box{border-bottom:2px solid #EAEAEA;}
-.input_box input{width: 100%;height: 60px;border: none;font-size: 20px;background: none;}
-.input_box input::-webkit-input-placeholder {color: #999; text-align:left;font-size: 20px;} 
-.input_box input:-moz-placeholder {color: #999; opacity: 1; text-align:left;font-size: 20px;} 
-.input_box input::-moz-placeholder {color: #999; opacity: 1; text-align:left; font-size: 20px;} 
-.input_box input:-ms-input-placeholder {color: #999; text-align:left;font-size: 20px;}
-.input_box select{width: 100%;height: 60px;border: none;padding-right: 24px;background: url(../images/arrow_select.svg) no-repeat center right;font-size: 20px;color: #999;}
-.input_box select.selected{color: #222;}
-.input_box.on{border-color: #6840FD;}
 .apply_pop .agree_box {border-top: 2px solid #EAEAEA;padding:32px 0;}
 .apply_pop .agree_box .custom_check label>.txt{padding-left: 10px;font-size: 20px;font-weight: 500;}
 .apply_pop .agree_box .scroll_wrap{height: 120px;border: 1px solid #ddd;background: #F8F9FB;padding: 16px;border-radius: 8px;margin-top: 12px;}
