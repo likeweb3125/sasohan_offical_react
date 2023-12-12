@@ -44,7 +44,7 @@ const ManagerPop = () => {
     return(
         <div className="flex_center pop_wrap manager_pop">
             <div className="dim"></div>
-            <div className="pop_cont">
+            <div className="pop_cont border">
                 <button type="button" className="btn_close" onClick={closePopHandler}>닫기버튼</button>
                 <div className="pop_tit mo_none">
                     <div className="tit">{popup.managerPopData.manager_type_txt}</div>

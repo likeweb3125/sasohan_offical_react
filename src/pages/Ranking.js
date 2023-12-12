@@ -5,7 +5,7 @@ import { PatternFormat } from "react-number-format";
 import moment from "moment";
 import { enum_api_uri } from "../config/enum";
 import * as CF from "../config/function";
-import { confirmPop, loadingPop } from "../store/popupSlice";
+import { confirmPop, loadingPop, profileEditPop, profileEditPopDone } from "../store/popupSlice";
 import ConfirmPop from "../components/popup/ConfirmPop";
 import ranking_tip_box from "../images/ranking_tip_box.svg";
 import ranking_tip_box_mo from "../images/ranking_tip_box_mo.svg";
@@ -36,6 +36,7 @@ const Ranking = () => {
     const [seconds, setSeconds] = useState(0);
     const formatTime = (time) => time.toString().padStart(2, '0');
     const [myData, setMyData] = useState(false);
+    const [authMyData, setAuthMyData] = useState({});
 
 
     // Confirm팝업 닫힐때
@@ -116,10 +117,13 @@ const Ranking = () => {
         });
     };
 
+    useEffect(()=>{
+        dispatch(profileEditPop({profileEditPop:true,profileEditPopData:authMyData}));
+    },[]);
     
     //셀렉트값 변경시 랭킹리스트 가져오기
     useEffect(()=>{
-        getList(1);
+        // getList(1);
 
         //현재시간 마지막업데이트시간
         let newDate = new Date();
@@ -221,6 +225,15 @@ const Ranking = () => {
                 setMinutes(3);
                 setSeconds(0);
                 setCode("");
+
+                //인증한데이터저장
+                const authData = {
+                    phone: tel,
+                    m_code: code,
+                    m_n_name: data.m_n_name,
+                    photo: data.m_f_photo
+                };
+                setAuthMyData(authData);
             }
         })
         .catch((error) => {
@@ -236,6 +249,30 @@ const Ranking = () => {
             setConfirm(true);
         });
     };
+
+
+    //프로필수정 버튼 클릭시 팝업열기
+    const editPopOpenHandler = () => {
+        dispatch(profileEditPop({profileEditPop:true,profileEditPopData:authMyData}));
+    };
+
+
+    //프로필수정완료했을때 정보 변경
+    useEffect(()=>{
+        if(popup.profileEditPopDone){
+            const newList = [...list];
+            newList[0].m_n_name = popup.profileEditPopDoneData.m_n_name;
+            newList[0].m_f_photo = popup.profileEditPopDoneData.m_f_photo;
+            setList(newList);
+
+            const newAuthMyData = {...authMyData};
+            newAuthMyData.m_n_name = popup.profileEditPopDoneData.m_n_name;
+            newAuthMyData.photo = popup.profileEditPopDoneData.m_f_photo;
+            setAuthMyData(newAuthMyData);
+
+            dispatch(profileEditPopDone({profileEditPopDone:false,profileEditPopDoneData:{}}));
+        }
+    },[popup.profileEditPopDone]);
     
 
     return(<>
@@ -269,13 +306,10 @@ const Ranking = () => {
                                         <PatternFormat format="###-####-####" value={tel} placeholder="숫자만 입력해주세요."
                                             id="tel" 
                                             onChange={(e)=>{
-                                                console.log(e)
                                                 let val = e.currentTarget.value;
                                                 val = val.replace(/-/g, '');
                                                 val = val.trim();
                                                 setTel(val);
-
-                                                console.log(val.length)
 
                                                 if(val.length > 10){
                                                     setCodeBtn(true);
@@ -378,13 +412,21 @@ const Ranking = () => {
                                     diff_num = 9999;
                                 }
 
-                                let classImg = cont.class;
-                                if(classImg){
-                                    classImg = classImg.replace("클래스","");
+                                let isClass = cont.class;
+                                let classImg = false;
+                                if(isClass !== "Unknow"){
+                                    isClass = true;
+                                    classImg = cont.class.replace("클래스","");
                                 }
 
+                                let myPhoto = false;
+                                if(cont.m_f_photo != null){
+                                    myPhoto = true;
+                                }
+
+
                                 return(
-                                    <li key={i} className={rank < 4 ? "top" : ""}>
+                                    <li key={i} className={`${rank < 4 ? "top" : ""}`}>
                                         <div className="box rank_box flex_center">
                                             <div className="flex_center">
                                                 {rank < 4 && <img src={require(`../images/medal_${rank}.svg`)} alt="메달이미지" />}
@@ -392,31 +434,40 @@ const Ranking = () => {
                                             </div>
                                             <div className={`tag flex_center${tag}`}><span>{tag.length > 0 ? CF.MakeIntComma(diff_num) : "-"}</span></div>
                                         </div>
-                                        <div className="box name_box">
-                                            <div className="flex_start flex_wrap">
+                                        <div className={`box name_box${myData ? " my_data" : ""}`}>
+                                            <div className="inner_box flex_start flex_wrap">
                                                 <div className="flex_top">
-                                                    <img src={require(`../images/gender_${cont.m_gender}.svg`)} alt="성별이미지" className="gender_img" />
+                                                    <div className="img">
+                                                        {myData && myPhoto ?
+                                                            <img src={cont.m_f_photo} alt="프로필이미지" />
+                                                            :<img src={require(`../images/gender_${cont.m_gender}.svg`)} alt="성별이미지" />
+                                                        }
+                                                    </div>
                                                     <p className="name">{cont.m_n_name}</p>
                                                 </div>
                                                 {myData &&
-                                                    <div className="my_box flex_wrap">
-                                                        <p>{cont.m_name}</p>
-                                                        <p>{cont.m_address} / {cont.birth}</p>
+                                                    <div className="flex_between">
+                                                        <div className="my_box flex_wrap">
+                                                            <p>{cont.m_name}</p>
+                                                            <p>{cont.m_address} / {cont.birth}</p>
+                                                        </div>
                                                     </div>
                                                 }
                                             </div>
                                             <div className="mo_show">
-                                                <ul className="flex">
-                                                    <li><img src={require(`../images/class_${classImg}.png`)} alt="클래스이미지" /></li>
+                                                <ul className="flex_wrap">
+                                                    {isClass && <li><img src={require(`../images/class_${classImg}.png`)} alt="클래스이미지" /></li>}
                                                     <li className="flex">
                                                         <span>LV.</span>
                                                         <p>{CF.MakeIntComma(cont.level)}</p>
                                                     </li>
                                                 </ul>
+                                                {myData && <button type="button" className="btn_edit tm5" onClick={editPopOpenHandler}>프로필 수정</button>}
                                             </div>
+                                            {myData && <button type="button" className="btn_edit mo_none" onClick={editPopOpenHandler}>프로필 수정</button>}
                                         </div>
                                         <div className="box class_box flex_center">
-                                            <img src={require(`../images/class_${classImg}.png`)} alt="클래스이미지" />
+                                            {isClass && <img src={require(`../images/class_${classImg}.png`)} alt="클래스이미지" />}
                                         </div>
                                         <div className="box level_box flex_center">
                                             <span>LV.</span>

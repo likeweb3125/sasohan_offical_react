@@ -117,6 +117,7 @@ const PasswordChange = () => {
     const passChangeHandler = () => {
         const body = {
             password: values.password,
+            password2: values.password2,
             token: token
         }
 
@@ -144,8 +145,6 @@ const PasswordChange = () => {
             setConfirm(true);
         });
     };
-
-
 
 
     return(<>

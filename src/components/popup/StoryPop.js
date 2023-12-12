@@ -99,7 +99,7 @@ const StoryPop = () => {
     return(<>
         <div className="flex_center pop_wrap story_pop">
             <div className="dim" onClick={closePopHandler}></div>
-            <div className="pop_cont">
+            <div className="pop_cont border">
                 <button type="button" className="btn_close" onClick={closePopHandler}>닫기버튼</button>
                 <div className="scroll_wrap" ref={contRef}>
                     <div className="top_box flex">

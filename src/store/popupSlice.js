@@ -36,6 +36,12 @@ const popup = createSlice({
         storyPop: false,
         storyPopNo: null,
         storyPopList: [],
+
+        //랭킹 프로필수정 팝업
+        profileEditPop: false,
+        profileEditPopData: {},
+        profileEditPopDone: false,
+        profileEditPopDoneData: {},
         
         // 앱 팝업------------------------------------
         //회원가입 - 약관동의 팝업
@@ -111,6 +117,14 @@ const popup = createSlice({
         storyPopList: (state, action) => {
             state.storyPopList = action.payload;
         },
+        profileEditPop: (state, action) => {
+            state.profileEditPop = action.payload.profileEditPop;
+            state.profileEditPopData = action.payload.profileEditPopData;
+        },
+        profileEditPopDone: (state, action) => {
+            state.profileEditPopDone = action.payload.profileEditPopDone;
+            state.profileEditPopDoneData = action.payload.profileEditPopDoneData;
+        },
         // 앱 팝업------------------------------------
         appTermsPop: (state, action) => {
             state.appTermsPop = action.payload.appTermsPop;
@@ -163,6 +177,8 @@ export const {
     applyPop,
     storyPop,
     storyPopList,
+    profileEditPop,
+    profileEditPopDone,
     appTermsPop,
     appTermsCheckList,
     appProfilePop,

@@ -6,6 +6,7 @@ import ReviewPop from "./ReviewPop";
 import TermsPop from "./TermsPop";
 import ApplyPop from "./ApplyPop";
 import StoryPop from "./StoryPop";
+import ProfileEditPop from "./ProfileEditPop";
 import AppTermsPop from "./app/TermsPop";
 import AppProfilePop from "./app/ProfilePop";
 import AppProfileImgPop from "./app/ProfileImgPop";
@@ -42,6 +43,9 @@ const Popup = () => {
 
             {/* 실시간만남스토리 팝업 */}
             {popup.storyPop && <StoryPop />}
+
+            {/* 랭킹 프로필수정 팝업 */}
+            {popup.profileEditPop && <ProfileEditPop />}
 
 
             {/* 앱 팝업----------------------------------------- */}

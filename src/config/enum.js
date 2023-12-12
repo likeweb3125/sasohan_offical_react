@@ -21,6 +21,8 @@ exports.enum_api_uri = {
     rank_list: `${api_uri}/v1/main/ranking`,
     rank_sms: `${api_uri}/v1/main/ranking-sms`,
     rank_done: `${api_uri}/v1/main/ranking-confirm`,
+    rank_profile_img: `${api_uri}/v1/main/ranking-profile/image-add`,
+    rank_profile: `${api_uri}/v1/main/ranking-profile/modify`,
 
 
     //앱----------------------------------------
