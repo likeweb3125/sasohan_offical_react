@@ -96,6 +96,7 @@ const ProfileEditPop = () => {
         if(name === null || name.trim().length < 2){
             setErrorName(true);
         }else if(profileImgName.length === 0){
+            setErrorName(false);
             dispatch(confirmPop({
                 confirmPop:true,
                 confirmPopTit:'알림',
@@ -104,6 +105,7 @@ const ProfileEditPop = () => {
             }));
             setConfirm(true);
         }else{
+            setErrorName(false);
             editHandler();
         }
     };
