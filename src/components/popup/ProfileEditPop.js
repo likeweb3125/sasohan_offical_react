@@ -183,7 +183,7 @@ const ProfileEditPop = () => {
                                     {errorName && <p className="error_txt">닉네임은 최소 2자 이상 입력해주세요.</p>}
                                 </div>
                             </li>
-                            <li className="flex">
+                            <li className="flex_top">
                                 <p>프로필 사진</p>
                                 <div>
                                     <div className={`profile_up_box${profileImg ? " on" : ""}`}>
