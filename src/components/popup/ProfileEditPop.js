@@ -93,7 +93,7 @@ const ProfileEditPop = () => {
 
     //수정하기버튼 클릭시
     const editBtnClickHandler = () => {
-        if(name === null || name.trim().length < 3){
+        if(name === null || name.trim().length < 2){
             setErrorName(true);
         }else if(profileImgName.length === 0){
             dispatch(confirmPop({
