@@ -117,13 +117,10 @@ const Ranking = () => {
         });
     };
 
-    useEffect(()=>{
-        dispatch(profileEditPop({profileEditPop:true,profileEditPopData:authMyData}));
-    },[]);
     
     //셀렉트값 변경시 랭킹리스트 가져오기
     useEffect(()=>{
-        // getList(1);
+        getList(1);
 
         //현재시간 마지막업데이트시간
         let newDate = new Date();
