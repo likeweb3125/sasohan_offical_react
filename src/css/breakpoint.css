@@ -544,7 +544,7 @@
     .rankin_wrap .form_box li{display: block;}
     .rankin_wrap .form_box li>p{width: 100%;}
     .rankin_wrap .form_box li>div{width: 100%;}
-    .rankin_wrap .tit_box + .list_box{margin-top: 60px;}
+    .rankin_wrap .tit_box + .list_box{margin-top: 60px;width: calc(100% + 40px);margin-left: -20px;padding: 20px 20px 0;background: #fff;}
     .rankin_wrap .list_box .top_box {display: block;}
     .rankin_wrap .list_box .top_box p{margin-bottom: 10px;}
     .rankin_wrap .list_box .top_box .sel_box .input_box3{width: 100%;}
