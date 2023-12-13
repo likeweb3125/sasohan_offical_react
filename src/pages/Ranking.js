@@ -5,6 +5,7 @@ import { PatternFormat } from "react-number-format";
 import moment from "moment";
 import { enum_api_uri } from "../config/enum";
 import * as CF from "../config/function";
+import util from "../config/util";
 import { confirmPop, loadingPop, profileEditPop, profileEditPopDone } from "../store/popupSlice";
 import ConfirmPop from "../components/popup/ConfirmPop";
 import ranking_tip_box from "../images/ranking_tip_box.svg";
@@ -37,6 +38,17 @@ const Ranking = () => {
     const formatTime = (time) => time.toString().padStart(2, '0');
     const [myData, setMyData] = useState(false);
     const [authMyData, setAuthMyData] = useState({});
+    const [appPage, setAppPage] = useState(false);
+    const token = util.getCookie("token");
+
+    // 앱인지 쿠키에있는 토큰값으로 확인하기
+    useEffect(()=>{
+        if(token){
+            setAppPage(true);
+        }else{
+            setAppPage(false);
+        }
+    },[token]);
 
 
     // Confirm팝업 닫힐때
@@ -284,62 +296,36 @@ const Ranking = () => {
                     <div className="tip_box">
                         <p className="tip_txt">사소한 랭킹 산정은 어떻게 하나요?</p>
                         <div className="box">
-                            <img src={ranking_tip_box} alt="말풍선이미지" className="mo_none" />
-                            <img src={ranking_tip_box_mo} alt="말풍선이미지" className="mo_show" />
+                            <img src={ranking_tip_box} alt="말풍선이미지" className="tab_none" />
+                            <img src={ranking_tip_box_mo} alt="말풍선이미지" className="tab_show" />
                         </div>
                     </div>
                 </div>
-                <div className="auth_box flex_between flex_top">
-                    <div className="txt_box">
-                        <p className="txt1">회원님의 랭킹이 <br/>궁금하신가요?</p>
-                        <p className="txt2">회원가입 시 입력한 연락처 정보를 통해 <br/>회원님의 랭킹을 확인할 수 있습니다.</p>
-                    </div>
-                    <div className="form_box">
-                        <ul>
-                            <li className="flex_between">
-                                <p>연락처</p>
-                                <div className="input_btn_box">
-                                    <div className={`input_box h_50${focusInput.tel ? " on" : ""}`}>
-                                        <PatternFormat format="###-####-####" value={tel} placeholder="숫자만 입력해주세요."
-                                            id="tel" 
-                                            onChange={(e)=>{
-                                                let val = e.currentTarget.value;
-                                                val = val.replace(/-/g, '');
-                                                val = val.trim();
-                                                setTel(val);
-
-                                                if(val.length > 10){
-                                                    setCodeBtn(true);
-                                                }else{
-                                                    setCodeBtn(false);
-                                                }
-                                            }}
-                                            onFocus={(e)=>{
-                                                focusHandler(e,true);
-                                            }}
-                                            onBlur={(e)=>{
-                                                focusHandler(e,false);
-                                            }}
-                                        />
-                                    </div>
-                                    <button type="button" disabled={codeBtn ? false : true} onClick={codeSendHandler}>인증번호 전송</button>
-                                </div>
-                            </li>
-                            {authStep === 2 &&
+                {/* 앱아닐때만 노출 */}
+                {!appPage &&
+                    <div className="auth_box flex_between flex_top">
+                        <div className="txt_box">
+                            <p className="txt1">회원님의 랭킹이 <br/>궁금하신가요?</p>
+                            <p className="txt2">회원가입 시 입력한 연락처 정보를 통해 <br/>회원님의 랭킹을 확인할 수 있습니다.</p>
+                        </div>
+                        <div className="form_box">
+                            <ul>
                                 <li className="flex_between">
-                                    <p>인증번호</p>
-                                    <div className="input_time_box">
-                                        <div className={`input_box h_50${focusInput.code ? " on" : ""}`}>
-                                            <input type={`text`} value={code} placeholder="인증번호를 입력해주세요."
-                                                id="code" 
+                                    <p>연락처</p>
+                                    <div className="input_btn_box">
+                                        <div className={`input_box h_50${focusInput.tel ? " on" : ""}`}>
+                                            <PatternFormat format="###-####-####" value={tel} placeholder="숫자만 입력해주세요."
+                                                id="tel" 
                                                 onChange={(e)=>{
-                                                    const val = e.currentTarget.value;
-                                                    setCode(val);
+                                                    let val = e.currentTarget.value;
+                                                    val = val.replace(/-/g, '');
+                                                    val = val.trim();
+                                                    setTel(val);
 
-                                                    if(val.length > 0){
-                                                        setDoneBtn(true);
+                                                    if(val.length > 10){
+                                                        setCodeBtn(true);
                                                     }else{
-                                                        setDoneBtn(false);
+                                                        setCodeBtn(false);
                                                     }
                                                 }}
                                                 onFocus={(e)=>{
@@ -350,34 +336,70 @@ const Ranking = () => {
                                                 }}
                                             />
                                         </div>
-                                        <span className="time">{formatTime(minutes)}:{formatTime(seconds)}</span>
+                                        <button type="button" disabled={codeBtn ? false : true} onClick={codeSendHandler}>인증번호 전송</button>
                                     </div>
                                 </li>
+                                {authStep === 2 &&
+                                    <li className="flex_between">
+                                        <p>인증번호</p>
+                                        <div className="input_time_box">
+                                            <div className={`input_box h_50${focusInput.code ? " on" : ""}`}>
+                                                <input type={`text`} value={code} placeholder="인증번호를 입력해주세요."
+                                                    id="code" 
+                                                    onChange={(e)=>{
+                                                        const val = e.currentTarget.value;
+                                                        setCode(val);
+
+                                                        if(val.length > 0){
+                                                            setDoneBtn(true);
+                                                        }else{
+                                                            setDoneBtn(false);
+                                                        }
+                                                    }}
+                                                    onFocus={(e)=>{
+                                                        focusHandler(e,true);
+                                                    }}
+                                                    onBlur={(e)=>{
+                                                        focusHandler(e,false);
+                                                    }}
+                                                />
+                                            </div>
+                                            <span className="time">{formatTime(minutes)}:{formatTime(seconds)}</span>
+                                        </div>
+                                    </li>
+                                }
+                            </ul>
+                            {authStep === 2 &&
+                                <button type="button" className="btn_type1" disabled={doneBtn ? false : true} onClick={doneHandler}>인증완료</button>
                             }
-                        </ul>
-                        {authStep === 2 &&
-                            <button type="button" className="btn_type1" disabled={doneBtn ? false : true} onClick={doneHandler}>인증완료</button>
-                        }
+                        </div>
                     </div>
-                </div>
+                }
                 <div className="list_box">
+                    {token && <p>토큰 : {token}</p>}
                     <div className="top_box flex_between">
                         <p>Last Update <span>{date}</span></p>
-                        <div className="input_box3">
-                            <select 
-                                value={rank}
-                                onChange={(e)=>{
-                                    const val = e.currentTarget.value;
-                                    setRank(val);
-                                }}
-                            >
-                                <option value=''>클래스 전체</option>
-                                {selectList.map((cont,i)=>{
-                                    return(
-                                        <option value={cont.val} key={i}>{cont.name}</option>
-                                    );
-                                })}
-                            </select>
+                        <div className="sel_box flex">
+                            {/* 앱일때만 노출 */}
+                            {appPage &&
+                                <button type="button" className="s_btn_type1 rm10">나의 랭킹 보기</button>
+                            }
+                            <div className="input_box3">
+                                <select 
+                                    value={rank}
+                                    onChange={(e)=>{
+                                        const val = e.currentTarget.value;
+                                        setRank(val);
+                                    }}
+                                >
+                                    <option value=''>클래스 전체</option>
+                                    {selectList.map((cont,i)=>{
+                                        return(
+                                            <option value={cont.val} key={i}>{cont.name}</option>
+                                        );
+                                    })}
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div className="ul_box">

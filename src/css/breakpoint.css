@@ -7,6 +7,8 @@
 /* PC일때만 */
 @media screen and (min-width: 1200px){
     /* 공통 */
+    .tab_none{display: block;}
+    .tab_show{display: none;}
     .btn_link:hover::before{width: 100%;}
     .swiper-button-prev.hover_btn:hover{background: url(../images/arrow_prev_p.svg) no-repeat center;}
     .swiper-button-prev.hover_btn:hover::before{transform: translate(-50%,-50%) scale(1);opacity: 1;}
@@ -170,6 +172,8 @@
     /* 공통 */
     #wrap * {word-break: keep-all;}
     .btn_link::before{width: 100%;}
+    .tab_show{display: block;}
+    .tab_none{display: none;}
 
     /* header */
     #header{position: relative;top: auto;padding: 30px 30px 0;display: block;height: auto;}
@@ -248,6 +252,7 @@
     .rankin_wrap .inner_cont{padding-top: 168px;}
     .rankin_wrap .tit_box{display: block;}
     .rankin_wrap .tit_box .txt{padding-bottom: 36px;}
+    .rankin_wrap .tip_box .box{right: auto;left: 0;}
     .rankin_wrap .auth_box{margin: 20px auto 32px;padding: 36px 20px;min-height: 280px;}
     .rankin_wrap .auth_box .txt_box .txt1{font-size: 28px;}
     .rankin_wrap .auth_box .txt_box .txt2{font-size: 18px;padding-top: 12px;}
@@ -539,9 +544,11 @@
     .rankin_wrap .form_box li{display: block;}
     .rankin_wrap .form_box li>p{width: 100%;}
     .rankin_wrap .form_box li>div{width: 100%;}
+    .rankin_wrap .tit_box + .list_box{margin-top: 60px;}
     .rankin_wrap .list_box .top_box {display: block;}
     .rankin_wrap .list_box .top_box p{margin-bottom: 10px;}
-    .rankin_wrap .list_box .top_box select{width: 100%;}
+    .rankin_wrap .list_box .top_box .sel_box .input_box3{width: 100%;}
+    .rankin_wrap .list_box .top_box .sel_box button + .input_box3{width: calc(100% - 140px);}
     .rankin_wrap .ul_box .top_ul li{font-size: 16px;padding: 12px 5px;width: 100px;}
     .rankin_wrap .ul_box .top_ul li:nth-child(2){width: calc(100% - 104px);margin-right: 0;}
     .rankin_wrap .ul_box .top_ul li:nth-child(n+3){display: none;}
