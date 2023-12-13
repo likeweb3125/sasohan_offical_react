@@ -18,6 +18,7 @@ const Ranking = () => {
     const rank_list = enum_api_uri.rank_list;
     const rank_sms = enum_api_uri.rank_sms;
     const rank_done = enum_api_uri.rank_done;
+    const rank_token = enum_api_uri.rank_token;
     const [confirm, setConfirm] = useState(false);
     const [tel, setTel] = useState("");
     const [code, setCode] = useState("");
@@ -282,6 +283,38 @@ const Ranking = () => {
             dispatch(profileEditPopDone({profileEditPopDone:false,profileEditPopDoneData:{}}));
         }
     },[popup.profileEditPopDone]);
+
+
+    //앱일때 나의랭킹보기버튼 클릭시
+    const myRankHandler = () => {
+        dispatch(loadingPop(true));
+
+        const body = {token: token};
+
+        axios.post(rank_token, body)
+        .then((res)=>{
+            if(res.status === 200){
+                dispatch(loadingPop(false));
+
+                let data = res.data;
+                setList([data]);
+
+                setMyData(true);
+            }
+        })
+        .catch((error) => {
+            dispatch(loadingPop(false));
+
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
+    };
     
 
     return(<>
@@ -376,13 +409,12 @@ const Ranking = () => {
                     </div>
                 }
                 <div className="list_box">
-                    {token && <p>토큰 : {token}</p>}
                     <div className="top_box flex_between">
                         <p>Last Update <span>{date}</span></p>
                         <div className="sel_box flex">
                             {/* 앱일때만 노출 */}
                             {appPage &&
-                                <button type="button" className="s_btn_type1 rm10">나의 랭킹 보기</button>
+                                <button type="button" className="s_btn_type1 rm10" onClick={myRankHandler}>나의 랭킹 보기</button>
                             }
                             <div className="input_box3">
                                 <select 
@@ -481,9 +513,9 @@ const Ranking = () => {
                                                         <p>{CF.MakeIntComma(cont.level)}</p>
                                                     </li>
                                                 </ul>
-                                                {myData && <button type="button" className="btn_edit tm5" onClick={editPopOpenHandler}>프로필 수정</button>}
+                                                {myData && !token && <button type="button" className="btn_edit tm5" onClick={editPopOpenHandler}>프로필 수정</button>}
                                             </div>
-                                            {myData && <button type="button" className="btn_edit mo_none" onClick={editPopOpenHandler}>프로필 수정</button>}
+                                            {myData && !token && <button type="button" className="btn_edit mo_none" onClick={editPopOpenHandler}>프로필 수정</button>}
                                         </div>
                                         <div className="box class_box flex_center">
                                             {isClass && <img src={require(`../images/class_${classImg}.png`)} alt="클래스이미지" />}
