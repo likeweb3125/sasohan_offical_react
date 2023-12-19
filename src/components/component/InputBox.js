@@ -43,6 +43,13 @@ const InputBox = (props) => {
                 id={props.id}
                 onFocus={props.onFocusHandler}
                 onBlur={props.onBlurHandler}
+                onKeyDown={(e)=>{
+                    if(e.key === 'Enter' && !e.nativeEvent.isComposing){
+                        e.preventDefault();
+                        props.onSearchHandler();
+                    }
+                }}
+                maxLength={props.maxLength}
             />
         </>
     );

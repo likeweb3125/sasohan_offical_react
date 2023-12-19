@@ -7,6 +7,8 @@ import { enum_api_uri } from "../config/enum";
 import * as CF from "../config/function";
 import util from "../config/util";
 import { confirmPop, loadingPop, profileEditPop, profileEditPopDone } from "../store/popupSlice";
+import InputBox from "../components/component/InputBox";
+import SearchBox from "../components/component/SearchBox";
 import ConfirmPop from "../components/popup/ConfirmPop";
 import ranking_tip_box from "../images/ranking_tip_box.svg";
 import ranking_tip_box_mo from "../images/ranking_tip_box_mo.svg";
@@ -41,6 +43,9 @@ const Ranking = () => {
     const [authMyData, setAuthMyData] = useState({});
     const [appPage, setAppPage] = useState(false);
     const token = util.getCookie("token");
+    const [searchValue, setSearchValue] = useState("");
+    const [classCount, setClassCount] = useState({});
+
 
     // 앱인지 쿠키에있는 토큰값으로 확인하기
     useEffect(()=>{
@@ -89,7 +94,7 @@ const Ranking = () => {
         setMyData(false);
         dispatch(loadingPop(true));
 
-        axios.get(`${rank_list}?page_no=${page}${rank && "&rank="+rank}`)
+        axios.get(`${rank_list}?page_no=${page}${rank && "&rank="+rank}${searchValue && "&m_n_name="+searchValue}`)
         .then((res)=>{
             if(res.status === 200){
                 dispatch(loadingPop(false));
@@ -114,6 +119,9 @@ const Ranking = () => {
 
                 //현재페이지번호 저장
                 setCurrentPage(data.current_page);
+
+                //랭킹 인원수
+                setClassCount(data.class_cnt);
             }
         })
         .catch((error) => {
@@ -176,7 +184,6 @@ const Ranking = () => {
         });
     };
 
-    
 
     //인증번호확인 타이머
     useEffect(() => {
@@ -315,6 +322,22 @@ const Ranking = () => {
             setConfirm(true);
         });
     };
+
+
+    //닉네임 검색하기
+    const searchHandler = () => {
+        if(searchValue){
+            getList(1);
+        }else{
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'닉네임을 입력해주세요.',
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        }
+    };
     
 
     return(<>
@@ -408,6 +431,46 @@ const Ranking = () => {
                         </div>
                     </div>
                 }
+                <div className="rank_box">
+                    <p className="tit">사소한 랭킹 클래스</p>
+                    <ul className="flex_between">
+                        <li>
+                            <div className="img_box"><img src={require(`../images/class_X.png`)} alt="클래스이미지" /></div>
+                            <div className="txt_box flex_between">
+                                <p><strong>상위 1</strong>%</p>
+                                {classCount.cnt_X_class && <p>{CF.MakeIntComma(classCount.cnt_X_class)} 명</p>}
+                            </div>
+                        </li>
+                        <li>
+                            <div className="img_box"><img src={require(`../images/class_SS.png`)} alt="클래스이미지" /></div>
+                            <div className="txt_box flex_between">
+                                <p>상위 <strong>10</strong>%</p>
+                                {classCount.cnt_SS_class && <p>{CF.MakeIntComma(classCount.cnt_SS_class)} 명</p>}
+                            </div>
+                        </li>
+                        <li>
+                            <div className="img_box"><img src={require(`../images/class_S.png`)} alt="클래스이미지" /></div>
+                            <div className="txt_box flex_between">
+                                <p>상위 30%</p>
+                                {classCount.cnt_S_class && <p>{CF.MakeIntComma(classCount.cnt_S_class)} 명</p>}
+                            </div>
+                        </li>
+                        <li>
+                            <div className="img_box"><img src={require(`../images/class_A.png`)} alt="클래스이미지" /></div>
+                            <div className="txt_box flex_between">
+                                <p>상위 60%</p>
+                                {classCount.cnt_A_class && <p>{CF.MakeIntComma(classCount.cnt_A_class)} 명</p>}
+                            </div>
+                        </li>
+                        <li>
+                            <div className="img_box"><img src={require(`../images/class_B.png`)} alt="클래스이미지" /></div>
+                            <div className="txt_box flex_between">
+                                <p>상위 100%</p>
+                                {classCount.cnt_B_class && <p>{CF.MakeIntComma(classCount.cnt_B_class)} 명</p>}
+                            </div>
+                        </li>
+                    </ul>
+                </div>
                 <div className="list_box">
                     <div className="top_box flex_between">
                         <p>Last Update <span>{date}</span></p>
@@ -416,21 +479,34 @@ const Ranking = () => {
                             {appPage &&
                                 <button type="button" className="s_btn_type1 rm10" onClick={myRankHandler}>나의 랭킹 보기</button>
                             }
-                            <div className="input_box3">
-                                <select 
-                                    value={rank}
-                                    onChange={(e)=>{
+                            <div className="flex">
+                                <div className="input_box3">
+                                    <select 
+                                        value={rank}
+                                        onChange={(e)=>{
+                                            const val = e.currentTarget.value;
+                                            setRank(val);
+                                        }}
+                                    >
+                                        <option value=''>클래스 전체</option>
+                                        {selectList.map((cont,i)=>{
+                                            return(
+                                                <option value={cont.val} key={i}>{cont.name}</option>
+                                            );
+                                        })}
+                                    </select>
+                                </div>
+                                <SearchBox 
+                                    type="text"
+                                    placeholder="닉네임을 검색하세요."
+                                    inputClass="input_box2 h_50"
+                                    value={searchValue}
+                                    onChangeHandler={(e)=>{
                                         const val = e.currentTarget.value;
-                                        setRank(val);
+                                        setSearchValue(val);
                                     }}
-                                >
-                                    <option value=''>클래스 전체</option>
-                                    {selectList.map((cont,i)=>{
-                                        return(
-                                            <option value={cont.val} key={i}>{cont.name}</option>
-                                        );
-                                    })}
-                                </select>
+                                    onSearchHandler={searchHandler}
+                                />
                             </div>
                         </div>
                     </div>
@@ -463,9 +539,9 @@ const Ranking = () => {
                                     diff_num = 9999;
                                 }
 
-                                let isClass = cont.class;
-                                let classImg = false;
-                                if(isClass !== "Unknow"){
+                                let isClass = false;
+                                let classImg = cont.class;
+                                if(classImg !== "Unknow"){
                                     isClass = true;
                                     classImg = cont.class.replace("클래스","");
                                 }

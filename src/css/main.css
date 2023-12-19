@@ -60,6 +60,7 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .input_box2 input::-moz-placeholder {color: #999; opacity: 1; text-align:left; font-size: 16px;} 
 .input_box2 input:-ms-input-placeholder {color: #999; text-align:left;font-size: 16px;}
 .input_box2 input:focus{border-color: #6840FD;}
+.input_box2.h_50 input{height: 50px;}
 .input_box2 select{width: 100%;height: 56px;border: 1px solid #ddd;font-size: 16px;border-radius: 8px;padding:0 40px 0 16px;background: url(../images/arrow_select2.svg) no-repeat center right 16px;}
 .input_box2 select:focus{border-color: #6840FD;}
 
