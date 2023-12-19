@@ -326,17 +326,7 @@ const Ranking = () => {
 
     //닉네임 검색하기
     const searchHandler = () => {
-        if(searchValue){
-            getList(1);
-        }else{
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt:'닉네임을 입력해주세요.',
-                confirmPopBtn:1,
-            }));
-            setConfirm(true);
-        }
+        getList(1);
     };
     
 
