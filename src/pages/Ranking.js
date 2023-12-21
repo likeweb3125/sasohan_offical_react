@@ -26,7 +26,7 @@ const Ranking = () => {
     const [code, setCode] = useState("");
     const [focusInput, setFocusInput] = useState({});
     const [authStep, setAuthStep] = useState(1);
-    const [selectList, setSelectList] = useState([{name:"X클래스",val:1},{name:"SS클래스",val:2},{name:"S클래스",val:3},{name:"A클래스",val:4},{name:"B클래스",val:5}]);
+    const [selectList, setSelectList] = useState([{name:"X클래스",val:1},{name:"S클래스",val:2},{name:"A클래스",val:3},{name:"B클래스",val:4},{name:"C클래스",val:5}]);
     const [rank, setRank] = useState("");
     const [listData, setListData] = useState({});
     const [list, setList] = useState([]);
@@ -44,7 +44,8 @@ const Ranking = () => {
     const [appPage, setAppPage] = useState(false);
     const token = util.getCookie("token");
     const [searchValue, setSearchValue] = useState("");
-    const [classCount, setClassCount] = useState({});
+    const [classCount, setClassCount] = useState([]);
+    const [randomProfile, setRandomProfile] = useState([]);
 
 
     // 앱인지 쿠키에있는 토큰값으로 확인하기
@@ -328,6 +329,26 @@ const Ranking = () => {
     const searchHandler = () => {
         getList(1);
     };
+
+
+    //랜덤프로필이미지
+    const randomProfileImages = [
+        require('../images/random_profile1.svg'),
+        require('../images/random_profile2.svg'),
+        require('../images/random_profile3.svg'),
+        require('../images/random_profile4.svg'),
+    ];
+
+
+    //랭킹리스트 변경시 랜덤프로필이미지 설정
+    useEffect(() => {
+        const randomProfiles = list.map(() => {
+            return randomProfileImages[Math.floor(Math.random() * randomProfileImages.length)].default;
+        });
+
+        setRandomProfile(randomProfiles);
+    }, [list]);
+
     
 
     return(<>
@@ -425,38 +446,38 @@ const Ranking = () => {
                     <p className="tit">사소한 랭킹 클래스</p>
                     <ul className="flex_between">
                         <li>
-                            <div className="img_box"><img src={require(`../images/class_X.png`)} alt="클래스이미지" /></div>
+                            <div className="img_box"><img src={require(`../images/class_img1.png`)} alt="클래스이미지" /></div>
                             <div className="txt_box flex_between">
                                 <p><strong>상위 1</strong>%</p>
-                                {classCount.cnt_X_class && <p>{CF.MakeIntComma(classCount.cnt_X_class)} 명</p>}
+                                {classCount[0] && <p>{CF.MakeIntComma(classCount[0])} 명</p>}
                             </div>
                         </li>
                         <li>
-                            <div className="img_box"><img src={require(`../images/class_SS.png`)} alt="클래스이미지" /></div>
+                            <div className="img_box"><img src={require(`../images/class_img2.png`)} alt="클래스이미지" /></div>
                             <div className="txt_box flex_between">
                                 <p>상위 <strong>10</strong>%</p>
-                                {classCount.cnt_SS_class && <p>{CF.MakeIntComma(classCount.cnt_SS_class)} 명</p>}
+                                {classCount[1] && <p>{CF.MakeIntComma(classCount[1])} 명</p>}
                             </div>
                         </li>
                         <li>
-                            <div className="img_box"><img src={require(`../images/class_S.png`)} alt="클래스이미지" /></div>
+                            <div className="img_box"><img src={require(`../images/class_img3.png`)} alt="클래스이미지" /></div>
                             <div className="txt_box flex_between">
-                                <p>상위 30%</p>
-                                {classCount.cnt_S_class && <p>{CF.MakeIntComma(classCount.cnt_S_class)} 명</p>}
+                                <p>상위 <strong>30</strong>%</p>
+                                {classCount[2] && <p>{CF.MakeIntComma(classCount[2])} 명</p>}
                             </div>
                         </li>
                         <li>
-                            <div className="img_box"><img src={require(`../images/class_A.png`)} alt="클래스이미지" /></div>
+                            <div className="img_box"><img src={require(`../images/class_img4.png`)} alt="클래스이미지" /></div>
                             <div className="txt_box flex_between">
-                                <p>상위 60%</p>
-                                {classCount.cnt_A_class && <p>{CF.MakeIntComma(classCount.cnt_A_class)} 명</p>}
+                                <p>상위 <strong>60</strong>%</p>
+                                {classCount[3] && <p>{CF.MakeIntComma(classCount[3])} 명</p>}
                             </div>
                         </li>
                         <li>
-                            <div className="img_box"><img src={require(`../images/class_B.png`)} alt="클래스이미지" /></div>
+                            <div className="img_box"><img src={require(`../images/class_img5.png`)} alt="클래스이미지" /></div>
                             <div className="txt_box flex_between">
-                                <p>상위 100%</p>
-                                {classCount.cnt_B_class && <p>{CF.MakeIntComma(classCount.cnt_B_class)} 명</p>}
+                                <p>상위 <strong>100</strong>%</p>
+                                {classCount[4] && <p>{CF.MakeIntComma(classCount[4])} 명</p>}
                             </div>
                         </li>
                     </ul>
@@ -514,6 +535,7 @@ const Ranking = () => {
                                 let diff_num = cont.diff_rank;
                                 let tag;
 
+                                //순위
                                 if(diff == 0){
                                     tag = "";
                                 }else{
@@ -530,17 +552,14 @@ const Ranking = () => {
                                 }
 
                                 let isClass = false;
-                                let classImg = cont.class;
-                                if(classImg !== "Unknow"){
+                                if(cont.class_number > 0){
                                     isClass = true;
-                                    classImg = cont.class.replace("클래스","");
                                 }
 
                                 let myPhoto = false;
                                 if(cont.m_f_photo != null){
                                     myPhoto = true;
                                 }
-
 
                                 return(
                                     <li key={i} className={`${rank < 4 ? "top" : ""}`}>
@@ -557,10 +576,10 @@ const Ranking = () => {
                                                     <div className="img">
                                                         {myData && myPhoto ?
                                                             <img src={cont.m_f_photo} alt="프로필이미지" />
-                                                            :<img src={require(`../images/gender_${cont.m_gender}.svg`)} alt="성별이미지" />
+                                                            :<img src={randomProfile[i]} alt="랜덤프로필이미지" />
                                                         }
                                                     </div>
-                                                    <p className="name">{cont.m_n_name}</p>
+                                                    <p className={`name${cont.M_N_Name_modify === 1 ? ' color_black' : ''}`}>{cont.m_n_name}</p>
                                                 </div>
                                                 {myData &&
                                                     <div className="flex_between">
@@ -573,7 +592,7 @@ const Ranking = () => {
                                             </div>
                                             <div className="mo_show">
                                                 <ul className="flex_wrap">
-                                                    {isClass && <li><img src={require(`../images/class_${classImg}.png`)} alt="클래스이미지" /></li>}
+                                                    {isClass && <li><img src={require(`../images/class_img${cont.class_number}.png`)} alt="클래스이미지" /></li>}
                                                     <li className="flex">
                                                         <span>LV.</span>
                                                         <p>{CF.MakeIntComma(cont.level)}</p>
@@ -584,7 +603,7 @@ const Ranking = () => {
                                             {myData && !token && <button type="button" className="btn_edit mo_none" onClick={editPopOpenHandler}>프로필 수정</button>}
                                         </div>
                                         <div className="box class_box flex_center">
-                                            {isClass && <img src={require(`../images/class_${classImg}.png`)} alt="클래스이미지" />}
+                                            {isClass && <img src={require(`../images/class_img${cont.class_number}.png`)} alt="클래스이미지" />}
                                         </div>
                                         <div className="box level_box flex_center">
                                             <span>LV.</span>

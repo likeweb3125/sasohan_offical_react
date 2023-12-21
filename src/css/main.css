@@ -34,6 +34,7 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .section_inner {position: relative; max-width: 1400px; width: 100%; margin: 0 auto;}
 .mo_show{display: none;}
 .color_point{color: #6840FD;}
+.color_black{color: #222 !important;}
 .bp0{padding-bottom: 0 !important;}
 .error_txt{font-size: 15px;color: #FC5862;padding-top: 8px;}
 
