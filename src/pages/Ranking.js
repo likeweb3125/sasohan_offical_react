@@ -554,7 +554,7 @@ const Ranking = () => {
                                             <div className="inner_box flex_start flex_wrap">
                                                 <div className="flex_top">
                                                     <div className="img">
-                                                        {myData && myPhoto ?
+                                                        {myPhoto ?
                                                             <img src={cont.m_f_photo} alt="프로필이미지" />
                                                             :<img src={require(`../images/random_profile${cont.profile_num}.svg`)} alt="랜덤프로필이미지" />
                                                         }
