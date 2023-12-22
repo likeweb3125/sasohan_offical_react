@@ -276,6 +276,7 @@
     .rankin_wrap .ul_box .top_ul li:nth-child(3){width: 33%;}
     .rankin_wrap .ul_box .top_ul li:nth-child(4){width: 18%;}
     .rankin_wrap .ul_box .list_ul>li .box{width: 30%;margin-right: 4px;}
+    .rankin_wrap .ul_box .list_ul>li .rank_box p{font-size: 16px;}
     .rankin_wrap .ul_box .list_ul>li .level_box{width: 19%;}
     .rankin_wrap .ul_box .list_ul>li .name_box{width: 33%;}
     .rankin_wrap .ul_box .list_ul>li .class_box{width: 18%;}

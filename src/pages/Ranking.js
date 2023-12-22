@@ -45,7 +45,6 @@ const Ranking = () => {
     const token = util.getCookie("token");
     const [searchValue, setSearchValue] = useState("");
     const [classCount, setClassCount] = useState([]);
-    const [randomProfile, setRandomProfile] = useState([]);
 
 
     // 앱인지 쿠키에있는 토큰값으로 확인하기
@@ -330,25 +329,6 @@ const Ranking = () => {
         getList(1);
     };
 
-
-    //랜덤프로필이미지
-    const randomProfileImages = [
-        require('../images/random_profile1.svg'),
-        require('../images/random_profile2.svg'),
-        require('../images/random_profile3.svg'),
-        require('../images/random_profile4.svg'),
-    ];
-
-
-    //랭킹리스트 변경시 랜덤프로필이미지 설정
-    useEffect(() => {
-        const randomProfiles = list.map(() => {
-            return randomProfileImages[Math.floor(Math.random() * randomProfileImages.length)].default;
-        });
-
-        setRandomProfile(randomProfiles);
-    }, [list]);
-
     
 
     return(<>
@@ -576,7 +556,7 @@ const Ranking = () => {
                                                     <div className="img">
                                                         {myData && myPhoto ?
                                                             <img src={cont.m_f_photo} alt="프로필이미지" />
-                                                            :<img src={randomProfile[i]} alt="랜덤프로필이미지" />
+                                                            :<img src={require(`../images/random_profile${cont.profile_num}.svg`)} alt="랜덤프로필이미지" />
                                                         }
                                                     </div>
                                                     <p className={`name${cont.M_N_Name_modify === 1 ? ' color_black' : ''}`}>{cont.m_n_name}</p>

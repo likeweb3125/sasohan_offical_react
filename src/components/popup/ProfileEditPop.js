@@ -180,7 +180,7 @@ const ProfileEditPop = () => {
                                             }}
                                             onFocusHandler={()=>setNameInput(true)}
                                             onBlurHandler={()=>setNameInput(false)}
-                                            maxLength={6}
+                                            maxLength={7}
                                         />
                                     </div>
                                     {errorName && <p className="error_txt">닉네임은 최소 2자 이상 입력해주세요.</p>}

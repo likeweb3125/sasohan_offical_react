@@ -1314,6 +1314,7 @@ const SignUp2 = () => {
                                             setValNickname(e.currentTarget.value);
                                             setUsableNickname(false);
                                         }}
+                                        maxLength={7}
                                     />
                                 </div>
                             </div>

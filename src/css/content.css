@@ -47,6 +47,7 @@
 .rankin_wrap .rank_box li .txt_box p{font-size: 14px;font-weight: 500;color: #6840FD;opacity: 0.9;}
 .rankin_wrap .rank_box li .txt_box p:nth-child(2){font-size: 20px;font-weight: 800;color: #373D49;opacity: 1 !important;}
 .rankin_wrap .rank_box li:first-child .txt_box p{opacity: 1;font-size: 18px;}
+.rankin_wrap .rank_box li:first-child .txt_box p:nth-child(2){font-size: 20px;}
 .rankin_wrap .rank_box li:nth-child(3) .txt_box p{opacity: 0.8;}
 .rankin_wrap .rank_box li:nth-child(4) .txt_box p{opacity: 0.6;}
 .rankin_wrap .rank_box li:nth-child(5) .txt_box p{opacity: 0.4;}
@@ -71,7 +72,7 @@
 .rankin_wrap .ul_box .list_ul>li .rank_box img{margin-right: 12px;}
 .rankin_wrap .ul_box .list_ul>li .rank_box p{font-size: 18px;font-weight: 600;color: #1B171E;}
 .rankin_wrap .ul_box .list_ul>li .rank_box .tag{width: 62px;height: 24px;border: 1px solid #ddd;border-radius: 30px;text-align: center;margin-left: 12px;}
-.rankin_wrap .ul_box .list_ul>li .rank_box .tag span{font-size: 20px;color: #222;}
+.rankin_wrap .ul_box .list_ul>li .rank_box .tag span{font-size: 20px;color: #222;line-height: 1;}
 .rankin_wrap .ul_box .list_ul>li .rank_box .tag.down span{color: #509BFF;font-size: 12px;font-weight: 500;padding-left: 18px;background: url(../images/arrow_down.svg) no-repeat center left;}
 .rankin_wrap .ul_box .list_ul>li .rank_box .tag.up span{color: #F47077;font-size: 12px;font-weight: 500;padding-left: 18px;background: url(../images/arrow_up.svg) no-repeat center left;}
 .rankin_wrap .ul_box .list_ul>li .level_box{order: 2;-webkit-box-ordinal-group: 2;-ms-flex-order: 2;width: 15%;}
