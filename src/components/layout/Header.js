@@ -85,7 +85,7 @@ const Header = () => {
                 <nav className="gnb_wrap">
                     <ul className="gnb">
                         <li className={menuOn === 1 ? "on" : ""}><Link to="/">About 사소한</Link></li>
-                        {/* <li className={menuOn === 2 ? "on" : ""}><Link to="/ranking">사소한 랭킹</Link></li> */}
+                        <li className={menuOn === 2 ? "on" : ""}><Link to="/ranking">사소한 랭킹</Link></li>
                     </ul>
                 </nav>
                 <div className="sns_wrap">
@@ -132,9 +132,9 @@ const Header = () => {
                         <li className={menuOn === 1 ? "on" : ""}>
                             <Link to="/">About 사소한</Link>
                         </li>
-                        {/* <li className={menuOn === 2 ? "on" : ""}>
+                        <li className={menuOn === 2 ? "on" : ""}>
                             <Link to="/ranking">사소한 랭킹</Link>
-                        </li> */}
+                        </li>
                     </ul>
                 </div>
             </div>
