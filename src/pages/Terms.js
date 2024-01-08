@@ -15,7 +15,7 @@ const Terms = () => {
     const [tabOn, setTabOn] = useState(null);
     const [confirm, setConfirm] = useState(false);
     const [terms, setTerms] = useState({});
-    const { terms_idx } = useParams();
+    const { terms_tit } = useParams();
 
 
     // Confirm팝업 닫힐때
@@ -27,8 +27,8 @@ const Terms = () => {
 
 
     //약관내용 가져오기
-    const getTerms = () => {
-        axios.get(`${policy_cont.replace(":policy_type",terms_idx)}`)
+    const getTerms = (idx) => {
+        axios.get(`${policy_cont.replace(":policy_type",idx)}`)
         .then((res)=>{
             if(res.status === 200){
                 let data = res.data;
@@ -48,9 +48,17 @@ const Terms = () => {
     }
 
     useEffect(()=>{
-        setTabOn(terms_idx);
-        getTerms();
-    },[terms_idx]);
+        let idx;
+        if(terms_tit == 'privacy-policy'){
+            idx = 1;
+        }else if(terms_tit == 'personal-information-collection'){
+            idx = 3;
+        }else if(terms_tit == 'terms-of-use'){
+            idx = 4;
+        }
+        setTabOn(idx);
+        getTerms(idx);
+    },[terms_tit]);
 
 
     return(<>
@@ -62,9 +70,9 @@ const Terms = () => {
                 </div>
                 <div className="round_box">
                     <ul className="tab_box flex_wrap">
-                        <li className={tabOn == 1 ? 'on' : ''}><Link to={'/terms/1'}>개인정보 보호정책</Link></li>
-                        <li className={tabOn == 3 ? 'on' : ''}><Link to={'/terms/3'}>개인정보수집</Link></li>
-                        <li className={tabOn == 4 ? 'on' : ''}><Link to={'/terms/4'}>이용약관</Link></li>
+                        <li className={tabOn === 1 ? 'on' : ''}><Link to={'/terms/privacy-policy'}>개인정보 보호정책</Link></li>
+                        <li className={tabOn === 3 ? 'on' : ''}><Link to={'/terms/personal-information-collection'}>개인정보수집</Link></li>
+                        <li className={tabOn === 4 ? 'on' : ''}><Link to={'/terms/terms-of-use'}>이용약관</Link></li>
                     </ul>
                     <div className="txt_box">{terms.contents_p}</div>
                 </div>

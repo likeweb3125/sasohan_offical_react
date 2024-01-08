@@ -92,13 +92,13 @@ const Footer = () => {
                         >공지사항</a>
                     </li>
                     <li>
-                        <Link to={'/terms/1'}>개인정보 보호정책</Link>
+                        <Link to={'/terms/privacy-policy'}>개인정보 보호정책</Link>
                     </li>
                     <li>
-                        <Link to={'/terms/3'}>개인정보수집</Link>
+                        <Link to={'/terms/personal-information-collection'}>개인정보수집</Link>
                     </li>
                     <li>
-                        <Link to={'/terms/4'}>이용약관</Link>
+                        <Link to={'/terms/terms-of-use'}>이용약관</Link>
                     </li>
                 </ul>
             </div>
