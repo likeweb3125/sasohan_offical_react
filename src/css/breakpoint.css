@@ -287,6 +287,10 @@
     .rankin_wrap .ul_box .list_ul>li.top .name_box .name{font-size: 20px;padding-top: 3px;}
     .rankin_wrap .ul_box .list_ul>li .name_box>.btn_edit{right: auto;left: 20px;top: auto;transform: translateY(0);bottom: 12px;}
     .rankin_wrap .ul_box .list_ul>li .class_box {padding: 0 !important;}
+
+    /* 서비스약관 */
+    .terms_wrap .round_box{margin-top: 60px;}
+    .terms_wrap .round_box .txt_box{padding: 40px 20px;}
 }
 
 
@@ -496,12 +500,6 @@
     .review_pop .scroll_wrap .top_box h5{font-size: 20px;}
     .review_pop .scroll_wrap .top_box p{font-size: 14px;padding-top: 4px;}
 
-    /* 약관 팝업 */
-    .terms_pop .pop_cont{border-width: 2px;}
-    .terms_pop .scroll_wrap .tab_box{overflow-y: hidden;overflow-x: auto;}
-    .terms_pop .scroll_wrap .tab_box ul{width: 640px;}
-    .terms_pop .scroll_wrap .txt_box{padding-top: 20px;font-size: 16px;}
-
     /* 소개팅신청 팝업 */
     .apply_pop .pop_cont{padding: 40px 24px 32px;}
     .apply_pop .inner_box .tit_box {padding-bottom: 32px;}
@@ -546,11 +544,10 @@
     /* 서브페이지 공통 */
     .sub_wrap .top_banner{background: url(../images/ranking_banner_mo.jpg) no-repeat center;background-size: cover;}
     .sub_wrap .inner_cont{width: calc(100% - 40px);padding: 100px 0;}
+    .sub_wrap .tit_box .tit{font-size: 36px;}
+    .sub_wrap .tit_box .tit::before{height: 12px;}
     
-
     /* 랭킹 */
-    .rankin_wrap .tit_box .tit{font-size: 36px;}
-    .rankin_wrap .tit_box .tit::before{height: 12px;}
     .rankin_wrap .tit_box .txt{padding-bottom: 28px;font-size: 18px;}
     .rankin_wrap .auth_box{padding: 24px 20px;min-height: auto;display: block;}
     .rankin_wrap .auth_box .txt_box .txt1{font-size: 24px;}
@@ -611,6 +608,12 @@
     .pass_change_wrap .form_box>li{display: block;}
     .pass_change_wrap .form_box>li>p{width: 100%;font-size: 16px;}
     .pass_change_wrap .form_box>li>div{width: 100%;}
+
+    /* 서비스약관 */
+    .terms_wrap .round_box{margin-top: 40px;}
+    .terms_wrap .tab_box li{width: 50%;height: 73px;line-height: 73px;}
+    .terms_wrap .tab_box li:first-child{width: 100%;}
+    .terms_wrap .round_box .txt_box{padding: 24px 16px;font-size: 14px;}
 
 }
 

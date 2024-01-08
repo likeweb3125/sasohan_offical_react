@@ -3,7 +3,6 @@ import { createPortal } from "react-dom";
 import ManagerPop from "./ManagerPop";
 import ImgPop from "./ImgPop";
 import ReviewPop from "./ReviewPop";
-import TermsPop from "./TermsPop";
 import ApplyPop from "./ApplyPop";
 import StoryPop from "./StoryPop";
 import ProfileEditPop from "./ProfileEditPop";
@@ -31,9 +30,6 @@ const Popup = () => {
 
             {/* 후기 팝업 */}
             {popup.reviewPop && <ReviewPop />}
-
-            {/* 약관 팝업 */}
-            {popup.termsPop && <TermsPop />}
 
             {/* 소개팅신청하기 팝업 */}
             {popup.applyPop && <ApplyPop />}

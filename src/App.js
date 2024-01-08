@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ConfirmPop from './components/popup/ConfirmPop';
 import Popup from './components/popup/Popup';
@@ -8,6 +8,7 @@ import AppLayout from './components/layout/app/Layout';
 import Main from './pages/Main';
 import Ranking from './pages/Ranking';
 import PasswordChange from './pages/PasswordChange';
+import Terms from './pages/Terms';
 import Apply from './pages/Apply';
 import AppSignup from './pages/app/Signup';
 import AppSignup2 from './pages/app/Signup2';
@@ -25,6 +26,7 @@ import './css/common.css';
 
 function App() {
     const popup = useSelector((state)=>state.popup);
+    const location = useLocation();
     const [confirm, setConfirm] = useState();
 
     // Confirm팝업 닫힐때
@@ -33,6 +35,13 @@ function App() {
             setConfirm(false);
         }
     },[popup.confirmPop]);
+
+
+    //페이지이동시 스크롤탑으로 이동
+    useEffect(()=>{
+        window.scrollTo(0,0);
+    },[location]);
+
 
     return(
         <div id="wrap">
@@ -45,6 +54,9 @@ function App() {
 
                 {/* 비밀번호변경 */}
                 <Route path="/reset/:token" element={<Layout><PasswordChange /></Layout>} />
+
+                {/* 서비스약관 */}
+                <Route path="/terms" element={<Layout><Terms /></Layout>} />
 
                 {/* 간편가입신청 */}
                 <Route path="/apply" element={<Apply />} />

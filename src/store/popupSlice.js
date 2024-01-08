@@ -25,10 +25,6 @@ const popup = createSlice({
         reviewPop: false,
         reviewPopNo: null,
 
-        //약관 팝업
-        termsPop: false,
-        termsPopTab: null,
-
         //소개팅신청하기 팝업
         applyPop: false,
 
@@ -103,10 +99,6 @@ const popup = createSlice({
             state.reviewPop = action.payload.reviewPop;
             state.reviewPopNo = action.payload.reviewPopNo;
         },
-        termsPop: (state, action) => {
-            state.termsPop = action.payload.termsPop;
-            state.termsPopTab = action.payload.termsPopTab;
-        },
         applyPop: (state, action) => {
             state.applyPop = action.payload;
         },
@@ -173,7 +165,6 @@ export const {
     imgPop,
     imgPopLink,
     reviewPop,
-    termsPop,
     applyPop,
     storyPop,
     storyPopList,

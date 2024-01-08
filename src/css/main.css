@@ -529,17 +529,6 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .review_pop .scroll_wrap .top_box p{font-size: 18px;color: #666;padding-top: 20px;}
 .review_pop .scroll_wrap .top_box .btn_close{top: 0;right: 0;}
 
-/* 약관 팝업 */
-.terms_pop .pop_cont{border: 4px solid rgba(104, 64, 253, 0.2);}
-.terms_pop .scroll_wrap{height: 70vh;}
-.terms_pop .scroll_wrap .tab_box{padding-bottom: 5px;}
-.terms_pop .scroll_wrap .tab_box ul{border-bottom: 1px solid #ddd;}
-.terms_pop .scroll_wrap .tab_box li{width: 25%;text-align: center;padding-bottom: 18px;font-size: 18px;color: #999;cursor: pointer;position: relative;}
-.terms_pop .scroll_wrap .tab_box li::after{position: absolute;content: "";width: 100%;height: 4px;left: 0;bottom: 0;background: #222;opacity: 0;}
-.terms_pop .scroll_wrap .tab_box li.on{color: #222;font-weight: 500;}
-.terms_pop .scroll_wrap .tab_box li.on::after{opacity: 1;}
-.terms_pop .scroll_wrap .txt_box{padding-top: 35px;font-size: 18px;color: #666;white-space: pre-line;}
-
 /* 소개팅신청 팝업 */
 .apply_pop .pop_cont{border: 4px solid rgba(104, 64, 253, 0.2);width: 1144px;padding:100px 80px 60px;background:#fff url(../images/apply_pop_bg.svg) no-repeat left bottom;}
 .apply_pop .inner_box{display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; display: flex;-webkit-box-align: stretch; -ms-flex-align: stretch;-webkit-align-items: stretch; align-items: stretch;}

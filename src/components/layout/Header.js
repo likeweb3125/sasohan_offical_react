@@ -12,7 +12,7 @@ const Header = () => {
     const dispatch = useDispatch();
     const [confirm, setConfirm] = useState(false);
     const [headerOn, setHeaderOn] = useState(null);
-    const [menuOn, setMenuOn] = useState(1);
+    const [menuOn, setMenuOn] = useState(null);
     const location = useLocation();
     const [mainPage, setMainPage] = useState(null);
     const [menuWrap, setMenuWrap] = useState(false);
@@ -57,6 +57,7 @@ const Header = () => {
             setMenuOn(1);
             setMainPage(true);
         }else{
+            setMenuOn(null);
             setMainPage(false);
         }
         
