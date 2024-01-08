@@ -56,7 +56,7 @@ function App() {
                 <Route path="/reset/:token" element={<Layout><PasswordChange /></Layout>} />
 
                 {/* 서비스약관 */}
-                <Route path="/terms" element={<Layout><Terms /></Layout>} />
+                <Route path="/terms/:terms_idx" element={<Layout><Terms /></Layout>} />
 
                 {/* 간편가입신청 */}
                 <Route path="/apply" element={<Apply />} />

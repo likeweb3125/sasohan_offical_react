@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
 import { confirmPop, applyPop } from "../../store/popupSlice";
-import { termsTabOn } from "../../store/commonSlice";
 import ConfirmPop from "../popup/ConfirmPop";
 import logo from "../../images/logo_foot.svg";
 
@@ -64,12 +63,6 @@ const Footer = () => {
         }
     },[location]);
 
-    //약관 클릭시 서비스약관페이지로 이동
-    const onTermsClickHandler = (idx) => {
-        dispatch(termsTabOn(idx));
-        navigate('/terms');
-    };
-
 
     return(<>
         <footer id="footer" className={mainPage ? "main" : ""}>
@@ -99,13 +92,13 @@ const Footer = () => {
                         >공지사항</a>
                     </li>
                     <li>
-                        <button type="button" onClick={()=>{onTermsClickHandler(1)}}>개인정보 보호정책</button>
+                        <Link to={'/terms/1'}>개인정보 보호정책</Link>
                     </li>
                     <li>
-                        <button type="button" onClick={()=>{onTermsClickHandler(3)}}>개인정보수집</button>
+                        <Link to={'/terms/3'}>개인정보수집</Link>
                     </li>
                     <li>
-                        <button type="button" onClick={()=>{onTermsClickHandler(4)}}>이용약관</button>
+                        <Link to={'/terms/4'}>이용약관</Link>
                     </li>
                 </ul>
             </div>
