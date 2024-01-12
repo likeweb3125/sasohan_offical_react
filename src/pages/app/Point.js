@@ -252,10 +252,7 @@ const Point = () => {
                     <button type="button" 
                         onClick={()=>{
                             //앱에 포인트사용내역이동 보내기
-                            if(window.flutterPointUseHistory){
-                                const data = {};
-                                window.flutterPointUseHistory.postMessage(JSON.stringify(data));
-                            }
+                            window.flutter_inappwebview.callHandler('flutterPointChargeComplete');
                         }}
                     ><span>포인트 충전 및 사용 내역 보기</span></button>
                 </div>
