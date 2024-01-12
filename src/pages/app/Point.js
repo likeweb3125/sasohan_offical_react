@@ -16,7 +16,7 @@ const Point = () => {
     const m_point = enum_api_uri.m_point;
     const m_pay_check = enum_api_uri.m_pay_check;
     const m_pay_logs = enum_api_uri.m_pay_logs;
-    const [pointList, setPointList] = useState([100,500,800,1000]);
+    const [pointList, setPointList] = useState([10,100,500,800,1000]);
     const [recommend, setRecommend] = useState(2);
     const [price, setPrice] = useState(0);
     const [pay, setPay] = useState("");
