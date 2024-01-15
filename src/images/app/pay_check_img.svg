@@ -1,0 +1,8 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_4144_17642" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="120" height="120">
+<rect width="120" height="120" fill="#E8E7FF"/>
+</mask>
+<g mask="url(#mask0_4144_17642)">
+<path d="M20 40H100V30H20V40ZM10 30C10 27.25 10.9792 24.8958 12.9375 22.9375C14.8958 20.9792 17.25 20 20 20H100C102.75 20 105.104 20.9792 107.062 22.9375C109.021 24.8958 110 27.25 110 30V60H20V90H40.5V100H20C17.25 100 14.8958 99.0208 12.9375 97.0625C10.9792 95.1042 10 92.75 10 90V30ZM74.75 110L53.5 88.75L60.5 81.75L74.75 95.75L103 67.5L110 74.75L74.75 110ZM20 30V90V67.5V81.625V30Z" fill="#E8E7FF"/>
+</g>
+</svg>

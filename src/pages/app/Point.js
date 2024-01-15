@@ -6,6 +6,7 @@ import util from "../../config/util";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
 import { appPointPop, confirmPop } from "../../store/popupSlice";
+import { payCheckData } from "../../store/commonSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 
 
@@ -175,7 +176,16 @@ const Point = () => {
                     window.PayApp.setTarget('_self'); //새창말고 현재창 url 변경 setTarget('_self') 추가
                     window.PayApp.call();
 
-                    setCheckStart(true);
+                    //setCheckStart(true);
+
+                    //결제체크데이터값 store 에 저장
+                    const checkData = {
+                        var1: var1,
+                        pay: pay,
+                        price: price,
+                        point: point
+                    };
+                    dispatch(payCheckData(checkData));
                 }
             }
         })
@@ -193,52 +203,52 @@ const Point = () => {
 
 
     //결제처리 체크하기
-    const payCheckHandler = () => {
-        axios.get(`${m_pay_check.replace(":var1",var1)}`,
-            {headers:{Authorization: `Bearer ${token}`}}
-        )
-        .then((res)=>{
-            if(res.status === 200){
-                if(res.data.result){
-                    setCheckStart(false);
+    // const payCheckHandler = () => {
+    //     axios.get(`${m_pay_check.replace(":var1",var1)}`,
+    //         {headers:{Authorization: `Bearer ${token}`}}
+    //     )
+    //     .then((res)=>{
+    //         if(res.status === 200){
+    //             if(res.data.result){
+    //                 setCheckStart(false);
 
-                    // 포인트충전완료 팝업 띄우기
-                    let payType;
+    //                 // 포인트충전완료 팝업 띄우기
+    //                 let payType;
 
-                    if(pay == "card"){
-                        payType = "신용카드";
-                    }else if(pay == "phone"){
-                        payType = "휴대폰결제";
-                    }
+    //                 if(pay == "card"){
+    //                     payType = "신용카드";
+    //                 }else if(pay == "phone"){
+    //                     payType = "휴대폰결제";
+    //                 }
 
-                    const data = {
-                        data: moment().format("YYYY.MM.DD"),
-                        payType: payType,
-                        price: price,
-                        point: point
-                    };
-                    dispatch(appPointPop({appPointPop:true,appPointPopData:data}));
-                }
-            }
-        })
-        .catch((error) => {
+    //                 const data = {
+    //                     data: moment().format("YYYY.MM.DD"),
+    //                     payType: payType,
+    //                     price: price,
+    //                     point: point
+    //                 };
+    //                 dispatch(appPointPop({appPointPop:true,appPointPopData:data}));
+    //             }
+    //         }
+    //     })
+    //     .catch((error) => {
             
-        });
-    };
+    //     });
+    // };
 
 
     //결제시작하면 1초마다 결제처리 체크하기
-    useEffect(()=>{
-        if(checkStart){
-            const timer = setInterval(() => {
-                payCheckHandler();
-            }, 1000);
+    // useEffect(()=>{
+    //     if(checkStart){
+    //         const timer = setInterval(() => {
+    //             payCheckHandler();
+    //         }, 1000);
 
-            return () => {
-                clearInterval(timer);
-            };
-        }
-    },[checkStart]);
+    //         return () => {
+    //             clearInterval(timer);
+    //         };
+    //     }
+    // },[checkStart]);
 
 
     return(<>

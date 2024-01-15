@@ -5,6 +5,7 @@ const common = createSlice({
     initialState: {
         headerMenuOn:null,
         profileImgs:["","","","","","","",""],
+        payCheckData:{},
     },
     reducers:{
         headerMenuOn: (state, action) => {
@@ -13,11 +14,15 @@ const common = createSlice({
         profileImgs: (state, action) => {
             state.profileImgs = action.payload;
         },
+        payCheckData: (state, action) => {
+            state.payCheckData = action.payload;
+        },
     }
 });
 
 export const { 
     headerMenuOn,
-    profileImgs
+    profileImgs,
+    payCheckData
 } = common.actions;
 export default common;

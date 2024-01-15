@@ -13,6 +13,7 @@ import Apply from './pages/Apply';
 import AppSignup from './pages/app/Signup';
 import AppSignup2 from './pages/app/Signup2';
 import AppPoint from './pages/app/Point';
+import AppPoint2 from './pages/app/Point2';
 import AppEditProfile from './pages/app/EditProfile';
 import AppWithdraw from './pages/app/Withdraw';
 import AppListDetail from './pages/app/ListDetail';
@@ -71,6 +72,9 @@ function App() {
 
                 {/* 마이페이지 - 포인트충전 */}
                 <Route path="/app/point" element={<AppLayout><AppPoint /></AppLayout>} />
+
+                {/* 마이페이지 - 포인트충전 진행중,완료 */}
+                <Route path="/app/point2" element={<AppLayout><AppPoint2 /></AppLayout>} />
 
                 {/* 마이페이지 - 프로필수정 */}
                 <Route path="/app/edit_profile" element={<AppLayout><AppEditProfile /></AppLayout>} />
