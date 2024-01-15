@@ -159,7 +159,7 @@ const Point = () => {
                 if(window.PayApp) {
                     window.PayApp.setParam('userid','jjagg');
                     window.PayApp.setParam('shopname','사소한');
-                    window.PayApp.setParam('goodname','포인트충전');
+                    window.PayApp.setParam('goodname',userInfo.m_name);
                     window.PayApp.setParam('price',price);
                     window.PayApp.setParam('recvphone',phone);
                     window.PayApp.setParam('memo','');
