@@ -180,7 +180,7 @@ const Point = () => {
 
                     //결제체크데이터값 store 에 저장
                     const checkData = {
-                        var1: var1,
+                        var1: data.var1,
                         pay: pay,
                         price: price,
                         point: point
