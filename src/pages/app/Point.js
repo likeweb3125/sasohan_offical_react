@@ -155,6 +155,18 @@ const Point = () => {
         .then((res)=>{
             if(res.status === 200){
                 let phone = userInfo.phone.replace(/\D/g, '');
+
+                //앱에 결제체크데이터값 보내기
+                if(window.flutterPointChargeRequest){
+                    const checkData = {
+                        var1: data.var1,
+                        pay: pay,
+                        price: price,
+                        point: point
+                    };
+                    window.flutterPointChargeRequest.postMessage(JSON.stringify(checkData));
+                }
+
                 //페이앱결제창 띄우기
                 if(window.PayApp) {
                     window.PayApp.setParam('userid','jjagg');
@@ -169,10 +181,10 @@ const Point = () => {
                     window.PayApp.setParam('smsuse','n');
                     window.PayApp.setParam('openpaytype',pay);
                     window.PayApp.setParam('redirectpay','1');
-                    window.PayApp.setParam('returnurl','https://sasohan.net/app/point/success');
+                    window.PayApp.setParam('returnurl','https://sasohan.net/app/point/success'); //결제완료후 url
                     window.PayApp.setParam('feedbackurl','https://api.sasohan.net/v1/pay/notice');
                     window.PayApp.setParam('checkretry','y');
-                    window.PayApp.setParam('skip_cstpage','y');
+                    window.PayApp.setParam('skip_cstpage','y'); //결제완료후 결제전표 skip
                     window.PayApp.setParam('var1',data.var1);
                     window.PayApp.setParam('buyerid',userInfo.m_id);
                     window.PayApp.setTarget('_self'); //새창말고 현재창 url 변경 setTarget('_self') 추가
@@ -181,13 +193,13 @@ const Point = () => {
                     //setCheckStart(true);
 
                     //결제체크데이터값 store 에 저장
-                    const checkData = {
-                        var1: data.var1,
-                        pay: pay,
-                        price: price,
-                        point: point
-                    };
-                    dispatch(payCheckData(checkData));
+                    // const checkData = {
+                    //     var1: data.var1,
+                    //     pay: pay,
+                    //     price: price,
+                    //     point: point
+                    // };
+                    // dispatch(payCheckData(checkData));
                 }
             }
         })

@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
 import moment from "moment";
 import axios from "axios";
 import util from "../../config/util";
@@ -18,17 +17,6 @@ const Point2 = () => {
     const [confirm, setConfirm] = useState(false);
     const token = util.getCookie("token");
     const [complete, setComplete] = useState(false);
-    const location = useLocation();
-
-
-    useEffect(()=>{
-        const search = location.search;
-        console.log(location)
-        console.log(search)
-
-        const text = document.getElementById('text');
-        text.innerText = search;
-    },[location]);
 
 
     // Confirm팝업 닫힐때
@@ -41,50 +29,55 @@ const Point2 = () => {
 
     //결제처리 체크하기
     const payCheckHandler = () => {
-        axios.get(`${m_pay_check.replace(":var1",common.payCheckData.var1)}`,
-            {headers:{Authorization: `Bearer ${token}`}}
-        )
-        .then((res)=>{
-            if(res.status === 200){
-                if(res.data.result){
+        const checkData = localStorage.getItem('checkData');
+        if(checkData){
+            const text = document.getElementById('text');
+            text.innerText = 'checkData';
+        }
+        // axios.get(`${m_pay_check.replace(":var1",common.payCheckData.var1)}`,
+        //     {headers:{Authorization: `Bearer ${token}`}}
+        // )
+        // .then((res)=>{
+        //     if(res.status === 200){
+        //         if(res.data.result){
 
-                    // 포인트충전완료 팝업 띄우기
-                    let payType;
+        //             // 포인트충전완료 팝업 띄우기
+        //             let payType;
 
-                    if(common.payCheckData.pay == "card"){
-                        payType = "신용카드";
-                    }else if(common.payCheckData.pay == "phone"){
-                        payType = "휴대폰결제";
-                    }
+        //             if(common.payCheckData.pay == "card"){
+        //                 payType = "신용카드";
+        //             }else if(common.payCheckData.pay == "phone"){
+        //                 payType = "휴대폰결제";
+        //             }
 
-                    const data = {
-                        data: moment().format("YYYY.MM.DD"),
-                        payType: payType,
-                        price: common.payCheckData.price,
-                        point: common.payCheckData.point
-                    };
-                    dispatch(appPointPop({appPointPop:true,appPointPopData:data}));
+        //             const data = {
+        //                 data: moment().format("YYYY.MM.DD"),
+        //                 payType: payType,
+        //                 price: common.payCheckData.price,
+        //                 point: common.payCheckData.point
+        //             };
+        //             dispatch(appPointPop({appPointPop:true,appPointPopData:data}));
 
-                    setComplete(true);
-                }
-            }
-        })
-        .catch((error) => {
+        //             setComplete(true);
+        //         }
+        //     }
+        // })
+        // .catch((error) => {
 
-        });
+        // });
     };
 
 
     //0.3초마다 결제처리 체크하기
-    // useEffect(()=>{
-    //     const timer = setInterval(() => {
-    //         payCheckHandler();
-    //     }, 300);
+    useEffect(()=>{
+        const timer = setInterval(() => {
+            payCheckHandler();
+        }, 300);
 
-    //     return () => {
-    //         clearInterval(timer);
-    //     };
-    // },[]);
+        return () => {
+            clearInterval(timer);
+        };
+    },[]);
 
 
     //결제완료후 확인버튼 클릭시
