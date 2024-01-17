@@ -157,15 +157,16 @@ const Point = () => {
                 let phone = userInfo.phone.replace(/\D/g, '');
 
                 //앱에 결제체크데이터값 보내기
-                if(window.flutterPointChargeRequest){
-                    const checkData = {
-                        var1: data.var1,
-                        pay: pay,
-                        price: price,
-                        point: point
-                    };
-                    window.flutterPointChargeRequest.postMessage(JSON.stringify(checkData));
-                }
+                const checkData = {
+                    var1: data.var1,
+                    pay: pay,
+                    price: price,
+                    point: point,
+                };
+                window.flutter_inappwebview.callHandler(
+                    "flutterPointChargeRequest",
+                    JSON.stringify(checkData)
+                );
 
                 //페이앱결제창 띄우기
                 if(window.PayApp) {
