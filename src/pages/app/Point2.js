@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import moment from "moment";
 import axios from "axios";
 import util from "../../config/util";
@@ -17,6 +18,14 @@ const Point2 = () => {
     const [confirm, setConfirm] = useState(false);
     const token = util.getCookie("token");
     const [complete, setComplete] = useState(false);
+    const location = useLocation();
+
+
+    useEffect(()=>{
+        const search = location.search;
+        console.log(location)
+        console.log(search)
+    },[location]);
 
 
     // Confirm팝업 닫힐때
@@ -64,15 +73,15 @@ const Point2 = () => {
 
 
     //0.3초마다 결제처리 체크하기
-    useEffect(()=>{
-        const timer = setInterval(() => {
-            payCheckHandler();
-        }, 300);
+    // useEffect(()=>{
+    //     const timer = setInterval(() => {
+    //         payCheckHandler();
+    //     }, 300);
 
-        return () => {
-            clearInterval(timer);
-        };
-    },[]);
+    //     return () => {
+    //         clearInterval(timer);
+    //     };
+    // },[]);
 
 
     //결제완료후 확인버튼 클릭시
