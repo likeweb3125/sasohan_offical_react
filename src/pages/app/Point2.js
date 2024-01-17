@@ -25,6 +25,9 @@ const Point2 = () => {
         const search = location.search;
         console.log(location)
         console.log(search)
+
+        const text = document.getElementById('text');
+        text.innerText = search;
     },[location]);
 
 
@@ -94,6 +97,7 @@ const Point2 = () => {
     return(<>
         <div className="point_wrap2 flex_center">
             <div className="box tx_c">
+                <p id="text" style={{'wordBreak':'break-all'}}></p>
                 <img src={pay_check_img} alt="결제아이콘" />
                 <p>결제가 {complete ? '완료되었습니다.' : '진행중 입니다.'}</p>
                 {complete && <button type="button" className="app_btn" onClick={payOkBtnClickHandler}>확인</button>}
