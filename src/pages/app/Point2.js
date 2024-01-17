@@ -63,11 +63,11 @@ const Point2 = () => {
     };
 
 
-    //1초마다 결제처리 체크하기
+    //0.3초마다 결제처리 체크하기
     useEffect(()=>{
         const timer = setInterval(() => {
             payCheckHandler();
-        }, 1000);
+        }, 300);
 
         return () => {
             clearInterval(timer);
