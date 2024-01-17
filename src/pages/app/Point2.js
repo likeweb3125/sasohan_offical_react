@@ -12,10 +12,10 @@ import pay_check_img from "../../images/app/pay_check_img.svg";
 const Point2 = () => {
     const dispatch = useDispatch();
     const popup = useSelector((state)=>state.popup);
-    const common = useSelector((state)=>state.common);
     const m_pay_check = enum_api_uri.m_pay_check;
     const [confirm, setConfirm] = useState(false);
     const token = util.getCookie("token");
+    const checkDataStr = util.getCookie("checkData");
     const [complete, setComplete] = useState(false);
 
 
@@ -29,42 +29,41 @@ const Point2 = () => {
 
     //결제처리 체크하기
     const payCheckHandler = () => {
-        const checkData = localStorage.getItem('checkData');
-        if(checkData){
-            const text = document.getElementById('text');
-            text.innerText = 'checkData';
+        if(checkDataStr){
+            const checkData = JSON.parse(checkDataStr);
+
+            axios.get(`${m_pay_check.replace(":var1",checkData.var1)}`,
+                {headers:{Authorization: `Bearer ${token}`}}
+            )
+            .then((res)=>{
+                if(res.status === 200){
+                    if(res.data.result){
+
+                        // 포인트충전완료 팝업 띄우기
+                        let payType;
+
+                        if(checkData.pay == "card"){
+                            payType = "신용카드";
+                        }else if(checkData.pay == "phone"){
+                            payType = "휴대폰결제";
+                        }
+
+                        const data = {
+                            data: moment().format("YYYY.MM.DD"),
+                            payType: payType,
+                            price: checkData.price,
+                            point: checkData.point
+                        };
+                        dispatch(appPointPop({appPointPop:true,appPointPopData:data}));
+
+                        setComplete(true);
+                    }
+                }
+            })
+            .catch((error) => {
+
+            });
         }
-        // axios.get(`${m_pay_check.replace(":var1",common.payCheckData.var1)}`,
-        //     {headers:{Authorization: `Bearer ${token}`}}
-        // )
-        // .then((res)=>{
-        //     if(res.status === 200){
-        //         if(res.data.result){
-
-        //             // 포인트충전완료 팝업 띄우기
-        //             let payType;
-
-        //             if(common.payCheckData.pay == "card"){
-        //                 payType = "신용카드";
-        //             }else if(common.payCheckData.pay == "phone"){
-        //                 payType = "휴대폰결제";
-        //             }
-
-        //             const data = {
-        //                 data: moment().format("YYYY.MM.DD"),
-        //                 payType: payType,
-        //                 price: common.payCheckData.price,
-        //                 point: common.payCheckData.point
-        //             };
-        //             dispatch(appPointPop({appPointPop:true,appPointPopData:data}));
-
-        //             setComplete(true);
-        //         }
-        //     }
-        // })
-        // .catch((error) => {
-
-        // });
     };
 
 
@@ -90,7 +89,6 @@ const Point2 = () => {
     return(<>
         <div className="point_wrap2 flex_center">
             <div className="box tx_c">
-                <p id="text" style={{'wordBreak':'break-all'}}></p>
                 <img src={pay_check_img} alt="결제아이콘" />
                 <p>결제가 {complete ? '완료되었습니다.' : '진행중 입니다.'}</p>
                 {complete && <button type="button" className="app_btn" onClick={payOkBtnClickHandler}>확인</button>}
