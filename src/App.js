@@ -76,8 +76,8 @@ function App() {
                     {/* 포인트충전 */}
                     <Route path="" element={<AppPoint />} />
 
-                    {/* 결제 진행중,완료 */}
-                    <Route path="/app/point/pending" element={<AppPoint2 />} />
+                    {/* 결제 완료 */}
+                    <Route path="/app/point/success" element={<AppPoint2 />} />
 
                     {/* 결제실패 */}
                     <Route path="/app/point/failed" element={<AppPoint3 />} />
