@@ -157,12 +157,11 @@ const Point = () => {
                 let phone = userInfo.phone.replace(/\D/g, '');
 
                 //앱에 결제체크데이터값 보내기
-                const checkData = {
-                    var1: data.var1,
+                const checkData = Object.assign({
                     pay: pay,
                     price: price,
                     point: point,
-                };
+                }, body);
                 window.flutter_inappwebview.callHandler(
                     "flutterPointChargeRequest",
                     JSON.stringify(checkData)
