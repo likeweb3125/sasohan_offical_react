@@ -102,7 +102,7 @@ const ProfileImgPop = () => {
                         </li>
                         <li>
                             <label htmlFor="img">
-                                <input type={`file`} accept={`image/*`} capture={`environment`} id="img"
+                                <input type={`file`} accept={`image/*`} capture={`user`} id="img"
                                     onChange={(e) => {
                                         imgUpHandler(e);
                                     }}
