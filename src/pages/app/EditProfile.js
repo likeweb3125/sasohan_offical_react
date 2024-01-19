@@ -189,9 +189,11 @@ const EditProfile = () => {
     //맨처음 token이 있고 getProfileInfo,getAddress 함수들이 한번도 실행안됐을때 회원프로필정보, 주소 시,도 가져오기
     useEffect(()=>{
         if (token && !hasRunOnce) {
-            getProfileInfo();
-            getAddress();
-            setHasRunOnce(true);
+            setTimeout(()=>{
+                getProfileInfo();
+                getAddress();
+                setHasRunOnce(true);
+            },500);
         }
     },[token]);
 
