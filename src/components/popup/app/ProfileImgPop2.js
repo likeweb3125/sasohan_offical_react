@@ -85,20 +85,30 @@ const ProfileImgPop = () => {
                     <ul className="list_ul">
                         <li onClick={()=>{
                             //앱에 사진첩열기 보내기
-                            if(window.flutterImagePicker){
-                                const data = {};
-                                window.flutterImagePicker.postMessage(JSON.stringify(data));
-                            }
+                            // if(window.flutterImagePicker){
+                            //     const data = {};
+                            //     window.flutterImagePicker.postMessage(JSON.stringify(data));
+                            // }
                         }}>
-                            <span>사진선택</span>
-                            {/* <label htmlFor="img2">
+                            {/* <span>사진선택</span> */}
+                            <label htmlFor="img2">
                                 <input type={`file`} accept={`image/*`} id="img2"
                                     onChange={(e) => {
                                         imgUpHandler(e);
                                     }}
                                 />
                                 <span>사진선택</span>
-                            </label> */}
+                            </label>
+                        </li>
+                        <li>
+                            <label htmlFor="img">
+                                <input type={`file`} accept={`image/*`} capture={`environment`} id="img"
+                                    onChange={(e) => {
+                                        imgUpHandler(e);
+                                    }}
+                                />
+                                <span>카메라</span>
+                            </label>
                         </li>
                     </ul>
                 </div>
