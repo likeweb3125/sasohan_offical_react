@@ -131,6 +131,13 @@
 .terms_wrap .tab_box li.on::after{opacity: 1;}
 .terms_wrap .round_box .txt_box{padding: 40px 60px;white-space: pre-line;}
 
+/* 회원정보 삭제 */
+.user_delt_wrap{background: #F8F8F8;height: 100vh;min-height: 500px;}
+.user_delt_wrap .round_box{width: 335px;background: #fff;border-radius: 20px;padding: 60px 20px 20px;box-shadow: 0px 0px 16px 0px #6840FD14;}
+.user_delt_wrap .tit{font-size: 26px;font-weight: 700;}
+.user_delt_wrap .txt{font-weight: 500;padding-top: 12px;}
+.user_delt_wrap .btn{height: 60px;font-size: 18px;font-weight: 500;}
+
 
 /* 간편가입신청 랜딩페이지 */
 .apply_wrap{background: #F7F7FA;min-height: 100vh;padding-bottom: 120px;}

@@ -16,6 +16,7 @@ exports.enum_api_uri = {
     story_list: `${api_uri}/v1/main/story-list`,
     story_view: `${api_uri}/v1/main/story-view/:list_no`,
     license_list: `${api_uri}/v1/main/app-license/:idx`,
+    user_delt: `${api_uri}/v1/etc/delete-request`,
 
     //랭킹---
     rank_list: `${api_uri}/v1/main/ranking`,

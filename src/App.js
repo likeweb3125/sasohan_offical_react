@@ -9,6 +9,7 @@ import Main from './pages/Main';
 import Ranking from './pages/Ranking';
 import PasswordChange from './pages/PasswordChange';
 import Terms from './pages/Terms';
+import UserDelt from './pages/UserDelt';
 import Apply from './pages/Apply';
 import AppSignup from './pages/app/Signup';
 import AppSignup2 from './pages/app/Signup2';
@@ -60,6 +61,9 @@ function App() {
                 {/* 서비스약관 */}
                 <Route path="/terms/:terms_tit" element={<Layout><Terms /></Layout>} />
 
+                {/* 회원정보 삭제 */}
+                <Route path="/user/delete" element={<UserDelt />} />
+
                 {/* 간편가입신청 */}
                 <Route path="/apply" element={<Apply />} />
 
@@ -91,7 +95,6 @@ function App() {
 
                 {/* 공지사항 - 상세 */}
                 <Route path="/app/bbs/:list_no" element={<AppLayout><AppListDetail /></AppLayout>} />
-
 
                 {/* 회원가입 프로필사진등록 테스트 */}
                 <Route path="/app/img_test" element={<AppLayout><AppImgTest /></AppLayout>} />
