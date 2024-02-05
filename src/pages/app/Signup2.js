@@ -1263,11 +1263,12 @@ const SignUp2 = () => {
                             <div className="inner_box">
                                 <div className="tit_box">
                                     <p className="f_20 medium"><strong>비밀번호</strong>를 입력해주세요 <br/></p>
-                                    <p className={`f_17 tp4${errorPassword ? " alert_txt" : ""}`}>영문, 숫자를 포함하여 <br/>8~12자까지 입력 필수.</p>
+                                    <p className={`f_17 tp4${errorPassword ? " alert_txt" : ""}`}>영문, 숫자를 포함하여 <br/>공백없이 8~12자까지 입력 필수.</p>
                                     {errorPassword2 && <p className="f_17 medium alert_txt">비밀번호가 일치하지 않습니다.</p>}
                                 </div>
                                 <div className="custom_input pass_input flex">
                                     <input type={passView ? "text" : "password"} placeholder="비밀번호를 입력해주세요." 
+                                        maxLength={12}
                                         onChange={(e)=>{
                                             setValPassword(e.currentTarget.value);
                                             setUsablePass(false);
@@ -1277,6 +1278,7 @@ const SignUp2 = () => {
                                 </div>
                                 <div className="custom_input pass_input flex">
                                     <input type={pass2View ? "text" : "password"} placeholder="비밀번호 재확인" 
+                                        maxLength={12}
                                         onChange={(e)=>{
                                             setValPassword2(e.currentTarget.value);
                                             setUsablePass(false);
