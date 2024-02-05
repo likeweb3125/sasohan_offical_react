@@ -17,6 +17,16 @@ const UserDelt = () => {
     const [confirm, setConfirm] = useState(false);
 
 
+    //Google tag 
+    useEffect(() => {
+        // Google Analytics 초기화
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { window.dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-10879238974');
+    }, []);
+
+
     // Confirm팝업 닫힐때
     useEffect(()=>{
         if(popup.confirmPop === false){

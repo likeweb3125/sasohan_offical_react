@@ -27,10 +27,12 @@ import './css/breakpoint.css';
 import './css/app.css';
 import './css/common.css';
 
+
 function App() {
     const popup = useSelector((state)=>state.popup);
     const location = useLocation();
     const [confirm, setConfirm] = useState();
+
 
     // Confirm팝업 닫힐때
     useEffect(()=>{

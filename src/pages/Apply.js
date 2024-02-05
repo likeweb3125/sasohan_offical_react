@@ -32,6 +32,16 @@ const Apply = () => {
     const [applyIdx, setApplyIdx] = useState(null);
 
 
+    //Google tag 
+    useEffect(() => {
+        // Google Analytics 초기화
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { window.dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-10879238974');
+    }, []);
+
+
     //신청페이지 url 에서 idx 값 가져오기
     useEffect(()=>{
         let idx = location.search.replace("?idx=","");
