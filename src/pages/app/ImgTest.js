@@ -66,16 +66,28 @@ const ImgTest = () => {
                 </div>
 
                 <div>
-                    <button type="button" className="app_btn_s" onClick={()=>{
-                        //앱에 회원가입완료 보내기
-                        // if(window.flutterSignup){
-                        //     const data = {};
-                        //     window.flutterSignup.postMessage(JSON.stringify(data));
-                        // }
-                        
-                        window.flutter_inappwebview.callHandler('flutterSignupComplete');
+                    <button type="button" className="app_btn_s" 
+                        style={{'width':'auto','padding':'0 10px','marginBottom':'20px'}}
+                        onClick={()=>{
+                            //앱에 회원가입완료 보내기
+                            // if(window.flutterSignup){
+                            //     const data = {};
+                            //     window.flutterSignup.postMessage(JSON.stringify(data));
+                            // }
+                            
+                            window.flutter_inappwebview.callHandler('flutterSignupComplete');
 
-                    }}>회원가입완료 InAppWebView 테스트</button>
+                        }}
+                    >회원가입완료 InAppWebView 테스트</button>
+                </div>
+                <div>
+                    <button type="button" className="app_btn_s" onClick={()=>{
+                        //앱에 회원탈퇴완료 보내기
+                        if(window.flutterWithdraw){
+                            const data = {};
+                            window.flutterWithdraw.postMessage(JSON.stringify(data));
+                        }
+                    }}>회원탈퇴</button>
                 </div>
             </div>
         </div>
