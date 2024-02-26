@@ -71,6 +71,7 @@ const PasswordChange = () => {
             const pw = values.password;
             const num = pw.search(/[0-9]/g);
             const eng = pw.search(/[a-z]/ig);
+            const spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
 
             if(pw.length < 8 || pw.length > 13){
                 const newError = {...error};
@@ -80,7 +81,7 @@ const PasswordChange = () => {
                 const newError = {...error};
                 newError.password = true;
                 setError(newError);
-            }else if(num < 0 || eng < 0 ){
+            }else if(num < 0 || eng < 0 || spe < 0){
                 const newError = {...error};
                 newError.password = true;
                 setError(newError);
@@ -105,7 +106,7 @@ const PasswordChange = () => {
                         setError(newError);
 
                         //비밀번호변경 실행함수
-                        // passChangeHandler();
+                        passChangeHandler();
                     }
                 }
             }
@@ -179,7 +180,7 @@ const PasswordChange = () => {
                                         </div>
                                         <button type="button" onClick={()=>passShowHandler("password")}>비밀번호보기 버튼</button>
                                     </div>
-                                    {error.password && <p className="error_txt">영문, 숫자 포함하여 8~12자까지 입력해주세요.</p>}
+                                    {error.password && <p className="error_txt">특수문자, 영문, 숫자 포함하여 8~12자까지 입력해주세요.</p>}
                                 </div>
                             </li>
                             <li className="flex">
