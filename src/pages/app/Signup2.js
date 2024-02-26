@@ -317,7 +317,7 @@ const SignUp2 = () => {
         let pw2 = valPassword2;
         let num = pw.search(/[0-9]/g);
         let eng = pw.search(/[a-z]/ig);
-        let spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+        let spe = pw.search(/[!@#$%^&*()]/g);   //숫자키 1~0까지 있는 특수문자만 사용
 
         if(pw.length < 8 || pw.length > 13){
             setErrorPassword(true);
@@ -405,7 +405,7 @@ const SignUp2 = () => {
                     }else if(!usablePass){
                         let num = valPassword.search(/[0-9]/g);
                         let eng = valPassword.search(/[a-z]/ig);
-                        let spe = valPassword.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+                        let spe = valPassword.search(/[!@#$%^&*()]/g);   //숫자키 1~0까지 있는 특수문자만 사용
                         if(valPassword.length < 8 || valPassword.length > 13 || valPassword.search(/\s/) != -1 || num < 0 || eng < 0 || spe < 0){
                             setErrorPassword(true);
                         }
@@ -466,7 +466,7 @@ const SignUp2 = () => {
         }else if(!usablePass){
             let num = valPassword.search(/[0-9]/g);
             let eng = valPassword.search(/[a-z]/ig);
-            let spe = valPassword.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+            let spe = valPassword.search(/[!@#$%^&*()]/g);   //숫자키 1~0까지 있는 특수문자만 사용
             if(valPassword.length < 8 || valPassword.length > 13 || valPassword.search(/\s/) != -1 || num < 0 || eng < 0 || spe < 0){
                 setErrorPassword(true);
             }
@@ -529,7 +529,7 @@ const SignUp2 = () => {
         }else if(!usablePass){
             let num = valPassword.search(/[0-9]/g);
             let eng = valPassword.search(/[a-z]/ig);
-            let spe = valPassword.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+            let spe = valPassword.search(/[!@#$%^&*()]/g);   //숫자키 1~0까지 있는 특수문자만 사용
             if(valPassword.length < 8 || valPassword.length > 13 || valPassword.search(/\s/) != -1 || num < 0 || eng < 0 || spe < 0){
                 setErrorPassword(true);
             }
@@ -716,7 +716,7 @@ const SignUp2 = () => {
         }else if(!usablePass){
             let num = valPassword.search(/[0-9]/g);
             let eng = valPassword.search(/[a-z]/ig);
-            let spe = valPassword.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+            let spe = valPassword.search(/[!@#$%^&*()]/g);   //숫자키 1~0까지 있는 특수문자만 사용
             if(valPassword.length < 8 || valPassword.length > 13 || valPassword.search(/\s/) != -1 || num < 0 || eng < 0 || spe < 0){
                 setErrorPassword(true);
             }
@@ -938,7 +938,7 @@ const SignUp2 = () => {
         }else if(!usablePass){
             let num = valPassword.search(/[0-9]/g);
             let eng = valPassword.search(/[a-z]/ig);
-            let spe = valPassword.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+            let spe = valPassword.search(/[!@#$%^&*()]/g);   //숫자키 1~0까지 있는 특수문자만 사용
             if(valPassword.length < 8 || valPassword.length > 13 || valPassword.search(/\s/) != -1 || num < 0 || eng < 0 || spe < 0){
                 setErrorPassword(true);
             }

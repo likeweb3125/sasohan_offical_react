@@ -71,7 +71,7 @@ const PasswordChange = () => {
             const pw = values.password;
             const num = pw.search(/[0-9]/g);
             const eng = pw.search(/[a-z]/ig);
-            const spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+            const spe = pw.search(/[!@#$%^&*()]/g);   //숫자키 1~0까지 있는 특수문자만 사용
 
             if(pw.length < 8 || pw.length > 13){
                 const newError = {...error};
