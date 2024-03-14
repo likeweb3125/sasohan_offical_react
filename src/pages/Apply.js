@@ -43,10 +43,11 @@ const Apply = () => {
 
 
     //신청페이지 url 에서 idx 값 가져오기
-    useEffect(()=>{
-        let idx = location.search.replace("?idx=","");
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const idx = params.get('idx');
         setApplyIdx(idx);
-    },[location.search]);
+    }, [location.search]);
 
 
     // Confirm팝업 닫힐때
