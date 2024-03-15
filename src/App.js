@@ -11,6 +11,7 @@ import PasswordChange from './pages/PasswordChange';
 import Terms from './pages/Terms';
 import UserDelt from './pages/UserDelt';
 import Apply from './pages/Apply';
+import ApplyComplete from './pages/ApplyCompleted';
 import AppSignup from './pages/app/Signup';
 import AppSignup2 from './pages/app/Signup2';
 import AppPoint from './pages/app/Point';
@@ -68,6 +69,8 @@ function App() {
 
                 {/* 간편가입신청 */}
                 <Route path="/apply" element={<Apply />} />
+                {/* 간편가입신청 - 완료 */}
+                <Route path="/apply/:apply_idx/completed" element={<ApplyComplete />} />
 
 
                 {/* 앱 페이지-------------------------------------------- */}
