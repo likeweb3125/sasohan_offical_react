@@ -1,7 +1,7 @@
 import EditBox from "./EditBox";
 
 
-const GuestBookBox = ({data, editBoxOn, onEditBoxClickHandler, onCommentEditHandler, onCommentDeltHandler, btnGray}) => {
+const GuestBookBox = ({data, editBoxOn, editBox, onEditBoxClickHandler, onCommentEditHandler, onCommentDeltHandler, btnGray}) => {
     return(<>
         <div className='profile_img_box class_1'>
             <div className='img'>

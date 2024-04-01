@@ -460,13 +460,26 @@ const ManagerDetail = () => {
                                         {commentList.length > 0 ?
                                             <ul className="msg_list">
                                                 {commentList.map((cont,i)=>{
+                                                    //방명록 삭제버튼 
+                                                    let editBox = false;
+                                                    if(user.userLogin){
+                                                        //일반회원일때
+                                                        if(user.userInfo.user_level == 'U' && user.userInfo.m_id === cont.m_id){
+                                                            editBox = true;
+                                                        }
+                                                        //매니저일때
+                                                        else if(user.userInfo.user_level == 'M' && user.userInfo.m_id === m_id){
+                                                            editBox = true;
+                                                        }
+                                                    }
+
                                                     return(
                                                         <li className="flex_between flex_top" key={i}>
                                                             <GuestBookBox 
                                                                 data={cont}
                                                                 editBoxOn={editBoxOn}
+                                                                editBox={editBox}
                                                                 onEditBoxClickHandler={onEditBoxClickHandler}
-                                                                onCommentEditHandler={onCommentEditHandler}
                                                                 onCommentDeltHandler={onCommentDeltHandler}
                                                                 btnGray={true}
                                                             />
