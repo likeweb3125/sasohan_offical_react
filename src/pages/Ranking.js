@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { PatternFormat } from "react-number-format";
 import moment from "moment";
 import { enum_api_uri } from "../config/enum";
 import * as CF from "../config/function";
 import util from "../config/util";
-import { confirmPop, loadingPop, profileEditPop, profileEditPopDone } from "../store/popupSlice";
-import InputBox from "../components/component/InputBox";
+import { confirmPop, loadingPop, profileEditPop, profileEditPopDone, feedProfilePop } from "../store/popupSlice";
 import SearchBox from "../components/component/SearchBox";
 import ConfirmPop from "../components/popup/ConfirmPop";
 import ranking_tip_box from "../images/ranking_tip_box.svg";
@@ -16,16 +15,12 @@ import more_view from "../images/more_view.png";
 
 const Ranking = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const popup = useSelector((state)=>state.popup);
+    const user = useSelector((state)=>state.user);
     const rank_list = enum_api_uri.rank_list;
-    const rank_sms = enum_api_uri.rank_sms;
-    const rank_done = enum_api_uri.rank_done;
     const rank_token = enum_api_uri.rank_token;
     const [confirm, setConfirm] = useState(false);
-    const [tel, setTel] = useState("");
-    const [code, setCode] = useState("");
-    const [focusInput, setFocusInput] = useState({});
-    const [authStep, setAuthStep] = useState(1);
     const [selectList, setSelectList] = useState([{name:"X클래스",val:1},{name:"S클래스",val:2},{name:"A클래스",val:3},{name:"B클래스",val:4},{name:"C클래스",val:5}]);
     const [rank, setRank] = useState("");
     const [listData, setListData] = useState({});
@@ -34,11 +29,6 @@ const Ranking = () => {
     const [currentPage, setCurrentPage] = useState(null);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [date, setDate] = useState("");
-    const [codeBtn, setCodeBtn] = useState(false);
-    const [doneBtn, setDoneBtn] = useState(false);
-    const [minutes, setMinutes] = useState(3);
-    const [seconds, setSeconds] = useState(0);
-    const formatTime = (time) => time.toString().padStart(2, '0');
     const [myData, setMyData] = useState(false);
     const [authMyData, setAuthMyData] = useState({});
     const [appPage, setAppPage] = useState(false);
@@ -77,16 +67,6 @@ const Ranking = () => {
             window.removeEventListener('resize', handleWindowResize);
         };
     },[]);
-
-
-    //인풋 포커스
-    const focusHandler = (e,val) => {
-        const id = e.target.id;
-        let newList = {...focusInput};
-        newList[id] = val;
-        
-        setFocusInput(newList);
-    };
 
 
     // 랭킹리스트 가져오기
@@ -160,114 +140,6 @@ const Ranking = () => {
     };
 
 
-    //인증번호전송
-    const codeSendHandler = () => {
-        const body = {
-            phone: tel
-        }
-
-        axios.post(rank_sms, body)
-        .then((res)=>{
-            if(res.status === 200){
-                setAuthStep(2);
-            }
-        })
-        .catch((error) => {
-            const err_msg = CF.errorMsgHandler(error);
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt: err_msg,
-                confirmPopBtn:1,
-            }));
-            setConfirm(true);
-        });
-    };
-
-
-    //인증번호확인 타이머
-    useEffect(() => {
-        if (authStep === 2) {
-            const countdown = setInterval(() => {
-                setSeconds(prevSeconds => {
-                    let updatedSeconds = prevSeconds > 0 ? prevSeconds - 1 : 59;
-                    if (updatedSeconds === 59) {
-                        setMinutes(prevMinutes => (prevMinutes > 0 ? prevMinutes - 1 : 0));
-                    }
-    
-                    if (updatedSeconds === 0 && minutes === 0) {
-                        clearInterval(countdown);
-
-                        setAuthStep(1);
-                        setMinutes(3);
-                        setSeconds(0);
-    
-                        dispatch(confirmPop({
-                            confirmPop:true,
-                            confirmPopTit:'알림',
-                            confirmPopTxt:'인증번호 입력시간이 지났습니다. 다시 인증번호를 전송해주세요.',
-                            confirmPopBtn:1,
-                        }));
-                        setConfirm(true);
-                    }
-    
-                    return updatedSeconds;
-                });
-            }, 1000);
-            return () => clearInterval(countdown);
-        }
-    }, [authStep, minutes]);
-    
-
-    //인증완료하기
-    const doneHandler = () => {
-        dispatch(loadingPop(true));
-
-        const body = {
-            phone: tel,
-            m_code: code
-        }
-
-        axios.post(rank_done, body)
-        .then((res)=>{
-            if(res.status === 200){
-                dispatch(loadingPop(false));
-
-                let data = res.data;
-                setList([data]);
-
-                setMyData(true);
-
-                setAuthStep(1);
-                setMinutes(3);
-                setSeconds(0);
-                setCode("");
-
-                //인증한데이터저장
-                const authData = {
-                    phone: tel,
-                    m_code: code,
-                    m_n_name: data.m_n_name,
-                    photo: data.m_f_photo
-                };
-                setAuthMyData(authData);
-            }
-        })
-        .catch((error) => {
-            dispatch(loadingPop(false));
-
-            const err_msg = CF.errorMsgHandler(error);
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt: err_msg,
-                confirmPopBtn:1,
-            }));
-            setConfirm(true);
-        });
-    };
-
-
     //프로필수정 버튼 클릭시 팝업열기
     const editPopOpenHandler = () => {
         dispatch(profileEditPop({profileEditPop:true,profileEditPopData:authMyData}));
@@ -329,10 +201,36 @@ const Ranking = () => {
         getList(1);
     };
 
+
+    //랭킹확인하러 가기 버튼 클릭시
+    const myRankCheckBtnClickHandler = () => {
+        //로그인시 
+        if(user.userLogin){
+            //일반회원일때 마이페이지로 이동
+            if(user.userInfo.user_level == 'U'){
+                navigate('/member/mypage');
+            }
+            //매니저일때 랭킹없음
+            if(user.userInfo.user_level == 'M'){
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'회원계정만 가능합니다.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            }
+        }
+        //미로그인시 로그인페이지로 이동
+        else{
+            navigate('/member/login');
+        }
+    };
+
     
 
     return(<>
-        <div className="sub_wrap rankin_wrap">
+        <div className="sub_wrap ranking_wrap">
             <div className="top_banner"></div>
             <div className="inner_cont">
                 <div className="tit_box flex_between flex_bottom">
@@ -350,75 +248,11 @@ const Ranking = () => {
                 </div>
                 {/* 앱아닐때만 노출 */}
                 {!appPage &&
-                    <div className="auth_box flex_between flex_top">
-                        <div className="txt_box">
-                            <p className="txt1">회원님의 랭킹이 <br/>궁금하신가요?</p>
-                            <p className="txt2">회원가입 시 입력한 연락처 정보를 통해 <br/>회원님의 랭킹을 확인할 수 있습니다.</p>
-                        </div>
-                        <div className="form_box">
-                            <ul>
-                                <li className="flex_between">
-                                    <p>연락처</p>
-                                    <div className="input_btn_box">
-                                        <div className={`input_box h_50${focusInput.tel ? " on" : ""}`}>
-                                            <PatternFormat format="###-####-####" value={tel} placeholder="숫자만 입력해주세요."
-                                                id="tel" 
-                                                onChange={(e)=>{
-                                                    let val = e.currentTarget.value;
-                                                    val = val.replace(/-/g, '');
-                                                    val = val.trim();
-                                                    setTel(val);
-
-                                                    if(val.length > 10){
-                                                        setCodeBtn(true);
-                                                    }else{
-                                                        setCodeBtn(false);
-                                                    }
-                                                }}
-                                                onFocus={(e)=>{
-                                                    focusHandler(e,true);
-                                                }}
-                                                onBlur={(e)=>{
-                                                    focusHandler(e,false);
-                                                }}
-                                            />
-                                        </div>
-                                        <button type="button" disabled={codeBtn ? false : true} onClick={codeSendHandler}>인증번호 전송</button>
-                                    </div>
-                                </li>
-                                {authStep === 2 &&
-                                    <li className="flex_between">
-                                        <p>인증번호</p>
-                                        <div className="input_time_box">
-                                            <div className={`input_box h_50${focusInput.code ? " on" : ""}`}>
-                                                <input type={`text`} value={code} placeholder="인증번호를 입력해주세요."
-                                                    id="code" 
-                                                    onChange={(e)=>{
-                                                        const val = e.currentTarget.value;
-                                                        setCode(val);
-
-                                                        if(val.length > 0){
-                                                            setDoneBtn(true);
-                                                        }else{
-                                                            setDoneBtn(false);
-                                                        }
-                                                    }}
-                                                    onFocus={(e)=>{
-                                                        focusHandler(e,true);
-                                                    }}
-                                                    onBlur={(e)=>{
-                                                        focusHandler(e,false);
-                                                    }}
-                                                />
-                                            </div>
-                                            <span className="time">{formatTime(minutes)}:{formatTime(seconds)}</span>
-                                        </div>
-                                    </li>
-                                }
-                            </ul>
-                            {authStep === 2 &&
-                                <button type="button" className="btn_type1" disabled={doneBtn ? false : true} onClick={doneHandler}>인증완료</button>
-                            }
+                    <div className="auth_box">
+                        <div className="txt_box tx_c">
+                            <p className="txt1"><strong>회원님의 랭킹</strong>이 궁금하신가요?</p>
+                            <p className="txt2">회원가입 시 입력한 연락처 정보를 통해 회원님의 랭킹을 확인할 수 있습니다.</p>
+                            <button type="button" className="btn_type3" onClick={myRankCheckBtnClickHandler}>확인하러 갈래요!</button>
                         </div>
                     </div>
                 }
@@ -490,6 +324,7 @@ const Ranking = () => {
                                 <SearchBox 
                                     type="text"
                                     placeholder="닉네임을 검색하세요."
+                                    className="search_box"
                                     inputClass="input_box2 h_50"
                                     value={searchValue}
                                     onChangeHandler={(e)=>{
@@ -501,7 +336,7 @@ const Ranking = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="ul_box">
+                    <div className="ranking_ul_box">
                         <ul className="top_ul">
                             <li>순위</li>
                             <li>{windowWidth > 767 ? "레벨" : "닉네임 / 클래스 / 레벨"}</li>
@@ -552,12 +387,20 @@ const Ranking = () => {
                                         </div>
                                         <div className={`box name_box${myData ? " my_data" : ""}`}>
                                             <div className="inner_box flex_start flex_wrap">
-                                                <div className="flex_top">
-                                                    <div className="img">
-                                                        {myPhoto ?
-                                                            <img src={cont.m_f_photo} alt="프로필이미지" />
-                                                            :<img src={require(`../images/random_profile${cont.profile_num}.svg`)} alt="랜덤프로필이미지" />
-                                                        }
+                                                <div className="flex_top pointer"
+                                                    onClick={()=>{
+                                                        dispatch(feedProfilePop({feedProfilePop:true, feedProfilePopData:cont}));
+                                                    }}
+                                                >
+                                                    <div className={`profile_img_box class_${cont.class_number}`}>   
+                                                        <div className='img'>
+                                                            <div>
+                                                                {myPhoto ?
+                                                                    <img src={cont.m_f_photo} alt="프로필이미지" />
+                                                                    :<img src={require(`../images/random_profile${cont.profile_num}.svg`)} alt="랜덤프로필이미지" />
+                                                                }
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <p className={`name${cont.M_N_Name_modify === 1 ? ' color_black' : ''}`}>{cont.m_n_name}</p>
                                                 </div>

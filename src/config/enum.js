@@ -16,7 +16,56 @@ exports.enum_api_uri = {
     story_list: `${api_uri}/v1/main/story-list`,
     story_view: `${api_uri}/v1/main/story-view/:list_no`,
     license_list: `${api_uri}/v1/main/app-license/:idx`,
-    user_delt: `${api_uri}/v1/etc/delete-request`,
+
+    //회원---
+    login: `${api_uri}/v1/app/user/user-login`,
+    login_code: `${api_uri}/v1/app/user/user-login-code`,
+    login_phone: `${api_uri}/v1/app/user/user-login-phone`,
+    feed_profile_add: `${api_uri}/v1/app/user/feed-profile-add`,
+    feed_profile_delt: `${api_uri}/v1/app/user/feed-profile-remove/:filename`,
+    find_id_sms: `${api_uri}/v1/app/user/find-id-sms`,
+    find_id: `${api_uri}/v1/app/user/find-id`,
+    find_pw_sms: `${api_uri}/v1/app/user/find-pw-sms`,
+    find_pw: `${api_uri}/v1/app/user/find-pw-site`,
+    reset_pw: `${api_uri}/v1/reset/password`,
+    basic_profile: `${api_uri}/v1/main-mypage/basic-profile`,
+    all_profile: `${api_uri}/v1/main-mypage/all-profile`,
+    basic_profile_modify: `${api_uri}/v1/main-mypage/profile-modify`,
+    profile_modify: `${api_uri}/v1/main-mypage/type-modify`,
+    profile2_modify: `${api_uri}/v1/main-mypage/ideal-modify`,
+    user_delt_code: `${api_uri}/v1/main-mypage/leave-sign`,
+    user_delt: `${api_uri}/v1/main-mypage/leave`,
+
+    //스퀘어---
+    feed_list: `${api_uri}/v1/main/feed-list`,
+    feed_favorite: `${api_uri}/v1/manager-feed/feed-favorite`,
+    feed_content: `${api_uri}/v1/main/feed-content/:idx`,
+    feed_delt: `${api_uri}/v1/manager/feed-delete/:idx`,
+    feed_comment_list: `${api_uri}/v1/main/feed-comment/:idx`,
+    feed_comment: `${api_uri}/v1/manager-feed/feed-comment-regist`,
+    feed_comment_modify: `${api_uri}/v1/manager-feed/feed-comment-modify`,
+    feed_comment_delt: `${api_uri}/v1/manager-feed/feed-comment-delete/:idx`,
+    //매니저
+    manager_list: `${api_uri}/v1/main/manager-list`,
+    manager_favorite: `${api_uri}/v1/manager-feed/manager-favorite`,
+    manager_profile: `${api_uri}/v1/main/manager-profile/:m_id`,
+    guest_book_list: `${api_uri}/v1/main/guest-book/:m_id`,
+    guest_book: `${api_uri}/v1/manager-feed/guest-book-regist`,
+    guest_book_delt: `${api_uri}/v1/manager-feed/guest-book-delete/:idx`,
+    manager_feed_list: `${api_uri}/v1/main/feed-list/:m_id`,
+    feed_img: `${api_uri}/v1/manager/manager-image-add`,
+    feed_img_delt: `${api_uri}/v1/manager/feed-image-remove`,
+    feed_add: `${api_uri}/v1/manager/feed-add`,
+    feed_modify: `${api_uri}/v1/manager/feed-modify`,
+    
+    //VIP 소개팅
+    vip_list: `${api_uri}/v1/main/vip-list`,
+    vip_apply: `${api_uri}/v1/main/vip-request`,
+    vip_apply_img: `${api_uri}/v1/main/vip-request/image-add`,
+    vip_apply_img_delt: `${api_uri}/v1/main/vip-request/image-remove/:filename`,
+    
+
+
 
     //랭킹---
     rank_list: `${api_uri}/v1/main/ranking`,
@@ -24,7 +73,8 @@ exports.enum_api_uri = {
     rank_done: `${api_uri}/v1/main/ranking-confirm`,
     rank_token: `${api_uri}/v1/main/ranking-token`,
     rank_profile_img: `${api_uri}/v1/main/ranking-profile/image-add`,
-    rank_profile: `${api_uri}/v1/main/ranking-profile/modify`,
+    rank_profile_img_delt: `${api_uri}/v1/main/ranking-profile/image-remove/:filename`,
+    rank_profile: `${api_uri}/v1/main-mypage/ranking-profile/modify`,
 
 
     //앱----------------------------------------

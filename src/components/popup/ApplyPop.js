@@ -25,6 +25,7 @@ const ApplyPop = () => {
     const [addrSelected, setAddrSelected] = useState(false);
     const [addr2Selected, setAddr2Selected] = useState(false);
     const [addrSelectList, setAddrSelectList] = useState([]);
+    const [allAddressCheck, setAllAddressCheck] = useState(true);
 
 
     // Confirm팝업 닫힐때
@@ -130,6 +131,14 @@ const ApplyPop = () => {
     },[]);
 
 
+    //선택한 지역리스트 값 변경시 전지역 체크박스값 변경
+    useEffect(()=>{
+        if(addrSelectList.length > 0){
+            setAllAddressCheck(false);
+        }
+    },[addrSelectList]);
+
+
     //선호지역 삭제하기
     const addrDeltHandler = (idx) => {
         // addrSelectList 배열에서 특정 인덱스의 값을 삭제하고 새로운 배열을 생성
@@ -168,11 +177,11 @@ const ApplyPop = () => {
                 confirmPopBtn:1,
             }));
             setConfirm(true);
-        }else if(addrSelectList.length < 3){
+        }else if(!allAddressCheck && addrSelectList.length < 3){
             dispatch(confirmPop({
                 confirmPop:true,
                 confirmPopTit:'알림',
-                confirmPopTxt:'선호지역은 최소 3개를 선택해주세요.',
+                confirmPopTxt:'지역은 최소 3개를 선택해주세요.',
                 confirmPopBtn:1,
             }));
             setConfirm(true);
@@ -193,11 +202,16 @@ const ApplyPop = () => {
             }));
             setConfirm(true);
         }else{
+            let addr = addrSelectList;
+            if(allAddressCheck){
+                addr = ['전지역'];
+            }
+
             let body = {
                 name: values.name,
                 year: values.year,
                 gender: values.gender,
-                address1: addrSelectList,
+                address1: addr,
                 tel: tel,
             };
 
@@ -308,124 +322,147 @@ const ApplyPop = () => {
                                                 </li>
                                             </ul>
                                         </li> 
-                                        <li className="bp0">
-                                            <p>선호지역 <span className="color_point">*</span></p>
-                                            <div className="address_box flex_between">
-                                                <div className="input_box">
-                                                    <select 
-                                                        name="address1" 
-                                                        value={values.address1} 
-                                                        onChange={(e)=>{
-                                                            const code = e.target.options[e.target.selectedIndex].getAttribute("data-code");
-                                                            handleChange(e);
-                                                            setAddrSelected(true);
-                                                            getAddress2(code);
+                                        <li className="addr_select_li bp0">
+                                            <p>지역 <span className="color_point">*</span></p>
+                                            <div>
+                                                <div className="custom_check">
+                                                    <label>
+                                                        <input type={`checkbox`}
+                                                            onChange={(e)=>{
+                                                                const checked = e.currentTarget.checked;
+                                                                if(checked){
+                                                                    setAllAddressCheck(true);
 
-                                                            setFieldValue("address2","");
-
-                                                            const val = e.currentTarget.value;
-                                                            if(val == "세종특별자치시" && !addrSelectList.includes("세종")){
-                                                                if(addrSelectList.length > 9){
-                                                                    dispatch(confirmPop({
-                                                                        confirmPop:true,
-                                                                        confirmPopTit:'알림',
-                                                                        confirmPopTxt:'선호지역은 최대 10개까지만 선택해주세요.',
-                                                                        confirmPopBtn:1,
-                                                                    }));
-                                                                    setConfirm(true);
+                                                                    setFieldValue("address1","");
+                                                                    setFieldValue("address2","");
+                                                                    setAddrSelectList([]); //선택한지역 리스트 삭제
                                                                 }else{
-                                                                    const updatedList = [...addrSelectList];
-                                                                        updatedList.push("세종");
-                                                                    setAddrSelectList(updatedList);
+                                                                    setAllAddressCheck(false);
                                                                 }
-                                                            }
-                                                        }}
-                                                        className={addrSelected ? "selected" : ""}
-                                                    >
-                                                        <option value='' hidden disabled>시/도</option>
-                                                        {addressList.map((cont, i)=>{
-                                                            return(
-                                                                <option value={cont.sido_gugun} key={i} data-code={cont.local_code}>{cont.sido_gugun}</option>
-                                                            );
-                                                        })}
-                                                    </select>
+                                                            }} 
+                                                            checked={allAddressCheck}
+                                                        />
+                                                        <span className="check">체크박스</span>
+                                                        <span className="txt">전지역</span>
+                                                    </label>
                                                 </div>
-                                                <div className="input_box">
-                                                    <select 
-                                                        name="address2" 
-                                                        value={values.address2} 
-                                                        onChange={(e)=>{
-                                                            handleChange(e);
-                                                            setAddr2Selected(true);
+                                                <div className="address_box flex_between">
+                                                    <div className="input_box">
+                                                        <select 
+                                                            name="address1" 
+                                                            value={values.address1} 
+                                                            onChange={(e)=>{
+                                                                const code = e.target.options[e.target.selectedIndex].getAttribute("data-code");
+                                                                handleChange(e);
+                                                                setAddrSelected(true);
+                                                                getAddress2(code);
 
-                                                            const val = e.currentTarget.value;
+                                                                setFieldValue("address2","");
 
-                                                            let address1_txt = values.address1;
-                                                            if(address1_txt === "강원도"){
-                                                                address1_txt = "강원";
-                                                            }
-                                                            if(address1_txt === "경기도"){
-                                                                address1_txt = "경기";
-                                                            }
-                                                            if(address1_txt === "경상남도"){
-                                                                address1_txt = "경남";
-                                                            }
-                                                            if(address1_txt === "경상북도"){
-                                                                address1_txt = "경북";
-                                                            }
-                                                            if(address1_txt === "전라남도"){
-                                                                address1_txt = "전남";
-                                                            }
-                                                            if(address1_txt === "전라북도"){
-                                                                address1_txt = "전북";
-                                                            }
-                                                            if(address1_txt === "충청남도"){
-                                                                address1_txt = "충남";
-                                                            }
-                                                            if(address1_txt === "충청북도"){
-                                                                address1_txt = "충북";
-                                                            }
-                                                            if(address1_txt.includes("광역시")){
-                                                                address1_txt = address1_txt.replace("광역시","");
-                                                            }
-                                                            if(address1_txt.includes("특별시")){
-                                                                address1_txt = address1_txt.replace("특별시","");
-                                                            }
-                                                            if(address1_txt.includes("특별자치시")){
-                                                                address1_txt = address1_txt.replace("특별자치시","");
-                                                            }
-                                                            if(address1_txt.includes("특별자치도")){
-                                                                address1_txt = address1_txt.replace("특별자치도","");
-                                                            }
-
-                                                            if(val.length > 0){
-                                                                if(addrSelectList.length > 9){
-                                                                    dispatch(confirmPop({
-                                                                        confirmPop:true,
-                                                                        confirmPopTit:'알림',
-                                                                        confirmPopTxt:'선호지역은 최대 10개까지만 선택해주세요.',
-                                                                        confirmPopBtn:1,
-                                                                    }));
-                                                                    setConfirm(true);
-                                                                }else{
-                                                                    const txt = address1_txt + " " + val;
-                                                                    if(!addrSelectList.includes(txt)){
+                                                                const val = e.currentTarget.value;
+                                                                if(val == "세종특별자치시" && !addrSelectList.includes("세종")){
+                                                                    if(addrSelectList.length > 9){
+                                                                        dispatch(confirmPop({
+                                                                            confirmPop:true,
+                                                                            confirmPopTit:'알림',
+                                                                            confirmPopTxt:'선호지역은 최대 10개까지만 선택해주세요.',
+                                                                            confirmPopBtn:1,
+                                                                        }));
+                                                                        setConfirm(true);
+                                                                    }else{
                                                                         const updatedList = [...addrSelectList];
-                                                                            updatedList.push(txt);
+                                                                            updatedList.push("세종");
                                                                         setAddrSelectList(updatedList);
                                                                     }
                                                                 }
-                                                            }  
-                                                        }}
-                                                        className={addr2Selected ? "selected" : ""}
-                                                    >
-                                                        <option value='' hidden disabled>구</option>
-                                                        {addressList2.map((cont, i)=>{
-                                                            return(
-                                                                <option value={cont.sido_gugun} key={i}>{cont.sido_gugun}</option>
-                                                            );
-                                                        })}
-                                                    </select>
+                                                            }}
+                                                            className={addrSelected ? "selected" : ""}
+                                                        >
+                                                            <option value='' hidden disabled>시/도</option>
+                                                            {addressList.map((cont, i)=>{
+                                                                return(
+                                                                    <option value={cont.sido_gugun} key={i} data-code={cont.local_code}>{cont.sido_gugun}</option>
+                                                                );
+                                                            })}
+                                                        </select>
+                                                    </div>
+                                                    <div className="input_box">
+                                                        <select 
+                                                            name="address2" 
+                                                            value={values.address2} 
+                                                            onChange={(e)=>{
+                                                                handleChange(e);
+                                                                setAddr2Selected(true);
+
+                                                                const val = e.currentTarget.value;
+
+                                                                let address1_txt = values.address1;
+                                                                if(address1_txt === "강원도"){
+                                                                    address1_txt = "강원";
+                                                                }
+                                                                if(address1_txt === "경기도"){
+                                                                    address1_txt = "경기";
+                                                                }
+                                                                if(address1_txt === "경상남도"){
+                                                                    address1_txt = "경남";
+                                                                }
+                                                                if(address1_txt === "경상북도"){
+                                                                    address1_txt = "경북";
+                                                                }
+                                                                if(address1_txt === "전라남도"){
+                                                                    address1_txt = "전남";
+                                                                }
+                                                                if(address1_txt === "전라북도"){
+                                                                    address1_txt = "전북";
+                                                                }
+                                                                if(address1_txt === "충청남도"){
+                                                                    address1_txt = "충남";
+                                                                }
+                                                                if(address1_txt === "충청북도"){
+                                                                    address1_txt = "충북";
+                                                                }
+                                                                if(address1_txt.includes("광역시")){
+                                                                    address1_txt = address1_txt.replace("광역시","");
+                                                                }
+                                                                if(address1_txt.includes("특별시")){
+                                                                    address1_txt = address1_txt.replace("특별시","");
+                                                                }
+                                                                if(address1_txt.includes("특별자치시")){
+                                                                    address1_txt = address1_txt.replace("특별자치시","");
+                                                                }
+                                                                if(address1_txt.includes("특별자치도")){
+                                                                    address1_txt = address1_txt.replace("특별자치도","");
+                                                                }
+
+                                                                if(val.length > 0){
+                                                                    if(addrSelectList.length > 9){
+                                                                        dispatch(confirmPop({
+                                                                            confirmPop:true,
+                                                                            confirmPopTit:'알림',
+                                                                            confirmPopTxt:'선호지역은 최대 10개까지만 선택해주세요.',
+                                                                            confirmPopBtn:1,
+                                                                        }));
+                                                                        setConfirm(true);
+                                                                    }else{
+                                                                        const txt = address1_txt + " " + val;
+                                                                        if(!addrSelectList.includes(txt)){
+                                                                            const updatedList = [...addrSelectList];
+                                                                                updatedList.push(txt);
+                                                                            setAddrSelectList(updatedList);
+                                                                        }
+                                                                    }
+                                                                }  
+                                                            }}
+                                                            className={addr2Selected ? "selected" : ""}
+                                                        >
+                                                            <option value='' hidden disabled>구</option>
+                                                            {addressList2.map((cont, i)=>{
+                                                                return(
+                                                                    <option value={cont.sido_gugun} key={i}>{cont.sido_gugun}</option>
+                                                                );
+                                                            })}
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </li>
@@ -438,8 +475,9 @@ const ApplyPop = () => {
                                                         );
                                                     })}
                                                 </ul>
-                                                {addrSelectList.length > 2 ? <p className="txt on">이제 소개팅을 받을 수 있어요! <br/>선호 지역을 더 많이 추가할 수록 폭넓은 소개팅을 받을 수 있어요.</p>
-                                                    : <p className="txt">선호지역은 최소 3개를 선택해야 신청할 수 있습니다.</p>
+                                                {addrSelectList.length === 0 ? <p className="txt">&lt;전지역&gt;으로 필수 설정되어 있습니다. <br/>지역을 선택하여 만남을 진행하고 싶으시다면 지역을 선택해주세요!</p>
+                                                    :   addrSelectList.length > 2 ? <p className="txt">선호 지역을 다 선택했어요! 이제 소개팅을 받을 수 있습니다.</p>
+                                                    :   <p className="txt">선호지역은 최소 3개를 선택해야 신청할 수 있습니다.</p>
                                                 }
                                             </div>
                                         </li>

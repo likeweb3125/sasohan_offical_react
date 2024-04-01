@@ -38,6 +38,25 @@ const popup = createSlice({
         profileEditPopData: {},
         profileEditPopDone: false,
         profileEditPopDoneData: {},
+
+        //회원가입 - 약관팝업
+        termsPop: false,
+        termsPopIdx: null,
+        termsCheckList: [],
+
+        //스퀘어 - 피드팝업
+        feedPop: false,
+        feedPopNo: null,
+        feedAddPop: false,
+        feedAddPopNo: null, //피드수정일때 피드 idx값
+
+        //피드프로필 팝업
+        feedProfilePop: false,
+        feedProfilePopData: {},
+
+        // VIP회원 지원 팝업
+        vipApplyPop: false,
+        
         
         // 앱 팝업------------------------------------
         //회원가입 - 약관동의 팝업
@@ -117,6 +136,31 @@ const popup = createSlice({
             state.profileEditPopDone = action.payload.profileEditPopDone;
             state.profileEditPopDoneData = action.payload.profileEditPopDoneData;
         },
+        termsPop: (state, action) => {
+            state.termsPop = action.payload.termsPop;
+            state.termsPopIdx = action.payload.termsPopIdx;
+        },
+        termsCheckList: (state, action) => {
+            state.termsCheckList = action.payload;
+        },
+
+
+        feedPop: (state, action) => {
+            state.feedPop = action.payload.feedPop;
+            state.feedPopNo = action.payload.feedPopNo;
+        },
+        feedAddPop: (state, action) => {
+            state.feedAddPop = action.payload.feedAddPop;
+            state.feedAddPopNo = action.payload.feedAddPopNo;
+        },
+        feedProfilePop: (state, action) => {
+            state.feedProfilePop = action.payload.feedProfilePop;
+            state.feedProfilePopData = action.payload.feedProfilePopData;
+        },
+        vipApplyPop: (state, action) => {
+            state.vipApplyPop = action.payload;
+        },
+
         // 앱 팝업------------------------------------
         appTermsPop: (state, action) => {
             state.appTermsPop = action.payload.appTermsPop;
@@ -170,6 +214,14 @@ export const {
     storyPopList,
     profileEditPop,
     profileEditPopDone,
+    termsPop,
+    termsCheckList,
+
+    feedPop,
+    feedAddPop,
+    feedProfilePop,
+    vipApplyPop,
+
     appTermsPop,
     appTermsCheckList,
     appProfilePop,

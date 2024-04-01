@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore, { Pagination, Scrollbar, Navigation, EffectFade, Controller } from "swiper";
+import { Pagination, Scrollbar, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
@@ -18,34 +18,19 @@ import * as CF from "../config/function";
 import util from "../config/util";
 import m_visual_tag from "../images/main_visual_tag.svg";
 import m_visual_img1 from "../images/main_visual_txt1.png";
-import m_visual_img2 from "../images/main_visual_txt2.png";
 import tip_box_img from "../images/tip_box.svg";
 import tip_box_img_mo from "../images/tip_box_mo.svg";
 import ic_badge from "../images/ic_badge.svg";
-import about_bg1 from "../images/about_bg1.jpg";
-import about_bg2 from "../images/about_bg2.jpg";
-import about_bg3 from "../images/about_bg3.jpg";
-import about_bg4 from "../images/about_bg4.jpg";
-import about_bg5 from "../images/about_bg5.jpg";
-import about_bg6 from "../images/about_bg6.jpg";
-import about_bg1_tab from "../images/about_bg1_tab.jpg";
-import about_bg2_tab from "../images/about_bg2_tab.jpg";
-import about_bg3_tab from "../images/about_bg3_tab.jpg";
-import about_bg4_tab from "../images/about_bg4_tab.jpg";
-import about_bg5_tab from "../images/about_bg5_tab.jpg";
-import about_bg6_tab from "../images/about_bg6_tab.jpg";
-import about_img1 from "../images/about_img1.svg";
+import about_img2 from "../images/about_img2.svg";
+import about_img2_mo from "../images/about_img2_mo.svg";
 import about_img3 from "../images/about_img3.svg";
-import about_img3_mo from "../images/about_img3_mo.svg";
 import about_img4 from "../images/about_img4.svg";
 import about_img5 from "../images/about_img5.svg";
-import about_img6 from "../images/about_img6.svg";
 import dona_img1 from "../images/dona_img1.jpg";
 import dona_img2 from "../images/dona_img2.jpg";
 import dona_img3 from "../images/dona_img3.jpg";
 import none_img from "../images/none_img.jpg";
 
-SwiperCore.use([Pagination,Scrollbar,Navigation,EffectFade,Controller]);
 
 const Main = () => {
     const dispatch = useDispatch();
@@ -70,9 +55,7 @@ const Main = () => {
     const [sect5_3On, setSect5_3On] = useState(false);
     const [sect6On, setSect6On] = useState(false);
     const [managerSwiperActive, setManagerSwiperActive] = useState(false);
-    const aboutBgImg = [about_bg1, about_bg2, about_bg3, about_bg4, about_bg5, about_bg6];
-    const aboutBgImgTab = [about_bg1_tab, about_bg2_tab, about_bg3_tab, about_bg4_tab, about_bg5_tab, about_bg6_tab];
-    const aboutTabList = ["원조","소개팅 룰","비교","금액","프로그램","환불"];
+    const aboutTabList = ["원조","비교","금액","프로그램","환불"];
     const [aboutTab, setAboutTab] = useState(0);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [blogSwiperActive, setBlogSwiperActive] = useState(false);
@@ -441,7 +424,6 @@ const Main = () => {
                 </div>
                 <div className="visual_txt">
                     <img src={m_visual_img1} alt="메인이미지" className="img1" />
-                    <img src={m_visual_img2} alt="메인이미지" className="img2" />
                 </div>
                 <div className="scroll">
                     <strong>Scroll</strong>
@@ -488,6 +470,7 @@ const Main = () => {
                             }
                         }}
                         ref={charmingSliderRef}
+                        modules={[Navigation,Pagination]}
                     >
                         {managerList.map((data,i)=>{
                             return(
@@ -524,6 +507,7 @@ const Main = () => {
                                                         768:{slidesPerView:2,spaceBetween:8},//width >= 768
                                                     }
                                                 }
+                                                modules={[Scrollbar, Navigation]}
                                             >
                                                 {data.matching_manager.map((data,i)=>{
                                                     return(
@@ -554,139 +538,112 @@ const Main = () => {
         </section>
 
         <section className={`section section2 ${sect2On ? "on" : ""}`} id="sect2" ref={sect2Ref}>
-            <div className="about_wrap flex">
-                <div className="bg_box">
-                    <ul>
-                        {aboutTabList.map((txt, i) => {
-                            const imagePath = aboutBgImg[i];
-                            const imagePathTab = aboutBgImgTab[i];
-                            return (
-                            <li key={i} className={aboutTab === i ? "on" : ""}>
-                                <img src={imagePath} alt="배경이미지" className="pc_img" />
-                                <img src={imagePathTab} alt="배경이미지" className="tab_img" />
+            <div className="section_inner">
+                <div className="about_wrap flex_top">
+                    <div className="title_box">
+                        <p className="tit"><strong>사소한에 대해 </strong><br/>알려드릴게요!</p>
+                    </div>
+                    <div className="txt_box">
+                        <div className="tab_ul">
+                            <ul className="flex">
+                                {aboutTabList.map((txt,i)=>{
+                                    return(
+                                        <li key={i} className={`flex_center${aboutTab === i ? " on" : ""}`}  onClick={()=>{setAboutTab(i)}}><strong>0{i+1}</strong>{txt}</li>
+                                        );
+                                    })}
+                            </ul>
+                        </div>
+                        <ul className="txt_ul">
+                            <li className={aboutTab === 0 ? "on" : ""}>
+                                <h4>매니저를 통한 온라인 소개팅의 원조</h4>
+                                <p className="txt"><strong>{"<국내 최초 사람이 해주는 매니저 소개> <카카오톡 신개념 소개팅>"}</strong> 등 <br/>
+                                사소한이 매니저를 통한 온라인 소개팅의 원조라는 사실을 알고 계셨나요?</p>
+                                <p className="txt2">최근 몇 년 사이 <br/>
+                                사소한의 인기에 힘입어 매니저 소개팅을 내세우며 유사한 서비스를 출시하는 회사들이 많이 생겼습니다. <br/>
+                                그러나 이러한 개념의 서비스가 <span>처음 도입된 것은 사소한</span>이었습니다. <br/><br/>
+
+                                사소한 소개팅은 2015년 4월 출시 이래로 이미 <span>9년의 역사</span>를 가지고 있으며, <br/>
+                                <span>매니저를 통한 온라인 소개팅 서비스를 선보인 최초의 회사</span>입니다. <br/>
+                                비슷한 개념의 다른 소개팅 업체를 찾아 보아도, 저희 회사가 압도적으로 오래된 것은 부인할 수 없는 사실입니다. <br/>
+                                추가로, 사소한을 모방한 회사들 중 70% 이상은 사소한의 전직원 출신으로 구성됐음을 알려드립니다. <br/>
+                                직원 출신 회사의 직원이 또 모방하여 차린 회사도 있습니다. <br/>
+                                하지만 모방은 혁신적인 면에서 결코 창조를 이길 수 없습니다. <br/><br/>
+
+                                결국 사소한은 뿌리이자 다른 아류 서비스들과는 다르게 <br/>
+                                오랜 기간 동안 수많은 회원들의 신뢰와 성원을 받으며 쌓인 노하우를 기반으로 <br/>
+                                <span>근본적이며 보다 안전한 서비스를 제공</span>하고 있습니다. <br/>
+                                이용해보신다면 차별화된 서비스의 가치를 직접 경험하실 수 있을 것입니다. <br/><br/>
+
+                                <span>이러한 자부심을 이야기 할 수 있는 건 오직 사소한 하나뿐입니다.</span></p>
                             </li>
-                            );
-                        })}
-                    </ul>
-                    <p className="txt">사소한에 대해 <br/>알려드릴게요!</p>
-                </div>
-                <div className="txt_box">
-                    <ul className="tab_ul">
-                        {aboutTabList.map((txt,i)=>{
-                            return(
-                                <li key={i} className={aboutTab === i ? "on" : ""}  onClick={()=>{setAboutTab(i)}}><strong>0{i+1}</strong>{txt}</li>
-                            );
-                        })}
-                    </ul>
-                    <ul className="txt_ul">
-                        <li className={aboutTab === 0 ? "on" : ""}>
-                            <h4>매니저를 통한 온라인 소개팅의 원조</h4>
-                            <p className="txt"><strong>{"<국내 최초 사람이 해주는 매니저 소개> <카카오톡 신개념 소개팅>"}</strong> 등 <br/>
-                            사소한이 매니저를 통한 온라인 소개팅의 원조라는 사실을 알고 계셨나요?</p>
-                            <p className="txt2">최근 몇 년 사이 <br/>
-                            사소한의 인기에 힘입어 매니저 소개팅을 내세우며 유사한 서비스를 출시하는 회사들이 많이 생겼습니다. <br/>
-                            그러나 이러한 개념의 서비스가 <span>처음 도입된 것은 사소한</span>이었습니다. <br/><br/>
+                            <li className={aboutTab === 1 ? "on" : ""}>
+                                <h4>사소한이어야 하는 이유</h4>
+                                <img src={about_img2} alt="일러스트이미지" className="mo_none" />
+                                <img src={about_img2_mo} alt="일러스트이미지" className="mo_show" />
+                            </li>
+                            <li className={aboutTab === 2 ? "on" : ""}>
+                                <h4>매너베이트 시스템</h4>
+                                <img src={about_img3} alt="일러스트이미지" />
+                                <p className="txt">사소한 소개팅 서비스는 <strong>소개팅 진행시</strong> 비용을 한 쪽에서만 부담을 하는 <strong>단방향 결제 소개팅 시스템</strong>입니다.</p>
+                                <p className="txt2">이 과정에서,사소한은 소개팅을 유료로 진행한 결제자님에게 소개팅 비용 99,000원을 받고, <br/>
+                                상대 이성에게 1만 원을 따로 빼서 전달하게 됩니다. <br/>
+                                이 1만원을 <span>매너베이트</span>라고 부르며, 매너베이트는 <span>manner(예의) + bait(미끼) 의 합성어</span> 입니다. <br/><br/>
 
-                            사소한 소개팅은 2015년 4월 출시 이래로 이미 <span>9년의 역사</span>를 가지고 있으며, <br/>
-                            <span>매니저를 통한 온라인 소개팅 서비스를 선보인 최초의 회사</span>입니다. <br/>
-                            비슷한 개념의 다른 소개팅 업체를 찾아 보아도, 저희 회사가 압도적으로 오래된 것은 부인할 수 없는 사실입니다. <br/>
-                            추가로, 사소한을 모방한 회사들 중 70% 이상은 사소한의 전직원 출신으로 구성됐음을 알려드립니다. <br/>
-                            직원 출신 회사의 직원이 또 모방하여 차린 회사도 있습니다. <br/>
-                            하지만 모방은 혁신적인 면에서 결코 창조를 이길 수 없습니다. <br/><br/>
+                                매너는 '태도와 예의'를 뜻하는 단어로, 상대 이성이 소개팅에 진지한 자세와 태도로 임함을 뜻하며, <br/>
+                                베이트는 '미끼' 라는 뜻으로, <span>유료 결제자님의 상대 이성을 유도하여 소개팅 테이블로 모셔오는 역할</span>을 합니다. <br/><br/>
 
-                            결국 사소한은 뿌리이자 다른 아류 서비스들과는 다르게 <br/>
-                            오랜 기간 동안 수많은 회원들의 신뢰와 성원을 받으며 쌓인 노하우를 기반으로 <br/>
-                            <span>근본적이며 보다 안전한 서비스를 제공</span>하고 있습니다. <br/>
-                            이용해보신다면 차별화된 서비스의 가치를 직접 경험하실 수 있을 것입니다. <br/><br/>
+                                즉 <span>매너베이트</span>는 소개팅 파트너를 진지한 태도로 소개팅에 참여하게 하고 책임감을 부여하며, <br/>
+                                파트너를 유연하게 소개팅에 참여할 수 있도록 유도하는 보상입니다. <br/><br/>
 
-                            <span>이러한 자부심을 이야기 할 수 있는 건 오직 사소한 하나뿐입니다.</span></p>
-                        </li>
-                        <li className={aboutTab === 1 ? "on" : ""}>
-                            <h4>사소한 스파크 매칭 시스템</h4>
-                            <img src={about_img1} alt="일러스트이미지" />
-                            <p className="txt">사소한 스파크 매칭 시스템은 회원님의 결제 내역을 기반으로 여러 매니저가 적합한 상대를 찾아주는 <br/>
-                            <strong>혁신적인 소개팅 서비스</strong>입니다.</p>
-                            <p className="txt2">회원님이 결제를 완료하면 사소한 매니저들에게 회원님의 <span>'사소한 스파크'가 바로 활성화</span>됩니다. <br/>
-                            이를 통해 여러 매니저들이 동시에 회원님에게 연락을 시작하며, <br/>
-                            한 명의 매니저만이 제공해 주었던 제한적인 선택지를 넘어 더욱 다양한 상대를 찾을 수 있게 됩니다. <br/><br/>
+                                사소한은 매너베이트를 활용하여 유료 결제자님에게 <span>확실한 이상형 선택의 기회를 제공</span>합니다. <br/>
+                                매너 베이트 시스템은 사소한 만이 진행하는 독창적인 시스템입니다. <br/><br/>
 
-                            '사소한 스파크' 는 활성 즉시 여러 명의 매니저들이 각기 다른 관점과 기준으로 소개팅 상대를 추천해주기 때문에, <br/>
-                            회원님에게 <span>풍부한 이상형풀을 경험할 수 있도록</span> 도와줍니다. <br/>
+                                비록 소개팅 비용에 있어서는 유료결제와, 매너베이트 사이의 비평등함이 존재하지만, <br/>
+                                오히려 놀랍게도 이를 통해 더 많은 이상형을 <br/>
+                                <span>매칭 받을 수 있는 기회의 평등함이 제공됩니다. </span><br/><br/>
 
-                            이를 통해 회원님의 소개팅 성공률은 크게 향상되며, <br/><br/>
-                            <span>원하는 조건과 취향에 가장 부합하는 상대를 찾을 수 있게 됩니다.</span><br/>
+                                따라서 매너베이트 시스템을 이용한 소개팅은 소개팅 경험에 대한 <br/>
+                                만족도가 높아질 것이며 더 적합한 이상형과 만날 수 있는 가능성도 높아집니다.</p>
+                            </li>
+                            <li className={aboutTab === 3 ? "on" : ""}>
+                                <h4>4박 5일 로맨스 프로그램</h4>
+                                <img src={about_img4} alt="일러스트이미지" />
+                                <p className="txt">사소한 소개팅은 오프라인 소개팅 서비스와는 달리, <strong>온라인 소개팅 서비스</strong>입니다.</p>
+                                <p className="txt2">사소한 소개팅 룰은 <span>4박5일 로맨스 프로그램</span>으로 <br/>
+                                두 사람이 4박 5일간 서로를 알아가고, 서로에 대한 호감이 깊어지는 설레임을 경험할 수 있는 프로그램입니다. <br/><br/>
 
-                            다른 소개팅에서 경험할 수 없는 이 독특한 서비스로 회원님들은 <br/>
-                            소중한 시간을 아끼고 이상형에 가까운 분을 더 빠르고 <br/>
-                            정확하게 만날 수 있습니다.</p>
-                        </li>
-                        <li className={aboutTab === 2 ? "on" : ""}>
-                            <h4>사소한이어야 하는 이유</h4>
-                            <img src={about_img3} alt="일러스트이미지" className="mo_none" />
-                            <img src={about_img3_mo} alt="일러스트이미지" className="mo_show" />
-                        </li>
-                        <li className={aboutTab === 3 ? "on" : ""}>
-                            <h4>매너베이트 시스템</h4>
-                            <img src={about_img4} alt="일러스트이미지" />
-                            <p className="txt">사소한 소개팅 서비스는 <strong>소개팅 진행시</strong> 비용을 한 쪽에서만 부담을 하는 <strong>단방향 결제 소개팅 시스템</strong>입니다.</p>
-                            <p className="txt2">이 과정에서,사소한은 소개팅을 유료로 진행한 결제자님에게 소개팅 비용 99,000원을 받고, <br/>
-                            상대 이성에게 1만 원을 따로 빼서 전달하게 됩니다. <br/>
-                            이 1만원을 <span>매너베이트</span>라고 부르며, 매너베이트는 <span>manner(예의) + bait(미끼) 의 합성어</span> 입니다. <br/><br/>
+                                매칭이 되면 당신이 지목한 이성과, 당신을 위한 소개팅 테이블(채팅방)을 만들어드립니다. <br/>
+                                그리고 4박 5일 동안 서로를 더 알아가는 과정을 통해 참가자들은 보다 깊은 이해와 신뢰를 쌓아 갑니다. <br/><br/>
 
-                            매너는 '태도와 예의'를 뜻하는 단어로, 상대 이성이 소개팅에 진지한 자세와 태도로 임함을 뜻하며, <br/>
-                            베이트는 '미끼' 라는 뜻으로, <span>유료 결제자님의 상대 이성을 유도하여 소개팅 테이블로 모셔오는 역할</span>을 합니다. <br/><br/>
+                                또한, 4박 5일 로맨스 룰은 특별하게 상대방과 최소 한 번 이상의 통화를 필수적으로 보장하는 <span>통화 필수 보장 서비스</span>를 <br/>
+                                제공함으로써 소개팅 상대방과의 전화 통화를 중요한 원칙으로 지키고 있습니다. <br/><br/>
 
-                            즉 <span>매너베이트</span>는 소개팅 파트너를 진지한 태도로 소개팅에 참여하게 하고 책임감을 부여하며, <br/>
-                            파트너를 유연하게 소개팅에 참여할 수 있도록 유도하는 보상입니다. <br/><br/>
+                                그 후 <span>결정의 날</span>이 찾아오게 되면 당신은 상대방과의 운명을 확인할 수 있습니다. <br/>
+                                만약 두 사람 중 한 명이 만나지 않기로 결정하면 소개팅은 실패로 끝나 종료되지만, <br/>
+                                두 사람 모두 만남을 선택한다면 이제부터는 당신의 로맨스가 시작됩니다!</p>
+                            </li>
+                            <li className={aboutTab === 4 ? "on" : ""}>
+                                <h4>스마트 환불 시스템</h4>
+                                <img src={about_img5} alt="일러스트이미지" />
+                                <p className="txt"><strong>우리는 고객님의 만족을 최우선으로 생각합니다.</strong></p>
+                                <p className="txt2">만약 불만족스러운 상황이 발생할 경우, 저희는 고객님께서 결제한 금액 중 일부를 빠르고 간편하게 환불해드립니다. <br/>
+                                이는 사소한 소개팅이 자랑하는 스마트 환불 시스템이며 소개팅 서비스는 인간의 감정과 마음이 언제든 변할 수 있다는 <br/>
+                                특성을 고려하여 유연한 체계를 갖추어야 한다고 생각합니다. <br/>
+                                하여서, 고객님의 단순 변심일지언정 <span>고객님이 원할 때 언제든지 환불이 가능</span>합니다. <br/><br/>
 
-                            사소한은 매너베이트를 활용하여 유료 결제자님에게 <span>확실한 이상형 선택의 기회를 제공</span>합니다. <br/>
-                            매너 베이트 시스템은 사소한 만이 진행하는 독창적인 시스템입니다. <br/><br/>
+                                <span>스마트 환불 시스템의 체계는 아래와 같습니다. <br/>
+                                결제 당일 환불 : 80% <br/>
+                                소개팅 2일차 : 60% <br/>
+                                소개팅 3일차 : 40% <br/>
+                                소개팅 4일차 : 20% <br/>
+                                결정의 날 : 환불 불가 </span><br/><br/>
 
-                            비록 소개팅 비용에 있어서는 유료결제와, 매너베이트 사이의 비평등함이 존재하지만, <br/>
-                            오히려 놀랍게도 이를 통해 더 많은 이상형을 <br/>
-                            <span>매칭 받을 수 있는 기회의 평등함이 제공됩니다. </span><br/><br/>
-
-                            따라서 매너베이트 시스템을 이용한 소개팅은 소개팅 경험에 대한 <br/>
-                            만족도가 높아질 것이며 더 적합한 이상형과 만날 수 있는 가능성도 높아집니다.</p>
-                        </li>
-                        <li className={aboutTab === 4 ? "on" : ""}>
-                            <h4>4박 5일 로맨스 프로그램</h4>
-                            <img src={about_img5} alt="일러스트이미지" />
-                            <p className="txt">사소한 소개팅은 오프라인 소개팅 서비스와는 달리, <strong>온라인 소개팅 서비스</strong>입니다.</p>
-                            <p className="txt2">사소한 소개팅 룰은 <span>4박5일 로맨스 프로그램</span>으로 <br/>
-                            두 사람이 4박 5일간 서로를 알아가고, 서로에 대한 호감이 깊어지는 설레임을 경험할 수 있는 프로그램입니다. <br/><br/>
-
-                            매칭이 되면 당신이 지목한 이성과, 당신을 위한 소개팅 테이블(채팅방)을 만들어드립니다. <br/>
-                            그리고 4박 5일 동안 서로를 더 알아가는 과정을 통해 참가자들은 보다 깊은 이해와 신뢰를 쌓아 갑니다. <br/><br/>
-
-                            또한, 4박 5일 로맨스 룰은 특별하게 상대방과 최소 한 번 이상의 통화를 필수적으로 보장하는 <span>통화 필수 보장 서비스</span>를 <br/>
-                            제공함으로써 소개팅 상대방과의 전화 통화를 중요한 원칙으로 지키고 있습니다. <br/><br/>
-
-                            그 후 <span>결정의 날</span>이 찾아오게 되면 당신은 상대방과의 운명을 확인할 수 있습니다. <br/>
-                            만약 두 사람 중 한 명이 만나지 않기로 결정하면 소개팅은 실패로 끝나 종료되지만, <br/>
-                            두 사람 모두 만남을 선택한다면 이제부터는 당신의 로맨스가 시작됩니다!</p>
-                        </li>
-                        <li className={aboutTab === 5 ? "on" : ""}>
-                            <h4>스마트 환불 시스템</h4>
-                            <img src={about_img6} alt="일러스트이미지" />
-                            <p className="txt"><strong>우리는 고객님의 만족을 최우선으로 생각합니다.</strong></p>
-                            <p className="txt2">만약 불만족스러운 상황이 발생할 경우, 저희는 고객님께서 결제한 금액 중 일부를 빠르고 간편하게 환불해드립니다. <br/>
-                            이는 사소한 소개팅이 자랑하는 스마트 환불 시스템이며 소개팅 서비스는 인간의 감정과 마음이 언제든 변할 수 있다는 <br/>
-                            특성을 고려하여 유연한 체계를 갖추어야 한다고 생각합니다. <br/>
-                            하여서, 고객님의 단순 변심일지언정 <span>고객님이 원할 때 언제든지 환불이 가능</span>합니다. <br/><br/>
-
-                            <span>스마트 환불 시스템의 체계는 아래와 같습니다. <br/>
-                            결제 당일 환불 : 80% <br/>
-                            소개팅 2일차 : 60% <br/>
-                            소개팅 3일차 : 40% <br/>
-                            소개팅 4일차 : 20% <br/>
-                            결정의 날 : 환불 불가 </span><br/><br/>
-
-                            소개팅 서비스는 안심하고 이용할 수 있는 서비스입니다. <br/>
-                            고객님의 만족을 위해 최선을 다하는 저희와 함께 <br/>
-                            안정적이고 만족스러운 소개팅 경험을 누려보세요.</p>
-                        </li>
-                    </ul>
+                                소개팅 서비스는 안심하고 이용할 수 있는 서비스입니다. <br/>
+                                고객님의 만족을 위해 최선을 다하는 저희와 함께 <br/>
+                                안정적이고 만족스러운 소개팅 경험을 누려보세요.</p>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
@@ -714,6 +671,7 @@ const Main = () => {
                             }
                         }
                         ref={storySliderRef}
+                        modules={[Navigation,Scrollbar]}
                     >
                         {storyList.map((cont,i)=>{
                             return(
@@ -755,7 +713,6 @@ const Main = () => {
                             spaceBetween={28}
                             pagination={{ el: ".blog_slider .swiper-pagination", clickable: true }}
                             loop={true}
-                            loopedSlides={2}
                             speed={400}
                             centeredSlides={true}
                             observer={true}
@@ -764,6 +721,7 @@ const Main = () => {
                                 //width >= 767
                                 {767:{slidesPerView:1.3,spaceBetween:34}}
                             }
+                            modules={[Pagination]}
                         >
                             {blogList.map((data,i)=>{
                                 return(
@@ -862,6 +820,7 @@ const Main = () => {
                                 767:{slidesPerView:4,spaceBetween:7},  //width >= 767
                             }
                         }
+                        modules={[Navigation,Scrollbar]}
                     >
                         {ytbList.map((data,i)=>{
                             return(
@@ -934,6 +893,7 @@ const Main = () => {
                                         //768:{slidesPerView:1.7,spaceBetween:0,centeredSlides:true},//width >= 768
                                     }
                                 }
+                                modules={[Navigation]}
                             >
                                 {trustList.map((cont,i)=>{
                                     return(
@@ -1027,6 +987,7 @@ const Main = () => {
                                         //768:{slidesPerView:1.7,spaceBetween:0,centeredSlides:true},//width >= 768
                                     }
                                 }
+                                modules={[Navigation]}
                             >
                                 {trustList2.map((cont,i)=>{
                                     return(
@@ -1111,6 +1072,7 @@ const Main = () => {
                                 //768:{slidesPerView:1.7,spaceBetween:0,centeredSlides:true},//width >= 768
                             }
                         }
+                        modules={[Navigation]}
                     >
                         <SwiperSlide className="slide_1">
                             <div className="img_box" onClick={()=>{dispatch(imgPop({imgPop:true,imgPopSrc:dona_img1}))}}>
@@ -1205,6 +1167,7 @@ const Main = () => {
                             //width >= 1420
                             {1420:{slidesPerView:3,slidesPerGroup:3}}
                         }
+                        modules={[Navigation,Scrollbar]}
                     >
                         {reviewList.map((data,i)=>{
                             return(

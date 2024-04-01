@@ -434,7 +434,7 @@ const ProfilePop2 = () => {
 
                     {/* 키 설정 */}
                     {step === 0 &&
-                        <div className="scroll_wrap list_box">
+                        <div className="scroll_wrap sel_list_box">
                             <ul>
                                 {heightList.map((cont,i)=>{
                                     return(
@@ -458,7 +458,7 @@ const ProfilePop2 = () => {
 
                     {/* 직업 설정 */}
                     {step === 1 &&
-                        <div className="scroll_wrap list_box3">
+                        <div className="scroll_wrap sel_list_box3">
                             <ul className="flex_wrap">
                                 {selectList && selectList.job && selectList.job.map((cont,i)=>{
                                     return(
@@ -482,7 +482,7 @@ const ProfilePop2 = () => {
 
                     {/* 외모점수 설정 */}
                     {step === 2 &&
-                        <div className="scroll_wrap list_box5">
+                        <div className="scroll_wrap sel_list_box5">
                             <div className="txt_line flex_between">
                                 <p>별로다</p>
                                 <p>보통이다</p>
@@ -511,7 +511,7 @@ const ProfilePop2 = () => {
 
                     {/* MBTI 설정 */}
                     {step === 3 &&
-                        <div className="scroll_wrap list_box3">
+                        <div className="scroll_wrap sel_list_box3">
                             <ul className="flex_wrap">
                                 {mbtiList.map((cont,i)=>{
                                     return(
@@ -535,7 +535,7 @@ const ProfilePop2 = () => {
 
                     {/* 타입 설정 */}
                     {step === 4 &&
-                        <div className="scroll_wrap list_box3">
+                        <div className="scroll_wrap sel_list_box3">
                             <ul className="flex_wrap">
                                 {selectList && selectList.character && selectList.character.map((cont,i)=>{
                                     return(
@@ -558,7 +558,7 @@ const ProfilePop2 = () => {
 
                     {/* 흡연여부 설정 */}
                     {step === 5 &&
-                        <div className="scroll_wrap list_box3">
+                        <div className="scroll_wrap sel_list_box3">
                             <ul className="flex_wrap">
                                 {smokList.map((cont,i)=>{
                                     return(
@@ -582,7 +582,7 @@ const ProfilePop2 = () => {
 
                     {/* 음주여부 설정 */}
                     {step === 6 &&
-                        <div className="scroll_wrap list_box3">
+                        <div className="scroll_wrap sel_list_box3">
                             <ul className="flex_wrap">
                                 {drinkList.map((cont,i)=>{
                                     return(
@@ -606,7 +606,7 @@ const ProfilePop2 = () => {
 
                     {/* 종교 설정 */}
                     {step === 7 &&
-                        <div className="scroll_wrap list_box3">
+                        <div className="scroll_wrap sel_list_box3">
                             <ul className="flex_wrap">
                                 {selectList && selectList.religion && selectList.religion.map((cont,i)=>{
                                     return(

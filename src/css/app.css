@@ -8,49 +8,6 @@
 }
 .alert_txt{color: #FC5862 !important;animation: appAniAlert .3s ease-out forwards;}
 
-/* custom_input */
-.custom_input {height: 56px;background: #fff;}
-.custom_input input{width: 100%;height: 100%;border: none;font-size: 20px;color: #373D49;background: none;padding: 0 16px;}
-.custom_input input::-webkit-input-placeholder {color: #999; text-align:left;font-size: 20px;} 
-.custom_input input:-moz-placeholder {color: #999; opacity: 1; text-align:left;font-size: 20px;} 
-.custom_input input::-moz-placeholder {color: #999; opacity: 1; text-align:left; font-size: 20px;} 
-.custom_input input:-ms-input-placeholder {color: #999; text-align:left;font-size: 20px;}
-.custom_input.val_check{padding-right: 40px;background: url(../images/app/ic_available.svg) no-repeat center right 16px;}
-.custom_input.pass_input input{width: calc(100% - 40px);}
-.custom_input.pass_input .btn_view{width: 40px;font-size: 0;height: 100%;text-indent: -9999px;background: url(../images/app/ic_eye_off.svg) no-repeat center left;}
-.custom_input.pass_input .btn_view.on{background: url(../images/app/ic_eye.svg) no-repeat center left;}
-
-.custom_input2 {height: 60px;background: #fff;border-bottom: 2px solid #EAEAEA;}
-.custom_input2 input{width: 100%;height: 100%;border: none;font-size: 20px;font-weight: 500; color: #373D49;background: none;padding: 0;}
-.custom_input2 input::-webkit-input-placeholder {color: #999; text-align:left;font-size: 20px;font-weight: 400;}
-.custom_input2 input:-moz-placeholder {color: #999; opacity: 1; text-align:left;font-size: 20px;font-weight: 400;} 
-.custom_input2 input::-moz-placeholder {color: #999; opacity: 1; text-align:left; font-size: 20px;font-weight: 400;} 
-.custom_input2 input:-ms-input-placeholder {color: #999; text-align:left;font-size: 20px;font-weight: 400;}
-.custom_input2.on {border-color: #6840FD;}
-.custom_input2.pass_input input{width: calc(100% - 40px);}
-.custom_input2.pass_input .btn_view{width: 40px;font-size: 0;height: 100%;text-indent: -9999px;background: url(../images/app/ic_eye_off.svg) no-repeat center left;}
-.custom_input2.pass_input .btn_view.on{background: url(../images/app/ic_eye.svg) no-repeat center left;}
-
-/* custom_check */
-.custom_check label{display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; display: flex;-webkit-box-align: center; -ms-flex-align: center;-webkit-align-items: center; align-items: center;cursor: pointer;}
-.custom_check label input{display: none;-webkit-appearance: none;-moz-appearance: none;-ms-appearance: none;-o-appearance: none;appearance: none;}
-.custom_check label>.check{width: 32px;height: 32px;font-size: 0;background: url(../images/app/check.svg) no-repeat center;}
-.custom_check label>.txt{padding-left: 8px;line-height: 1.2;font-size: 22px;font-weight: 600;}
-.custom_check label input:checked + .check{background:url(../images/app/check_on.svg) no-repeat center;}
-
-/* custom_radio */
-.custom_radio label{display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; display: flex;-webkit-box-align: center; -ms-flex-align: center;-webkit-align-items: center; align-items: center;cursor: pointer;}
-.custom_radio label input{display: none;-webkit-appearance: none;-moz-appearance: none;-ms-appearance: none;-o-appearance: none;appearance: none;}
-.custom_radio2 label input{display: none;-webkit-appearance: none;-moz-appearance: none;-ms-appearance: none;-o-appearance: none;appearance: none;}
-.custom_radio2 label .txt{text-align: center;font-size: 20px;font-weight: 500;color: #999;background: #FAF8FF;padding: 14px 5px;display: block;}
-.custom_radio2 label input:checked + .txt{color: #fff;background: #6840FD;}
-.custom_radio3 label input{display: none;-webkit-appearance: none;-moz-appearance: none;-ms-appearance: none;-o-appearance: none;appearance: none;}
-.custom_radio3 label .txt{text-align: center;font-size: 20px;font-weight: 500;color: #999;padding: 14px 5px;display: block;}
-.custom_radio3 label input:checked + .txt{color: #6840FD;}
-.custom_radio4 label input{display: none;-webkit-appearance: none;-moz-appearance: none;-ms-appearance: none;-o-appearance: none;appearance: none;}
-.custom_radio4 label .txt{text-align: center;font-size: 20px;font-weight: 500;color: #999;padding: 14px 5px;display: block;background: #F8F8F8;border: 1px solid #F8F8F8;border-radius: 8px;}
-.custom_radio4 label input:checked + .txt{color: #6840FD;background: #fff;border-color: #6840FD;}
-
 /* btn */
 .app_btn{width: 100%;height: 64px;border-radius: 8px;font-size: 20px;font-weight: 700;text-align: center;color: #fff;background: #373D49;line-height: 64px;}
 .app_btn:disabled{background: #EAEAEA;color: #999999;border-color: #EAEAEA;}
@@ -106,14 +63,8 @@
 
 /* 회원가입 - 프로필설정 팝업 */
 .app_profile_pop .inner_box>.scroll_wrap{max-height: 55vh;}
-.app_profile_pop .address_box .list_box{width: 150px;height: 100%;border-right: 1px solid #ddd;height: 55vh;}
-.app_profile_pop .address_box .list_box:nth-child(2){width: calc(100% - 150px);border-right: none;}
-.app_profile_pop .list_box{border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;}
-.app_profile_pop .list_box li{border-bottom: 1px solid #ddd;}
-.app_profile_pop .list_box3 li{width: calc(33.333% - 2.666px);margin: 0 4px 4px 0;}
-.app_profile_pop .list_box3 li:nth-child(3n){margin-right: 0;}
-.app_profile_pop .list_box5 li{width: calc(20% - 3.2px);margin-right:4px;}
-.app_profile_pop .list_box5 li:last-child{margin-right: 0;}
+.app_profile_pop .address_box .sel_list_box{width: 150px;height: 100%;border-right: 1px solid #ddd;height: 55vh;}
+.app_profile_pop .address_box .sel_list_box:nth-child(2){width: calc(100% - 150px);border-right: none;}
 .app_profile_pop .txt_line p{width: calc(20% - 3.2px);text-align: center;font-size: 17px;color: #666;padding-bottom: 23px;position: relative;}
 .app_profile_pop .txt_line p::after{position: absolute;content: '';width: 2px;height: 20px;background: #ddd;left: 50%;bottom: 0;transform: translateX(-50%);}
 
@@ -147,40 +98,37 @@
     0% { opacity: 0; margin-left: -100%;}
     100% { opacity: 1; margin-left: 0;}
 }
-.signup_wrap .step_ul{padding: 0 20px 12px;background: #fff;}
-.signup_wrap .step_ul li{width: calc(25% - 4.5px);height: 4px;border-radius: 2px;background: #DDDDDD;}
-.signup_wrap .step_ul li.on{background: #6840FD;}
-.signup_wrap .signup_cont{background: #F7F7FA;height: calc(100vh - 16px);padding: 28px 20px;scroll-behavior: smooth;}
-.signup_box{padding-bottom: 12px;animation: appAniStep .4s .3s cubic-bezier(0, 0, 0, 1.17) forwards;width: 100%;margin-left: -100%;opacity: 0;}
-.signup_box.done{animation:none;opacity: 1;margin-left: 0;}
-.signup_box .gray_box{background: #EFEFEF;text-align: center;padding: 12px 5px;font-size: 16px;color: #666;border-radius: 8px;margin: 28px 0;}
-.signup_box .img_box{width: 56px;height: 56px;border-radius: 50%;overflow: hidden;margin-right: 12px;}
-.signup_box .txt_box{width: calc(100% - 68px);}
-.signup_box .txt_box .name{font-size: 14px;color: #373D49;padding-bottom: 4px;}
-.signup_box .txt_box .inner_box{border: 1px solid #EAEAEA;border-radius: 8px;background: #fff;overflow: hidden;}
-.signup_box .txt_box .tit_box{background: #6840FD;padding: 16px;color: #fff;}
-.signup_box .agree_box .all_check{padding: 16px;background: #FAF8FF;}
-.signup_box .agree_box ul{padding: 16px 5px 16px 16px;}
-.signup_box .agree_box ul li{padding-bottom: 8px;}
-.signup_box .agree_box ul li:last-child{padding-bottom: 0;}
-.signup_box .agree_box ul li .custom_check label>.check{background-size: 30px !important;}
-.signup_box .agree_box ul li button{padding-left: 8px;color: #666;text-decoration: underline;font-size: 18px;text-align: left;}
-.signup_box .txt_box .txt_ul{padding: 16px;}
-.signup_box .txt_box .txt_ul li{padding-bottom: 8px;}
-.signup_box .txt_box .txt_ul li:last-child{padding-bottom: 0;}
-.signup_box .txt_box .txt_ul li p:first-child{font-size: 16px;color: #999;}
-.profile_img_ul li{width: calc(33.333% - 2.7px);margin: 4px 4px 0 0;height: 0;padding-bottom: calc(33.333% - 2.7px);;border: 1px solid #ddd;background: #fff url(../images/app/ic_plus.svg) no-repeat center;border-radius: 8px;overflow: hidden;position: relative;}
-.profile_img_ul li:nth-child(3n){margin-right: 0;}
-.profile_img_ul>li:first-child::after{position: absolute;content: "대표";width: 41px;height: 24px;font-size: 12px;text-align: center;line-height: 24px;color: #00D3AB;font-weight: 700;left: 4px;bottom: 4px;background: rgba(55, 61, 73, 0.7);border-radius: 12px;z-index: 1;}
-.profile_img_ul li .img{width: 100%;height: 100%;position: absolute;}
-.profile_img_ul li .img img{width: 100%;height: 100%;object-fit: cover;position: absolute;}
-.profile_img_ul li .btn_delt{position: absolute;right: 0;bottom: 0;width: 28px;height: 28px;background: #fff url(../images/app/ic_close.svg) no-repeat center;font-size: 0;text-indent: -9999px;display: none;}
-.profile_img_ul li.on{background: #fff;}
-.profile_img_ul li.on .btn_delt{display: block;}
-.form_ul{padding: 12px 16px;}
-.form_ul>li{padding-bottom: 24px;}
-.form_ul>li:last-child{padding-bottom: 0;}
-.form_ul>li .input_tit{font-size: 16px;color: #999;padding-bottom: 2px;}
+.app_page .signup_wrap .step_ul{padding: 0 20px 12px;background: #fff;}
+.app_page .signup_wrap .step_ul li{width: calc(25% - 4.5px);height: 4px;border-radius: 2px;background: #DDDDDD;}
+.app_page .signup_wrap .step_ul li.on{background: #6840FD;}
+.app_page .signup_wrap .signup_cont{background: #F7F7FA;height: calc(100vh - 16px);padding: 28px 20px;scroll-behavior: smooth;}
+.app_page .signup_box{padding-bottom: 12px;animation: appAniStep .4s .3s cubic-bezier(0, 0, 0, 1.17) forwards;width: 100%;margin-left: -100%;opacity: 0;}
+.app_page .signup_box.done{animation:none;opacity: 1;margin-left: 0;}
+.app_page .signup_box .gray_box{background: #EFEFEF;text-align: center;padding: 12px 5px;font-size: 16px;color: #666;border-radius: 8px;margin: 28px 0;}
+.app_page .signup_box .img_box{width: 56px;height: 56px;border-radius: 50%;overflow: hidden;margin-right: 12px;}
+.app_page .signup_box .txt_box{width: calc(100% - 68px);}
+.app_page .signup_box .txt_box .name{font-size: 14px;color: #373D49;padding-bottom: 4px;}
+.app_page .signup_box .txt_box .inner_box{border: 1px solid #EAEAEA;border-radius: 8px;background: #fff;overflow: hidden;}
+.app_page .signup_box .txt_box .tit_box{background: #6840FD;padding: 16px;color: #fff;}
+.app_page .signup_box .agree_box .all_check{padding: 16px;background: #FAF8FF;}
+.app_page .signup_box .agree_box ul{padding: 16px 5px 16px 16px;}
+.app_page .signup_box .agree_box ul li{padding-bottom: 8px;}
+.app_page .signup_box .agree_box ul li:last-child{padding-bottom: 0;}
+.app_page .signup_box .agree_box ul li .custom_check label>.check{background-size: 30px !important;}
+.app_page .signup_box .agree_box ul li button{padding-left: 8px;color: #666;text-decoration: underline;font-size: 18px;text-align: left;}
+.app_page .signup_box .txt_box .txt_ul{padding: 16px;}
+.app_page .signup_box .txt_box .txt_ul li{padding-bottom: 8px;}
+.app_page .signup_box .txt_box .txt_ul li:last-child{padding-bottom: 0;}
+.app_page .signup_box .txt_box .txt_ul li p:first-child{font-size: 16px;color: #999;}
+.app_page .profile_img_ul li{width: calc(33.333% - 2.7px);margin: 4px 4px 0 0;height: 0;padding-bottom: calc(33.333% - 2.7px);;border: 1px solid #ddd;background: #fff url(../images/app/ic_plus.svg) no-repeat center;border-radius: 8px;overflow: hidden;position: relative;}
+.app_page .profile_img_ul li:nth-child(3n){margin-right: 0;}
+.app_page .profile_img_ul>li:first-child::after{position: absolute;content: "대표";width: 41px;height: 24px;font-size: 12px;text-align: center;line-height: 24px;color: #00D3AB;font-weight: 700;left: 4px;bottom: 4px;background: rgba(55, 61, 73, 0.7);border-radius: 12px;z-index: 1;}
+.app_page .profile_img_ul li .img{width: 100%;height: 100%;position: absolute;}
+.app_page .profile_img_ul li .img img{width: 100%;height: 100%;object-fit: cover;position: absolute;}
+.app_page .profile_img_ul li .btn_delt{position: absolute;right: 0;bottom: 0;width: 28px;height: 28px;background: #fff url(../images/app/ic_close.svg) no-repeat center;font-size: 0;text-indent: -9999px;display: none;}
+.app_page .profile_img_ul li.on{background: #fff;}
+.app_page .profile_img_ul li.on .btn_delt{display: block;}
+.app_page .form_ul{padding: 12px 16px;}
 .btn_sel_box2 .btn_sel{width: calc(50% - 8px);}
 .btn_sel{width: 100%; height: 42px;font-size: 20px;font-weight: 500;color: #373D49;border-bottom: 2px solid #373D49;padding-right: 24px;background: url(../images/app/arrow_select.svg) no-repeat center right;text-align: left;}
 

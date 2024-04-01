@@ -2,7 +2,7 @@ import InputBox from "./InputBox";
 
 const SearchBox = (props) => {
     return(<>
-        <div className="search_box">
+        <div className={props.className}>
             <div className={props.inputClass}>
                 <InputBox 
                     type={props.type}

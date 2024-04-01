@@ -6,12 +6,25 @@ import Popup from './components/popup/Popup';
 import Layout from './components/layout/Layout';
 import AppLayout from './components/layout/app/Layout';
 import Main from './pages/Main';
+
+import Login from './pages/member/Login';
+import Signup from './pages/member/Signup';
+import Signup2 from './pages/member/Signup2';
+import Signup3 from './pages/member/Signup3';
+import FindUser from './pages/member/FindUser';
+import ResetPassword from './pages/member/ResetPassword';
+import Mypage from './pages/member/Mypage';
+import EditMyInfo from './pages/member/EditMyInfo';
+import AllFeed from './pages/square/AllFeed';
+import ManagerList from './pages/square/ManagerList';
+import ManagerDetail from './pages/square/ManagerDetail';
+import AboutVIP from './pages/AboutVIP';
 import Ranking from './pages/Ranking';
 import PasswordChange from './pages/PasswordChange';
 import Terms from './pages/Terms';
-import UserDelt from './pages/UserDelt';
+import UserDelt from './pages/member/UserDelt';
 import Apply from './pages/Apply';
-import ApplyComplete from './pages/ApplyCompleted';
+
 import AppSignup from './pages/app/Signup';
 import AppSignup2 from './pages/app/Signup2';
 import AppPoint from './pages/app/Point';
@@ -49,11 +62,55 @@ function App() {
     },[location]);
 
 
+    useEffect(()=>{
+        
+    },[]);
+
+
     return(
         <div id="wrap">
             <Routes>
                 {/* 메인 */}
                 <Route path="/" element={<Layout><Main /></Layout>} />
+
+                {/* 로그인 */}
+                <Route path="/member/login" element={<Layout><Login /></Layout>} />
+
+                {/* 회원가입 - 약관동의 */}
+                <Route path="/member/signup" element={<Layout><Signup /></Layout>} />
+                {/* 회원가입 - 정보입력 */}
+                <Route path="/member/signup2" element={<Layout><Signup2 /></Layout>} />
+                {/* 회원가입 - 가입완료 */}
+                <Route path="/member/signup3" element={<Layout><Signup3 /></Layout>} />
+
+                {/* 아이디 / 비밀번호 찾기 */}
+                <Route path="/member/find" element={<Layout><FindUser /></Layout>} />
+                {/* 비밀번호 찾기 - 비밀번호변경 */}
+                <Route path="/member/reset-password" element={<Layout><ResetPassword /></Layout>} />
+
+                {/* 마이페이지 */}
+                <Route path="/member/mypage" element={<Layout><Mypage /></Layout>} />
+                {/* 마이페이지 - 기본정보수정 */}
+                <Route path="/member/mypage/myinfo" element={<Layout><EditMyInfo /></Layout>} />
+
+                {/* 회원정보 삭제 */}
+                <Route path="/member/delete" element={<Layout><UserDelt /></Layout>} />
+
+
+                {/* 스퀘어 -------------------*/}
+                <Route path="/square" element={<Layout><Outlet/></Layout>}>
+                    {/* 피드 스퀘어 */}
+                    <Route path="all-feed" element={<AllFeed />} />
+
+                    {/* 매니저 리스트 */}
+                    <Route path="manager-list" element={<ManagerList />} />
+                    {/* 매니저 리스트 - 상세 */}
+                    <Route path="manager/:m_id" element={<ManagerDetail />} />
+                </Route>
+
+
+                {/* VIP 소개팅 */}
+                <Route path="/about-vip" element={<Layout><AboutVIP /></Layout>} />
 
                 {/* 랭킹 */}
                 <Route path="/ranking" element={<Layout><Ranking /></Layout>} />
@@ -64,13 +121,8 @@ function App() {
                 {/* 서비스약관 */}
                 <Route path="/terms/:terms_tit" element={<Layout><Terms /></Layout>} />
 
-                {/* 회원정보 삭제 */}
-                <Route path="/user/delete" element={<UserDelt />} />
-
                 {/* 간편가입신청 */}
                 <Route path="/apply" element={<Apply />} />
-                {/* 간편가입신청 - 완료 */}
-                <Route path="/apply/:apply_idx/completed" element={<ApplyComplete />} />
 
 
                 {/* 앱 페이지-------------------------------------------- */}
