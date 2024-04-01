@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
-import { confirmPop, feedPop, feedAddPop } from "../../store/popupSlice";
+import { confirmPop, feedPop, feedAddPop, loadingPop } from "../../store/popupSlice";
 import { feedRefresh } from "../../store/commonSlice";
 import ListTopTitleBox from "../../components/component/square/ListTopTitleBox";
 import GuestBookBox from "../../components/component/square/GuestBookBox";
@@ -27,6 +27,7 @@ const ManagerDetail = () => {
     const guest_book_delt = enum_api_uri.guest_book_delt;
     const manager_favorite = enum_api_uri.manager_favorite;
     const feed_favorite = enum_api_uri.feed_favorite;
+    const text_check = enum_api_uri.text_check;
     const popup = useSelector((state)=>state.popup);
     const user = useSelector((state)=>state.user);
     const common = useSelector((state)=>state.common);
@@ -238,6 +239,52 @@ const ManagerDetail = () => {
 
 
     //방명록  ------------------------------------
+    //방명록 부적격 체크하기
+    const onTextCheckHandler = () => {
+        dispatch(loadingPop(true));
+        const body = {
+            text : commentValue,
+        };
+
+        axios.post(text_check,body,{
+            headers: {
+                Authorization: `Bearer ${user.userToken}`,
+            },
+        })
+        .then((res)=>{
+            if(res.status === 200){
+                dispatch(loadingPop(false));
+
+                const data = res.data.result;
+                //result = [긍정적%,부정적%]
+                //부정적이 70% 이상이면 댓글작성 불가능
+                if(data[1] >= 70){
+                    dispatch(confirmPop({
+                        confirmPop:true,
+                        confirmPopTit:'알림',
+                        confirmPopTxt:'존중과 이해를 바탕으로 한 대화를 장려합니다. <br/>귀하의 댓글을 수정해 주세요.',
+                        confirmPopBtn:1,
+                    }));
+                    setConfirm(true);
+                }else{
+                    onCommentHandler();
+                }
+            }
+        })
+        .catch((error) => {
+            dispatch(loadingPop(false));
+
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
+    };
+
     //방명록 쓰기
     const onCommentHandler = () => {
         const body = {
@@ -439,7 +486,7 @@ const ManagerDetail = () => {
                                         setCommentValue(val);
                                     }}
                                     btnTxt='보내기'
-                                    onEnterHandler={onCommentHandler}
+                                    onEnterHandler={onTextCheckHandler}
                                     disabled={user.userLogin ? false : true}
                                 />
                             </div>
