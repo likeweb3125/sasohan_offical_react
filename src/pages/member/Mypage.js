@@ -8,7 +8,7 @@ import { heightList, visualList, mbtiList, smokList, drinkList } from "../../con
 import * as CF from "../../config/function";
 import { confirmPop, loadingPop, profileEditPop } from "../../store/popupSlice";
 import { myPageRefresh } from "../../store/commonSlice";
-import { userInfo, userRank } from "../../store/userSlice";
+import { userInfo, userLogin, userToken, userRank } from "../../store/userSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 import MyProfileForm from "../../components/component/MyProfileForm";
 import MyProfileForm2 from "../../components/component/MyProfileForm2";
@@ -1112,6 +1112,18 @@ const Mypage = () => {
 
 
 
+    //로그아웃하기
+    const logoutHandler = () => {
+        dispatch(userInfo({}));
+        dispatch(userLogin(false));
+        dispatch(userToken(''));
+        dispatch(userRank({userRank:false, userRankData:{}}));
+
+        navigate('/');
+    };
+
+
+
     return(<>
         <div className="gray_wrap">
             <div className="cont3">
@@ -1135,7 +1147,7 @@ const Mypage = () => {
                         </div>
                         <div className="btn_box tx_c">
                             <Link to='/member/mypage/myinfo' className="btn_edit">기본정보 수정</Link>
-                            <button type="button" className="btn_logout">로그아웃</button>
+                            <button type="button" className="btn_logout" onClick={logoutHandler}>로그아웃</button>
                         </div>
                     </div>  
                     <div className="feed_profile_box">
