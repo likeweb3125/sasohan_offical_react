@@ -106,7 +106,7 @@ const Mypage = () => {
                 setProfile2(ideal_type);
 
                 //기본정보값 있는지 없는지
-                setMyBasicInfo(data.modify_flag);
+                setMyBasicInfo(my_info.modify_flag);
 
                 const newUserInfo = {...user.userInfo};
                 newUserInfo.m_id = my_info.m_id;
