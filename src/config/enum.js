@@ -18,6 +18,7 @@ exports.enum_api_uri = {
     license_list: `${api_uri}/v1/main/app-license/:idx`,
 
     //회원---
+    m_realname_okurl: `https://jja-gg.com/member/okurl_web.asp`,
     login: `${api_uri}/v1/app/user/user-login`,
     login_code: `${api_uri}/v1/app/user/user-login-code`,
     login_phone: `${api_uri}/v1/app/user/user-login-phone`,
@@ -45,6 +46,7 @@ exports.enum_api_uri = {
     feed_comment: `${api_uri}/v1/manager-feed/feed-comment-regist`,
     feed_comment_modify: `${api_uri}/v1/manager-feed/feed-comment-modify`,
     feed_comment_delt: `${api_uri}/v1/manager-feed/feed-comment-delete/:idx`,
+    text_check: `${api_uri}/v1/common/sentiment`,
     //매니저
     manager_list: `${api_uri}/v1/main/manager-list`,
     manager_favorite: `${api_uri}/v1/manager-feed/manager-favorite`,
@@ -79,7 +81,7 @@ exports.enum_api_uri = {
 
     //앱----------------------------------------
     //회원가입
-    m_realname_okurl: `https://jja-gg.com/member/okurl_app.asp`,
+    m_realname_app_okurl: `https://jja-gg.com/member/okurl_app.asp`,
     m_realname: `${api_uri}/v1/app/user/realname/:tradeid`,
     m_id_check: `${api_uri}/v1/app/user/check-id/:m_id`,
     m_nick_check: `${api_uri}/v1/app/user/check-nic`,

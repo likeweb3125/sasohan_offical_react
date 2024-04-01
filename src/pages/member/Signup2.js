@@ -32,6 +32,7 @@ const Signup2 = () => {
     const tradeid = sessionStorage.getItem("tradeid");
     const popup = useSelector((state)=>state.popup);
     const [confirm, setConfirm] = useState(false);
+    const [authFailconfirm, setAuthFailConfirm] = useState(false);
     const [realData ,setRealData] = useState({});
     const [values, setValues] = useState({});
     const [passShow, setPassShow] = useState({"password":false,"password2":false});
@@ -70,6 +71,7 @@ const Signup2 = () => {
     useEffect(()=>{
         if(popup.confirmPop === false){
             setConfirm(false);
+            setAuthFailConfirm(false);
         }
     },[popup.confirmPop]);
 
@@ -104,7 +106,7 @@ const Signup2 = () => {
                 confirmPopTxt: err_msg,
                 confirmPopBtn:1,
             }));
-            setConfirm(true);
+            setAuthFailConfirm(true);
         })
     };
 
@@ -1223,6 +1225,9 @@ const Signup2 = () => {
                 </div>
             </div>
         </div>
+
+        {/* 실명인증 실패 confirm팝업 */}
+        {authFailconfirm && <ConfirmPop closePop="custom" onCloseHandler={()=>navigate('/member/signup')} />}
 
         {/* confirm팝업 */}
         {confirm && <ConfirmPop />}

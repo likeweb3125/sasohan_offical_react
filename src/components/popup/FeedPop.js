@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
-import { feedPop, feedAddPop, confirmPop } from "../../store/popupSlice";
+import { feedPop, feedAddPop, confirmPop, loadingPop } from "../../store/popupSlice";
 import { feedRefresh } from "../../store/commonSlice";
 import EditBox from "../component/square/EditBox";
 import Comment from "../component/square/Comment";
@@ -24,6 +24,7 @@ const FeedPop = () => {
     const feed_comment = enum_api_uri.feed_comment;
     const feed_comment_modify = enum_api_uri.feed_comment_modify;
     const feed_comment_delt = enum_api_uri.feed_comment_delt;
+    const text_check = enum_api_uri.text_check;
     const [confirm, setConfirm] = useState(false);
     const [feedDeltConfirm, setFeedDeltConfirm] = useState(false);
     const [commentDeltConfirm, setCommentDeltConfirm] = useState(false);
@@ -243,6 +244,62 @@ const FeedPop = () => {
 
 
     //댓글   ----------------------------------
+
+    //댓글내용 부적격 체크하기
+    const onTextCheckHandler = (reply, id) => {
+        dispatch(loadingPop(true));
+
+        let content = commentValue;
+
+        //답글일때
+        if(reply){
+            content = replyValue;
+        }
+
+        const body = {
+            text : content,
+        };
+
+        axios.post(text_check,body,{
+            headers: {
+                Authorization: `Bearer ${user.userToken}`,
+            },
+        })
+        .then((res)=>{
+            if(res.status === 200){
+                dispatch(loadingPop(false));
+
+                const data = res.data.result;
+                //result = [긍정적%,부정적%]
+                //부정적이 70% 이상이면 댓글작성 불가능
+                if(data[1] >= 70){
+                    dispatch(confirmPop({
+                        confirmPop:true,
+                        confirmPopTit:'알림',
+                        confirmPopTxt:'존중과 이해를 바탕으로 한 대화를 장려합니다. <br/>귀하의 댓글을 수정해 주세요.',
+                        confirmPopBtn:1,
+                    }));
+                    setConfirm(true);
+                }else{
+                    onCommentHandler(reply, id);
+                }
+            }
+        })
+        .catch((error) => {
+            dispatch(loadingPop(false));
+
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
+    };
+
+
     //댓글, 답글쓰기
     const onCommentHandler = (reply, id) => {
         let comment_idx = 0;
@@ -559,7 +616,7 @@ const FeedPop = () => {
                                                             const val = e.currentTarget.value;
                                                             setReplyValue(val);
                                                         }}
-                                                        onReplyHandler={onCommentHandler}
+                                                        onReplyHandler={onTextCheckHandler}
                                                         replyBoxOn={replyBoxOn}
                                                         onReplyBoxClickHandler={onReplyBoxClickHandler}
 
@@ -582,7 +639,7 @@ const FeedPop = () => {
                                 setCommentValue(val);
                             }}
                             btnTxt='댓글쓰기'
-                            onEnterHandler={onCommentHandler}
+                            onEnterHandler={onTextCheckHandler}
                             disabled={user.userLogin ? false : true}
                         />
                     </div>
