@@ -1100,7 +1100,6 @@ const Mypage = () => {
     };
 
 
-
     //피드 프로필 프로필수정 버튼 클릭시
     const feedProfileEditHandler = () => {
         const data = {
@@ -1109,7 +1108,6 @@ const Mypage = () => {
         };
         dispatch(profileEditPop({profileEditPop:true,profileEditPopData:data}));
     };
-
 
 
     //로그아웃하기

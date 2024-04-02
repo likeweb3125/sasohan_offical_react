@@ -14,7 +14,7 @@ const Feed = ({data, likeBtnClickHandler, feedClickHandler, myFeed}) => {
                 {!myFeed &&
                     <div className={`name flex${data.manager_type == 'C' ? ' charming' : ''}`}>
                         <div className="img">
-                            <img src={data.photo} alt="프로필이미지" />
+                            <img src={data.profile} alt="프로필이미지" />
                         </div>
                         <p>{data.manager_name}</p>
                     </div>
