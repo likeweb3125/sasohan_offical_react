@@ -10,7 +10,7 @@ import profile_img from "../../images/app/profile_img.jpg";
 const SignUp = () => {
     const dispatch = useDispatch();
     const popup = useSelector((state)=>state.popup);
-    const m_realname_okurl = enum_api_uri.m_realname_okurl;
+    const m_realname_app_okurl = enum_api_uri.m_realname_app_okurl;
     const [tradeid, setTradeid] = useState("");
     const [confirm, setConfirm] = useState(false);
     const [agreeList, setAgreeList] = useState(["개인정보 보호정책","개인정보수집","이용약관"]);
@@ -125,7 +125,7 @@ const SignUp = () => {
                             <input type="hidden" name="Lmstext" id="Lmstext" size="40" value=""/>
                             <input type="hidden" name="Tradeid" id="Tradeid" size="30" value={tradeid}/>
                             <input type="hidden" name="PAY_MODE" id="PAY_MODE" size="30" value="10"/>
-                            <input type="hidden" name="Okurl" id="Okurl" size="30" value={m_realname_okurl}/>
+                            <input type="hidden" name="Okurl" id="Okurl" size="30" value={m_realname_app_okurl}/>
                             <input type="hidden" name="Cryptokurl" id="Cryptokurl" size="30" value="Y"/>
                             <input type="hidden" name="CI_FIXCOMMID" id="CI_FIXCOMMID" size="30" value=""/>
                             <input type="hidden" name="Closeurl" id="Closeurl" size="30" value=""/>
