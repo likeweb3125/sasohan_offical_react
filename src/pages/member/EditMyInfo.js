@@ -5,7 +5,7 @@ import axios from "axios";
 import moment from "moment/moment";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
-import { confirmPop } from "../../store/popupSlice";
+import { confirmPop, loadingPop } from "../../store/popupSlice";
 import MyInfoForm from "../../components/component/MyInfoForm";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 
@@ -17,6 +17,7 @@ const EditMyInfo = () => {
     const basic_profile_modify = enum_api_uri.basic_profile_modify;
     const m_id_check = enum_api_uri.m_id_check;
     const m_nick_check = enum_api_uri.m_nick_check;
+    const text_check = enum_api_uri.text_check;
     const popup = useSelector((state)=>state.popup);
     const user = useSelector((state)=>state.user);
     const [confirm, setConfirm] = useState(false);
@@ -190,6 +191,54 @@ const EditMyInfo = () => {
     };
 
 
+    //닉네임 부적격 체크하기
+    const nickNameCheckHandler = () => {
+        dispatch(loadingPop(true));
+
+        const body = {
+            text : nick,
+        };
+
+        axios.post(text_check,body,{
+            headers: {
+                Authorization: `Bearer ${user.userToken}`,
+            },
+        })
+        .then((res)=>{
+            if(res.status === 200){
+                dispatch(loadingPop(false));
+
+                const data = res.data.result;
+                //result = [긍정적%,부정적%]
+                //부정적이 50% 이상이면 닉네임사용 불가능
+                if(data[1] >= 50){
+                    dispatch(confirmPop({
+                        confirmPop:true,
+                        confirmPopTit:'알림',
+                        confirmPopTxt:'죄송합니다. 해당 닉네임은 부적절합니다. <br/>다른 닉네임을 입력해주세요.',
+                        confirmPopBtn:1,
+                    }));
+                    setConfirm(true);
+                }else{
+                    nickCheckHandler(); //통과하면 닉네임 중복확인
+                }
+            }
+        })
+        .catch((error) => {
+            dispatch(loadingPop(false));
+
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
+    };
+
+
     //닉네임 중복확인
     const nickCheckHandler = () => {
         const newError = {...error};
@@ -227,6 +276,9 @@ const EditMyInfo = () => {
 
         setError(newError);
     };
+
+
+    
 
 
     //입력값 체크
@@ -458,7 +510,7 @@ const EditMyInfo = () => {
                                     idChecked={idChecked}
                                     nickChecked={nickChecked}
                                     idCheckHandler={idCheckHandler}
-                                    nickCheckHandler={nickCheckHandler}
+                                    nickCheckHandler={nickNameCheckHandler}
                                 />
                             </ul>
                         </div>

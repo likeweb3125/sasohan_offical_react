@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
-import { profileEditPop, profileEditPopDone, confirmPop } from "../../store/popupSlice";
+import { profileEditPop, profileEditPopDone, confirmPop, loadingPop } from "../../store/popupSlice";
 import { myPageRefresh } from "../../store/commonSlice";
 import none_profile from "../../images/none_profile.jpg";
 import InputBox from "../component/InputBox";
@@ -17,6 +17,7 @@ const ProfileEditPop = () => {
     const rank_profile_img = enum_api_uri.rank_profile_img;
     const rank_profile = enum_api_uri.rank_profile;
     const rank_profile_img_delt = enum_api_uri.rank_profile_img_delt;
+    const text_check = enum_api_uri.text_check;
     const [confirm, setConfirm] = useState(false);
     const [errorConfirm, setErrorConfirm] = useState(false);
     const [name, setName] = useState("");
@@ -116,8 +117,56 @@ const ProfileEditPop = () => {
             setConfirm(true);
         }else{
             setErrorName(false);
-            editHandler();
+            nickNameCheckHandler();
         }
+    };
+
+
+    //닉네임 부적격 체크하기
+    const nickNameCheckHandler = () => {
+        dispatch(loadingPop(true));
+
+        const body = {
+            text : name,
+        };
+
+        axios.post(text_check,body,{
+            headers: {
+                Authorization: `Bearer ${user.userToken}`,
+            },
+        })
+        .then((res)=>{
+            if(res.status === 200){
+                dispatch(loadingPop(false));
+
+                const data = res.data.result;
+                //result = [긍정적%,부정적%]
+                //부정적이 50% 이상이면 닉네임사용 불가능
+                if(data[1] >= 50){
+                    dispatch(confirmPop({
+                        confirmPop:true,
+                        confirmPopTit:'알림',
+                        confirmPopTxt:'죄송합니다. 해당 닉네임은 부적절합니다. <br/>다른 닉네임을 입력해주세요.',
+                        confirmPopBtn:1,
+                    }));
+                    setConfirm(true);
+                }else{
+                    editHandler();
+                }
+            }
+        })
+        .catch((error) => {
+            dispatch(loadingPop(false));
+
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
     };
 
 

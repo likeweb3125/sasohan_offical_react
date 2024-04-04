@@ -541,7 +541,7 @@ const FeedPop = () => {
                         </div>
                     </div>
                     <div className="img_box">
-                        <div className="img">{imgList.length > 0 && <img src={imgList[imgOn]} alt="피드 이미지"/>}</div>
+                        <div className="img flex_center">{imgList.length > 0 && <img src={imgList[imgOn]} alt="피드 이미지"/>}</div>
                         <ul className="img_list flex_end">
                             {imgList.length > 1 && imgList.map((url,i)=>{
                                 return(
