@@ -17,6 +17,7 @@ import main_txt_img from "../images/about_vip_main_txt.png";
 import main_img from "../images/about_vip_main_img.png";
 import vip_txt_img from "../images/sasohan_vip_txt.png";
 import vip_sect2_txt_img from "../images/vip_sect2_txt_img.png";
+import vip_sect2_txt_img_mo from "../images/vip_sect2_txt_img_mo.svg";
 import vip_sect2_img from "../images/vip_sect2_img.png";
 import sasohan_vip_txt2 from "../images/sasohan_vip_txt2.svg";
 import vip_sect4_img1 from "../images/vip_sect4_img1.png";
@@ -204,7 +205,10 @@ const AboutVIP = () => {
                         <div className="txt_box">
                             <div className="line"></div>
                             <div className="mo_none"><img src={vip_sect2_txt_img} alt="vip 소개팅" /></div>
-                            <p><strong>VIP 회원과의 만남,</strong><br/>사소한에선 가능합니다!</p>
+                            <div className="mo_show">
+                                <div className="bp10"><img src={vip_sect2_txt_img_mo} alt="상위 5%" /></div>
+                                <p><strong>VIP 회원과의 만남,</strong><br/>사소한에선 가능합니다!</p>
+                            </div>
                         </div>
                     </div> 
                 </div>
@@ -274,30 +278,30 @@ const AboutVIP = () => {
                 <div className="cont4">
                     <div className="vip_apply_cont">
                         <div className="txt_box flex_top">
-                            <p className="tit">결제 회원이란?</p>
+                            <p className="tit">VIP 회원이란?</p>
                             <div>
-                                <p className="txt"><strong>결제 회원님</strong>은 소개팅 과정을 주도하는 회원님입니다.</p>
-                                <p className="txt2">비용을 지불하고 VIP 회원님 중 마음에 드는 상대를 선택하여 매칭을 요청하실 수 있습니다. <br/>결제 회원님은 바쁜 일상에서 이성을 찾는 시간을 크게 절약하며 본인의 취향에 딱 맞는 이상형을 찾는 장점이 있습니다.</p>
+                                <p className="txt"><strong>VIP 회원님</strong>은 이성에게 어필되는 매력이 상위 5%안에 드는 회원으로</p>
+                                <p className="txt2">사이트모집, 스카웃, 추천 등을 통하여 선발 모집합니다. <br/>사소한 소개팅의 VIP 회원은 특별한 매력을 인정받은 선별된 회원입니다.</p>
                             </div>
                         </div>
                         <div className="box tx_c">
-                            <p className="txt"><strong>결제회원님</strong>은 아래와 같은 서비스가 제공되고 있어요!</p>
+                            <p className="txt"><strong>VIP회원님</strong> 선정으로 아래와 같은 혜택을 받아보세요!</p>
                             <ul className="img_ul flex_between flex_wrap">
                                 <li>
                                     <div><img src={vip_sect5_img1} alt="이미지" /></div>
-                                    <p>선택한 VIP와 <br/>확정적 소개팅 가능</p>
+                                    <p>소개팅 진행 시 결제 회원님께서 <br/>1만 원의 매너베이트 전달</p>
                                 </li>
                                 <li>
                                     <div><img src={vip_sect5_img2} alt="이미지" /></div>
-                                    <p>4박 5일 <br/>소개팅 보장</p>
+                                    <p>VIP회원으로 선정 시 <br/>20만원 상당의 특전 제공</p>
                                 </li>
                                 <li>
                                     <div><img src={vip_sect5_img3} alt="이미지" /></div>
-                                    <p>소개팅 진행 중 <br/>상대방과 전화통화 필수 보장</p>
+                                    <p>전담 매니저가 배정되어 <br/>소개팅 스케줄 조정</p>
                                 </li>
                                 <li>
                                     <div><img src={vip_sect5_img4} alt="이미지" /></div>
-                                    <p>만남 성공을 위한 종합 서포터 <br/>챠밍매니저 배정</p>
+                                    <p>데이트 시 <br/>서제스트 지원금 수령</p>
                                 </li>
                             </ul>
                             <div className="btn_box">
@@ -312,12 +316,8 @@ const AboutVIP = () => {
                             <li><strong>2. </strong>프로필 정보가 사실과 다를 경우</li>
                             <li><strong>3. </strong>소개팅이 꽤 진행됐음에도 실제 만남이 일어나지 않은 경우</li>
                             <li><strong>4. </strong>진중한 목적이 아닌 혜택만이 목적일 경우</li>
-                            <li><strong>5. </strong>규정된 매너베이트 외의 추가 금액을 취득할 경우</li>
-                        </ul>
-                        <ul className="txt_ul2">
-                            <li>매니저에게 대가성으로 추가 금액을 받은 경우</li>
-                            <li>결제 회원에게 4박 5일 중 금전이득을 취한 경우</li>
-                            <li>그 외 "매너베이트" 이외의 금액을 편취한 경우</li>
+                            <li><strong>5. </strong>매니저에게 대가성으로 추가 금액을 받은 경우</li>
+                            <li><strong>6. </strong>그 외 "매너베이트" 이외의 금액을 편취한 경우</li>
                         </ul>
                     </div>
                 </div>

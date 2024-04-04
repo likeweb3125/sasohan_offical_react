@@ -38,6 +38,7 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .color_gray2{color: #999;}
 .color_black{color: #222 !important;}
 .color_black2{color: #373D49 !important;}
+.color_red{color: #FC5862;}
 .underline{text-decoration: underline;}
 .bp0{padding-bottom: 0 !important;}
 .error_txt{font-size: 15px;color: #FC5862;padding-top: 8px;}
@@ -677,6 +678,7 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .comment_box .comment_list>li:last-child{border-bottom: none;}
 .comment_box .comment_list>li>.comment{padding: 16px 30px;background: #fff;}
 .comment_box .comment_list .comment .name_box .profile_img{width: 40px;height: 40px;border-radius: 50%;overflow: hidden;}
+.comment_box .comment_list .comment .name_box .profile_img img{width: 100%;height: 100%;object-fit: cover;}
 .comment_box .comment_list .comment .name_box .name{font-size: 16px;font-weight: 700;padding-left: 8px;max-width: calc(100% - 40px);}
 .comment_box .comment_list .comment .txt_box{padding-left: 48px;}
 .comment_box .comment_list .comment .txt_box .txt{font-size: 15px;color: #666;padding-bottom: 4px;}

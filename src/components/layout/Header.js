@@ -6,6 +6,7 @@ import { applyPop } from '../../store/popupSlice';
 import { userInfo, userLogin, userToken, userRank } from "../../store/userSlice";
 import ConfirmPop from '../popup/ConfirmPop';
 import logo_big_b from "../../images/logo_big_b.svg";
+import none_profile from "../../images/none_profile2.jpg";
 
 
 const Header = () => {
@@ -163,10 +164,10 @@ const Header = () => {
                             <div className='flex'>
                                 <div className={`profile_img_box${user.userRank ? ' class_'+userClassNum : ''}`}>
                                     <div className='img'>
-                                        <div><img src={myInfo.m_f_photo} alt='프로필이미지' /></div>
+                                        <div><img src={myInfo.m_f_photo && myInfo.m_f_photo.length > 0 ? myInfo.m_f_photo : none_profile} alt='프로필이미지' /></div>
                                     </div>
                                 </div>
-                                <p className='txt'>{myInfo.m_n_name}</p>
+                                <p className='txt'>{myInfo.user_level == 'U' ? myInfo.m_n_name : myInfo.user_level == 'M' && myInfo.m_name}</p>
                             </div>
                             <div className='submenu_box'>
                                 <ul>
@@ -215,7 +216,7 @@ const Header = () => {
                                     >
                                         <div className={`profile_img_box${user.userRank ? ' class_'+userClassNum : ''}`}>
                                             <div className='img'>
-                                                <div><img src={myInfo.m_f_photo} alt='프로필이미지' /></div>
+                                                <div><img src={myInfo.m_f_photo && myInfo.m_f_photo.length > 0 ? myInfo.m_f_photo : none_profile} alt='프로필이미지' /></div>
                                             </div>
                                         </div>
                                         <p className='txt'>{myInfo.m_n_name}</p>

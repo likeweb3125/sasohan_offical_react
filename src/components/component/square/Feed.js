@@ -1,6 +1,6 @@
 import * as CF from "../../../config/function";
 
-const Feed = ({data, likeBtnClickHandler, feedClickHandler, myFeed}) => {
+const Feed = ({data, likeBtnClickHandler, feedClickHandler, myFeed, profileClickHandler}) => {
     return(
         <div className="feed_box">
             <div className="img_box" onClick={()=>feedClickHandler(data.idx)}>
@@ -12,7 +12,9 @@ const Feed = ({data, likeBtnClickHandler, feedClickHandler, myFeed}) => {
             </div>
             <div className="txt_box">
                 {!myFeed &&
-                    <div className={`name flex${data.manager_type == 'C' ? ' charming' : ''}`}>
+                    <div className={`name flex pointer${data.manager_type == 'C' ? ' charming' : ''}`}
+                        onClick={()=>profileClickHandler(data.manager_id)}
+                    >
                         <div className="img">
                             <img src={data.profile} alt="프로필이미지" />
                         </div>

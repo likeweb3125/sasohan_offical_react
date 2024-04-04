@@ -731,8 +731,6 @@
     .vip_apply_cont .btn_box::after{display: none;}
     .vip_sect5{padding: 60px 0 80px;}
     .vip_sect5 .gray_box{padding: 24px 20px;}
-    .vip_sect5 .gray_box .txt_ul2{padding: 12px;}
-    .vip_sect5 .gray_box .txt_ul2 li{font-size: 16px;}
 
     
     /* 랭킹 */

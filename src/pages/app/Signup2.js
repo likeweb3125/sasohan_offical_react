@@ -643,7 +643,7 @@ const SignUp2 = () => {
             const nonEmptyValues = imgNameList.filter(value => value !== '');
             const sortedArr = [...nonEmptyValues, ...Array(imgNameList.length - nonEmptyValues.length).fill('')];
             const updatedImgList = sortedArr.map(url => {
-                let updatedUrl = url.replace(api_uri+"/upload/profile/user/", "");
+                let updatedUrl = url.substring(url.lastIndexOf('/') + 1);
                 return updatedUrl;
             });
 

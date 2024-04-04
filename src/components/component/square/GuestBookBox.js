@@ -3,10 +3,8 @@ import EditBox from "./EditBox";
 
 const GuestBookBox = ({data, editBoxOn, editBox, onEditBoxClickHandler, onCommentEditHandler, onCommentDeltHandler, btnGray}) => {
     return(<>
-        <div className='profile_img_box class_1'>
-            <div className='img'>
-                <div><img src={data.photo} alt="프로필 이미지"/></div>
-            </div>
+        <div className='img_box'>
+            <img src={data.photo} alt="프로필 이미지"/>
         </div>
         <div className="txt_box">
             <p className="name bold bp8">{data.m_n_name}</p>

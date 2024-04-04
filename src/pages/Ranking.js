@@ -372,7 +372,7 @@ const Ranking = () => {
                                 }
 
                                 let myPhoto = false;
-                                if(cont.m_f_photo != null){
+                                if(cont.m_f_photo.length > 0){
                                     myPhoto = true;
                                 }
 

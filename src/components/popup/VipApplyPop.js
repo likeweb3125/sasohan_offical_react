@@ -153,7 +153,7 @@ const VipApplyPop = () => {
     //프로필사진 이미지이름만 배열로 
     useEffect(()=>{
         const newNameList = imgList.map(url => {
-            let updatedUrl = url.replace(api_uri+"/upload/profile/user/", "");
+            let updatedUrl = url.substring(url.lastIndexOf('/') + 1);
             return updatedUrl;
         });
         setImgNameList(newNameList);

@@ -43,7 +43,18 @@ const ManagerList = () => {
 
     //매니저 리스트 가져오기
     const getManagerList = (page, more, search) => {
-        axios.get(`${manager_list}?page_no=${page ? page : 1}${'&type='+typeCheck}${sortTabOn === 2 ? '&sort=favorite' : ''}${likeCheck ? '&favorite=1' : ''}${search ? '&search='+searchValue : ''}`)
+
+        //내가누른 좋아요보기 체크시에만 헤더값 넣기
+        let headers = {};
+        if(likeCheck){
+            headers = {
+                Authorization: `Bearer ${user.userToken}`,
+            }
+        }
+
+        axios.get(`${manager_list}?page_no=${page ? page : 1}${'&type='+typeCheck}${sortTabOn === 2 ? '&sort=favorite' : ''}${likeCheck ? '&favorite=1' : ''}${search ? '&search='+searchValue : ''}`,{
+            headers: headers,
+        })
         .then((res)=>{
             if(res.status === 200){
                 const data = res.data;

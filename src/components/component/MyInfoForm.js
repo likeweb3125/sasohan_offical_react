@@ -21,7 +21,7 @@ const MyInfoForm = (
 
     return(<>
         <li>
-            <p className="input_tit color_black2">아이디 <span className="color_point">*</span></p>
+            <p className="color_black2">아이디 <span className="color_point">*</span></p>
             <div className="input_btn_box">
                 <div className={`input_box f_18 light${focusInput.m_id ? " on" : error.m_id ? " error" : ""}`}>
                     <InputBox 
@@ -43,7 +43,7 @@ const MyInfoForm = (
             {(focusInput.m_id || error.m_id) && <p className={`error_txt${focusInput.m_id ? ' color_point' : ''}`}>영문자, 소문자, _ 최소 4자 이상 입력해주세요!</p>}
         </li>
         <li>
-            <p className="input_tit color_black2">비밀번호 <span className="color_point">*</span></p>
+            <p className="color_black2">비밀번호 <span className="color_point">*</span></p>
             <div className={`pass_input_box${passShow.password ? " on" : ""}`}>
                 <div className={`input_box f_18 light${focusInput.password ? " on" : error.password ? " error" : ""}`}>
                     <InputBox 
@@ -66,7 +66,7 @@ const MyInfoForm = (
             {(focusInput.password || error.password) && <p className={`error_txt${focusInput.password ? ' color_point' : ''}`}>영문, 숫자, 특수문자를 포함하여 8~12자 까지 입력해주세요!</p>}
         </li>
         <li>
-            <p className="input_tit color_black2">비밀번호 확인 <span className="color_point">*</span></p>
+            <p className="color_black2">비밀번호 확인 <span className="color_point">*</span></p>
             <div className={`pass_input_box${passShow.password2 ? " on" : ""}`}>
                 <div className={`input_box f_18 light${focusInput.password2 ? " on" : error.password2 ? " error" : ""}`}>
                     <InputBox 
@@ -89,7 +89,7 @@ const MyInfoForm = (
             {(focusInput.password2 || error.password2) && <p className={`error_txt${focusInput.password2 ? ' color_point' : ''}`}>비밀번호를 재입력해주세요!</p>}
         </li>
         <li>
-            <p className="input_tit color_black2">닉네임 <span className="color_point">*</span></p>
+            <p className="color_black2">닉네임 <span className="color_point">*</span></p>
             <div className="input_btn_box">
                 <div className={`input_box f_18 light${focusInput.m_n_name ? " on" : error.m_n_name ? " error" : ""}`}>
                     <InputBox 

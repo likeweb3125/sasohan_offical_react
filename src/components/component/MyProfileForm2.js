@@ -22,7 +22,7 @@ const MyProfileForm2 = (
     ) => {
     return(<>
         <li>
-            <p className="input_tit color_black2">키 <span className="color_point">*</span></p>
+            <p className="color_black2">키 <span className="color_point">*</span></p>
             <div className={`input_box f_18 light${error.t_height1 ? " error" : ""}`}>
                 <select 
                     value={values.t_height1 || ''} 
@@ -42,7 +42,7 @@ const MyProfileForm2 = (
             </div>
         </li>
         <li>
-            <p className="input_tit color_black2">직업 <span className="color_point">*</span></p>
+            <p className="color_black2">직업 <span className="color_point">*</span></p>
             <div className={`input_box f_18 light${error.t_job ? " error" : ""}`}>
                 <select 
                     value={values.t_job || ''} 
@@ -62,7 +62,7 @@ const MyProfileForm2 = (
             </div>
         </li>
         <li>
-            <p className="input_tit color_black2">상대방 외모 점수 <span className="color_point">*</span></p>
+            <p className="color_black2">상대방 외모 점수 <span className="color_point">*</span></p>
             <ul className="flex_wrap sel_list_box5 tp10">
                 {visualList.map((cont,i)=>{
                     return(
@@ -82,7 +82,7 @@ const MyProfileForm2 = (
             </ul>
         </li>
         <li>
-            <p className="input_tit color_black2">상대방의 MBTI <span className="color_point">*</span></p>
+            <p className="color_black2">상대방의 MBTI <span className="color_point">*</span></p>
             <div className={`input_box f_18 light${error.t_mbti ? " error" : ""}`}>
                 <select 
                     value={values.t_mbti || ''} 
@@ -102,7 +102,7 @@ const MyProfileForm2 = (
             </div>
         </li>
         <li>
-            <p className="input_tit color_black2">상대방의 타입 <span className="color_point">*</span></p>
+            <p className="color_black2">상대방의 타입 <span className="color_point">*</span></p>
             <p className="f_14 color_gray tp10">아래 각 항목 중 <span className="color_point">3개씩</span> 선택해 볼까요?</p>
             <ul className="flex_wrap sel_list_box3 tp12">
                 {selectList && selectList.character && selectList.character.map((cont,i)=>{
@@ -123,7 +123,7 @@ const MyProfileForm2 = (
             </ul>
         </li>
         <li>
-            <p className="input_tit color_black2">흡연 여부 <span className="color_point">*</span></p>
+            <p className="color_black2">흡연 여부 <span className="color_point">*</span></p>
             <ul className="flex_between tp18 bp18">
                 {smokList.map((cont,i)=>{
                     return(
@@ -144,7 +144,7 @@ const MyProfileForm2 = (
             </ul>
         </li>
         <li>
-            <p className="input_tit color_black2">음주 여부 <span className="color_point">*</span></p>
+            <p className="color_black2">음주 여부 <span className="color_point">*</span></p>
             <ul className="flex_between tp18 bp18">
                 {drinkList.map((cont,i)=>{
                     return(
@@ -165,7 +165,7 @@ const MyProfileForm2 = (
             </ul>
         </li>
         <li>
-            <p className="input_tit color_black2">종교 <span className="color_point">*</span></p>
+            <p className="color_black2">종교 <span className="color_point">*</span></p>
             <div className={`input_box f_18 light${error.t_religion ? " error" : ""}`}>
                 <select 
                     value={values.t_religion || ''} 

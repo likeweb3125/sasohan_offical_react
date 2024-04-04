@@ -63,7 +63,7 @@ const FeedProfilePop = () => {
         }
 
         let myPhoto = false;
-        if(data.m_f_photo != null){
+        if(data.m_f_photo.length > 0){
             myPhoto = true;
         }
 

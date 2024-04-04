@@ -3,7 +3,7 @@ import Manager from "./Manager";
 import MoreBtn from "./MoreBtn";
 
 
-const ListCont = ({list, moreBtn, moreBtnHandler, moreBtnTxt, likeBtnClickHandler, feedCont, feedClickHandler, managerClickHandler, myFeed}) => {
+const ListCont = ({list, moreBtn, moreBtnHandler, moreBtnTxt, likeBtnClickHandler, feedCont, feedClickHandler, managerClickHandler, myFeed, profileClickHandler}) => {
 
 
     return(<>
@@ -19,6 +19,7 @@ const ListCont = ({list, moreBtn, moreBtnHandler, moreBtnTxt, likeBtnClickHandle
                                         likeBtnClickHandler={likeBtnClickHandler}
                                         feedClickHandler={feedClickHandler}
                                         myFeed={myFeed}
+                                        profileClickHandler={profileClickHandler}
                                     />
                                     :<Manager 
                                         data={cont}

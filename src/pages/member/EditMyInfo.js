@@ -53,8 +53,10 @@ const EditMyInfo = () => {
                 const data = res.data.my_info;
                 setInfo(data);
 
-                
-                setId(data.m_id);
+                //자신이 직접가입한 회원만
+                if(data.modify_flag){
+                    setId(data.m_id);
+                }
                 setNick(data.m_n_name);
             }
         })

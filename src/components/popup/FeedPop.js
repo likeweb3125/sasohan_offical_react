@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
@@ -14,6 +15,7 @@ import sample_img from "../../images/sample/manager0.png";
 
 const FeedPop = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const user = useSelector((state)=>state.user);
     const popup = useSelector((state)=>state.popup);
     const common = useSelector((state)=>state.common);
@@ -492,6 +494,14 @@ const FeedPop = () => {
         }
     },[user.userLogin, user.userInfo, feedData]);
 
+    
+
+    //매니저프로필클릭시 매니저상세페이지로 이동
+    const onManagerClickHandler = () => {
+        closePopHandler();
+        navigate(`/square/manager/${feedData.manager_id}`);
+    };
+
 
 
     return(<>
@@ -548,7 +558,7 @@ const FeedPop = () => {
                     <div className="cont_box">
                         <div className="top_box tab_none">
                             <div className="profile_box flex_between flex_wrap">
-                                <div className="flex">
+                                <div className="flex pointer" onClick={onManagerClickHandler}>
                                     <div className="profile"><img src={feedData.profile} alt="프로필 이미지"/></div>
                                     <p className={`name${feedData.manager_type == 'C' ? ' charming' : ''}`}>{feedData.manager_name}</p>
                                 </div>

@@ -39,7 +39,7 @@ const MyProfileForm = (
     ) => {
     return(<>
         <li>
-            <p className="input_tit color_black2">거주지 <span className="color_point">*</span></p>
+            <p className="color_black2">거주지 <span className="color_point">*</span></p>
             <div className="address_box flex_between">
                 <div className={`input_box f_18 light${error.address ? " error" : ""}`}>
                     <select 
@@ -81,7 +81,7 @@ const MyProfileForm = (
             </div>
         </li>
         <li>
-            <p className="input_tit color_black2">키 <span className="color_point">*</span></p>
+            <p className="color_black2">키 <span className="color_point">*</span></p>
             <div className={`input_box f_18 light${error.m_height ? " error" : ""}`}>
                 <select 
                     value={values.m_height || ''} 
@@ -101,7 +101,7 @@ const MyProfileForm = (
             </div>
         </li>
         <li>
-            <p className="input_tit color_black2">직업 <span className="color_point">*</span></p>
+            <p className="color_black2">직업 <span className="color_point">*</span></p>
             <div className={`input_box f_18 light${error.m_job ? " error" : ""}`}>
                 <select 
                     value={values.m_job || ''} 
@@ -121,7 +121,7 @@ const MyProfileForm = (
             </div>
         </li>
         <li>
-            <p className="input_tit color_black2">나의 외모 점수 <span className="color_point">*</span></p>
+            <p className="color_black2">나의 외모 점수 <span className="color_point">*</span></p>
             <ul className="flex_wrap sel_list_box5 tp10">
                 {visualList.map((cont,i)=>{
                     return(
@@ -141,7 +141,7 @@ const MyProfileForm = (
             </ul>
         </li>
         <li>
-            <p className="input_tit color_black2">나의 관심사 <span className="color_point">*</span></p>
+            <p className="color_black2">나의 관심사 <span className="color_point">*</span></p>
             <p className="f_14 color_gray tp10">아래 각 항목 중 <span className="color_point">3개씩</span> 선택해 볼까요?</p>
             <ul className="flex_wrap sel_list_box4 tp12">
                 {selectList && selectList.interest && selectList.interest.map((cont,i)=>{
@@ -162,7 +162,7 @@ const MyProfileForm = (
             </ul>
         </li>
         <li>
-            <p className="input_tit color_black2">나의 MBTI <span className="color_point">*</span></p>
+            <p className="color_black2">나의 MBTI <span className="color_point">*</span></p>
             <div className={`input_box f_18 light${error.m_mbti ? " error" : ""}`}>
                 <select 
                     value={values.m_mbti || ''} 
@@ -182,7 +182,7 @@ const MyProfileForm = (
             </div>
         </li>
         <li>
-            <p className="input_tit color_black2">나의 타입 <span className="color_point">*</span></p>
+            <p className="color_black2">나의 타입 <span className="color_point">*</span></p>
             <p className="f_14 color_gray tp10">아래 각 항목 중 <span className="color_point">3개씩</span> 선택해 볼까요?</p>
             <ul className="flex_wrap sel_list_box3 tp12">
                 {selectList && selectList.character && selectList.character.map((cont,i)=>{
@@ -203,7 +203,7 @@ const MyProfileForm = (
             </ul>
         </li>
         <li>
-            <p className="input_tit color_black2">흡연 여부 <span className="color_point">*</span></p>
+            <p className="color_black2">흡연 여부 <span className="color_point">*</span></p>
             <ul className="flex_between tp18 bp18">
                 {smokList.map((cont,i)=>{
                     return(
@@ -224,7 +224,7 @@ const MyProfileForm = (
             </ul>
         </li>
         <li>
-            <p className="input_tit color_black2">음주 여부 <span className="color_point">*</span></p>
+            <p className="color_black2">음주 여부 <span className="color_point">*</span></p>
             <ul className="flex_between tp18 bp18">
                 {drinkList.map((cont,i)=>{
                     return(
@@ -245,7 +245,7 @@ const MyProfileForm = (
             </ul>
         </li>
         <li>
-            <p className="input_tit color_black2">종교 <span className="color_point">*</span></p>
+            <p className="color_black2">종교 <span className="color_point">*</span></p>
             <div className={`input_box f_18 light${error.m_religion ? " error" : ""}`}>
                 <select 
                     value={values.m_religion || ''} 
@@ -265,7 +265,7 @@ const MyProfileForm = (
             </div>
         </li>
         <li>
-            <p className="input_tit color_black2">선호하는 데이트 <span className="color_point">*</span></p>
+            <p className="color_black2">선호하는 데이트 <span className="color_point">*</span></p>
             <p className="f_14 color_gray tp10">아래 각 항목 중 <span className="color_point">3개씩</span> 선택해 볼까요?</p>
             <ul className="flex_wrap sel_list_box3 tp12">
                 {selectList && selectList.i_date && selectList.i_date.map((cont,i)=>{
@@ -286,7 +286,7 @@ const MyProfileForm = (
             </ul>
         </li>
         <li>
-            <p className="input_tit color_black2">가입경로 <span className="color_point">*</span></p>
+            <p className="color_black2">가입경로 <span className="color_point">*</span></p>
             <div className={`input_box f_18 light${error.m_motive ? " error" : ""}`}>
                 <select 
                     value={values.m_motive || ''} 
@@ -306,7 +306,10 @@ const MyProfileForm = (
             </div>
         </li>
         <li>
-            <p className="input_tit color_black2">프로필 사진 <span className="color_point">*</span></p>
+            <div className="flex_wrap">
+                <p className="color_black2 rp10">프로필 사진 <span className="color_point">*</span></p>
+                <p className="f_14 color_red">"소개팅 진행 시"에만 사용되는 사진입니다.</p>
+            </div>
             <p className="f_14 color_gray tp10">본인의 얼굴이 잘 보이는 사진을 최소 <span className="color_point">1장</span> 등록해주세요. 9장까지 등록하실 수 있어요!</p>
             <div className="img_drop_box">
                 <div {...getRootProps1({className: 'dropzone'})}>
@@ -326,7 +329,10 @@ const MyProfileForm = (
             </div>
         </li>
         <li>
-            <p className="input_tit color_black2">피드 프로필</p>
+            <div className="flex_wrap">
+                <p className="color_black2 rp10">피드 프로필</p>
+                <p className="f_14 color_red">사이트에 노출되는 사진입니다.</p>
+            </div>
             <p className="f_14 color_gray tp10">사소한에서 활동하면서 보여지는 프로필 이미지입니다. <span className="color_point">1장</span> 등록해주세요.</p>
             <div className="img_drop_box">
                 <div {...getRootProps2({className: 'dropzone'})}>

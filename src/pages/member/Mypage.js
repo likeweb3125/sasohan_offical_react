@@ -6,7 +6,7 @@ import axios from "axios";
 import { enum_api_uri } from "../../config/enum";
 import { heightList, visualList, mbtiList, smokList, drinkList } from "../../config/constants";
 import * as CF from "../../config/function";
-import { confirmPop, loadingPop, profileEditPop } from "../../store/popupSlice";
+import { confirmPop, loadingPop, profileEditPop, imgPop } from "../../store/popupSlice";
 import { myPageRefresh } from "../../store/commonSlice";
 import { userInfo, userLogin, userToken, userRank } from "../../store/userSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
@@ -27,6 +27,7 @@ const Mypage = () => {
     const m_address2 = enum_api_uri.m_address2;
     const m_select_list = enum_api_uri.m_select_list;
     const feed_profile_add = enum_api_uri.feed_profile_add;
+    const feed_profile_delt = enum_api_uri.feed_profile_delt;
     const profile_modify = enum_api_uri.profile_modify;
     const profile2_modify = enum_api_uri.profile2_modify;
     const popup = useSelector((state)=>state.popup);
@@ -63,6 +64,7 @@ const Mypage = () => {
     const [feedImgList, setFeedImgList] = useState([]);
     const [getRank, setGetRank] = useState(false);
     const [myBasicInfo, setMyBasicInfo] = useState(false);
+    const [deltImgList, setDeltImgList] = useState([]);
     
 
 
@@ -173,7 +175,7 @@ const Mypage = () => {
                     }
 
                     let myPhoto = false;
-                    if(data.m_f_photo != null){
+                    if(data.m_f_photo.length > 0){
                         myPhoto = true;
                     }
 
@@ -650,14 +652,6 @@ const Mypage = () => {
 
             if(acceptedFiles.length === 0){
                 return;
-            }else if(files > 1){
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'피드 프로필은 최대 1개까지 첨부 가능합니다.',
-                    confirmPopBtn:1,
-                }));
-                setConfirm(true);
             }else{
                 const formData = new FormData();
                 acceptedFiles.forEach((item)=>{
@@ -672,7 +666,7 @@ const Mypage = () => {
                 .then((res) => {
                     if (res.status === 201) {
                         const mediaUrls = res.data.mediaUrls;
-                        const newList = [...feedImgList, ...mediaUrls];
+                        const newList = [ ...mediaUrls];
                         setFeedImgList(newList);
                     }
                 })
@@ -692,39 +686,54 @@ const Mypage = () => {
    
 
     //프로필, 피드 이미지 삭제
-    const handleRemove = (idx, url, type) => {
+    const handleRemove = (idx, type) => {
+        const newDeltImgList = [...deltImgList];
+        let imgName = '';
+
         if(type == 'profile'){
             let newList = [...imgList];
             newList.splice(idx,1);
             setImgList(newList);
+
+            imgName = imgNameList[idx];
         }
         if(type == 'feed'){
             let newList = [...feedImgList];
             newList.splice(idx,1);
             setFeedImgList(newList);
+
+            imgName = feedImgNameList[idx];
         }
+
+        //삭제할 이미지 배열로 저장
+        newDeltImgList.push(imgName);
+        setDeltImgList(newDeltImgList);  
     };
 
     
     // 프로필사진 미리보기 생성
     const profileImgs = imgList.map((url,i) => (
         <li key={i}>
-            <img
-                src={url}
-                alt="이미지"
-            />
-            <button className="btn_delt" onClick={() => handleRemove(i, url, 'profile')}>삭제버튼</button>
+            <div onClick={()=>dispatch(imgPop({imgPop:true,imgPopSrc:url}))}>
+                <img
+                    src={url}
+                    alt="이미지"
+                />
+            </div>
+            <button className="btn_delt" onClick={() => handleRemove(i, 'profile')}>삭제버튼</button>
         </li>
     ));
     
     // 피드프로필사진 미리보기 생성
     const feedImgs = feedImgList.map((url,i) => (
         <li key={i}>
-            <img
-                src={url}
-                alt="이미지"
-            />
-            <button className="btn_delt" onClick={() => handleRemove(i, url, 'feed')}>삭제버튼</button>
+            <div onClick={()=>dispatch(imgPop({imgPop:true,imgPopSrc:url}))}>
+                <img
+                    src={url}
+                    alt="이미지"
+                />
+            </div>
+            <button className="btn_delt" onClick={() => handleRemove(i, 'feed')}>삭제버튼</button>
         </li>
     ));
 
@@ -732,7 +741,7 @@ const Mypage = () => {
     //프로필사진 이미지이름만 배열로 
     useEffect(()=>{
         const newNameList = imgList.map(url => {
-            let updatedUrl = url.replace(api_uri+"/upload/profile/user/", "");
+            let updatedUrl = url.substring(url.lastIndexOf('/') + 1);
             return updatedUrl;
         });
         setImgNameList(newNameList);
@@ -741,7 +750,7 @@ const Mypage = () => {
     //피드프로필사진 이미지이름만 배열로 
     useEffect(()=>{
         const newNameList = feedImgList.map(url => {
-            let updatedUrl = url.replace(api_uri+"/upload/profile/user/", "");
+            let updatedUrl = url.substring(url.lastIndexOf('/') + 1);
             return updatedUrl;
         });
         setFeedImgNameList(newNameList);
@@ -799,304 +808,354 @@ const Mypage = () => {
     const editBtnClickHandler = () => {
         errorCheck();
 
+        let tab = tabOn;
         //내 프로필정보
-        if(tabOn === 1){
-            if(address.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'거주지를 선택해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }
-            else if(!values.m_height || values.m_height.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'나의 키를 선택해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }
-            else if(!values.m_job || values.m_job.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'나의 직업을 선택해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }
-            else if(visual.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'나의 외모점수를 선택해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }
-            else if(like.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'나의 관심사를 선택해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }
-            else if(!values.m_mbti || values.m_mbti.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'나의 MBTI를 선택해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }
-            else if(type.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'나의 타입을 선택해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }
-            else if(smok.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'나의 흡연 여부를 선택해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }
-            else if(drink.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'나의 음주 여부를 선택해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }
-            else if(!values.m_religion || values.m_religion.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'나의 종교를 선택해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }
-            else if(date.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'선호하는 데이트를 선택해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }
-            else if(!values.m_motive || values.m_motive.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'가입경로를 선택해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }
-            else if(imgList.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'프로필 사진을 등록해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }else{
-                editHandler();
-            }
+        if(address.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'거주지를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 1;
+        }
+        else if(!values.m_height || values.m_height.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 키를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 1;
+        }
+        else if(!values.m_job || values.m_job.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 직업을 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 1;
+        }
+        else if(visual.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 외모점수를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 1;
+        }
+        else if(like.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 관심사를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 1;
+        }
+        else if(!values.m_mbti || values.m_mbti.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 MBTI를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 1;
+        }
+        else if(type.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 타입을 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 1;
+        }
+        else if(smok.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 흡연 여부를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 1;
+        }
+        else if(drink.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 음주 여부를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 1;
+        }
+        else if(!values.m_religion || values.m_religion.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 종교를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 1;
+        }
+        else if(date.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'선호하는 데이트를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 1;
+        }
+        else if(!values.m_motive || values.m_motive.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'가입경로를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 1;
+        }
+        else if(imgList.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'프로필 사진을 등록해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 1;
         }
         //이상형 정보
-        if(tabOn === 2){
-            if(!values.t_height1 || values.t_height1.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'상대방의 키를 선택해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }
-            else if(!values.t_job || values.t_job.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'상대방의 직업을 선택해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }
-            else if(visual2.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'상대방의 외모점수를 선택해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }
-            else if(!values.t_mbti || values.t_mbti.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'상대방의 MBTI를 선택해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }
-            else if(type2.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'상대방의 타입을 선택해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }
-            else if(smok2.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'상대방의 흡연 여부를 선택해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }
-            else if(drink2.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'상대방의 음주 여부를 선택해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }
-            else if(!values.t_religion || values.t_religion.length === 0){
-                setConfirm(true);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'상대방의 종교를 선택해주세요.',
-                    confirmPopBtn:1,
-                }));
-            }else{
-                editHandler();
-            }
+        else if(!values.t_height1 || values.t_height1.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'상대방의 키를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 2;
         }
+        else if(!values.t_job || values.t_job.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'상대방의 직업을 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 2;
+        }
+        else if(visual2.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'상대방의 외모점수를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 2;
+        }
+        else if(!values.t_mbti || values.t_mbti.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'상대방의 MBTI를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 2;
+        }
+        else if(type2.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'상대방의 타입을 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 2;
+        }
+        else if(smok2.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'상대방의 흡연 여부를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 2;
+        }
+        else if(drink2.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'상대방의 음주 여부를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 2;
+        }
+        else if(!values.t_religion || values.t_religion.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'상대방의 종교를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 2;
+        }else{
+            editHandler();
+        }
+
+        setTabOn(tab);
     };
 
     
-    //프로필수정 하기
+    //프로필 수정진행 -> 삭제할이미지 있으면 삭제후 프로필수정
     const editHandler = () => {
-        //나의프로필 수정
-        if(tabOn === 1){
-            let addr;
-            if(address2.length > 0){
-                addr = address + " " + address2;
-            }else{
-                addr = address;
+        if(deltImgList.length > 0){
+            // 삭제할 이미지가 있는 경우 각 이미지를 순회하며 삭제
+            deltImgList.forEach((imageName, index) => {
+                profileImgDelt(imageName, index === deltImgList.length - 1); // 각 이미지를 삭제하는 함수 호출
+            });
+        }else{
+            profileEdit();
+        }
+    };
+
+
+    //프로필 이미지 삭제하기
+    const profileImgDelt = (imageName, isLast) => {
+        axios.delete(feed_profile_delt.replace(':filename',imageName))
+        .then((res)=>{
+            if(res.status === 200){
+                if (isLast) {
+                    // 마지막 이미지 삭제 후 프로필 수정 함수 호출
+                    profileEdit();
+                }
             }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
+    };
 
-            const body = {
-                m_address: addr,
-                m_height: values.m_height,
-                m_job: values.m_job,
-                m_visual: visual,
-                m_like: like,
-                m_mbti: values.m_mbti,
-                m_character: type,
-                m_smok: smok,
-                m_drink: drink,
-                m_religion: values.m_religion,
-                m_date: date,
-                m_motive: values.m_motive,
-                photo: imgNameList,
-                feed_photo: feedImgNameList,
-            };
 
-            axios.put(`${profile_modify}`,body,
-                {headers:{Authorization: `Bearer ${user.userToken}`}}
-            )
-            .then((res)=>{
-                if(res.status === 200){
-                    setConfirm(true);
-                    dispatch(confirmPop({
-                        confirmPop:true,
-                        confirmPopTit:'알림',
-                        confirmPopTxt:'나의 프로필이 수정되었습니다.',
-                        confirmPopBtn:1,
-                    }));
-                }
-            })
-            .catch((error) => {
-                const err_msg = CF.errorMsgHandler(error);
+    //프로필수정하기
+    const profileEdit = () => {
+        let addr;
+        if(address2.length > 0){
+            addr = address + " " + address2;
+        }else{
+            addr = address;
+        }
+
+        const body = {
+            m_address: addr,
+            m_height: values.m_height,
+            m_job: values.m_job,
+            m_visual: visual,
+            m_like: like,
+            m_mbti: values.m_mbti,
+            m_character: type,
+            m_smok: smok,
+            m_drink: drink,
+            m_religion: values.m_religion,
+            m_date: date,
+            m_motive: values.m_motive,
+            photo: imgNameList,
+            feed_photo: feedImgNameList,
+        };
+
+        axios.put(`${profile_modify}`,body,
+            {headers:{Authorization: `Bearer ${user.userToken}`}}
+        )
+        .then((res)=>{
+            if(res.status === 200){
+                profile2Edit(); //나의프로필 수정완료후 이상형프로필수정하기
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        }); 
+    };
+
+
+    //이상형프로필 수정하기
+    const profile2Edit = () => {
+        let t_height = values.t_height1.split(',');
+        let t_height1 = t_height[0];
+        let t_height2 = t_height[1];
+
+        const body = {
+            t_height1: t_height1,
+            t_height2: t_height2,
+            t_job: values.t_job,
+            t_visual: visual2,
+            t_mbti: values.t_mbti,
+            t_character: type2,
+            t_smok: smok2,
+            t_drink: drink2,
+            t_religion: values.t_religion,
+        };
+
+        axios.put(`${profile2_modify}`,body,
+            {headers:{Authorization: `Bearer ${user.userToken}`}}
+        )
+        .then((res)=>{
+            if(res.status === 200){
+                setConfirm(true);
                 dispatch(confirmPop({
                     confirmPop:true,
                     confirmPopTit:'알림',
-                    confirmPopTxt: err_msg,
+                    confirmPopTxt:'프로필이 수정되었습니다.',
                     confirmPopBtn:1,
                 }));
-                setConfirm(true);
-            }); 
-        }
-        //이상형정보 수정
-        if(tabOn === 2){
-            let t_height = values.t_height1.split(',');
-            let t_height1 = t_height[0];
-            let t_height2 = t_height[1];
 
-            const body = {
-                t_height1: t_height1,
-                t_height2: t_height2,
-                t_job: values.t_job,
-                t_visual: visual2,
-                t_mbti: values.t_mbti,
-                t_character: type2,
-                t_smok: smok2,
-                t_drink: drink2,
-                t_religion: values.t_religion,
-            };
-
-            axios.put(`${profile2_modify}`,body,
-                {headers:{Authorization: `Bearer ${user.userToken}`}}
-            )
-            .then((res)=>{
-                if(res.status === 200){
-                    setConfirm(true);
-                    dispatch(confirmPop({
-                        confirmPop:true,
-                        confirmPopTit:'알림',
-                        confirmPopTxt:'이상형 프로필이 수정되었습니다.',
-                        confirmPopBtn:1,
-                    }));
-                }
-            })
-            .catch((error) => {
-                const err_msg = CF.errorMsgHandler(error);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt: err_msg,
-                    confirmPopBtn:1,
-                }));
-                setConfirm(true);
-            }); 
-        }
+                dispatch(myPageRefresh(true));
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        }); 
     };
 
 
@@ -1184,7 +1243,7 @@ const Mypage = () => {
                                                                 <div>
                                                                     {feedProfile.myPhoto ?
                                                                         <img src={feedProfile.m_f_photo} alt="프로필이미지" />
-                                                                        :<img src={require(`../../images/random_profile${feedProfile.profile_num}.svg`)} alt="랜덤프로필이미지" />
+                                                                        :<img src={none_profile} alt="프로필이미지" />
                                                                     }
                                                                 </div>
                                                             </div>

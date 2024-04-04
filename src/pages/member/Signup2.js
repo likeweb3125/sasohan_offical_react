@@ -7,7 +7,7 @@ import moment from "moment/moment";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
 import { heightList, visualList, mbtiList, smokList, drinkList } from "../../config/constants";
-import { confirmPop } from "../../store/popupSlice";
+import { confirmPop, imgPop } from "../../store/popupSlice";
 import { signupCompletedName } from "../../store/userSlice";
 import StepBox from "../../components/component/StepBox";
 import MyInfoForm from "../../components/component/MyInfoForm";
@@ -602,10 +602,12 @@ const Signup2 = () => {
     // 프로필사진 미리보기 생성
     const profileImgs = imgList.map((url,i) => (
         <li key={i}>
-            <img
-                src={url}
-                alt="이미지"
-            />
+            <div onClick={()=>dispatch(imgPop({imgPop:true,imgPopSrc:url}))}>
+                <img
+                    src={url}
+                    alt="이미지"
+                />
+            </div>
             <button className="btn_delt" onClick={() => handleRemove(i, url, 'profile')}>삭제버튼</button>
         </li>
     ));
@@ -613,10 +615,12 @@ const Signup2 = () => {
     // 피드프로필사진 미리보기 생성
     const feedImgs = feedImgList.map((url,i) => (
         <li key={i}>
-            <img
-                src={url}
-                alt="이미지"
-            />
+            <div onClick={()=>dispatch(imgPop({imgPop:true,imgPopSrc:url}))}>
+                <img
+                    src={url}
+                    alt="이미지"
+                />
+            </div>
             <button className="btn_delt" onClick={() => handleRemove(i, url, 'feed')}>삭제버튼</button>
         </li>
     ));
@@ -625,7 +629,7 @@ const Signup2 = () => {
     //프로필사진 이미지이름만 배열로 
     useEffect(()=>{
         const newNameList = imgList.map(url => {
-            let updatedUrl = url.replace(api_uri+"/upload/profile/user/", "");
+            let updatedUrl = url.substring(url.lastIndexOf('/') + 1);
             return updatedUrl;
         });
         setImgNameList(newNameList);
@@ -634,7 +638,7 @@ const Signup2 = () => {
     //피드프로필사진 이미지이름만 배열로 
     useEffect(()=>{
         const newNameList = feedImgList.map(url => {
-            let updatedUrl = url.replace(api_uri+"/upload/profile/user/", "");
+            let updatedUrl = url.substring(url.lastIndexOf('/') + 1);
             return updatedUrl;
         });
         setFeedImgNameList(newNameList);

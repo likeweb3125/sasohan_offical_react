@@ -42,7 +42,17 @@ const AllFeed = () => {
 
     //피드 리스트 가져오기
     const getAllFeed = (page, more, search) => {
-        axios.get(`${feed_list}?page_no=${page ? page : 1}${sortTabOn === 2 ? '&sort=favorite' : ''}${likeCheck ? '&favorite=1' : ''}${search ? '&search='+searchValue : ''}`)
+        //내가누른 좋아요보기 체크시에만 헤더값 넣기
+        let headers = {};
+        if(likeCheck){
+            headers = {
+                Authorization: `Bearer ${user.userToken}`,
+            }
+        }
+
+        axios.get(`${feed_list}?page_no=${page ? page : 1}${sortTabOn === 2 ? '&sort=favorite' : ''}${likeCheck ? '&favorite=1' : ''}${search ? '&search='+searchValue : ''}`,{
+            headers: headers,
+        })
         .then((res)=>{
             if(res.status === 200){
                 const data = res.data;
@@ -182,6 +192,11 @@ const AllFeed = () => {
     };
 
 
+    //매니저프로필클릭시 매니저상세페이지로 이동
+    const profileClickHandler = (id) => {
+        navigate(`/square/manager/${id}`);
+    };
+
     
     return(<>
         <div className="square_list_wrap gray_wrap">
@@ -207,6 +222,7 @@ const AllFeed = () => {
                     likeBtnClickHandler={likeBtnClickHandler}
                     feedCont={true}
                     feedClickHandler={feedClickHandler}
+                    profileClickHandler={profileClickHandler}
                 />
             </div>
         </div>
