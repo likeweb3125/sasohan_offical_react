@@ -75,11 +75,7 @@ const ManagerDetail = () => {
 
     //매니저프로필 가져오기
     const getProfile = () => {
-        axios.get(`${manager_profile.replace(':m_id',m_id)}`,{
-            headers: {
-                Authorization: `Bearer ${user.userToken}`,
-            },
-        })
+        axios.get(`${manager_profile.replace(':m_id',m_id)}`)
         .then((res)=>{
             if(res.status === 200){
                 const data = res.data;
@@ -99,12 +95,50 @@ const ManagerDetail = () => {
     };
 
 
+    //방명록 리스트 가져오기
+    const getCommentList = () => {
+        //로그인했을때만 헤더값 넣기
+        let headers = {};
+        if(user.userLogin){
+            headers = {
+                Authorization: `Bearer ${user.userToken}`,
+            }
+        }
+
+        axios.get(`${guest_book_list.replace(':m_id',m_id)}`,{
+            headers: headers,
+        })
+        .then((res)=>{
+            if(res.status === 200){
+                const data = res.data;
+                setCommentList(data);
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        })
+    };
+
+
     //피드 리스트 가져오기
     const getFeedList = (page, more) => {
-        axios.get(`${manager_feed_list.replace(':m_id',m_id)}?page_no=${page ? page : 1}`,{
-            headers: {
+        //로그인했을때만 헤더값 넣기
+        let headers = {};
+        if(user.userLogin){
+            headers = {
                 Authorization: `Bearer ${user.userToken}`,
-            },
+            }
+        }
+
+        axios.get(`${manager_feed_list.replace(':m_id',m_id)}?page_no=${page ? page : 1}`,{
+            headers: headers,
         })
         .then((res)=>{
             if(res.status === 200){
@@ -125,32 +159,6 @@ const ManagerDetail = () => {
                 }else{
                     setMoreBtn(false);
                 }
-            }
-        })
-        .catch((error) => {
-            const err_msg = CF.errorMsgHandler(error);
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt: err_msg,
-                confirmPopBtn:1,
-            }));
-            setConfirm(true);
-        })
-    };
-
-
-    //방명록 리스트 가져오기
-    const getCommentList = () => {
-        axios.get(`${guest_book_list.replace(':m_id',m_id)}`,{
-            headers: {
-                Authorization: `Bearer ${user.userToken}`,
-            },
-        })
-        .then((res)=>{
-            if(res.status === 200){
-                const data = res.data;
-                setCommentList(data);
             }
         })
         .catch((error) => {
@@ -239,6 +247,30 @@ const ManagerDetail = () => {
 
 
     //방명록  ------------------------------------
+    //방명록 연속 작성인지 체크 (최대 2번까지만 가능)
+    const onCommentCheckHandler = () => {
+        if(commentList.length > 1){
+            const last = commentList.length-1;
+            const last2 = last-1;
+            const lastId = commentList[last].m_id;
+            const last2Id = commentList[last2].m_id;
+            if(lastId === last2Id && lastId === user.userInfo.m_id){
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'방명록은 연속해서 최대 2번까지만 작성이 가능합니다.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            }else{
+               onTextCheckHandler(); 
+            }
+        }else{
+            onTextCheckHandler();
+        }
+    };
+
+
     //방명록 부적격 체크하기
     const onTextCheckHandler = () => {
         dispatch(loadingPop(true));
@@ -315,19 +347,13 @@ const ManagerDetail = () => {
     };
 
 
-    //방명록 수정,삭제버튼 클릭시
+    //방명록 삭제버튼 클릭시
     const onEditBoxClickHandler = (boolean, idx) => {
         if(boolean){
             setEditOn(idx);
         }else{
             setEditOn(null);
         }
-    };
-
-
-    //방명록 수정버튼 클릭시
-    const onCommentEditHandler = () => {
-
     };
 
 
@@ -499,7 +525,7 @@ const ManagerDetail = () => {
                                         setCommentValue(val);
                                     }}
                                     btnTxt='보내기'
-                                    onEnterHandler={onTextCheckHandler}
+                                    onEnterHandler={onCommentCheckHandler}
                                     disabled={user.userLogin ? false : true}
                                 />
                             </div>

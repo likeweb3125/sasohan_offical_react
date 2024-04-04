@@ -15,6 +15,7 @@ const GuestBookBox = ({data, editBoxOn, editBox, onEditBoxClickHandler, onCommen
                     <EditBox 
                         editBoxIdx={data.comment_idx}
                         editBoxOn={editBoxOn}
+                        editBox={editBox}
                         onEditBoxClickHandler={onEditBoxClickHandler}
                         onEditHandler={onCommentEditHandler}
                         onDeltHandler={onCommentDeltHandler}
