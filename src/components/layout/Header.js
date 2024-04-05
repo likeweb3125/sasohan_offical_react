@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as CF from "../../config/function";
 import { applyPop } from '../../store/popupSlice';
 import { userInfo, userLogin, userToken, userRank } from "../../store/userSlice";
+import { logout } from '../../store/commonSlice';
 import ConfirmPop from '../popup/ConfirmPop';
 import logo_big_b from "../../images/logo_big_b.svg";
 import none_profile from "../../images/none_profile2.jpg";
@@ -130,6 +131,7 @@ const Header = () => {
         dispatch(userLogin(false));
         dispatch(userToken(''));
         dispatch(userRank({userRank:false, userRankData:{}}));
+        dispatch(logout(true));
 
         navigate('/');
     };
@@ -185,9 +187,12 @@ const Header = () => {
                         //         <li><Link to={'/member/signup'}>회원가입</Link></li>
                         //     </ul>
                     }
-                    <button type='button' className='btn_apply' onClick={()=>{
-                        dispatch(applyPop(true));
-                    }}>소개팅 신청</button>
+                    {!login &&
+                        <button type='button' className='btn_apply' onClick={()=>{
+                            dispatch(applyPop(true));
+                        }}>소개팅 신청</button>
+                        // <Link to={'/member/signup'} className='btn_apply'>소개팅 신청</Link>
+                    }
                 </div>
                 <button type='button' className='btn_menu' onClick={()=>setMenuWrap(true)}>모바일메뉴열기버튼</button>
             </div>

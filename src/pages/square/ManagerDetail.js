@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
-import { confirmPop, feedPop, feedAddPop, loadingPop } from "../../store/popupSlice";
+import { confirmPop, feedPop, feedAddPop, loadingPop, feedPopNoList } from "../../store/popupSlice";
 import { feedRefresh } from "../../store/commonSlice";
 import ListTopTitleBox from "../../components/component/square/ListTopTitleBox";
 import GuestBookBox from "../../components/component/square/GuestBookBox";
@@ -180,6 +180,13 @@ const ManagerDetail = () => {
         getCommentList();   //방명록 리스트 가져오기
         getFeedList();      //피드 리스트 가져오기
     },[]);
+
+
+    useEffect(()=>{
+        //피드리스트에서 각각 피드 idx store에 배열로 저장
+        let newFeedPopNoList = feedList.map(obj => obj.idx);
+        dispatch(feedPopNoList([...newFeedPopNoList]));
+    },[feedList]);
 
 
     //피드 삭제, 수정시 피드리스트 가져오기

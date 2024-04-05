@@ -37,6 +37,7 @@
 .form_ul2>li{padding-bottom: 36px;}
 .form_ul2>li:last-child{padding-bottom: 0;}
 .form_ul2>li .address_box>div{width: calc(50% - 6px);}
+.form_ul2>li .address_box .input_box{width: calc(50% - 6px);}
 
 .sel_list_box{border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;}
 .sel_list_box li{border-bottom: 1px solid #ddd;}
@@ -282,7 +283,6 @@
 .manager_detail_cont .msg_feed_box .msg_list_box{padding: 16px 10px 0 16px;height: 300px;}
 .manager_detail_cont .msg_feed_box .msg_list_box .scroll_wrap{height: 100%;padding:0 6px 16px 0;}
 .manager_detail_cont .msg_feed_box .msg_list_box .msg_list>li{padding: 8px 0 8px 20px;}
-.manager_detail_cont .msg_feed_box .msg_list_box .msg_list>li .img_box{width: 40px;height: 40px;border-radius: 50%;overflow: hidden;}
 .manager_detail_cont .msg_feed_box .msg_list_box .msg_list>li .txt_box{width: calc(100% - 52px);}
 .manager_detail_cont .msg_feed_box .msg_list_box .msg_list>li .txt_box .txt{font-size: 15px;color: #666;padding: 12px;background: #fff;border-radius: 8px;max-width: calc(100% - 108px);}
 .manager_detail_cont .msg_feed_box .msg_list_box .msg_list>li .txt_box .date{font-size: 14px;color: #999;}

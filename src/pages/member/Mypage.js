@@ -7,7 +7,7 @@ import { enum_api_uri } from "../../config/enum";
 import { heightList, visualList, mbtiList, smokList, drinkList } from "../../config/constants";
 import * as CF from "../../config/function";
 import { confirmPop, loadingPop, profileEditPop, imgPop } from "../../store/popupSlice";
-import { myPageRefresh } from "../../store/commonSlice";
+import { myPageRefresh, logout } from "../../store/commonSlice";
 import { userInfo, userLogin, userToken, userRank } from "../../store/userSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 import MyProfileForm from "../../components/component/MyProfileForm";
@@ -20,7 +20,6 @@ import profile_tip_box_img from "../../images/profile_tip_box_img.svg";
 const Mypage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const api_uri = enum_api_uri.api_uri;
     const all_profile = enum_api_uri.all_profile;
     const rank_token = enum_api_uri.rank_token;
     const m_address = enum_api_uri.m_address;
@@ -65,8 +64,14 @@ const Mypage = () => {
     const [getRank, setGetRank] = useState(false);
     const [myBasicInfo, setMyBasicInfo] = useState(false);
     const [deltImgList, setDeltImgList] = useState([]);
-    
+    const [allAreaCheck, setAllAreaCheck] = useState(true);
+    const [areaList, setAreaList] = useState([]);
+    const [areaList2, setAreaList2] = useState([]);
+    const [area, setArea] = useState('');
+    const [area2, setArea2] = useState('');
+    const [areaSelectList, setAreaSelectList] = useState([]);
 
+    
 
     // Confirm팝업 닫힐때
     useEffect(()=>{
@@ -220,7 +225,8 @@ const Mypage = () => {
         .then((res)=>{
             if(res.status === 200){
                 const data = res.data;
-                setAddressList(data);
+                setAddressList(data);  //나의프로필 - 거주지
+                setAreaList(data);     //이상형프로필 - 선호지역
             }
         })
         .catch((error) => {
@@ -236,12 +242,33 @@ const Mypage = () => {
     };
 
 
-    //주소 시,도 셀렉트박스 선택시 구,군 가져오기
+    //주소 시,도 셀렉트박스 선택시 구,군 가져오기 (나의프로필 - 거주지)
     const getAddress2 = (code) => {
         axios.get(`${m_address2.replace(':parent_local_code',code)}`)
         .then((res)=>{
             if(res.status === 200){
                 setAddressList2(res.data);
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        })
+    };
+
+
+    //주소 시,도 셀렉트박스 선택시 구,군 가져오기 (이상형프로필 - 선호지역)
+    const getArea2 = (code) => {
+        axios.get(`${m_address2.replace(':parent_local_code',code)}`)
+        .then((res)=>{
+            if(res.status === 200){
+                setAreaList2(res.data);
             }
         })
         .catch((error) => {
@@ -378,6 +405,16 @@ const Mypage = () => {
         //나의 가입경로
         if(profile.m_motive){
             newValues.m_motive = profile.m_motive;
+        }
+
+        //이상형 선호지역
+        if(profile.m_address_detail && profile.m_address_detail.length > 0){
+            if(profile.m_address_detail.includes('전지역')){
+                setAllAreaCheck(true);
+            }else{
+                setAllAreaCheck(false);
+                setAreaSelectList([...profile.m_address_detail]);
+            }
         }
 
         //이상형 키
@@ -758,6 +795,129 @@ const Mypage = () => {
     //이미지 첨부-----------------------------------------
 
 
+    //이상형 프로필 선호지역 전지역체크박스 체크시
+    const onAllAreaCheckHandler = (checked) => {
+        if(checked){
+            setAllAreaCheck(true);
+
+            setArea('');
+            setArea2('');
+            setAreaSelectList([]); //선택한지역 리스트 삭제
+        }else{
+            setAllAreaCheck(false);
+        }
+    };
+
+
+    //이상형 프로필 선호지역 시,도 변경시
+    const onAreaChangeHandler = (e) => {
+        const val = e.currentTarget.value;
+        const code = e.target.options[e.target.selectedIndex].getAttribute("data-code");
+        setArea(val);
+        getArea2(code);
+
+        setArea2('');
+
+        if(val == "세종특별자치시" && !areaSelectList.includes("세종")){
+            if(areaSelectList.length > 9){
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'선호지역은 최대 10개까지만 선택해주세요.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            }else{
+                const updatedList = [...areaSelectList];
+                    updatedList.push("세종");
+                setAreaSelectList(updatedList);
+            }
+        }
+    };
+
+
+    //이상형 프로필 선호지역 구,군 변경시
+    const onArea2ChangeHandler = (e) => {
+        const val = e.currentTarget.value;
+        setArea2(val);
+
+        let address1_txt = area;
+        if(address1_txt === "강원도"){
+            address1_txt = "강원";
+        }
+        if(address1_txt === "경기도"){
+            address1_txt = "경기";
+        }
+        if(address1_txt === "경상남도"){
+            address1_txt = "경남";
+        }
+        if(address1_txt === "경상북도"){
+            address1_txt = "경북";
+        }
+        if(address1_txt === "전라남도"){
+            address1_txt = "전남";
+        }
+        if(address1_txt === "전라북도"){
+            address1_txt = "전북";
+        }
+        if(address1_txt === "충청남도"){
+            address1_txt = "충남";
+        }
+        if(address1_txt === "충청북도"){
+            address1_txt = "충북";
+        }
+        if(address1_txt.includes("광역시")){
+            address1_txt = address1_txt.replace("광역시","");
+        }
+        if(address1_txt.includes("특별시")){
+            address1_txt = address1_txt.replace("특별시","");
+        }
+        if(address1_txt.includes("특별자치시")){
+            address1_txt = address1_txt.replace("특별자치시","");
+        }
+        if(address1_txt.includes("특별자치도")){
+            address1_txt = address1_txt.replace("특별자치도","");
+        }
+
+        if(val.length > 0){
+            if(areaSelectList.length > 9){
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'선호지역은 최대 10개까지만 선택해주세요.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            }else{
+                const txt = address1_txt + " " + val;
+                if(!areaSelectList.includes(txt)){
+                    const updatedList = [...areaSelectList];
+                        updatedList.push(txt);
+                    setAreaSelectList(updatedList);
+                }
+            }
+        }  
+    };
+
+
+    //이상형 프로필 선호지역 삭제하기
+    const onAreaDeltHandler = (idx) => {
+        // areaSelectList 배열에서 특정 인덱스의 값을 삭제하고 새로운 배열을 생성
+        const updatedList = areaSelectList.filter((_, index) => index !== idx);
+
+        // areaSelectList 상태를 새로운 배열로 업데이트
+        setAreaSelectList(updatedList);
+    };
+
+
+    //이상형 프로필 선호지역 값 변경시 전지역 체크박스값 변경
+    useEffect(()=>{
+        if(areaSelectList.length > 0){
+            setAllAreaCheck(false);
+        }
+    },[areaSelectList]);
+
+
     //입력값 체크
     const errorCheck = () => {
         const newError = {...error};
@@ -1065,7 +1225,7 @@ const Mypage = () => {
     };
 
 
-    //프로필수정하기
+    //나의 프로필수정하기
     const profileEdit = () => {
         let addr;
         if(address2.length > 0){
@@ -1073,6 +1233,8 @@ const Mypage = () => {
         }else{
             addr = address;
         }
+
+     
 
         const body = {
             m_address: addr,
@@ -1118,6 +1280,13 @@ const Mypage = () => {
         let t_height1 = t_height[0];
         let t_height2 = t_height[1];
 
+        let address_detail = [];
+        if(allAreaCheck){
+            address_detail = ['전지역'];
+        }else{
+            address_detail = areaSelectList;
+        }
+
         const body = {
             t_height1: t_height1,
             t_height2: t_height2,
@@ -1128,6 +1297,7 @@ const Mypage = () => {
             t_smok: smok2,
             t_drink: drink2,
             t_religion: values.t_religion,
+            m_address_detail: address_detail
         };
 
         axios.put(`${profile2_modify}`,body,
@@ -1175,6 +1345,7 @@ const Mypage = () => {
         dispatch(userLogin(false));
         dispatch(userToken(''));
         dispatch(userRank({userRank:false, userRankData:{}}));
+        dispatch(logout(true));
 
         navigate('/');
     };
@@ -1346,6 +1517,16 @@ const Mypage = () => {
                                                 <p className="top_tit"><strong>이상형 정보</strong>를 입력해 보세요.</p>
                                                 <ul className="form_ul2">
                                                     <MyProfileForm2
+                                                        allAreaCheck={allAreaCheck}
+                                                        onAllAreaCheckHandler={onAllAreaCheckHandler}
+                                                        areaList={areaList}
+                                                        areaList2={areaList2}
+                                                        area={area}
+                                                        area2={area2}
+                                                        onAreaChangeHandler={onAreaChangeHandler}
+                                                        onArea2ChangeHandler={onArea2ChangeHandler}
+                                                        areaSelectList={areaSelectList}
+                                                        onAreaDeltHandler={onAreaDeltHandler}
                                                         values={values}
                                                         onInputChangeHandler={onInputChangeHandler}
                                                         error={error}

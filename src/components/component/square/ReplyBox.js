@@ -1,6 +1,8 @@
 import { useSelector } from "react-redux";
 import EditBox from "./EditBox";
 import WriteTextareaBox from "./WriteTextareaBox";
+import none_profile from "../../../images/none_profile.jpg";
+
 
 const ReplyBox = ({
     data,
@@ -27,7 +29,11 @@ const ReplyBox = ({
             <div className="comment">
                 <div className="name_box flex_between">
                     <div className="flex">
-                        <div className="profile_img"><img src={data.photo} alt="프로필 이미지"/></div>
+                        <div className={`profile_img_box${data.rank ? ' class_'+data.class_number : ''}`}>
+                            <div className='img'>
+                                <div><img src={data.photo && data.photo.length > 0 ? data.photo : none_profile} alt='프로필이미지' /></div>
+                            </div>
+                        </div>
                         <p className="name">{data.m_n_name}</p>
                     </div>
                     <EditBox 

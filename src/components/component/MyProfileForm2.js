@@ -1,6 +1,16 @@
 
 const MyProfileForm2 = (
     {
+        allAreaCheck,
+        onAllAreaCheckHandler,
+        areaList,
+        areaList2,
+        area,
+        area2,
+        onAreaChangeHandler,
+        onArea2ChangeHandler,
+        areaSelectList,
+        onAreaDeltHandler,
         values,
         error,
         onInputChangeHandler,
@@ -21,6 +31,69 @@ const MyProfileForm2 = (
     }
     ) => {
     return(<>
+        <li>
+            <p className="color_black2 bp10">선호 지역 <span className="color_point">*</span></p>
+            <div className="custom_check">
+                <label>
+                    <input type={`checkbox`}
+                        onChange={(e)=>{
+                            const checked = e.currentTarget.checked;
+                            onAllAreaCheckHandler(checked);
+                        }} 
+                        checked={allAreaCheck}
+                    />
+                    <span className="check">체크박스</span>
+                    <span className="txt f_16 medium">전지역</span>
+                </label>
+            </div>
+            <div className="address_box flex_between">
+                <div className="input_box">
+                    <select 
+                        value={area} 
+                        onChange={(e)=>{
+                            onAreaChangeHandler(e);
+                        }}
+                        className={area.length > 0 ? 'selected' : ''}
+                    >
+                        <option value='' hidden disabled>시/도</option>
+                        {areaList.map((cont, i)=>{
+                            return(
+                                <option value={cont.sido_gugun} key={i} data-code={cont.local_code}>{cont.sido_gugun}</option>
+                            );
+                        })}
+                    </select>
+                </div>
+                <div className="input_box">
+                    <select 
+                        value={area2} 
+                        onChange={(e)=>{
+                            onArea2ChangeHandler(e);
+                        }}
+                        className={area2.length > 0 ? 'selected' : ''}
+                    >
+                        <option value='' hidden disabled>구</option>
+                        {areaList2.map((cont, i)=>{
+                            return(
+                                <option value={cont.sido_gugun} key={i}>{cont.sido_gugun}</option>
+                            );
+                        })}
+                    </select>
+                </div>
+            </div>
+            <div className="addr_list_box">
+                <ul className="flex_wrap">
+                    {areaSelectList.map((cont,i)=>{
+                        return(
+                            <li key={i}><span>{cont}</span><button type="button" className="btn_delt" onClick={()=>{onAreaDeltHandler(i)}}>삭제버튼</button></li>
+                        );
+                    })}
+                </ul>
+                {areaSelectList.length === 0 ? <p className="txt">&lt;전지역&gt;으로 필수 설정되어 있습니다. <br/>지역을 선택하여 만남을 진행하고 싶으시다면 지역을 선택해주세요!</p>
+                    :   areaSelectList.length > 2 ? <p className="txt">선호 지역을 다 선택했어요!</p>
+                    :   <p className="txt">선호지역은 최소 3개를 선택해주세요.</p>
+                }
+            </div>
+        </li>
         <li>
             <p className="color_black2">키 <span className="color_point">*</span></p>
             <div className={`input_box f_18 light${error.t_height1 ? " error" : ""}`}>

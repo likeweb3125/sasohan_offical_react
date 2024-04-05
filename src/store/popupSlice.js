@@ -49,6 +49,7 @@ const popup = createSlice({
         feedPopNo: null,
         feedAddPop: false,
         feedAddPopNo: null, //피드수정일때 피드 idx값
+        feedPopNoList: [],
 
         //피드프로필 팝업
         feedProfilePop: false,
@@ -72,7 +73,6 @@ const popup = createSlice({
         //회원가입 - 회원프로필사진 팝업
         appProfileImgPop: false,
         appProfileImgPopIdx: null,
-
         appProfileImgPop2: false,
         appProfileImgPopIdx2: null,
 
@@ -149,6 +149,9 @@ const popup = createSlice({
             state.feedPop = action.payload.feedPop;
             state.feedPopNo = action.payload.feedPopNo;
         },
+        feedPopNoList: (state, action) => {
+            state.feedPopNoList = action.payload;
+        },
         feedAddPop: (state, action) => {
             state.feedAddPop = action.payload.feedAddPop;
             state.feedAddPopNo = action.payload.feedAddPopNo;
@@ -218,6 +221,7 @@ export const {
     termsCheckList,
 
     feedPop,
+    feedPopNoList,
     feedAddPop,
     feedProfilePop,
     vipApplyPop,

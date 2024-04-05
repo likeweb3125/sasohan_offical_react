@@ -43,6 +43,9 @@ const FeedPop = () => {
     const [commentEditOn, setCommentEditOn] = useState(null);
     const [feedEditBtn, setFeedEditBtn] = useState(false);
     const [commentEditBtn, setCommentEditBtn] = useState(false);
+    const feedIdx = popup.feedPopNoList.indexOf(popup.feedPopNo);
+    const [nextBtn, setNextBtn] = useState(false);
+    const [prevBtn, setPrevBtn] = useState(false);
 
 
     // Confirm팝업 닫힐때
@@ -106,11 +109,25 @@ const FeedPop = () => {
     }
 
     
-    //맨처음 피드내용, 댓글리스트 가져오기
+    //피드내용, 댓글리스트 가져오기
     useEffect(()=>{
         getFeed();
         getCommentList();
-    },[]);
+
+        //피드 다음버튼
+        if(feedIdx+1 < popup.feedPopNoList.length){
+            setNextBtn(true);
+        }else{
+            setNextBtn(false);
+        }
+        
+        //피드 이전버튼
+        if(feedIdx === 0){
+            setPrevBtn(false);
+        }else{
+            setPrevBtn(true);
+        }
+    },[popup.feedPopNo]);
 
 
     //피드 수정시 피드내용, 댓글리스트 가져오기
@@ -189,6 +206,19 @@ const FeedPop = () => {
         if(arrow == 'next'){
             setImgOn(idx+1);
         }
+    };
+
+
+    //다음버튼 클릭시
+    const nextHandler = () => {
+        dispatch(feedPop({feedPop:true,feedPopNo:popup.feedPopNoList[feedIdx+1]}));
+        setImgOn(0);
+    };
+
+    //이전버튼 클릭시
+    const prevHandler = () => {
+        dispatch(feedPop({feedPop:true,feedPopNo:popup.feedPopNoList[feedIdx-1]}));
+        setImgOn(0);
     };
 
 
@@ -509,6 +539,10 @@ const FeedPop = () => {
             <div className="dim" onClick={closePopHandler}></div>
             <div className="pop_cont">
                 <button type="button" className="btn_feed_close" onClick={closePopHandler}>피드팝업닫기버튼</button>
+                <div className="btn_box tab_none">
+                    {prevBtn && <button type="button" className="btn_prev" onClick={prevHandler}>이전글</button>}
+                    {nextBtn && <button type="button" className="btn_next" onClick={nextHandler}>다음글</button>}
+                </div>
                 <div className="feed_con flex_between">
                     <div className="cont_box tab_show">
                         <div className="top_box">
@@ -589,6 +623,10 @@ const FeedPop = () => {
                             <div className="scroll_wrap gray">
                                 <p>{feedData.txt}</p>
                             </div>
+                        </div>
+                        <div className="btn_box tab_show">
+                            {prevBtn && <button type="button" className="btn_prev" onClick={prevHandler}>이전글</button>}
+                            {nextBtn && <button type="button" className="btn_next" onClick={nextHandler}>다음글</button>}
                         </div>
                         <div className="comment_box">
                             <div className="scroll_wrap gray">

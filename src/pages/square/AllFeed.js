@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
-import { confirmPop, feedPop } from "../../store/popupSlice";
+import { confirmPop, feedPop, feedPopNoList } from "../../store/popupSlice";
 import { feedRefresh } from "../../store/commonSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 import ListTopTitleBox from "../../components/component/square/ListTopTitleBox";
@@ -100,6 +100,13 @@ const AllFeed = () => {
             getAllFeed();
         }
     },[common.feedRefresh]);
+
+
+    useEffect(()=>{
+        //피드리스트에서 각각 피드 idx store에 배열로 저장
+        let newFeedPopNoList = feedList.map(obj => obj.idx);
+        dispatch(feedPopNoList([...newFeedPopNoList]));
+    },[feedList]);
 
 
     //정렬 탭 클릭시

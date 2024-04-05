@@ -27,7 +27,7 @@
 .mar_auto {margin:0 auto}
 .bold {font-weight:600;}
 .normal {font-weight:normal}
-.medium{font-weight: 500;}
+.medium{font-weight: 500 !important;}
 
 .button{border:0; cursor:pointer; display:inline-block; }
 
@@ -433,8 +433,7 @@
 .f_13{ font-size:13px;}
 .f_14{font-size:14px;}
 .f_15{font-size:15px;}
-.f_16{font-size:16px;}
-.f_16{font-size:16px;}
+.f_16{font-size:16px !important;}
 .f_17{font-size:17px;}
 .f_18{font-size:18px !important;}
 .f_19{font-size:19px;}

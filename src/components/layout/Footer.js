@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import * as CF from "../../config/function";
@@ -11,6 +11,7 @@ import logo from "../../images/logo_foot.svg";
 const Footer = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const user = useSelector((state)=>state.user);
     const site_info = enum_api_uri.site_info;
     const [confirm, setConfirm] = useState(false);
     const [info, setInfo] = useState({});
@@ -130,9 +131,12 @@ const Footer = () => {
             </ul>
             <button type="button" className="btn_top" onClick={scrollToTop}></button>
         </div>
-        <button type='button' className='btn_apply_foot' onClick={()=>{
-            dispatch(applyPop(true));
-        }}>소개팅 <br/>신청</button>
+        {!user.userLogin &&
+            <button type='button' className='btn_apply_foot' onClick={()=>{
+                dispatch(applyPop(true));
+            }}>소개팅 <br/>신청</button>
+            // <Link to={'/member/signup'} className='btn_apply_foot'>소개팅 <br/>신청</Link>
+        }
 
         {/* confirm팝업 */}
         {confirm && <ConfirmPop />}
