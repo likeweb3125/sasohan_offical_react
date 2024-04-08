@@ -605,7 +605,7 @@
     .feed_pop .feed_con .cont_box .top_box .count_box{padding-top: 8px;}
     .feed_pop .feed_con .cont_box .content_box{padding: 12px 20px;}
     .comment_box .comment_list>li>.comment{padding: 16px 20px;}
-    .comment_box .comment_list .reply_box{padding: 16px 20px 16px 68px;}
+    .comment_box .comment_list .reply_box{padding: 16px 20px 16px 40px;}
     .feed_profile_pop .pop_cont{width: 100%;height: 100%;padding: 50px 20px;border-radius: 0;}
     .feed_profile_pop .pop_tit{border-bottom: 2px solid #222;margin-bottom: 20px;width: 100%;}
     .feed_profile_pop .btn_close{top: 8px;}

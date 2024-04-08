@@ -690,7 +690,7 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .comment_box .comment_list .comment .txt_box .btn_reply::after{position: absolute;content: '';width: 1px;height: 12px;background: #ddd;left: 0;top: 50%;transform: translateY(-50%);}
 .comment_box .comment_list .comment>.msg_write_box{box-shadow: none;padding: 12px 0 0;margin-top: 16px;border-top: 1px solid #ddd;background: none;}
 .comment_box .comment_list .reply_list>li{border-top: 1px solid #ddd;}
-.comment_box .comment_list .reply_box{background: #F7F7FA;padding: 16px 30px;}
+.comment_box .comment_list .reply_box{background: #F7F7FA;padding: 16px 30px 16px 60px;}
 .comment_box .comment_list .reply_box .to_name_txt{font-size: 13px;color: #6840FD;padding-left: 16px;background: url(../images/ic_reply.svg) no-repeat top left;margin-bottom: 8px;}
 .feed_pop .feed_con .cont_box>.msg_write_box{position: absolute;width: 100%;left: 0;bottom: 0;}
 .feed_pop .btn_feed_close {position: absolute; right: 100px; top: 0; width: 40px; height: 40px; background: url(../images/ic_close_w.svg) no-repeat 50% 50%; text-indent: -9999px;}
