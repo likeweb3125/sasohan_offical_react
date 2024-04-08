@@ -43,10 +43,9 @@ const ManagerList = () => {
 
     //매니저 리스트 가져오기
     const getManagerList = (page, more, search) => {
-
-        //내가누른 좋아요보기 체크시에만 헤더값 넣기
+        //내가누른 좋아요보기 체크시 or 로그인시에만 헤더값 넣기
         let headers = {};
-        if(likeCheck){
+        if(likeCheck || user.userLogin){
             headers = {
                 Authorization: `Bearer ${user.userToken}`,
             }
