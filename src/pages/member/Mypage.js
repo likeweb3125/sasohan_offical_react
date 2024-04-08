@@ -64,7 +64,7 @@ const Mypage = () => {
     const [getRank, setGetRank] = useState(false);
     const [myBasicInfo, setMyBasicInfo] = useState(false);
     const [deltImgList, setDeltImgList] = useState([]);
-    const [allAreaCheck, setAllAreaCheck] = useState(true);
+    const [allAreaCheck, setAllAreaCheck] = useState(false);
     const [areaList, setAreaList] = useState([]);
     const [areaList2, setAreaList2] = useState([]);
     const [area, setArea] = useState('');
@@ -536,6 +536,19 @@ const Mypage = () => {
     },[address]);
 
 
+    //이상형 선호지역 변경시
+    useEffect(()=>{
+        const newError = {...error};
+        if(allAreaCheck){
+            newError.area = false;
+        }else if(!allAreaCheck && areaSelectList.length >= 3){
+            newError.area = false;
+        }
+
+        setError(newError);
+    },[allAreaCheck, areaSelectList]);
+
+
     //나의관심사 체크박스
     const likeCheck = (checked, value) => {
         if (checked) {
@@ -946,6 +959,9 @@ const Mypage = () => {
 
         //이상형 정보
         if(tabOn === 2){
+            if(!allAreaCheck && areaSelectList.length < 3){
+                newError.area = true;
+            }
             if(!values.t_height1 || values.t_height1.length === 0){
                 newError.t_height1 = true;
             }
@@ -1101,6 +1117,16 @@ const Mypage = () => {
             tab = 1;
         }
         //이상형 정보
+        else if(!allAreaCheck && areaSelectList.length < 3){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'선호지역은 전지역 또는 최소 3개를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            tab = 2;
+        }
         else if(!values.t_height1 || values.t_height1.length === 0){
             setConfirm(true);
             dispatch(confirmPop({
@@ -1233,8 +1259,6 @@ const Mypage = () => {
         }else{
             addr = address;
         }
-
-     
 
         const body = {
             m_address: addr,

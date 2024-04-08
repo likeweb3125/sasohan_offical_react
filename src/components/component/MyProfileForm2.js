@@ -47,7 +47,7 @@ const MyProfileForm2 = (
                 </label>
             </div>
             <div className="address_box flex_between">
-                <div className="input_box">
+                <div className={`input_box f_18 light${error.area ? " error" : ""}`}>
                     <select 
                         value={area} 
                         onChange={(e)=>{
@@ -63,7 +63,7 @@ const MyProfileForm2 = (
                         })}
                     </select>
                 </div>
-                <div className="input_box">
+                <div className={`input_box f_18 light${error.area ? " error" : ""}`}>
                     <select 
                         value={area2} 
                         onChange={(e)=>{

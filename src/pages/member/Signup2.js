@@ -66,6 +66,12 @@ const Signup2 = () => {
     const box1Ref = useRef(null);
     const box2Ref = useRef(null);
     const box3Ref = useRef(null);
+    const [allAreaCheck, setAllAreaCheck] = useState(true);
+    const [areaList, setAreaList] = useState([]);
+    const [areaList2, setAreaList2] = useState([]);
+    const [area, setArea] = useState('');
+    const [area2, setArea2] = useState('');
+    const [areaSelectList, setAreaSelectList] = useState([]);
 
 
     // Confirm팝업 닫힐때
@@ -118,7 +124,8 @@ const Signup2 = () => {
         .then((res)=>{
             if(res.status === 200){
                 const data = res.data;
-                setAddressList(data);
+                setAddressList(data);  //나의프로필 - 거주지
+                setAreaList(data);     //이상형프로필 - 선호지역
             }
         })
         .catch((error) => {
@@ -140,6 +147,27 @@ const Signup2 = () => {
         .then((res)=>{
             if(res.status === 200){
                 setAddressList2(res.data);
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        })
+    };
+
+
+    //주소 시,도 셀렉트박스 선택시 구,군 가져오기 (이상형프로필 - 선호지역)
+    const getArea2 = (code) => {
+        axios.get(`${m_address2.replace(':parent_local_code',code)}`)
+        .then((res)=>{
+            if(res.status === 200){
+                setAreaList2(res.data);
             }
         })
         .catch((error) => {
@@ -293,6 +321,19 @@ const Signup2 = () => {
         newError.address = false;
         setError(newError);
     },[address]);
+
+
+    //이상형 선호지역 변경시
+    useEffect(()=>{
+        const newError = {...error};
+        if(allAreaCheck){
+            newError.area = false;
+        }else if(!allAreaCheck && areaSelectList.length >= 3){
+            newError.area = false;
+        }
+
+        setError(newError);
+    },[allAreaCheck, areaSelectList]);
 
 
     //아이디 중복확인
@@ -691,6 +732,129 @@ const Signup2 = () => {
     //이미지 첨부-----------------------------------------
 
 
+    //이상형 프로필 선호지역 전지역체크박스 체크시
+    const onAllAreaCheckHandler = (checked) => {
+        if(checked){
+            setAllAreaCheck(true);
+
+            setArea('');
+            setArea2('');
+            setAreaSelectList([]); //선택한지역 리스트 삭제
+        }else{
+            setAllAreaCheck(false);
+        }
+    };
+
+
+    //이상형 프로필 선호지역 시,도 변경시
+    const onAreaChangeHandler = (e) => {
+        const val = e.currentTarget.value;
+        const code = e.target.options[e.target.selectedIndex].getAttribute("data-code");
+        setArea(val);
+        getArea2(code);
+
+        setArea2('');
+
+        if(val == "세종특별자치시" && !areaSelectList.includes("세종")){
+            if(areaSelectList.length > 9){
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'선호지역은 최대 10개까지만 선택해주세요.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            }else{
+                const updatedList = [...areaSelectList];
+                    updatedList.push("세종");
+                setAreaSelectList(updatedList);
+            }
+        }
+    };
+
+
+    //이상형 프로필 선호지역 구,군 변경시
+    const onArea2ChangeHandler = (e) => {
+        const val = e.currentTarget.value;
+        setArea2(val);
+
+        let address1_txt = area;
+        if(address1_txt === "강원도"){
+            address1_txt = "강원";
+        }
+        if(address1_txt === "경기도"){
+            address1_txt = "경기";
+        }
+        if(address1_txt === "경상남도"){
+            address1_txt = "경남";
+        }
+        if(address1_txt === "경상북도"){
+            address1_txt = "경북";
+        }
+        if(address1_txt === "전라남도"){
+            address1_txt = "전남";
+        }
+        if(address1_txt === "전라북도"){
+            address1_txt = "전북";
+        }
+        if(address1_txt === "충청남도"){
+            address1_txt = "충남";
+        }
+        if(address1_txt === "충청북도"){
+            address1_txt = "충북";
+        }
+        if(address1_txt.includes("광역시")){
+            address1_txt = address1_txt.replace("광역시","");
+        }
+        if(address1_txt.includes("특별시")){
+            address1_txt = address1_txt.replace("특별시","");
+        }
+        if(address1_txt.includes("특별자치시")){
+            address1_txt = address1_txt.replace("특별자치시","");
+        }
+        if(address1_txt.includes("특별자치도")){
+            address1_txt = address1_txt.replace("특별자치도","");
+        }
+
+        if(val.length > 0){
+            if(areaSelectList.length > 9){
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'선호지역은 최대 10개까지만 선택해주세요.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            }else{
+                const txt = address1_txt + " " + val;
+                if(!areaSelectList.includes(txt)){
+                    const updatedList = [...areaSelectList];
+                        updatedList.push(txt);
+                    setAreaSelectList(updatedList);
+                }
+            }
+        }  
+    };
+
+
+    //이상형 프로필 선호지역 삭제하기
+    const onAreaDeltHandler = (idx) => {
+        // areaSelectList 배열에서 특정 인덱스의 값을 삭제하고 새로운 배열을 생성
+        const updatedList = areaSelectList.filter((_, index) => index !== idx);
+
+        // areaSelectList 상태를 새로운 배열로 업데이트
+        setAreaSelectList(updatedList);
+    };
+
+
+    //이상형 프로필 선호지역 값 변경시 전지역 체크박스값 변경
+    useEffect(()=>{
+        if(areaSelectList.length > 0){
+            setAllAreaCheck(false);
+        }
+    },[areaSelectList]);
+
+
     //입력값 체크
     const errorCheck = () => {
         const newError = {...error};
@@ -759,6 +923,9 @@ const Signup2 = () => {
             newError.m_motive = true;
         }
         //이상형 정보
+        if(!allAreaCheck && areaSelectList.length < 3){
+            newError.area = true;
+        }
         if(!values.t_height1 || values.t_height1.length === 0){
             newError.t_height1 = true;
         }
@@ -998,6 +1165,15 @@ const Signup2 = () => {
             }));
         }
         //이상형 정보
+        else if(!allAreaCheck && areaSelectList.length < 3){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'선호지역은 전지역 또는 최소 3개를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
         else if(!values.t_height1 || values.t_height1.length === 0){
             setConfirm(true);
             dispatch(confirmPop({
@@ -1092,7 +1268,14 @@ const Signup2 = () => {
         if(feedImgNameList.length > 0){
             feedImg = feedImgNameList[0];
         }
-        
+
+
+        let address_detail = [];
+        if(allAreaCheck){
+            address_detail = ['전지역'];
+        }else{
+            address_detail = areaSelectList;
+        }
 
         const body = {
             m_name: realData.m_name,
@@ -1126,6 +1309,7 @@ const Signup2 = () => {
             t_religion: values.t_religion,
             app_token: "",
             feed_profile_image: feedImg,
+            m_address_detail: address_detail
         };
 
         axios.post(`${m_join}`,body)
@@ -1246,6 +1430,17 @@ const Signup2 = () => {
                             <p className="tit"><strong>3. 이상형 정보</strong>를 입력해 보세요.</p>
                             <ul className="form_ul2">
                                 <MyProfileForm2
+                                    allAreaCheck={allAreaCheck}
+                                    onAllAreaCheckHandler={onAllAreaCheckHandler}
+                                    areaList={areaList}
+                                    areaList2={areaList2}
+                                    area={area}
+                                    area2={area2}
+                                    onAreaChangeHandler={onAreaChangeHandler}
+                                    onArea2ChangeHandler={onArea2ChangeHandler}
+                                    areaSelectList={areaSelectList}
+                                    onAreaDeltHandler={onAreaDeltHandler}
+
                                     values={values}
                                     onInputChangeHandler={onInputChangeHandler}
                                     error={error}
