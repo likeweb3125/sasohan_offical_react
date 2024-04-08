@@ -155,11 +155,21 @@ const ManagerList = () => {
             })
             .then((res)=>{
                 if(res.status === 200){
+                    const data = res.data;
+                    const flag = data.flag;
+                    let count;
                     const list = [...managerList];
                     const index = list.findIndex((item)=>item.manager_id == m_id);
                     const newManagerList = list;
-                    newManagerList[index].fv_cnt = newManagerList[index].fv_cnt+1;
-                    newManagerList[index].fv_flag = true;
+
+                    if(flag){
+                        count = newManagerList[index].fv_cnt+1;
+                    }else{
+                        count = newManagerList[index].fv_cnt-1;
+                    }
+
+                    newManagerList[index].fv_cnt = count;
+                    newManagerList[index].fv_flag = flag;
                     setManagerList(newManagerList);
                 }
             })

@@ -163,11 +163,21 @@ const AllFeed = () => {
             })
             .then((res)=>{
                 if(res.status === 200){
+                    const data = res.data;
+                    const flag = data.flag;
+                    let count;
                     const list = [...feedList];
                     const index = list.findIndex((item)=>item.idx === idx);
                     const newFeedList = list;
-                    newFeedList[index].fv_cnt = newFeedList[index].fv_cnt+1;
-                    newFeedList[index].fv_flag = true;
+
+                    if(flag){
+                        count = newFeedList[index].fv_cnt+1;
+                    }else{
+                        count = newFeedList[index].fv_cnt-1;
+                    }
+
+                    newFeedList[index].fv_cnt = count;
+                    newFeedList[index].fv_flag = flag;
                     setFeedList(newFeedList);
                 }
             })
