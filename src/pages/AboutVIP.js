@@ -182,7 +182,7 @@ const AboutVIP = () => {
                                 return(
                                     <SwiperSlide key={i}>
                                         <div className="img_box">
-                                            <img src="https://jja-gg.com/upload/board/Imeeting20240206162435_1.________.jpg" alt="vip 회원" />
+                                            <img src={cont.profile} alt="vip 회원" />
                                             <p>실제 사소한 VIP 회원입니다.</p>
                                         </div>
                                     </SwiperSlide>
