@@ -565,7 +565,7 @@ const ManagerDetail = () => {
                                         setCommentValue(val);
                                     }}
                                     btnTxt='보내기'
-                                    onEnterHandler={onCommentCheckHandler}
+                                    onEnterHandler={onTextCheckHandler}
                                     disabled={user.userLogin ? false : true}
                                 />
                             </div>
