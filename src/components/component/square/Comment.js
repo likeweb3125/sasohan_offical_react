@@ -20,18 +20,22 @@ const Comment = ({
     replyBoxOn,
     onReplyBoxClickHandler,
     commentEditOn,
+    onFeedProfileClickHandler,
 }) => {
     const user = useSelector((state)=>state.user);
     
     return(<>
         <div className="comment">
             <div className="name_box flex_between">
-                <div className="flex">
-                    <div className={`profile_img_box${data.rank ? ' class_'+data.class_number : ''}`}>
-                        <div className='img'>
-                            <div><img src={data.photo && data.photo.length > 0 ? data.photo : none_profile} alt='프로필이미지' /></div>
+                <div className="flex pointer" onClick={()=>onFeedProfileClickHandler(data)}>
+                    {data.user_level == 'U' ? //일반회원일때
+                        <div className={`profile_img_box${data.rank ? ' class_'+data.class_number : ''}`}>
+                            <div className='img'>
+                                <div><img src={data.photo && data.photo.length > 0 ? data.photo : none_profile} alt='프로필이미지' /></div>
+                            </div>
                         </div>
-                    </div>
+                        :data.user_level == 'M' && <div className="img_box"><img src={data.photo && data.photo.length > 0 ? data.photo : none_profile} alt='프로필이미지' /></div>
+                    }
                     <p className="name">{data.m_n_name}</p>
                 </div>
                 <EditBox 
@@ -85,6 +89,7 @@ const Comment = ({
                             onDeltHandler={onDeltHandler}
                             btnGray={btnGray}
                             editBtn={editBtn}
+                            onFeedProfileClickHandler={onFeedProfileClickHandler}
                             //답글쓰기
                             replyBoxOn={replyBoxOn}
                             replyValue={replyValue}

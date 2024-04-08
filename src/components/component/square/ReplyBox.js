@@ -19,7 +19,8 @@ const ReplyBox = ({
     onReplyChangeHandler,
     onReplyHandler,
     onReplyBoxClickHandler,
-    commentEditOn
+    commentEditOn,
+    onFeedProfileClickHandler
 }) => {
     const user = useSelector((state)=>state.user);
 
@@ -28,7 +29,7 @@ const ReplyBox = ({
             <p className="to_name_txt">{data.to_name}</p>
             <div className="comment">
                 <div className="name_box flex_between">
-                    <div className="flex">
+                    <div className="flex pointer" onClick={()=>onFeedProfileClickHandler(data)}>
                         <div className={`profile_img_box${data.rank ? ' class_'+data.class_number : ''}`}>
                             <div className='img'>
                                 <div><img src={data.photo && data.photo.length > 0 ? data.photo : none_profile} alt='프로필이미지' /></div>

@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
-import { confirmPop, feedPop, feedAddPop, loadingPop, feedPopNoList } from "../../store/popupSlice";
+import { confirmPop, feedPop, feedAddPop, loadingPop, feedPopNoList, feedProfilePop } from "../../store/popupSlice";
 import { feedRefresh } from "../../store/commonSlice";
 import ListTopTitleBox from "../../components/component/square/ListTopTitleBox";
 import GuestBookBox from "../../components/component/square/GuestBookBox";
@@ -401,6 +401,29 @@ const ManagerDetail = () => {
     };
 
 
+    //방명록 프로필클릭시
+    const onFeedProfileClickHandler = (info) => {
+        //일반회원일때
+        if(info.user_level == 'U'){
+            const data = {
+                m_n_name : info.m_n_name,
+                m_f_photo: info.photo,
+                M_N_Name_modify: info.M_N_Name_modify,
+                rank: info.rank,
+                level: info.level,
+                class_number: info.class_number,
+                class: info.class,
+                diff_rank: info.diff_rank,
+            };
+            dispatch(feedProfilePop({feedProfilePop:true, feedProfilePopData:data}));
+        }
+        //매니저일때
+        if(info.user_level == 'M'){
+            navigate(`/square/manager/${info.m_id}`);
+        }
+    };
+
+
     //피드  ------------------------------------
     //피드더보기버튼 클릭시 다음페이지 피드리스트 가져오기
     const moreBtnHandler = () => {
@@ -458,7 +481,6 @@ const ManagerDetail = () => {
     };
     
 
-
     
     return(<>
         <div className="gray_wrap">
@@ -515,6 +537,7 @@ const ManagerDetail = () => {
                                                                 onEditBoxClickHandler={onEditBoxClickHandler}
                                                                 onCommentDeltHandler={onCommentDeltHandler}
                                                                 btnGray={true}
+                                                                onFeedProfileClickHandler={onFeedProfileClickHandler}
                                                             />
                                                         </li>
                                                     );

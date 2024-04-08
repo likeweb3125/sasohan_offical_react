@@ -2,13 +2,18 @@ import EditBox from "./EditBox";
 import none_profile from "../../../images/none_profile2.jpg";
 
 
-const GuestBookBox = ({data, editBoxOn, editBox, onEditBoxClickHandler, onCommentEditHandler, onCommentDeltHandler, btnGray}) => {
+const GuestBookBox = ({data, editBoxOn, editBox, onEditBoxClickHandler, onCommentEditHandler, onCommentDeltHandler, btnGray, onFeedProfileClickHandler}) => {
     return(<>
-        <div className={`profile_img_box${data.rank ? ' class_'+data.class_number : ''}`}>
-            <div className='img'>
-                <div><img src={data.photo && data.photo.length > 0 ? data.photo : none_profile} alt='프로필이미지' /></div>
+        {data.user_level == 'U' ? //일반회원일때
+            <div className={`profile_img_box pointer${data.rank ? ' class_'+data.class_number : ''}`}
+                onClick={()=>onFeedProfileClickHandler(data)}
+            >
+                <div className='img'>
+                    <div><img src={data.photo && data.photo.length > 0 ? data.photo : none_profile} alt='프로필이미지' /></div>
+                </div>
             </div>
-        </div>
+            : data.user_level == 'M' && <div className="img_box"><img src={data.photo && data.photo.length > 0 ? data.photo : none_profile} alt='프로필이미지' /></div>
+        }
         <div className="txt_box">
             <p className="name bold bp8">{data.m_n_name}</p>
             <div className="flex_bottom flex_wrap">

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
-import { feedPop, feedAddPop, confirmPop, loadingPop } from "../../store/popupSlice";
+import { feedPop, feedAddPop, confirmPop, loadingPop, feedProfilePop } from "../../store/popupSlice";
 import { feedRefresh } from "../../store/commonSlice";
 import EditBox from "../component/square/EditBox";
 import Comment from "../component/square/Comment";
@@ -533,6 +533,30 @@ const FeedPop = () => {
     };
 
 
+    //댓글 프로필클릭시
+    const onFeedProfileClickHandler = (info) => {
+        //일반회원일때
+        if(info.user_level == 'U'){
+            const data = {
+                m_n_name : info.m_n_name,
+                m_f_photo: info.photo,
+                M_N_Name_modify: info.M_N_Name_modify,
+                rank: info.rank,
+                level: info.level,
+                class_number: info.class_number,
+                class: info.class,
+                diff_rank: info.diff_rank,
+            };
+            dispatch(feedProfilePop({feedProfilePop:true, feedProfilePopData:data}));
+        }
+        //매니저일때
+        if(info.user_level == 'M'){
+            closePopHandler();
+            navigate(`/square/manager/${info.m_id}`);
+        }
+    };
+
+
 
     return(<>
         <div className="flex_center pop_wrap feed_pop">
@@ -657,6 +681,7 @@ const FeedPop = () => {
                                                         onEditHandler={onCommentEditHandler}
                                                         onDeltHandler={onCommentDeltHandler}
                                                         btnGray={true}
+                                                        onFeedProfileClickHandler={onFeedProfileClickHandler}
                                                         // editBtn={true} -> 댓글수정기능 없음
                                                         //답글
                                                         replyValue={replyValue}
