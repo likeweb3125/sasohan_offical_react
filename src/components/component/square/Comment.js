@@ -6,6 +6,7 @@ import none_profile from "../../../images/none_profile.jpg";
 
 
 const Comment = ({
+    feedData,
     data, 
     editBoxOn, 
     editBox,
@@ -77,13 +78,26 @@ const Comment = ({
         {/* 답댓글 */}
         <ul className="reply_list">
             {data.comments.map((cont,i)=>{
+                //댓글 수정,삭제버튼 노출
+                let editBoxShow = false;
+                if(user.userLogin){
+                    //일반회원일때
+                    if(user.userInfo.user_level == 'U' && user.userInfo.m_id === cont.m_id){
+                        editBoxShow = true;
+                    }
+                    //매니저일때
+                    if(user.userInfo.user_level == 'M' && (user.userInfo.m_id === feedData.manager_id || user.userInfo.m_id === cont.m_id)){
+                        editBoxShow = true;
+                    }
+                }
+
                 return(
                     <li key={i}>
                         <ReplyBox 
                             data={cont}
                             editBoxIdx={cont.comment_idx}
                             editBoxOn={editBoxOn}
-                            editBox={editBox}
+                            editBox={editBoxShow}
                             onEditBoxClickHandler={onEditBoxClickHandler}
                             onEditHandler={onEditHandler}
                             onDeltHandler={onDeltHandler}

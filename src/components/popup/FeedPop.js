@@ -674,6 +674,7 @@ const FeedPop = () => {
                                             return(
                                                 <li key={i}>
                                                     <Comment 
+                                                        feedData={feedData}
                                                         data={cont}
                                                         editBoxOn={editBoxOn}
                                                         editBox={editBoxShow}
