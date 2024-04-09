@@ -179,7 +179,7 @@ const ManagerDetail = () => {
         getProfile();       //매니저 프로필 가져오기
         getCommentList();   //방명록 리스트 가져오기
         getFeedList();      //피드 리스트 가져오기
-    },[]);
+    },[m_id]);
 
 
     useEffect(()=>{
@@ -256,24 +256,28 @@ const ManagerDetail = () => {
     //방명록  ------------------------------------
     //방명록 연속 작성인지 체크 (최대 2번까지만 가능)
     const onCommentCheckHandler = () => {
-        if(commentList.length > 1){
-            const last = commentList.length-1;
-            const last2 = last-1;
-            const lastId = commentList[last].m_id;
-            const last2Id = commentList[last2].m_id;
-            if(lastId === last2Id && lastId === user.userInfo.m_id){
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'방명록은 연속해서 최대 2번까지만 작성이 가능합니다.',
-                    confirmPopBtn:1,
-                }));
-                setConfirm(true);
-            }else{
-               onTextCheckHandler(); 
-            }
-        }else{
+        if(user.userInfo.m_id === m_id){
             onTextCheckHandler();
+        }else{
+            if(commentList.length > 1){
+                const last = commentList.length-1;
+                const last2 = last-1;
+                const lastId = commentList[last].m_id;
+                const last2Id = commentList[last2].m_id;
+                if(lastId === last2Id && lastId === user.userInfo.m_id){
+                    dispatch(confirmPop({
+                        confirmPop:true,
+                        confirmPopTit:'알림',
+                        confirmPopTxt:'방명록은 연속해서 최대 2번까지만 작성이 가능합니다.',
+                        confirmPopBtn:1,
+                    }));
+                    setConfirm(true);
+                }else{
+                onTextCheckHandler(); 
+                }
+            }else{
+                onTextCheckHandler();
+            }
         }
     };
 
@@ -533,7 +537,7 @@ const ManagerDetail = () => {
                                                             editBox = true;
                                                         }
                                                         //매니저일때
-                                                        else if(user.userInfo.user_level == 'M' && user.userInfo.m_id === m_id){
+                                                        if(user.userInfo.user_level == 'M' && (user.userInfo.m_id === m_id || user.userInfo.m_id === cont.m_id)){
                                                             editBox = true;
                                                         }
                                                     }
@@ -565,7 +569,7 @@ const ManagerDetail = () => {
                                         setCommentValue(val);
                                     }}
                                     btnTxt='보내기'
-                                    onEnterHandler={onTextCheckHandler}
+                                    onEnterHandler={onCommentCheckHandler}
                                     disabled={user.userLogin ? false : true}
                                 />
                             </div>

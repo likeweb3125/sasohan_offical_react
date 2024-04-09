@@ -301,7 +301,7 @@ const AboutVIP = () => {
                                 </li>
                                 <li>
                                     <div><img src={vip_sect5_img4} alt="이미지" /></div>
-                                    <p>데이트 시 <br/>서제스트 지원금 수령</p>
+                                    <p>VIP 추천 시<br/>챠밍쉐어링 특전 제공</p>
                                 </li>
                             </ul>
                             <div className="btn_box">

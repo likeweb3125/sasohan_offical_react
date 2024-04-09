@@ -46,7 +46,7 @@ exports.enum_api_uri = {
     feed_comment: `${api_uri}/v1/manager-feed/feed-comment-regist`,
     feed_comment_modify: `${api_uri}/v1/manager-feed/feed-comment-modify`,
     feed_comment_delt: `${api_uri}/v1/manager-feed/feed-comment-delete/:idx`,
-    text_check: `${api_uri}/v1/common/sentiment`,
+    text_check: `${api_uri}/v1/common/text-filter`,
     //매니저
     manager_list: `${api_uri}/v1/main-list/manager-list`,
     manager_favorite: `${api_uri}/v1/manager-feed/manager-favorite`,

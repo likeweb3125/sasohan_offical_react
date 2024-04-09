@@ -666,7 +666,7 @@ const FeedPop = () => {
                                                     editBoxShow = true;
                                                 }
                                                 //매니저일때
-                                                if(user.userInfo.user_level == 'M' && user.userInfo.m_id === feedData.manager_id){
+                                                if(user.userInfo.user_level == 'M' && (user.userInfo.m_id === feedData.manager_id || user.userInfo.m_id === cont.m_id)){
                                                     editBoxShow = true;
                                                 }
                                             }

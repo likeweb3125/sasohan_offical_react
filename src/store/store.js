@@ -1,6 +1,6 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import storage from 'redux-persist/lib/storage';
-import sessionStorage from 'redux-persist/es/storage/session';
+// import sessionStorage from 'redux-persist/es/storage/session';
 import { combineReducers } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 import user from './userSlice';
@@ -15,7 +15,7 @@ const reducers = combineReducers({
 
 const persistConfig = {
   key: 'root',
-  storage : sessionStorage,
+  storage,
   whitelist: ['user']
 };
 

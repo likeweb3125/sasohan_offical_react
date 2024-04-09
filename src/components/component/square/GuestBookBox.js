@@ -12,7 +12,7 @@ const GuestBookBox = ({data, editBoxOn, editBox, onEditBoxClickHandler, onCommen
                     <div><img src={data.photo && data.photo.length > 0 ? data.photo : none_profile} alt='프로필이미지' /></div>
                 </div>
             </div>
-            : data.user_level == 'M' && <div className="img_box"><img src={data.photo && data.photo.length > 0 ? data.photo : none_profile} alt='프로필이미지' /></div>
+            : data.user_level == 'M' && <div className="img_box pointer" onClick={()=>onFeedProfileClickHandler(data)}><img src={data.photo && data.photo.length > 0 ? data.photo : none_profile} alt='프로필이미지' /></div>
         }
         <div className="txt_box">
             <p className="name bold bp8">{data.m_n_name}</p>
