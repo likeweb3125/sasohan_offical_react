@@ -528,7 +528,7 @@
     .fixed_box{right: 12px;bottom: 150px;}
     .fixed_box .list_sns li a{height: 42px;background-size: 20px !important;}
     .fixed_box .btn_top{width: 40px;height: 40px;background-size: 100%;}
-    .btn_apply_foot{width: 72px;height: 72px;border-radius: 12px 0 0 12px;font-size: 16px;bottom: 70px;/*padding-top: 16px;*/}
+    .btn_apply_foot{width: 72px;height: 72px;border-radius: 12px 0 0 12px;font-size: 16px;bottom: 70px;padding-top: 16px;}
 
     /* 팝업 */
     .pop_wrap .pop_cont{width: calc(100% - 40px);border-width: 2px;border-radius: 8px;padding: 28px 20px;}

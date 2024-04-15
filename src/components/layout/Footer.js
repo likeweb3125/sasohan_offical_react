@@ -132,10 +132,10 @@ const Footer = () => {
             <button type="button" className="btn_top" onClick={scrollToTop}></button>
         </div>
         {!user.userLogin &&
-            <button type='button' className='btn_apply_foot' onClick={()=>{
-                dispatch(applyPop(true));
-            }}>소개팅 <br/>신청</button>
-            // <Link to={'/member/signup'} className='btn_apply_foot'>소개팅 <br/>신청</Link>
+            // <button type='button' className='btn_apply_foot' onClick={()=>{
+            //     dispatch(applyPop(true));
+            // }}>소개팅 <br/>신청</button>
+            <Link to={'/member/signup'} className='btn_apply_foot'>소개팅 <br/>신청</Link>
         }
 
         {/* confirm팝업 */}

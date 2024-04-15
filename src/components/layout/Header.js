@@ -147,7 +147,7 @@ const Header = () => {
                 <nav className="gnb_wrap">
                     <ul className="gnb">
                         <li className={menuOn === 1 ? "on" : ""}><Link to="/">About 사소한</Link></li>
-                        {/* <li className={menuOn === 2 ? "on" : ""}><Link to="/about-vip">VIP 소개팅</Link></li>
+                        <li className={menuOn === 2 ? "on" : ""}><Link to="/about-vip">VIP 소개팅</Link></li>
                         <li className={`is_submenu${menuOn === 3 ? " on" : ""}`}>
                             <Link to="/square/all-feed">사소한 스퀘어</Link>
                             <div className='submenu_box'>
@@ -156,12 +156,12 @@ const Header = () => {
                                     <li><Link to="/square/manager-list">사소한 매니저</Link></li>
                                 </ul>
                             </div>
-                        </li> */}
+                        </li>
                         <li className={menuOn === 4 ? "on" : ""}><Link to="/ranking">사소한 랭킹</Link></li>
                     </ul>
                 </nav>
                 <div className='utill_wrap flex'>
-                    {login &&
+                    {login ?
                         <div className='profile_box is_submenu'>
                             <div className='flex'>
                                 <div className={`profile_img_box${user.userRank ? ' class_'+userClassNum : ''}`}>
@@ -182,16 +182,16 @@ const Header = () => {
                                 </ul>
                             </div>
                         </div>
-                        // :   <ul className='link_ul flex'>
-                        //         <li><Link to={'/member/login'}>로그인</Link></li>
-                        //         <li><Link to={'/member/signup'}>회원가입</Link></li>
-                        //     </ul>
+                        :   <ul className='link_ul flex'>
+                                <li><Link to={'/member/login'}>로그인</Link></li>
+                                <li><Link to={'/member/signup'}>회원가입</Link></li>
+                            </ul>
                     }
                     {!login &&
-                        <button type='button' className='btn_apply' onClick={()=>{
-                            dispatch(applyPop(true));
-                        }}>소개팅 신청</button>
-                        // <Link to={'/member/signup'} className='btn_apply'>소개팅 신청</Link>
+                        // <button type='button' className='btn_apply' onClick={()=>{
+                        //     dispatch(applyPop(true));
+                        // }}>소개팅 신청</button>
+                        <Link to={'/member/signup'} className='btn_apply'>소개팅 신청</Link>
                     }
                 </div>
                 <button type='button' className='btn_menu' onClick={()=>setMenuWrap(true)}>모바일메뉴열기버튼</button>
@@ -204,7 +204,7 @@ const Header = () => {
                         <button type='button' className='btn_close' onClick={()=>setMenuWrap(false)}>모바일메뉴닫기버튼</button>
                     </div>
                     <div className='scroll_wrap'>
-                        {login &&
+                        {login ?
                             <div className='profile_box flex_between'>
                                 <div>
                                     <div className='flex pointer'
@@ -245,16 +245,16 @@ const Header = () => {
                                 </div>
                                 <button type='button' className='btn_logout' onClick={logoutHandler}>로그아웃</button>
                             </div>
-                            // :   <ul className='link_ul flex_between'>
-                            //         <li><Link to={'/member/login'}>로그인</Link></li>
-                            //         <li><Link to={'/member/signup'}>회원가입</Link></li>
-                            //     </ul>
+                            :   <ul className='link_ul flex_between'>
+                                    <li><Link to={'/member/login'}>로그인</Link></li>
+                                    <li><Link to={'/member/signup'}>회원가입</Link></li>
+                                </ul>
                         }
                         <ul className='menu_list'>
                             <li className={menuOn === 1 ? "on" : ""}>
                                 <Link to="/">About 사소한</Link>
                             </li>
-                            {/* <li className={menuOn === 2 ? "on" : ""}>
+                            <li className={menuOn === 2 ? "on" : ""}>
                                 <Link to="/about-vip">VIP 소개팅</Link>
                             </li>
                             <li className={menuOn === 3 ? "on" : ""}>
@@ -267,7 +267,7 @@ const Header = () => {
                                         <Link to={'/square/manager-list'}>사소한 매니저</Link>
                                     </li>
                                 </ul>
-                            </li> */}
+                            </li>
                             <li className={menuOn === 4 ? "on" : ""}>
                                 <Link to="/ranking">사소한 랭킹</Link>
                             </li>

@@ -183,7 +183,7 @@ const AboutVIP = () => {
                                     <SwiperSlide key={i}>
                                         <div className="img_box">
                                             <img src={cont.profile} alt="vip 회원" />
-                                            <p>실제 사소한 VIP 회원입니다.</p>
+                                            {/* <p>실제 사소한 VIP 회원입니다.</p> */}
                                         </div>
                                     </SwiperSlide>
                                 );

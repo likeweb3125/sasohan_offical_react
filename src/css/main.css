@@ -45,7 +45,7 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .over_hidden{overflow: hidden;}
 .pointer{cursor: pointer;}
 /* profile_img_box */
-.profile_img_box{width: 40px;height: 40px;border-radius: 50%;overflow: hidden;padding: 3px;}
+.profile_img_box{width: 40px;height: 40px;border-radius: 50%;overflow: hidden;padding: 2px;}
 .profile_img_box.class_1{background: linear-gradient(222deg, #D90000 -3.36%, #5A0101 48.58%, #D90000 103.87%);}
 .profile_img_box.class_2{background: linear-gradient(225deg, #BDF3EF 0%, #12C2B7 48.44%, #BDF3EF 100%);}
 .profile_img_box.class_3{background: linear-gradient(161deg, #F5E064 0%, #E5C33C 24%, #AE7839 51.5%, #CF9A17 74%, #F5E064 100%);}
@@ -531,7 +531,7 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .fixed_box .list_sns li:nth-child(2) a{background: url(../images/ic_insta.png) no-repeat center;}
 .fixed_box .list_sns li:nth-child(3) a{background: url(../images/ic_blog.png) no-repeat center;}
 .fixed_box .btn_top{width: 60px;height: 60px;background: url(../images/btn_top.svg) no-repeat center;}
-.btn_apply_foot{position: fixed;z-index: 100; right: 0;bottom: 20px; width: 100px;height: 100px;background: linear-gradient(255.03deg, #6902FE 11.16%, #F530EB 89.36%);color: #fff;font-size: 20px;font-weight: 700;border-radius: 20px 0 0 20px;display: none;/*padding-top: 23px;*/text-align: center;}
+.btn_apply_foot{position: fixed;z-index: 100; right: 0;bottom: 20px; width: 100px;height: 100px;background: linear-gradient(255.03deg, #6902FE 11.16%, #F530EB 89.36%);color: #fff;font-size: 20px;font-weight: 700;border-radius: 20px 0 0 20px;display: none;padding-top: 23px;text-align: center;}
 
 
 /************************* popup *****************************/
