@@ -5,7 +5,7 @@ import manager_tag_c from '../../../images/manager_tag_c.svg';
 
 const Manager = ({data, likeBtnClickHandler, managerClickHandler}) => {
     return(
-        <div className="feed_box manager">
+        <div className={`feed_box manager${data.manager_type == 'V' ? ' vip' : ''}`}>
             <div className="img_box" onClick={()=>managerClickHandler(data.manager_id)}>
                 <img src={data.photo} alt="피드이미지" />
                 <div className="box flex_center">

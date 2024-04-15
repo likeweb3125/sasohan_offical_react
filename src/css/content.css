@@ -254,6 +254,7 @@
 .feed_box .txt_box .btn_like{position: absolute;width: 50px;height: 50px;background: #fff url(../images/btn_like.png) no-repeat center;border-radius: 50%;right: 28px;top: -25px;font-size: 0;text-indent: -9999px;box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.12);}
 .feed_box .txt_box .btn_like.on{background: #fff url(../images/btn_like_on.png) no-repeat left 4px top 12px;}
 .feed_box.manager .img_box{padding-bottom: 119%;border-radius:0 0 32px 0;}
+.feed_box.manager.vip .img_box{padding-bottom: 100%;}
 .manager_tag{position: absolute;top: 12px;left: 12px;border-radius: 30px;padding: 8px 16px;background: #fff;}
 .manager_tag p{color: #999;font-weight: 800;padding-left: 6px;}
 .manager_tag.charming {background: #6840FD;}
