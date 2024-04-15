@@ -203,7 +203,7 @@
 .mypage_cont{padding: 140px 0;}
 .mypage_cont .top_tit{font-size: 32px;color: #1B171E;width: 100%;padding-bottom: 42px;}
 .mypage_cont .info_box{width: 260px;padding: 40px;}
-.mypage_cont .info_box .profile_img_box{width: 120px;height: 120px;padding: 3px;margin: 0 auto 16px;}
+.mypage_cont .info_box .profile_img_box{width: 120px;height: 120px;padding: 4px;margin: 0 auto 16px;}
 .mypage_cont .info_box .txt_box{text-align: center;}
 .mypage_cont .info_box .txt_box .txt1{font-size: 22px;font-weight: 700;}
 .mypage_cont .info_box .txt_box .txt2{font-weight: 700;color: #6840FD;opacity: 0.6;padding: 8px 0;}
