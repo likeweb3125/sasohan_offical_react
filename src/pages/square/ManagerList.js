@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
-import { confirmPop } from "../../store/popupSlice";
+import { detailPageBack, listPageData, scrollY } from "../../store/commonSlice";
+import { confirmPop, loadingPop } from "../../store/popupSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 import ListTopTitleBox from "../../components/component/square/ListTopTitleBox";
 import ListSearchBox from "../../components/component/square/ListSearchBox";
@@ -20,6 +21,7 @@ const ManagerList = () => {
     const manager_favorite = enum_api_uri.manager_favorite;
     const popup = useSelector((state)=>state.popup);
     const user = useSelector((state)=>state.user);
+    const common = useSelector((state)=>state.common);
     const [confirm, setConfirm] = useState(false);
     const [loginConfirm, setLoginConfirm] = useState(false);
     const [typeCheck, setTypeCheck] = useState('C');
@@ -29,6 +31,8 @@ const ManagerList = () => {
     const [managerList, setManagerList] = useState([]);
     const [pageNo, setPageNo] = useState(1);
     const [moreBtn, setMoreBtn] = useState(false);
+    const [scrollMove, setScrollMove] = useState(false);
+    const [pageBack, setPageBack] = useState(false);
 
 
 
@@ -41,8 +45,53 @@ const ManagerList = () => {
     },[popup.confirmPop]);
 
 
+
+    //상세->목록으로 뒤로가기시 저장되었던 스크롤위치로 이동
+    useEffect(()=>{
+        if(scrollMove){
+            const y = common.scrollY;
+            window.scrollTo(0,y); 
+        }
+    },[scrollMove]);
+
+
+    //상세->목록으로 뒤로가기시 저장되었던 값들로 매니저리스트 가져오기
+    useEffect(()=>{
+        const fetchData = async () => {
+            if(common.detailPageBack){
+                for(let i = 1; i <= common.listPageData.page; i++) {
+                    const isLast = i === common.listPageData.page;
+                    await getManagerList(i, true, isLast);
+                }
+            }
+        };
+
+        fetchData();
+    },[common.detailPageBack]);
+
+
     //매니저 리스트 가져오기
-    const getManagerList = (page, more, search) => {
+    const getManagerList = async (page, more, isLast) => {
+        dispatch(loadingPop(true));
+
+        let type = '';
+        let sort;
+        let favorite;
+        let searchText = '';
+
+        //상세페이지에서 뒤로가기시 저장된 리스트페이지 정보로 조회
+        if(common.detailPageBack){
+            type = common.listPageData.type;
+            sort = common.listPageData.sort;
+            favorite = common.listPageData.favorite;
+            searchText = common.listPageData.search;
+        }else{
+            type = typeCheck;
+            sort = sortTabOn;
+            favorite = likeCheck;
+            searchText = searchValue;
+        }
+
         //내가누른 좋아요보기 체크시 or 로그인시에만 헤더값 넣기
         let headers = {};
         if(likeCheck || user.userLogin){
@@ -51,15 +100,17 @@ const ManagerList = () => {
             }
         }
 
-        axios.get(`${manager_list}?page_no=${page ? page : 1}${'&type='+typeCheck}${sortTabOn === 2 ? '&sort=favorite' : ''}${likeCheck ? '&favorite=1' : ''}${search ? '&search='+searchValue : ''}`,{
-            headers: headers,
-        })
-        .then((res)=>{
+        try {
+            const res = await axios.get(`${manager_list}?page_no=${page ? page : 1}${'&type='+type}${sort === 2 ? '&sort=favorite' : ''}${favorite ? '&favorite=1' : ''}${searchText.length > 0 ? '&search='+searchText : ''}`,{
+                headers: headers,
+            });
             if(res.status === 200){
+                dispatch(loadingPop(false));
+
                 const data = res.data;
                 //더보기버튼 클릭시에만 리스트 추가
                 if(more){
-                    setManagerList([...managerList,...data.result]);
+                    setManagerList(prevManagerList => [...prevManagerList, ...data.result]);
                 }else{
                     setManagerList(data.result);
                 }
@@ -73,9 +124,33 @@ const ManagerList = () => {
                 }else{
                     setMoreBtn(false);
                 }
+
+                //리스트페이지 조회 데이터저장
+                let pageData = {
+                    page: page ? page : 1,
+                    type: type,
+                    sort: sort,
+                    favorite: favorite,
+                    search: searchText,
+                };
+                dispatch(listPageData(pageData));
+
+                //상세페이지에서 뒤로가기시
+                if(isLast){
+                    setSearchValue(searchText);
+                    setTypeCheck(common.listPageData.type);
+                    setSortTabOn(common.listPageData.sort);
+                    setLikeCheck(common.listPageData.favorite);
+
+                    setScrollMove(true);
+                    dispatch(detailPageBack(false));
+
+                    setPageBack(true);
+                }
             }
-        })
-        .catch((error) => {
+        } catch (error) {
+            dispatch(loadingPop(false));
+    
             const err_msg = CF.errorMsgHandler(error);
             dispatch(confirmPop({
                 confirmPop:true,
@@ -84,31 +159,36 @@ const ManagerList = () => {
                 confirmPopBtn:1,
             }));
             setConfirm(true);
-        })
+        }
     };
 
 
     //매니저 리스트 가져오기
     useEffect(()=>{
-        getManagerList();
+        if(!pageBack && !common.detailPageBack){
+            getManagerList();
+        }
     },[typeCheck, sortTabOn, likeCheck]);
 
 
     //매니저타입 체크시
     const typeCheckHandler = (type) => {
         setTypeCheck(type);
+        setPageBack(false);
     };
 
 
     //정렬 탭 클릭시
     const sortTabClickHandler = (idx) => {
         setSortTabOn(idx);
+        setPageBack(false);
     };
 
 
     //내가 누른 좋아요만보기 체크박스 클릭시
     const likeCheckClickHandler = () => {
         setLikeCheck(!likeCheck);
+        setPageBack(false);
     };
 
 
@@ -204,8 +284,11 @@ const ManagerList = () => {
                     </div>;
 
 
+
     //매니저클릭시 해당매니저상세페이지로 이동
     const managerClickHandler = (id) => {
+        setPageBack(false);
+        dispatch(scrollY(window.scrollY)); //현재스크롤위치 저장
         navigate('/square/manager/'+id);
     };
 

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
-import { confirmPop, feedPop, feedPopNoList } from "../../store/popupSlice";
+import { confirmPop, feedPop, feedPopNoList, loadingPop } from "../../store/popupSlice";
 import { feedRefresh } from "../../store/commonSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 import ListTopTitleBox from "../../components/component/square/ListTopTitleBox";
@@ -42,6 +42,8 @@ const AllFeed = () => {
 
     //피드 리스트 가져오기
     const getAllFeed = (page, more, search) => {
+        dispatch(loadingPop(true));
+
         //내가누른 좋아요보기 체크시 or 로그인시에만 헤더값 넣기
         let headers = {};
         if(likeCheck || user.userLogin){
@@ -55,6 +57,8 @@ const AllFeed = () => {
         })
         .then((res)=>{
             if(res.status === 200){
+                dispatch(loadingPop(false));
+
                 const data = res.data;
                 //더보기버튼 클릭시에만 리스트 추가
                 if(more){
@@ -75,6 +79,8 @@ const AllFeed = () => {
             }
         })
         .catch((error) => {
+            dispatch(loadingPop(false));
+            
             const err_msg = CF.errorMsgHandler(error);
             dispatch(confirmPop({
                 confirmPop:true,

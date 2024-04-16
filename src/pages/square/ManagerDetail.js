@@ -5,7 +5,8 @@ import axios from "axios";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
 import { confirmPop, feedPop, feedAddPop, loadingPop, feedPopNoList, feedProfilePop } from "../../store/popupSlice";
-import { feedRefresh } from "../../store/commonSlice";
+import { feedRefresh, detailPageBack } from "../../store/commonSlice";
+import history from "../../config/history";
 import ListTopTitleBox from "../../components/component/square/ListTopTitleBox";
 import GuestBookBox from "../../components/component/square/GuestBookBox";
 import WriteTextareaBox from "../../components/component/square/WriteTextareaBox";
@@ -44,6 +45,22 @@ const ManagerDetail = () => {
     const [editBoxOn, setEditOn] = useState(null);
     const [commentValue, setCommentValue] = useState('');
     const [feedAddBtn, setFeedAddBtn] = useState(false);
+
+
+    //상세페이지 뒤로가기
+    useEffect(() => {
+        const listenBackEvent = () => {
+            dispatch(detailPageBack(true));
+        };
+    
+        const unlistenHistoryEvent = history.listen(({ action }) => {
+            if (action === "POP") {
+                listenBackEvent();
+            }
+        });
+
+        return unlistenHistoryEvent;
+    },[]);
 
 
     // Confirm팝업 닫힐때

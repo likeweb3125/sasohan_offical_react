@@ -10,6 +10,9 @@ const common = createSlice({
         feedRefresh:false,
         myPageRefresh:false,
         logout:false,
+        detailPageBack: false,
+        listPageData: {},
+        scrollY: null,
     },
     reducers:{
         headerMenuOn: (state, action) => {
@@ -33,6 +36,15 @@ const common = createSlice({
         logout: (state, action) => {
             state.logout = action.payload;
         },
+        detailPageBack: (state, action) => {
+            state.detailPageBack = action.payload;
+        },
+        listPageData: (state, action) => {
+            state.listPageData = action.payload;
+        },
+        scrollY: (state, action) => {
+            state.scrollY = action.payload;
+        },
     }
 });
 
@@ -44,5 +56,8 @@ export const {
     feedRefresh,
     myPageRefresh,
     logout,
+    detailPageBack,
+    listPageData,
+    scrollY,
 } = common.actions;
 export default common;
