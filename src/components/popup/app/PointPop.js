@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { appPointPop } from "../../../store/popupSlice";
-import util from "../../../config/util";
 import * as CF from "../../../config/function";
 import ic_point from "../../../images/app/ic_point_big.svg";
 

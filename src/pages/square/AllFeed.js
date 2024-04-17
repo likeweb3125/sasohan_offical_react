@@ -226,7 +226,6 @@ const AllFeed = () => {
             <div className="cont4">
                 <ListTopTitleBox
                     tit='피드 스퀘어'
-                    txt='사소한 회원님들의 성공적인 만남 후기를 만나 보세요!'
                 />
                 <ListSearchBox
                     sortTabOn={sortTabOn}

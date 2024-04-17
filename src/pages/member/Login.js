@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
+import moment from "moment";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
-import util from "../../config/util";
 import { confirmPop, loadingPop } from "../../store/popupSlice";
 import { userLogin, userToken, userInfo, userRank } from "../../store/userSlice";
 import InputBox from "../../components/component/InputBox";
@@ -190,7 +191,11 @@ const Login = () => {
         axios.post(login_phone, body)
         .then((res)=>{
             if(res.status === 200){
-                const token = res.data.accessToken;
+                // const token = res.data.accessToken;
+                const token = {
+                    accessToken: res.data.accessToken,
+                    refreshToken: res.data.refreshToken
+                };
 
                 //회원기본정보 가져오기
                 getUserInfo(token);
@@ -249,7 +254,11 @@ const Login = () => {
         axios.post(login, body)
         .then((res)=>{
             if(res.status === 200){
-                const token = res.data.accessToken;
+                // const token = res.data.accessToken;
+                const token = {
+                    accessToken: res.data.accessToken,
+                    refreshToken: res.data.refreshToken
+                };
 
                 //회원기본정보 가져오기
                 getUserInfo(token);
@@ -274,7 +283,7 @@ const Login = () => {
     const getUserInfo = (token) => {
         axios.get(basic_profile,{
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${token.accessToken}`,
             },
         })
         .then((res)=>{
@@ -312,7 +321,7 @@ const Login = () => {
     //회원 랭킹정보 가져오기
     const getUserRank = (token, info) => {
         const body = {
-            token: token
+            token: token.accessToken
         };
         axios.post(rank_token,body)
         .then((res)=>{
@@ -321,9 +330,9 @@ const Login = () => {
 
                 //아이디저장 체크시 쿠키에 저장
                 if(saveIdCheck){
-                    util.setCookie("saveId",info.m_id,1);
+                    Cookies.set("saveId",info.m_id);
                 }else{
-                    util.setCookie("saveId",info.m_id,-1);
+                    Cookies.remove("saveId");
                 }
 
                 //회원랭킹정보 store 에 저장
@@ -339,7 +348,12 @@ const Login = () => {
                 //로그인회원정보 store 에 저장
                 dispatch(userInfo(info));
                 dispatch(userLogin(true));
-                dispatch(userToken(token));
+                dispatch(userToken(token.accessToken));
+                Cookies.set('refreshToken',token.refreshToken);
+                localStorage.setItem(
+                    "expiresAt",
+                    moment().format("yyyy-MM-DD HH:mm:ss")
+                );
 
                 //메인페이지로 이동
                 navigate('/');
@@ -364,7 +378,7 @@ const Login = () => {
     const getManagerProfile = (token, info) => {
         axios.get(`${manager_profile.replace(':m_id',info.m_id)}`,{
             headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${token.accessToken}`,
             },
         })
         .then((res)=>{
@@ -373,9 +387,9 @@ const Login = () => {
 
                 //아이디저장 체크시 쿠키에 저장
                 if(saveIdCheck){
-                    util.setCookie("saveId",info.m_id,1);
+                    Cookies.set("saveId",info.m_id);
                 }else{
-                    util.setCookie("saveId",info.m_id,-1);
+                    Cookies.remove("saveId");
                 }
 
                 const data = res.data;
@@ -385,7 +399,12 @@ const Login = () => {
                 //로그인회원정보 store 에 저장
                 dispatch(userInfo(newInfo));
                 dispatch(userLogin(true));
-                dispatch(userToken(token));
+                dispatch(userToken(token.accessToken));
+                Cookies.set('refreshToken',token.refreshToken);
+                localStorage.setItem(
+                    "expiresAt",
+                    moment().add(12, 'hours').format("yyyy-MM-DD HH:mm:ss")
+                );
 
                 //메인페이지로 이동
                 navigate('/');
@@ -406,8 +425,8 @@ const Login = () => {
 
     //아이디저장값이 있을때
     useEffect(()=>{
-        if(util.getCookie("saveId")){
-            const id = util.getCookie("saveId");
+        const id = Cookies.get("saveId");
+        if(id){
             const newValues = {...values};
             newValues.id = id;
             setValues(newValues);

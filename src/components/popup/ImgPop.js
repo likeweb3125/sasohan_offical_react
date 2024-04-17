@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import history from "../../config/history";
 import { imgPop, imgPopLink } from "../../store/popupSlice";
 
 const ImgPop = () => {
@@ -10,6 +12,22 @@ const ImgPop = () => {
         dispatch(imgPop({imgPop:false,imgPopSrc:""}));
         dispatch(imgPopLink(null));
     };
+
+
+    //페이지 이동시 팝업닫기
+    useEffect(() => {
+        const listenBackEvent = () => {
+            closePopHandler();
+        };
+    
+        const unlistenHistoryEvent = history.listen(({ action }) => {
+            if (action === "POP") {
+                listenBackEvent();
+            }
+        });
+
+        return unlistenHistoryEvent;
+    },[]);
 
 
     return(

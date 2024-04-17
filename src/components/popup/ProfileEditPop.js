@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import history from "../../config/history";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
 import { profileEditPop, profileEditPopDone, confirmPop, loadingPop } from "../../store/popupSlice";
@@ -41,6 +42,21 @@ const ProfileEditPop = () => {
     const closePopHandler = () => {
         dispatch(profileEditPop({profileEditPop:false,profileEditPopData:{}}));
     };
+
+    //페이지 이동시 팝업닫기
+    useEffect(() => {
+        const listenBackEvent = () => {
+            closePopHandler();
+        };
+    
+        const unlistenHistoryEvent = history.listen(({ action }) => {
+            if (action === "POP") {
+                listenBackEvent();
+            }
+        });
+
+        return unlistenHistoryEvent;
+    },[]);
 
 
     //맨처음 프로필정보 가져오기

@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
+import moment from "moment";
+import * as CF from "../../config/function";
+import { enum_api_uri } from "../../config/enum";
 import { logout } from "../../store/commonSlice";
+import { userInfo, userLogin, userToken, userRank } from "../../store/userSlice";
 import { confirmPop } from "../../store/popupSlice";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -9,8 +16,13 @@ import ConfirmPop from "../popup/ConfirmPop";
 
 const Layout = (props) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const api_uri = enum_api_uri.api_uri;
+    const user_refresh = enum_api_uri.user_refresh;
     const common = useSelector((state)=>state.common);
     const popup = useSelector((state)=>state.popup);
+    const user = useSelector((state)=>state.user);
     const [confirm, setConfirm] = useState(false);
 
 
@@ -32,6 +44,14 @@ const Layout = (props) => {
     },[popup.confirmPop]);
 
 
+    //페이지이동시 스크롤탑으로 이동 (상세->목록으로 뒤로가기시 제외)
+    useEffect(()=>{
+        if(!common.detailPageBack){
+            window.scrollTo(0,0);
+        }
+    },[location]);
+
+
     //로그아웃시 팝업띄우기
     useEffect(()=>{
         if(common.logout){
@@ -46,6 +66,51 @@ const Layout = (props) => {
             setConfirm(true);
         }
     },[common.logout]);
+
+
+    useEffect(()=>{
+        if(user.userLogin){
+            const refreshToken = Cookies.get("refreshToken");
+            const expireAt = localStorage.getItem("expiresAt");
+            
+            if (expireAt) {
+                const expiredTime = moment(expireAt);
+                const currentTime = moment();
+    
+                // 토큰이 만료되었는지 확인
+                if (currentTime.isAfter(expiredTime)) {
+                    // 토큰 재발급 요청
+                    axios.post(user_refresh, { refresh_token: refreshToken })
+                    .then((res) => {
+                        if (res.status === 200) {
+                            const data = res.data;
+                            // 토큰 재발급 성공
+                            dispatch(userToken(data.accessToken));
+                            Cookies.set('refreshToken',data.refreshToken);
+
+                            // 만료 시간 업데이트
+                            localStorage.setItem(
+                                "expiresAt",
+                                moment().add(12, 'hours').format("yyyy-MM-DD HH:mm:ss")
+                            );
+                        }
+                    })
+                    .catch((error) => {
+                        //로그아웃하기
+                        dispatch(userInfo({}));
+                        dispatch(userLogin(false));
+                        dispatch(userToken(''));
+                        dispatch(userRank({userRank:false, userRankData:{}}));
+                        dispatch(logout(true));
+                        Cookies.remove('refreshToken');
+                        localStorage.removeItem('expiresAt');
+                
+                        navigate('/');
+                    });
+                }
+            }
+        }
+    },[location])
 
 
     return(

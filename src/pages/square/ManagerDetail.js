@@ -579,7 +579,11 @@ const ManagerDetail = () => {
                                     </div>
                                 </div>
                                 <WriteTextareaBox 
-                                    placeholder={user.userLogin ? '매니저님에게 방명록을 남겨 볼까요?' : '로그인을 해주세요.'}
+                                    placeholder={
+                                        (user.userLogin && user.userInfo.user_level == 'M') || (user.userLogin && user.userRank) ? '매니저님에게 방명록을 남겨 볼까요?' 
+                                        : user.userLogin && !user.userRank ? '방명록 작성 권한이 없는 회원입니다.' 
+                                        : '로그인을 해주세요.'
+                                    }
                                     value={commentValue}
                                     onChangeHandler={(e)=>{
                                         const val = e.currentTarget.value;
@@ -587,7 +591,7 @@ const ManagerDetail = () => {
                                     }}
                                     btnTxt='보내기'
                                     onEnterHandler={onCommentCheckHandler}
-                                    disabled={user.userLogin ? false : true}
+                                    disabled={(user.userLogin && user.userInfo.user_level == 'M') || (user.userLogin && user.userRank) ? false : true}
                                 />
                             </div>
                         </div>

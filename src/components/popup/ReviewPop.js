@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import history from "../../config/history";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
 import { reviewPop, confirmPop } from "../../store/popupSlice";
@@ -24,6 +25,21 @@ const ReviewPop = () => {
     const closePopHandler = () => {
         dispatch(reviewPop({reviewPop:false,reviewPopNo:null}));
     };
+
+    //페이지 이동시 팝업닫기
+    useEffect(() => {
+        const listenBackEvent = () => {
+            closePopHandler();
+        };
+    
+        const unlistenHistoryEvent = history.listen(({ action }) => {
+            if (action === "POP") {
+                listenBackEvent();
+            }
+        });
+
+        return unlistenHistoryEvent;
+    },[]);
 
     //후기내용 가져오기
     const getReview = () => {

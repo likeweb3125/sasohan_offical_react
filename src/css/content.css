@@ -400,7 +400,7 @@
 .vip_slider{width: 100%;height: 100%;padding-bottom: 40px;}
 .vip_slider .swiper-wrapper{height: 520px;}
 .vip_slider .swiper-slide{overflow: hidden;}
-.vip_slider .swiper-slide .img_box{position: relative;width: 100%;height: 100%;border-radius: 20px;overflow: hidden;border: 2px solid #D0A573;}
+.vip_slider .swiper-slide .img_box{position: relative;max-width: 320px;height: 100%;border-radius: 20px;overflow: hidden;border: 2px solid #D0A573;margin: 0 auto;}
 .vip_slider .swiper-slide .img_box::after{position: absolute;content: '';width: 100%;height: 100%;background: url(../images/crown_img.svg) no-repeat center bottom;bottom: 0;left: 0;background-size: 100px;}
 .vip_slider .swiper-slide .img_box img{width: 100%;}
 .vip_slider .swiper-slide .img_box p{position: absolute;width: 100%;top: 0;left: 0;font-size: 14px;color: #fff;text-align: center;padding-top: 12px;}
@@ -445,7 +445,7 @@
 .vip_apply_cont .btn_box{position: relative;}
 .vip_apply_cont .btn_box::before{position: absolute;content: '';width: 100px;height: 35px;top: -10px;left: 50%;transform: translateX(-50%);background: url(../images/click_txt.png) no-repeat center;}
 .vip_apply_cont .btn_box::after{position: absolute;content: '';width: 53px;height: 62px;bottom: -20px;left: 62%;background: url(../images/click_img.png) no-repeat center;}
-.vip_apply_cont .btn_box button{width: 800px; font-size: 24px;font-weight: 800;height: 80px;border-radius: 20px;border: 2px solid #3E1AC0;background: var(--point-gr2, linear-gradient(255deg, #4144FD 11.16%, #7F40FF 89.36%));box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.25) inset;color: #fff;}
+.vip_apply_cont .btn_box .btn_click{width: 800px;display: block;line-height: 80px; font-size: 24px;font-weight: 800;height: 80px;border-radius: 20px;border: 2px solid #3E1AC0;background: var(--point-gr2, linear-gradient(255deg, #4144FD 11.16%, #7F40FF 89.36%));box-shadow: 4px 4px 8px 0px rgba(255, 255, 255, 0.25) inset;color: #fff;margin: 0 auto;}
 .vip_sect4.on .vip_apply_cont{animation: aniUp 1s .5s forwards;}
 .vip_sect5{padding: 140px 0 160px;}
 .vip_sect5 .vip_apply_cont .txt_box .tit::after{background: url(../images/vip_sect5_check.png) no-repeat center;}

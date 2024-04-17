@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import history from "../../config/history";
 import { managerPop } from "../../store/popupSlice";
 import none_img from "../../images/none_img.jpg";
 
@@ -13,6 +14,22 @@ const ManagerPop = () => {
     const closePopHandler = () => {
         dispatch(managerPop({managerPop:false,managerPopData:{}}));
     };
+
+
+    //페이지 이동시 팝업닫기
+    useEffect(() => {
+        const listenBackEvent = () => {
+            closePopHandler();
+        };
+    
+        const unlistenHistoryEvent = history.listen(({ action }) => {
+            if (action === "POP") {
+                listenBackEvent();
+            }
+        });
+
+        return unlistenHistoryEvent;
+    },[]);
 
 
     // useEffect(()=>{

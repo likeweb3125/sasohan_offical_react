@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import history from "../../config/history";
 import * as CF from "../../config/function";
 import { feedProfilePop } from "../../store/popupSlice";
 import none_profile from "../../images/none_profile2.jpg";
@@ -31,6 +32,22 @@ const FeedProfilePop = () => {
     const closePopHandler = () => {
         dispatch(feedProfilePop({feedProfilePop:false,feedProfilePopData:{}}));
     };
+
+
+    //페이지 이동시 팝업닫기
+    useEffect(() => {
+        const listenBackEvent = () => {
+            closePopHandler();
+        };
+    
+        const unlistenHistoryEvent = history.listen(({ action }) => {
+            if (action === "POP") {
+                listenBackEvent();
+            }
+        });
+
+        return unlistenHistoryEvent;
+    },[]);
 
 
     //피드프로필 정보

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { createPortal } from "react-dom";
 import ManagerPop from "./ManagerPop";
@@ -25,6 +26,18 @@ import LoadingPop from "./LoadingPop";
 
 const Popup = () => {
     const popup = useSelector((state)=>state.popup);
+
+
+    //팝업 열리면 배경스크롤X
+    useEffect(() => {
+        if (Object.values(popup).some(value => value === true)) {
+            document.body.style.cssText = `overflow: hidden;`;
+            return () => {
+                document.body.style.cssText = '';
+            };
+        }
+    }, [popup]);
+
 
     return createPortal(
         <>

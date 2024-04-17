@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import history from "../../config/history";
 import axios from "axios";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
@@ -10,7 +11,6 @@ import EditBox from "../component/square/EditBox";
 import Comment from "../component/square/Comment";
 import WriteTextareaBox from "../component/square/WriteTextareaBox";
 import ConfirmPop from "./ConfirmPop";
-import sample_img from "../../images/sample/manager0.png";
 
 
 const FeedPop = () => {
@@ -62,6 +62,22 @@ const FeedPop = () => {
     const closePopHandler = () => {
         dispatch(feedPop({feedPop:false,feedPopNo:null}));
     };
+
+
+    //페이지 이동시 팝업닫기
+    useEffect(() => {
+        const listenBackEvent = () => {
+            closePopHandler();
+        };
+    
+        const unlistenHistoryEvent = history.listen(({ action }) => {
+            if (action === "POP") {
+                listenBackEvent();
+            }
+        });
+
+        return unlistenHistoryEvent;
+    },[]);
 
 
     //피드내용 가져오기
@@ -572,7 +588,7 @@ const FeedPop = () => {
                         <div className="top_box">
                             <div className="profile_box flex_between flex_wrap">
                                 <div className="flex">
-                                    <div className="profile"><img src={sample_img} alt="프로필 이미지"/></div>
+                                    <div className="profile"><img src={feedData.profile} alt="프로필 이미지"/></div>
                                     <p className={`name${feedData.manager_type == 'C' ? ' charming' : ''}`}>{feedData.manager_name}</p>
                                 </div>
                                 <EditBox 
@@ -706,7 +722,11 @@ const FeedPop = () => {
                             </div>
                         </div> 
                         <WriteTextareaBox 
-                            placeholder={user.userLogin ? '댓글을 달아보세요!' : '로그인을 해주세요.'}
+                            placeholder={
+                                (user.userLogin && user.userInfo.user_level == 'M') || (user.userLogin && user.userRank) ? '댓글을 달아보세요!' 
+                                : user.userLogin && !user.userRank ? '댓글 작성 권한이 없는 회원입니다.' 
+                                : '로그인을 해주세요.'
+                            }
                             value={commentValue}
                             onChangeHandler={(e)=>{
                                 const val = e.currentTarget.value;
@@ -714,7 +734,7 @@ const FeedPop = () => {
                             }}
                             btnTxt='댓글쓰기'
                             onEnterHandler={onTextCheckHandler}
-                            disabled={user.userLogin ? false : true}
+                            disabled={(user.userLogin && user.userInfo.user_level == 'M') || (user.userLogin && user.userRank) ? false : true}
                         />
                     </div>
                 </div>

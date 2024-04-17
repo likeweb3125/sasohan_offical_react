@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { appSignupCompletePop } from "../../../store/popupSlice";
-import util from "../../../config/util";
 import signup_complete_img from "../../../images/app/signup_complete_img.svg"; 
 
 

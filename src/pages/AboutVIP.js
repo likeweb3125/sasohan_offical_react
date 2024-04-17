@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Scrollbar, Navigation, Grid } from "swiper/modules";
 import "swiper/css";
@@ -267,7 +267,7 @@ const AboutVIP = () => {
                                 </li>
                             </ul>
                             <div className="btn_box">
-                                <button type="button" onClick={()=>dispatch(applyPop(true))}>소개팅을 신청해 보세요!</button>
+                                <Link to='/member/signup' className="btn_click">소개팅을 신청해 보세요!</Link>
                             </div>
                         </div>
                     </div>
@@ -305,7 +305,7 @@ const AboutVIP = () => {
                                 </li>
                             </ul>
                             <div className="btn_box">
-                                <button type="button" onClick={()=>dispatch(vipApplyPop(true))}>VIP 지원해 보세요!</button>
+                                <button type="button" className="btn_click" onClick={()=>dispatch(vipApplyPop(true))}>VIP 지원해 보세요!</button>
                             </div>
                         </div>
                     </div>

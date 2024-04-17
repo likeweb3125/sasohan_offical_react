@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import Cookies from 'js-cookie';
 import * as CF from "../../config/function";
 import { applyPop } from '../../store/popupSlice';
 import { userInfo, userLogin, userToken, userRank } from "../../store/userSlice";
@@ -132,6 +133,8 @@ const Header = () => {
         dispatch(userToken(''));
         dispatch(userRank({userRank:false, userRankData:{}}));
         dispatch(logout(true));
+        Cookies.remove('refreshToken');
+        localStorage.removeItem('expiresAt');
 
         navigate('/');
     };

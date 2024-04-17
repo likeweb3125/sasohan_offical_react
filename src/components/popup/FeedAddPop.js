@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDropzone } from 'react-dropzone';
+import history from "../../config/history";
 import axios from "axios";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
@@ -41,6 +42,22 @@ const FeedAddPop = () => {
     const closePopHandler = () => {
         dispatch(feedAddPop({feedAddPop:false,feedAddPopNo:null}));
     };
+
+
+    //페이지 이동시 팝업닫기
+    useEffect(() => {
+        const listenBackEvent = () => {
+            closePopHandler();
+        };
+    
+        const unlistenHistoryEvent = history.listen(({ action }) => {
+            if (action === "POP") {
+                listenBackEvent();
+            }
+        });
+
+        return unlistenHistoryEvent;
+    },[]);
 
 
     //피드내용 가져오기

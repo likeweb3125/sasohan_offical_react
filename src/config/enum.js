@@ -36,6 +36,7 @@ exports.enum_api_uri = {
     profile2_modify: `${api_uri}/v1/main-mypage/ideal-modify`,
     user_delt_code: `${api_uri}/v1/main-mypage/leave-sign`,
     user_delt: `${api_uri}/v1/main-mypage/leave`,
+    user_refresh: `${api_uri}/v1/app/user/refresh`,
 
     //스퀘어---
     feed_list: `${api_uri}/v1/main-list/feed-list`,

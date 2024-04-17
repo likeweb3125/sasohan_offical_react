@@ -158,6 +158,15 @@ const EditMyInfo = () => {
 
         if(id.length < 4){
             newError.m_id = true;
+        }else if(/[^\w]/.test(id)){
+            newError.m_id = false;
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'특수 문자는 불가합니다.',
+                confirmPopBtn:1,
+            }));
         }else{
             newError.m_id = false;
             

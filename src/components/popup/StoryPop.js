@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import history from "../../config/history";
 import { storyPop, confirmPop } from "../../store/popupSlice";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
@@ -21,6 +22,22 @@ const StoryPop = () => {
     const closePopHandler = () => {
         dispatch(storyPop({storyPop:false,storyPopNo:null}));
     };
+
+
+    //페이지 이동시 팝업닫기
+    useEffect(() => {
+        const listenBackEvent = () => {
+            closePopHandler();
+        };
+    
+        const unlistenHistoryEvent = history.listen(({ action }) => {
+            if (action === "POP") {
+                listenBackEvent();
+            }
+        });
+
+        return unlistenHistoryEvent;
+    },[]);
 
 
     //스토리 이미지 가져오기

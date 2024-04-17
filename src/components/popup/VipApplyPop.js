@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDropzone } from 'react-dropzone';
 import axios from "axios";
+import history from "../../config/history";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
 import { vipApplyPop, confirmPop, termsPop, termsCheckList } from "../../store/popupSlice";
@@ -41,6 +42,22 @@ const VipApplyPop = () => {
     const closePopHandler = () => {
         dispatch(vipApplyPop(false));
     };
+
+
+    //페이지 이동시 팝업닫기
+    useEffect(() => {
+        const listenBackEvent = () => {
+            closePopHandler();
+        };
+    
+        const unlistenHistoryEvent = history.listen(({ action }) => {
+            if (action === "POP") {
+                listenBackEvent();
+            }
+        });
+
+        return unlistenHistoryEvent;
+    },[]);
 
 
     //input값 변경시

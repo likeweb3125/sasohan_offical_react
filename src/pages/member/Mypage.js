@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useDropzone } from 'react-dropzone';
 import axios from "axios";
+import Cookies from 'js-cookie';
 import { enum_api_uri } from "../../config/enum";
 import { heightList, visualList, mbtiList, smokList, drinkList } from "../../config/constants";
 import * as CF from "../../config/function";
@@ -1370,6 +1371,7 @@ const Mypage = () => {
         dispatch(userToken(''));
         dispatch(userRank({userRank:false, userRankData:{}}));
         dispatch(logout(true));
+        Cookies.remove('refreshToken');
 
         navigate('/');
     };

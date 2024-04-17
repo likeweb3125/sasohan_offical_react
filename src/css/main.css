@@ -163,8 +163,8 @@ html,.body{height: auto;scroll-behavior: smooth;}
 /************************* header *****************************/
 #header {position: fixed; left: 0; top: 20px; width: 100%; height: 60px; z-index: 200;}
 #header .header_inner {position: relative; width: calc(100% - 80px); height: 100%; backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.16);border-radius: 16px;}
-#header .logo {position: absolute; left: 40px; top: 50%; background: url('../images/logo.svg') no-repeat 50% 50%/100%; width: 160px; height: 25px; transform: translateY(-50%);}
-#header .logo.logo_b{background: url('../images/logo_b.svg') no-repeat 50% 50%/100%;}
+#header .logo {position: absolute; left: 40px; top: 50%; background: url('../images/logo.svg') no-repeat 0% 50%; width: 160px; height: 25px; transform: translateY(-50%);}
+#header .logo.logo_b{background: url('../images/logo_b.svg') no-repeat 0% 50%;}
 #header .logo a {display: block; width: 100%; height: 100%; text-indent: -9999px;}
 #header .gnb_wrap {height: 100%;}
 #header .gnb_wrap .gnb {display: flex; justify-content: center; width: 100%; height: 100%;}
@@ -374,7 +374,7 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .section2_2.on .tit_box{animation: aniShow .8s .3s forwards;}
 .section2_2.on .story_wrap{animation: aniUp 1s .5s forwards;}
 /* section3 */
-.section3{padding-top: 150px;}
+/* .section3{padding-top: 150px;} */
 .blog_wrap{padding-top: 60px;opacity: 0;}
 .blog_ul>li{width: 170px;position: relative;overflow: hidden;margin-right: 15px;transition: all .5s;}
 .blog_ul>li::after{position: absolute;content: "";width: 100%;height: 100%;top: 0;left: 0;cursor: pointer;}

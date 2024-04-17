@@ -19,7 +19,7 @@
 
     /* header */
     #header.on .header_inner{background: #fff;backdrop-filter: none;}
-    #header.on .logo{background: url('../images/logo_b.svg') no-repeat 50% 50%/100%;}
+    #header.on .logo{background: url('../images/logo_b.svg') no-repeat 0% 50%;}
     #header.on .gnb_wrap .gnb li a{color: #222;}
     #header.on .utill_wrap .link_ul li a{color: #666;}
     #header.on .utill_wrap .link_ul li::after{background: #666;}
@@ -208,7 +208,7 @@
     .section2_2::after{width: 298px;height: 298px;}
     .section2_2::before{left: -150px; bottom: -100px;}
     .section2_2 .section_inner::after{display: none;}
-    .section3{padding-top: 60px;}
+    /* .section3{padding-top: 60px;} */
     .blog_wrap{padding-top: 50px;}
     .blog_slider{padding-bottom: 44px;width: calc(100% + 60px);margin-left: -30px;}
     .blog_slider .swiper-slide{overflow: hidden;border-radius: 32px 0 32px 0;}
@@ -251,13 +251,14 @@
     /* 스퀘어 - 피드팝업 */
     .feed_pop .pop_cont{width: 100% !important;height: 100%;background: #fff;padding: 56px 0 0 0 !important;border-radius: 0 !important;overflow-y: auto;}
     .feed_pop .btn_feed_close{right:30px;top: 8px;background: url(../images/ic_close_b3.svg) no-repeat center;background-size: 100%;}
-    .feed_pop .feed_con{border-radius: 0;display: block;overflow-y: auto;height: 100%;max-height: none;padding-bottom: 108px;}
+    .feed_pop .feed_con{border-radius: 0;display: block;overflow-y: auto;height: 100%;max-height: none;}
     .feed_pop .feed_con .img_box{width: 100%;}
     .feed_pop .feed_con .cont_box{width: 100%;display: block;height: auto;padding-bottom: 0;position: static;}
     .feed_pop .feed_con .cont_box .content_box{height: auto;min-height: 100px;padding: 20px 30px;}
     .feed_pop .feed_con .btn_box {border-bottom: 1px solid #ddd;position: relative;height: 60px;}
     .feed_pop .feed_con .btn_box .btn_prev{position: absolute;top: 0;left: 0; font-size: 16px;color: #6840FD;font-weight: 700;height: 100%;padding-left: 50px;background: url(../images/arrow_prev_point.svg) no-repeat center left 30px;}
     .feed_pop .feed_con .btn_box .btn_next{position: absolute;top: 0;right: 0; font-size: 16px;color: #6840FD;font-weight: 700;height: 100%;padding-right: 50px;background: url(../images/arrow_next_point.svg) no-repeat center right 30px;}
+    .feed_pop .feed_con .cont_box>.msg_write_box{position: static;}
 
 
     /* 랭킹 - 피드프로필 팝업 */
@@ -318,7 +319,7 @@
     .vip_apply_cont .txt_box .tit{width: 100%;margin-bottom: 40px;}
     .vip_apply_cont .box .img_ul{padding-bottom: 0;}
     .vip_apply_cont .box .img_ul li{width: 50%;padding-bottom: 40px;}
-    .vip_apply_cont .btn_box button{width: 100%;}
+    .vip_apply_cont .btn_box .btn_click{width: 100%;}
     .vip_sect5 .gray_box{padding: 36px 32px;}
     .vip_sect5 .gray_box .txt_ul li{width: 100%;}
 
@@ -464,7 +465,7 @@
     .story_slider .swiper-slide .txt_box .name{font-size: 14px;}
     .story_slider .swiper-slide .txt_box .name strong{font-size: 18px;padding-right: 4px;}
     .story_slider .swiper-slide .txt_box .time{font-size: 14px;padding-top: 2px;}
-    .section3{padding-top: 50px;}
+    /* .section3{padding-top: 50px;} */
     .section3 .title_box{display: block;}
     .blog_wrap{padding-top: 32px;}
     .blog_slider{padding-bottom: 40px;}
@@ -715,7 +716,7 @@
     .vip_sect1 .tit p{font-size: 36px;}
     .vip_slider_wrap{padding-top: 32px;}
     .vip_slider{padding-bottom: 25px;}
-    .vip_slider .swiper-wrapper{height: 256px;}
+    /* .vip_slider .swiper-wrapper{height: 256px;} */
     .vip_slider .swiper-slide .img_box{border-width: 1px;}
     .vip_slider .swiper-slide .img_box::after{background-size: 52px;}
     .vip_slider .swiper-slide .img_box p{font-size: 12px;padding-top: 10px;}
@@ -818,6 +819,21 @@
 
 }
 
+
+@media screen and (max-width: 699px){
+    /* VIP 소개팅 */
+    /* .vip_slider .swiper-wrapper{height: 256px;}
+    .vip_slider .swiper-slide .img_box{max-width: 160px;} */
+    .vip_slider .swiper-wrapper{height: 416px;}
+    .vip_slider .swiper-slide .img_box{max-width: 220px;}
+}
+
+
+@media screen and (max-width: 499px){
+    /* VIP 소개팅 */
+    .vip_slider .swiper-wrapper{height: 256px;}
+    .vip_slider .swiper-slide .img_box{max-width: 160px;}
+}
 
 @media screen and (max-width: 335px){
     
