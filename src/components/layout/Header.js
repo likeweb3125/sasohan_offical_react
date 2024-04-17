@@ -152,11 +152,11 @@ const Header = () => {
                         <li className={menuOn === 1 ? "on" : ""}><Link to="/">About 사소한</Link></li>
                         <li className={menuOn === 2 ? "on" : ""}><Link to="/about-vip">VIP 소개팅</Link></li>
                         <li className={`is_submenu${menuOn === 3 ? " on" : ""}`}>
-                            <Link to="/square/all-feed">사소한 스퀘어</Link>
+                            <a href="/square/all-feed">사소한 스퀘어</a>
                             <div className='submenu_box'>
                                 <ul>
-                                    <li><Link to="/square/all-feed">피드 스퀘어</Link></li>
-                                    <li><Link to="/square/manager-list">사소한 매니저</Link></li>
+                                    <li><a href="/square/all-feed">피드 스퀘어</a></li>
+                                    <li><a href="/square/manager-list">사소한 매니저</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -261,13 +261,13 @@ const Header = () => {
                                 <Link to="/about-vip">VIP 소개팅</Link>
                             </li>
                             <li className={menuOn === 3 ? "on" : ""}>
-                                <Link to="/square/all-feed">사소한 스퀘어</Link>
+                                <a href="/square/all-feed">사소한 스퀘어</a>
                                 <ul className='submenu_ul flex_center'>
                                     <li>
-                                        <Link to={'/square/all-feed'}>피드 스퀘어</Link>
+                                        <a href={'/square/all-feed'}>피드 스퀘어</a>
                                     </li>
                                     <li>
-                                        <Link to={'/square/manager-list'}>사소한 매니저</Link>
+                                        <a href={'/square/manager-list'}>사소한 매니저</a>
                                     </li>
                                 </ul>
                             </li>
