@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
-import { detailPageBack, listPageData, scrollY } from "../../store/commonSlice";
+import { detailPageBack, listPageData, scrollY } from "../../store/etcSlice";
 import { confirmPop, loadingPop } from "../../store/popupSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 import ListTopTitleBox from "../../components/component/square/ListTopTitleBox";
@@ -23,6 +23,7 @@ const ManagerList = () => {
     const popup = useSelector((state)=>state.popup);
     const user = useSelector((state)=>state.user);
     const common = useSelector((state)=>state.common);
+    const etc = useSelector((state)=>state.etc);
     const [confirm, setConfirm] = useState(false);
     const [loginConfirm, setLoginConfirm] = useState(false);
     const [typeCheck, setTypeCheck] = useState('C');
@@ -50,7 +51,7 @@ const ManagerList = () => {
     //상세->목록으로 뒤로가기시 저장되었던 스크롤위치로 이동
     useEffect(()=>{
         if(scrollMove){
-            const y = common.scrollY;
+            const y = etc.scrollY;
             window.scrollTo(0,y); 
         }
     },[scrollMove]);
@@ -59,16 +60,16 @@ const ManagerList = () => {
     //상세->목록으로 뒤로가기시 저장되었던 값들로 매니저리스트 가져오기
     useEffect(()=>{
         const fetchData = async () => {
-            if(common.detailPageBack){
-                for(let i = 1; i <= common.listPageData.page; i++) {
-                    const isLast = i === common.listPageData.page;
+            if(etc.detailPageBack){
+                for(let i = 1; i <= etc.listPageData.page; i++) {
+                    const isLast = i === etc.listPageData.page;
                     await getManagerList(i, true, isLast);
                 }
             }
         };
 
         fetchData();
-    },[common.detailPageBack]);
+    },[etc.detailPageBack]);
 
 
     //매니저 리스트 가져오기
@@ -81,11 +82,11 @@ const ManagerList = () => {
         let searchText = '';
 
         //상세페이지에서 뒤로가기시 저장된 리스트페이지 정보로 조회
-        if(common.detailPageBack){
-            type = common.listPageData.type;
-            sort = common.listPageData.sort;
-            favorite = common.listPageData.favorite;
-            searchText = common.listPageData.search;
+        if(etc.detailPageBack){
+            type = etc.listPageData.type;
+            sort = etc.listPageData.sort;
+            favorite = etc.listPageData.favorite;
+            searchText = etc.listPageData.search;
         }else{
             type = typeCheck;
             sort = sortTabOn;
@@ -139,9 +140,9 @@ const ManagerList = () => {
                 //상세페이지에서 뒤로가기시
                 if(isLast){
                     setSearchValue(searchText);
-                    setTypeCheck(common.listPageData.type);
-                    setSortTabOn(common.listPageData.sort);
-                    setLikeCheck(common.listPageData.favorite);
+                    setTypeCheck(etc.listPageData.type);
+                    setSortTabOn(etc.listPageData.sort);
+                    setLikeCheck(etc.listPageData.favorite);
 
                     setScrollMove(true);
                     dispatch(detailPageBack(false));
@@ -166,7 +167,7 @@ const ManagerList = () => {
 
     //매니저 리스트 가져오기
     useEffect(()=>{
-        if(!pageBack && !common.detailPageBack){
+        if(!pageBack && !etc.detailPageBack){
             getManagerList();
         }
     },[typeCheck, sortTabOn, likeCheck]);

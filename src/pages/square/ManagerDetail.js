@@ -5,7 +5,8 @@ import axios from "axios";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
 import { confirmPop, feedPop, feedAddPop, loadingPop, feedPopNoList, feedProfilePop } from "../../store/popupSlice";
-import { feedRefresh, detailPageBack } from "../../store/commonSlice";
+import { feedRefresh } from "../../store/commonSlice";
+import { detailPageBack } from "../../store/etcSlice"
 import history from "../../config/history";
 import ListTopTitleBox from "../../components/component/square/ListTopTitleBox";
 import GuestBookBox from "../../components/component/square/GuestBookBox";
@@ -33,6 +34,7 @@ const ManagerDetail = () => {
     const popup = useSelector((state)=>state.popup);
     const user = useSelector((state)=>state.user);
     const common = useSelector((state)=>state.common);
+    const etc = useSelector((state)=>state.etc);
     const msgListBoxRef = useRef(null);
     const [confirm, setConfirm] = useState(false);
     const [loginConfirm, setLoginConfirm] = useState(false);
