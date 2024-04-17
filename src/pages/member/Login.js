@@ -411,6 +411,8 @@ const Login = () => {
             }
         })
         .catch((error) => {
+            dispatch(loadingPop(false));
+            
             const err_msg = CF.errorMsgHandler(error);
             dispatch(confirmPop({
                 confirmPop:true,
