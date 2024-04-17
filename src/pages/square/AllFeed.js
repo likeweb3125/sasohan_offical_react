@@ -41,7 +41,7 @@ const AllFeed = () => {
 
 
     //피드 리스트 가져오기
-    const getAllFeed = (page, more, search) => {
+    const getAllFeed = (page, more) => {
         dispatch(loadingPop(true));
 
         //내가누른 좋아요보기 체크시 or 로그인시에만 헤더값 넣기
@@ -52,7 +52,7 @@ const AllFeed = () => {
             }
         }
 
-        axios.get(`${feed_list}?page_no=${page ? page : 1}${sortTabOn === 2 ? '&sort=favorite' : ''}${likeCheck ? '&favorite=1' : ''}${search ? '&search='+searchValue : ''}`,{
+        axios.get(`${feed_list}?page_no=${page ? page : 1}${sortTabOn === 2 ? '&sort=favorite' : ''}${likeCheck ? '&favorite=1' : ''}${searchValue.length > 0 ? '&search='+searchValue : ''}`,{
             headers: headers,
         })
         .then((res)=>{
@@ -136,7 +136,7 @@ const AllFeed = () => {
     //검색하기버튼 클릭시
     const searchHandler = () => {
         if(searchValue.length > 0){
-            getAllFeed(pageNo, false, true);
+            getAllFeed(pageNo, false);
         }else{
             dispatch(confirmPop({
                 confirmPop:true,
