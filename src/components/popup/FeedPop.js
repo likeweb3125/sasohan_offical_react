@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import history from "../../config/history";
@@ -46,6 +46,7 @@ const FeedPop = () => {
     const feedIdx = popup.feedPopNoList.indexOf(popup.feedPopNo);
     const [nextBtn, setNextBtn] = useState(false);
     const [prevBtn, setPrevBtn] = useState(false);
+    const commentListBoxRef = useRef(null);
 
 
     // Confirm팝업 닫힐때
@@ -292,6 +293,15 @@ const FeedPop = () => {
 
 
     //댓글   ----------------------------------
+    useEffect(()=>{
+        //댓글리스트 맨밑으로 스크롤
+        if (commentListBoxRef.current) {
+            setTimeout(()=>{
+                commentListBoxRef.current.scrollTop = commentListBoxRef.current.scrollHeight;
+            },10);
+        }
+    },[commentList]);
+
 
     //댓글내용 부적격 체크하기
     const onTextCheckHandler = (reply, id) => {
@@ -669,7 +679,7 @@ const FeedPop = () => {
                             {nextBtn && <button type="button" className="btn_next" onClick={nextHandler}>다음글</button>}
                         </div>
                         <div className="comment_box">
-                            <div className="scroll_wrap gray">
+                            <div className="scroll_wrap gray" ref={commentListBoxRef}>
                                 {commentList.length > 0 ?
                                     <ul className="comment_list">
                                         {commentList.map((cont,i)=>{
