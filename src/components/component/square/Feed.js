@@ -1,4 +1,6 @@
 import * as CF from "../../../config/function";
+import none_profile from "../../../images/none_profile2.jpg";
+
 
 const Feed = ({data, likeBtnClickHandler, feedClickHandler, myFeed, profileClickHandler}) => {
     return(
@@ -16,7 +18,7 @@ const Feed = ({data, likeBtnClickHandler, feedClickHandler, myFeed, profileClick
                         onClick={()=>profileClickHandler(data.manager_id)}
                     >
                         <div className="img">
-                            <img src={data.profile} alt="프로필이미지" />
+                            <img src={data.profile ? data.profile : none_profile} alt="프로필이미지" />
                         </div>
                         <p>{data.manager_name}</p>
                     </div>

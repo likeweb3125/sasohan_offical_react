@@ -1,13 +1,14 @@
 import * as CF from "../../../config/function";
 import manager_tag from '../../../images/manager_tag.svg';
 import manager_tag_c from '../../../images/manager_tag_c.svg';
+import none_profile from "../../../images/none_profile2.jpg";
 
 
 const Manager = ({data, likeBtnClickHandler, managerClickHandler}) => {
     return(
         <div className={`feed_box manager${data.manager_type == 'V' ? ' vip' : ''}`}>
             <div className="img_box" onClick={()=>managerClickHandler(data.manager_id)}>
-                <img src={data.photo} alt="피드이미지" />
+                <img src={data.photo ? data.photo : none_profile} alt="피드이미지" />
                 <div className="box flex_center">
                     <p className="txt_feed">{CF.MakeIntComma(data.feed_cnt)}</p>
                     <p className="txt_like">{CF.MakeIntComma(data.fv_cnt)}</p>

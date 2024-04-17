@@ -16,7 +16,7 @@ const MyInfoForm = (
         idChecked,
         nickChecked,
         idCheckHandler,
-        nickCheckHandler
+        nickCheckHandler,
     }) => {
 
     return(<>

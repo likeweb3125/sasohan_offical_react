@@ -14,6 +14,7 @@ import tip_box_img from "../../images/tip_box.svg";
 import tip_box_img_mo from "../../images/tip_box_mo.svg";
 
 
+
 const ManagerList = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();

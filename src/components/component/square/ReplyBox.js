@@ -30,11 +30,14 @@ const ReplyBox = ({
             <div className="comment">
                 <div className="name_box flex_between">
                     <div className="flex pointer" onClick={()=>onFeedProfileClickHandler(data)}>
-                        <div className={`profile_img_box${data.rank ? ' class_'+data.class_number : ''}`}>
-                            <div className='img'>
-                                <div><img src={data.photo && data.photo.length > 0 ? data.photo : none_profile} alt='프로필이미지' /></div>
+                        {data.user_level == 'U' ? //일반회원일때
+                            <div className={`profile_img_box${data.rank ? ' class_'+data.class_number : ''}`}>
+                                <div className='img'>
+                                    <div><img src={data.photo && data.photo.length > 0 ? data.photo : none_profile} alt='프로필이미지' /></div>
+                                </div>
                             </div>
-                        </div>
+                            :data.user_level == 'M' && <div className="img_box"><img src={data.photo && data.photo.length > 0 ? data.photo : none_profile} alt='프로필이미지' /></div>
+                        }
                         <p className="name">{data.m_n_name}</p>
                     </div>
                     <EditBox 

@@ -248,8 +248,15 @@ const Signup2 = () => {
     const onInputChangeHandler = (e) => {
         let val = e.target.value;
         const id = e.target.id;
+        const regExp = /[^a-z0-9_]/gi;
 
+        //아이디 영문,소문자,_ 만 입력가능
         if(id == 'm_id'){
+            if (regExp.test(val)) {
+                val = val.replace(regExp, ''); // 허용된 문자만 남김
+            }
+    
+            val = val.toLowerCase(); // 소문자로 변경
             setId(val);
         }
         if(id == 'm_n_name'){

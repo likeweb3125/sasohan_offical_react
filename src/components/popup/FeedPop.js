@@ -47,6 +47,7 @@ const FeedPop = () => {
     const [nextBtn, setNextBtn] = useState(false);
     const [prevBtn, setPrevBtn] = useState(false);
     const commentListBoxRef = useRef(null);
+    const feedPopRef = useRef(null);
 
 
     // Confirm팝업 닫힐때
@@ -143,6 +144,13 @@ const FeedPop = () => {
             setPrevBtn(false);
         }else{
             setPrevBtn(true);
+        }
+
+        //팝업 맨위로 스크롤
+        if (feedPopRef.current) {
+            setTimeout(()=>{
+                feedPopRef.current.scrollTop = 0;
+            },10);
         }
     },[popup.feedPopNo]);
 
@@ -593,7 +601,7 @@ const FeedPop = () => {
                     {prevBtn && <button type="button" className="btn_prev" onClick={prevHandler}>이전글</button>}
                     {nextBtn && <button type="button" className="btn_next" onClick={nextHandler}>다음글</button>}
                 </div>
-                <div className="feed_con flex_between">
+                <div className="feed_con flex_between" ref={feedPopRef}>
                     <div className="cont_box tab_show">
                         <div className="top_box">
                             <div className="profile_box flex_between flex_wrap">
