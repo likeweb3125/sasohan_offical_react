@@ -180,7 +180,8 @@ html,.body{height: auto;scroll-behavior: smooth;}
 #header .utill_wrap .link_ul li:last-child::after{display: none;}
 #header .utill_wrap .link_ul li a{color: #fff;font-size: 14px;padding: 2px;}
 #header .btn_apply{width: 160px;height: 100%;background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),linear-gradient(255.03deg, #6902FE 11.16%, #F530EB 89.36%);color: #fff;font-size: 20px;font-weight: 700;border-radius: 0 16px 16px 0;text-align: center;line-height: 60px;}
-#header .utill_wrap .profile_box{margin-right: 33px;cursor: pointer;}
+#header .utill_wrap .profile_box{padding-right: 33px;cursor: pointer;height: 100%;}
+#header .utill_wrap .profile_box .submenu_box{right: 0;top: 60px;}
 #header .profile_box .profile_img_box{margin-right: 8px;}
 #header .utill_wrap .profile_box .txt{color: #fff;}
 #header .profile_box .txt{font-size: 16px;font-weight: 700;}

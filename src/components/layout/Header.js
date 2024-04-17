@@ -165,7 +165,7 @@ const Header = () => {
                 </nav>
                 <div className='utill_wrap flex'>
                     {login ?
-                        <div className='profile_box is_submenu'>
+                        <div className='profile_box is_submenu flex_center'>
                             <div className='flex'>
                                 <div className={`profile_img_box${user.userRank ? ' class_'+userClassNum : ''}`}>
                                     <div className='img'>

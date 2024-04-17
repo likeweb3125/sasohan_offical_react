@@ -68,6 +68,7 @@ const Layout = (props) => {
     },[common.logout]);
 
 
+    //토큰 재발급
     useEffect(()=>{
         if(user.userLogin){
             const refreshToken = Cookies.get("refreshToken");
@@ -110,7 +111,27 @@ const Layout = (props) => {
                 }
             }
         }
-    },[location])
+    },[location]);
+
+
+    useEffect(() => {
+        const handleUnload = () => {
+            // 브라우저가 종료될 때 로그아웃하기
+            dispatch(userInfo({}));
+            dispatch(userLogin(false));
+            dispatch(userToken(''));
+            dispatch(userRank({userRank:false, userRankData:{}}));
+            dispatch(logout(true));
+            Cookies.remove('refreshToken');
+            localStorage.removeItem('expiresAt');
+        };
+    
+        window.addEventListener("unload", handleUnload);
+    
+        return () => {
+            window.removeEventListener("unload", handleUnload);
+        };
+    }, []);
 
 
     return(
