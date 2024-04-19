@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
 import { confirmPop, feedPop, feedPopNoList, loadingPop } from "../../store/popupSlice";
@@ -28,6 +29,7 @@ const AllFeed = () => {
     const [feedList, setFeedList] = useState([]);
     const [pageNo, setPageNo] = useState(1);
     const [moreBtn, setMoreBtn] = useState(false);
+    const userLogin = Cookies.get('userLogin') === 'true'; // 'true' 문자열과 비교;
 
 
 
@@ -46,7 +48,7 @@ const AllFeed = () => {
 
         //내가누른 좋아요보기 체크시 or 로그인시에만 헤더값 넣기
         let headers = {};
-        if(likeCheck || user.userLogin){
+        if(likeCheck || userLogin){
             headers = {
                 Authorization: `Bearer ${user.userToken}`,
             }
@@ -148,7 +150,7 @@ const AllFeed = () => {
     //피드 좋아요하기
     const likeBtnClickHandler = (idx) => {
         //로그인시에만 가능
-        if(user.userLogin){
+        if(userLogin){
             const body = {
                 idx:idx
             };

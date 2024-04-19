@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
 import { confirmPop } from "../../store/popupSlice";
-import { userInfo, userLogin, userToken, userRank } from "../../store/userSlice";
+import { userInfo, userToken, userRank } from "../../store/userSlice";
 import InputBox from "../../components/component/InputBox";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 import logo_b from "../../images/logo_b.svg";
@@ -168,12 +169,14 @@ const UserDelt = () => {
     };
 
 
-    //회원정보삭제 완료시
+    //회원정보삭제 완료시 로그아웃
     const deltOkHandler = () => {
         dispatch(userInfo({}));
-        dispatch(userLogin(false));
+        Cookies.set('userLogin',false);
         dispatch(userToken(''));
         dispatch(userRank({userRank:false, userRankData:{}}));
+        Cookies.remove('refreshT');
+        localStorage.removeItem('expiresAt');
 
         navigate('/');
     };

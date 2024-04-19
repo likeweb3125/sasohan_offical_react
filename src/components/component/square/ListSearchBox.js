@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
 import SearchBox from "../SearchBox";
 import manager_tag from "../../../images/manager_tag.svg";
 import manager_tag_c from "../../../images/manager_tag_c.svg";
@@ -17,6 +18,7 @@ const ListSearchBox = ({
     searchHandler
 }) => {
     const user = useSelector((state)=>state.user);
+    const userLogin = Cookies.get('userLogin') === 'true'; // 'true' 문자열과 비교;
 
     return(<>
         <div className="list_search_box flex_between">
@@ -60,7 +62,7 @@ const ListSearchBox = ({
                         <li className={sortTabOn == 1 ? 'on' : ''} onClick={()=>sortTabClickHandler(1)}>기본순</li>
                         <li className={sortTabOn == 2 ? 'on' : ''} onClick={()=>sortTabClickHandler(2)}>좋아요순</li>
                     </ul>
-                    {user.userLogin && //로그인했을때만 노출
+                    {userLogin && //로그인했을때만 노출
                         <div className="custom_check">
                             <label htmlFor="like_check">
                                 <input type={`checkbox`}

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import history from "../../config/history";
 import axios from "axios";
+import Cookies from "js-cookie";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
 import { feedPop, feedAddPop, confirmPop, loadingPop, feedProfilePop } from "../../store/popupSlice";
@@ -48,6 +49,8 @@ const FeedPop = () => {
     const [prevBtn, setPrevBtn] = useState(false);
     const commentListBoxRef = useRef(null);
     const feedPopRef = useRef(null);
+    const userLogin = Cookies.get('userLogin') === 'true'; // 'true' 문자열과 비교;
+    
 
 
     // Confirm팝업 닫힐때
@@ -538,7 +541,7 @@ const FeedPop = () => {
 
 
     useEffect(()=>{
-        if(user.userLogin){
+        if(userLogin){
             //일반회원일때
             if(user.userInfo.user_level == 'U' && user.userInfo.m_id === feedData.manager_id){
                 setCommentEditBtn(true);
@@ -556,7 +559,7 @@ const FeedPop = () => {
             setFeedEditBtn(false);
             setCommentEditBtn(false);
         }
-    },[user.userLogin, user.userInfo, feedData]);
+    },[userLogin, user.userInfo, feedData]);
 
     
 
@@ -694,7 +697,7 @@ const FeedPop = () => {
 
                                             //댓글 수정,삭제버튼 노출
                                             let editBoxShow = false;
-                                            if(user.userLogin){
+                                            if(userLogin){
                                                 //일반회원일때
                                                 if(user.userInfo.user_level == 'U' && user.userInfo.m_id === cont.m_id){
                                                     editBoxShow = true;
@@ -741,8 +744,8 @@ const FeedPop = () => {
                         </div> 
                         <WriteTextareaBox 
                             placeholder={
-                                (user.userLogin && user.userInfo.user_level == 'M') || (user.userLogin && user.userRank) ? '댓글을 달아보세요!' 
-                                : user.userLogin && !user.userRank ? '댓글 작성 권한이 없는 회원입니다.' 
+                                (userLogin && user.userInfo.user_level == 'M') || (userLogin && user.userRank) ? '댓글을 달아보세요!' 
+                                : userLogin && !user.userRank ? '댓글 작성 권한이 없는 회원입니다.' 
                                 : '로그인을 해주세요.'
                             }
                             value={commentValue}
@@ -752,7 +755,7 @@ const FeedPop = () => {
                             }}
                             btnTxt='댓글쓰기'
                             onEnterHandler={onTextCheckHandler}
-                            disabled={(user.userLogin && user.userInfo.user_level == 'M') || (user.userLogin && user.userRank) ? false : true}
+                            disabled={(userLogin && user.userInfo.user_level == 'M') || (userLogin && user.userRank) ? false : true}
                         />
                     </div>
                 </div>

@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import util from "../../config/util";
+import Cookies from "js-cookie";
 import moment from "moment";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
-import { logout } from "../../store/etcSlice";
-import { userInfo, userLogin, userToken, userRank } from "../../store/userSlice";
+import { userInfo, userToken, userRank } from "../../store/userSlice";
 import { confirmPop } from "../../store/popupSlice";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -25,6 +24,8 @@ const Layout = (props) => {
     const user = useSelector((state)=>state.user);
     const etc = useSelector((state)=>state.etc);
     const [confirm, setConfirm] = useState(false);
+    const userLogin = Cookies.get('userLogin');
+
 
 
     //Google tag 
@@ -55,9 +56,7 @@ const Layout = (props) => {
 
     //로그아웃시 팝업띄우기
     useEffect(()=>{
-        if(etc.logout){
-            dispatch(logout(false));
-
+        if(userLogin === false){
             dispatch(confirmPop({
                 confirmPop:true,
                 confirmPopTit:'알림',
@@ -66,14 +65,23 @@ const Layout = (props) => {
             }));
             setConfirm(true);
         }
-    },[etc.logout]);
+        if(userLogin === undefined){
+            dispatch(userInfo({}));
+            dispatch(userToken(''));
+            dispatch(userRank({userRank:false, userRankData:{}}));
+            Cookies.remove('refreshT');
+            localStorage.removeItem('expiresAt');
+
+            navigate('/');
+        }
+    },[userLogin]);
 
 
     //토큰 재발급
     useEffect(()=>{
-        if(user.userLogin){
-            const refreshToken = util.getCookie('refreshT');
-            const expireAt = localStorage.getItem("endTime");
+        if(userLogin){
+            const refreshToken = Cookies.get('refreshT');
+            const expireAt = localStorage.getItem("expiresAt");
             
             if (expireAt) {
                 const expiredTime = moment(expireAt);
@@ -88,11 +96,11 @@ const Layout = (props) => {
                             const data = res.data;
                             // 토큰 재발급 성공
                             dispatch(userToken(data.accessToken));
-                            util.setCookie('refreshT',data.refreshToken,1);
+                            Cookies.set('refreshT',data.refreshToken, {expires:1});
 
                             // 만료 시간 업데이트
                             localStorage.setItem(
-                                "endTime",
+                                "expiresAt",
                                 moment().add(12, 'hours').format("yyyy-MM-DD HH:mm:ss")
                             );
                         }
@@ -100,12 +108,11 @@ const Layout = (props) => {
                     .catch((error) => {
                         //로그아웃하기
                         dispatch(userInfo({}));
-                        dispatch(userLogin(false));
+                        Cookies.set('userLogin',false);
                         dispatch(userToken(''));
                         dispatch(userRank({userRank:false, userRankData:{}}));
-                        dispatch(logout(true));
-                        util.setCookie('refreshT',refreshToken,-1);
-                        localStorage.removeItem('endTime');
+                        Cookies.remove('refreshT');
+                        localStorage.removeItem('expiresAt');
                 
                         navigate('/');
                     });
@@ -114,28 +121,6 @@ const Layout = (props) => {
         }
     },[location]);
 
-
-    useEffect(() => {
-        const handleUnload = () => {
-            // 브라우저가 종료될 때 로그아웃하기
-            dispatch(userInfo({}));
-            dispatch(userLogin(false));
-            dispatch(userToken(''));
-            dispatch(userRank({userRank:false, userRankData:{}}));
-            dispatch(logout(true));
-            const refreshToken = util.getCookie('refreshT');
-            util.setCookie('refreshT',refreshToken,-1);
-            localStorage.removeItem('endTime');
-
-            navigate('/');
-        };
-    
-        window.addEventListener("unload", handleUnload);
-    
-        return () => {
-            window.removeEventListener("unload", handleUnload);
-        };
-    }, []);
 
 
     return(

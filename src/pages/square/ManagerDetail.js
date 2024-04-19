@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
 import { confirmPop, feedPop, feedAddPop, loadingPop, feedPopNoList, feedProfilePop } from "../../store/popupSlice";
@@ -48,6 +49,7 @@ const ManagerDetail = () => {
     const [editBoxOn, setEditOn] = useState(null);
     const [commentValue, setCommentValue] = useState('');
     const [feedAddBtn, setFeedAddBtn] = useState(false);
+    const userLogin = Cookies.get('userLogin') === 'true'; // 'true' 문자열과 비교;
 
 
     //상세페이지 뒤로가기
@@ -119,7 +121,7 @@ const ManagerDetail = () => {
     const getCommentList = () => {
         //로그인했을때만 헤더값 넣기
         let headers = {};
-        if(user.userLogin){
+        if(userLogin){
             headers = {
                 Authorization: `Bearer ${user.userToken}`,
             }
@@ -151,7 +153,7 @@ const ManagerDetail = () => {
     const getFeedList = (page, more) => {
         //로그인했을때만 헤더값 넣기
         let headers = {};
-        if(user.userLogin){
+        if(userLogin){
             headers = {
                 Authorization: `Bearer ${user.userToken}`,
             }
@@ -258,7 +260,7 @@ const ManagerDetail = () => {
 
     //피드작성 버튼 
     useEffect(()=>{
-        if(user.userLogin){
+        if(userLogin){
             //로그인한 매니저계정일때만 노출
             if(user.userInfo.user_level == 'M' && user.userInfo.m_id === m_id){
                 setFeedAddBtn(true);
@@ -270,7 +272,7 @@ const ManagerDetail = () => {
         else{
             setFeedAddBtn(false);
         }
-    },[user.userLogin, user.userInfo]);
+    },[userLogin, user.userInfo]);
 
 
     //방명록  ------------------------------------
@@ -458,7 +460,7 @@ const ManagerDetail = () => {
     //피드 좋아요하기
     const feedLikeBtnClickHandler = (idx) => {
         //로그인시에만 가능
-        if(user.userLogin){
+        if(userLogin){
             const body = {
                 idx:idx
             };
@@ -551,7 +553,7 @@ const ManagerDetail = () => {
                                                 {commentList.map((cont,i)=>{
                                                     //방명록 삭제버튼 
                                                     let editBox = false;
-                                                    if(user.userLogin){
+                                                    if(userLogin){
                                                         //일반회원일때
                                                         if(user.userInfo.user_level == 'U' && user.userInfo.m_id === cont.m_id){
                                                             editBox = true;
@@ -583,8 +585,8 @@ const ManagerDetail = () => {
                                 </div>
                                 <WriteTextareaBox 
                                     placeholder={
-                                        (user.userLogin && user.userInfo.user_level == 'M') || (user.userLogin && user.userRank) ? '매니저님에게 방명록을 남겨 볼까요?' 
-                                        : user.userLogin && !user.userRank ? '방명록 작성 권한이 없는 회원입니다.' 
+                                        (userLogin && user.userInfo.user_level == 'M') || (userLogin && user.userRank) ? '매니저님에게 방명록을 남겨 볼까요?' 
+                                        : userLogin && !user.userRank ? '방명록 작성 권한이 없는 회원입니다.' 
                                         : '로그인을 해주세요.'
                                     }
                                     value={commentValue}
@@ -594,7 +596,7 @@ const ManagerDetail = () => {
                                     }}
                                     btnTxt='보내기'
                                     onEnterHandler={onCommentCheckHandler}
-                                    disabled={(user.userLogin && user.userInfo.user_level == 'M') || (user.userLogin && user.userRank) ? false : true}
+                                    disabled={(userLogin && user.userInfo.user_level == 'M') || (userLogin && user.userRank) ? false : true}
                                 />
                             </div>
                         </div>

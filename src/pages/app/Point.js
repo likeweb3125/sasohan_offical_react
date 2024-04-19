@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import axios from "axios";
-import util from "../../config/util";
+import Cookies from "js-cookie";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
 import { appPointPop, confirmPop } from "../../store/popupSlice";
@@ -27,7 +27,7 @@ const Point = () => {
     const [userInfo, setUserInfo] = useState({});
     const [var1, setVar1] = useState("");
     const [checkStart, setCheckStart] = useState(false);
-    const token = util.getCookie("token");
+    const token = Cookies.get("token");
     const [hasRunOnce, setHasRunOnce] = useState(false);
 
 

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 import util from "../config/util";
 import moment from "moment";
 import { enum_api_uri } from "../config/enum";
@@ -32,9 +33,10 @@ const Ranking = () => {
     const [myData, setMyData] = useState(false);
     const [authMyData, setAuthMyData] = useState({});
     const [appPage, setAppPage] = useState(false);
-    const token = util.getCookie("token");
+    const token = Cookies.get("token");
     const [searchValue, setSearchValue] = useState("");
     const [classCount, setClassCount] = useState([]);
+    const userLogin = Cookies.get('userLogin') === 'true'; // 'true' 문자열과 비교;
 
 
     // 앱인지 쿠키에있는 토큰값으로 확인하기
@@ -205,7 +207,7 @@ const Ranking = () => {
     //랭킹확인하러 가기 버튼 클릭시
     const myRankCheckBtnClickHandler = () => {
         //로그인시 
-        if(user.userLogin){
+        if(userLogin){
             //일반회원일때 마이페이지로 이동
             if(user.userInfo.user_level == 'U'){
                 navigate('/member/mypage');

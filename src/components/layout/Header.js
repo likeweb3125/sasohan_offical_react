@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import util from "../../config/util";
+import Cookies from "js-cookie"
 import * as CF from "../../config/function";
 import { applyPop } from '../../store/popupSlice';
-import { userInfo, userLogin, userToken, userRank } from "../../store/userSlice";
-import { logout } from '../../store/etcSlice';
+import { userInfo, userToken, userRank } from "../../store/userSlice";
 import ConfirmPop from '../popup/ConfirmPop';
 import logo_big_b from "../../images/logo_big_b.svg";
 import none_profile from "../../images/none_profile2.jpg";
@@ -26,6 +25,7 @@ const Header = () => {
     const [login, setLogin] = useState(false);
     const [userClassNum, setUserClassNum] = useState(null);
     const [myInfo, setMyInfo] = useState({});
+    const userLogin = Cookies.get('userLogin') === 'true'; // 'true' 문자열과 비교
 
 
     // Confirm팝업 닫힐때
@@ -96,8 +96,13 @@ const Header = () => {
 
     //로그인체크
     useEffect(()=>{
-        setLogin(user.userLogin);
-    },[user.userLogin]);
+        console.log(userLogin);
+        if(userLogin){
+            setLogin(true);
+        }else{
+            setLogin(false);
+        }
+    },[userLogin]);
 
 
     //회원기본정보 값 변경시
@@ -130,13 +135,11 @@ const Header = () => {
     //로그아웃하기
     const logoutHandler = () => {
         dispatch(userInfo({}));
-        dispatch(userLogin(false));
+        Cookies.set('userLogin',false);
         dispatch(userToken(''));
         dispatch(userRank({userRank:false, userRankData:{}}));
-        dispatch(logout(true));
-        const refreshToken = util.getCookie('refreshT');
-        util.setCookie('refreshT',refreshToken,-1);
-        localStorage.removeItem('endTime');
+        Cookies.remove('refreshT');
+        localStorage.removeItem('expiresAt');
 
         navigate('/');
     };

@@ -4,7 +4,6 @@ const user = createSlice({
     name: "user", //state 이름
     initialState: {
         signupCompletedName:'',
-        userLogin: false,
         userToken: '',
         userInfo: {},
         userRank: false,
@@ -18,9 +17,6 @@ const user = createSlice({
     reducers:{
         signupCompletedName: (state, action) => {
             state.signupCompletedName = action.payload;
-        },
-        userLogin: (state, action) => {
-            state.userLogin = action.payload;
         },
         userToken: (state, action) => {
             state.userToken = action.payload;
@@ -48,7 +44,6 @@ const user = createSlice({
 
 export const { 
     signupCompletedName,
-    userLogin,
     userToken,
     userInfo,
     userRank,

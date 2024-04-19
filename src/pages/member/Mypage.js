@@ -9,8 +9,7 @@ import { heightList, visualList, mbtiList, smokList, drinkList } from "../../con
 import * as CF from "../../config/function";
 import { confirmPop, loadingPop, profileEditPop, imgPop } from "../../store/popupSlice";
 import { myPageRefresh } from "../../store/commonSlice";
-import { userInfo, userLogin, userToken, userRank } from "../../store/userSlice";
-import { logout } from "../../store/etcSlice";
+import { userInfo, userToken, userRank } from "../../store/userSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 import MyProfileForm from "../../components/component/MyProfileForm";
 import MyProfileForm2 from "../../components/component/MyProfileForm2";
@@ -1368,12 +1367,11 @@ const Mypage = () => {
     //로그아웃하기
     const logoutHandler = () => {
         dispatch(userInfo({}));
-        dispatch(userLogin(false));
+        Cookies.set('userLogin',false);
         dispatch(userToken(''));
         dispatch(userRank({userRank:false, userRankData:{}}));
-        dispatch(logout(true));
         Cookies.remove('refreshT');
-        localStorage.removeItem('endTime');
+        localStorage.removeItem('expiresAt');
 
         navigate('/');
     };

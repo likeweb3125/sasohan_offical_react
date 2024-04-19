@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
 import EditBox from "./EditBox";
 import WriteTextareaBox from "./WriteTextareaBox";
 import ReplyBox from "./ReplyBox";
@@ -24,6 +25,7 @@ const Comment = ({
     onFeedProfileClickHandler,
 }) => {
     const user = useSelector((state)=>state.user);
+    const userLogin = Cookies.get('userLogin') === 'true'; // 'true' 문자열과 비교;
     
     return(<>
         <div className="comment">
@@ -54,7 +56,7 @@ const Comment = ({
                 <p className="txt">{data.content}</p>
                 <div className="flex">
                     <p className="date">{data.w_date}</p>
-                    {(user.userLogin && user.userInfo.user_level == 'M') || (user.userLogin && user.userRank) && //로그인 && 랭킹있는 회원일때 or 매니저일때만 가능
+                    {(userLogin && user.userInfo.user_level == 'M') || (userLogin && user.userRank) && //로그인 && 랭킹있는 회원일때 or 매니저일때만 가능
                         <button type="button" className="btn_reply" 
                             onClick={()=>{
                                 onReplyBoxClickHandler(data.comment_idx);
@@ -80,7 +82,7 @@ const Comment = ({
             {data.comments.map((cont,i)=>{
                 //댓글 수정,삭제버튼 노출
                 let editBoxShow = false;
-                if(user.userLogin){
+                if(userLogin){
                     //일반회원일때
                     if(user.userInfo.user_level == 'U' && user.userInfo.m_id === cont.m_id){
                         editBoxShow = true;

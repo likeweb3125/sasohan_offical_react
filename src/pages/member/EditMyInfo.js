@@ -6,8 +6,7 @@ import Cookies from 'js-cookie';
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
 import { confirmPop, loadingPop } from "../../store/popupSlice";
-import { userInfo, userLogin, userToken, userRank } from "../../store/userSlice";
-import { logout } from '../../store/etcSlice';
+import { userInfo, userToken, userRank } from "../../store/userSlice";
 import MyInfoForm from "../../components/component/MyInfoForm";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 
@@ -513,12 +512,11 @@ const EditMyInfo = () => {
     //로그아웃하기
     const logoutHandler = () => {
         dispatch(userInfo({}));
-        dispatch(userLogin(false));
+        Cookies.set('userLogin',false);
         dispatch(userToken(''));
         dispatch(userRank({userRank:false, userRankData:{}}));
-        dispatch(logout(true));
         Cookies.remove('refreshT');
-        localStorage.removeItem('endTime');
+        localStorage.removeItem('expiresAt');
 
         navigate('/');
     };

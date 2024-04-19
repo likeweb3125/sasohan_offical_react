@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import util from "../../config/util";
+import Cookies from "js-cookie";
 import * as CF from '../../config/function';
 import { enum_api_uri } from "../../config/enum";
 import { appProfilePop, appProfilePop2, confirmPop, appChangePasswordPop } from "../../store/popupSlice";
@@ -20,7 +20,7 @@ const EditProfile = () => {
     const [confirm, setConfirm] = useState(false);
     const [editOkConfirm, setEditOkConfirm] = useState(false);
     const [tabOn, setTabOn] = useState(1);
-    const token = util.getCookie("token");
+    const token = Cookies.get("token");
     const [addressList, setAddressList] = useState([]);
     const [myInfo, setMyInfo] = useState({});
     const [myType, setMyType] = useState({});

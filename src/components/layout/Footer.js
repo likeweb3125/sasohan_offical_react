@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
 import { confirmPop, applyPop } from "../../store/popupSlice";
@@ -17,6 +18,7 @@ const Footer = () => {
     const [info, setInfo] = useState({});
     const location = useLocation();
     const [mainPage, setMainPage] = useState(null);
+    const userLogin = Cookies.get('userLogin') === 'true'; // 'true' 문자열과 비교;
 
 
     //사이트정보 가져오기
@@ -131,7 +133,7 @@ const Footer = () => {
             </ul>
             <button type="button" className="btn_top" onClick={scrollToTop}></button>
         </div>
-        {!user.userLogin &&
+        {!userLogin &&
             // <button type='button' className='btn_apply_foot' onClick={()=>{
             //     dispatch(applyPop(true));
             // }}>소개팅 <br/>신청</button>
