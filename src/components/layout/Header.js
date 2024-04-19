@@ -96,7 +96,6 @@ const Header = () => {
 
     //로그인체크
     useEffect(()=>{
-        console.log(userLogin);
         if(userLogin){
             setLogin(true);
         }else{
@@ -266,13 +265,13 @@ const Header = () => {
                                 <Link to="/about-vip">VIP 소개팅</Link>
                             </li>
                             <li className={menuOn === 3 ? "on" : ""}>
-                                <a href="/square/all-feed">사소한 스퀘어</a>
+                                <Link to="/square/all-feed">사소한 스퀘어</Link>
                                 <ul className='submenu_ul flex_center'>
                                     <li>
-                                        <a href={'/square/all-feed'}>피드 스퀘어</a>
+                                        <Link to={'/square/all-feed'}>피드 스퀘어</Link>
                                     </li>
                                     <li>
-                                        <a href={'/square/manager-list'}>사소한 매니저</a>
+                                        <Link to={'/square/manager-list'}>사소한 매니저</Link>
                                     </li>
                                 </ul>
                             </li>
