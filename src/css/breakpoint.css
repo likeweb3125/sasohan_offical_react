@@ -20,7 +20,7 @@
     /* header */
     #header.on .header_inner{background: #fff;backdrop-filter: none;}
     #header.on .logo{background: url('../images/logo_b.svg') no-repeat 0% 50%;}
-    #header.on .gnb_wrap .gnb li a{color: #222;}
+    #header.on .gnb_wrap .gnb li a,#header.on .gnb_wrap .gnb li button{color: #222;}
     #header.on .utill_wrap .link_ul li a{color: #666;}
     #header.on .utill_wrap .link_ul li::after{background: #666;}
     #header.on .list_sns{background: #000;}

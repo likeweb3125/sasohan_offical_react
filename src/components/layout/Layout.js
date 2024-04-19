@@ -25,7 +25,7 @@ const Layout = (props) => {
     const etc = useSelector((state)=>state.etc);
     const [confirm, setConfirm] = useState(false);
     const userLogin = Cookies.get('userLogin');
-
+    let currentPath = '';
 
 
     //Google tag 

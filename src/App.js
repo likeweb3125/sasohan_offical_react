@@ -62,9 +62,27 @@ function App() {
     },[location]);
 
 
-    useEffect(()=>{
-        
-    },[]);
+    // 팝업이 열리면 배경 스크롤을 막음
+    // useEffect(() => {
+    //     if (Object.values(popup).some(value => value === true)) {
+    //         document.body.style.cssText = `overflow: hidden;`;
+    //     } else {
+    //         // 팝업이 모두 닫혔을 때의 상황을 추가하여 스크롤을 가능하게 함
+    //         document.body.style.cssText = '';
+    //     }
+    // }, [popup]);
+
+    useEffect(() => {
+        const modalRoot = document.getElementById('modal-root');
+        const hasChildren = modalRoot && modalRoot.hasChildNodes();
+        console.log(hasChildren);
+
+        if (hasChildren) {
+            document.body.style.cssText = 'overflow: hidden;';
+        } else {
+            document.body.style.cssText = '';
+        }
+    }, [popup]); // popup 상태가 변경될 때마다 useEffect가 실행됩니다.
 
 
     return(

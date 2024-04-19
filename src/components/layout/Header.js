@@ -144,6 +144,14 @@ const Header = () => {
     };
 
 
+    const onLinkRefresh = (e) => {
+        if (location.pathname === e.target.pathname) {
+            e.preventDefault(); // 기본 동작 방지
+            window.location.reload(); // 새로고침
+        }
+    };
+
+
 
     return(<>
         <header id="header" className={`flex_center ${headerOn ? "on" : ""}`}>
@@ -156,11 +164,11 @@ const Header = () => {
                         <li className={menuOn === 1 ? "on" : ""}><Link to="/">About 사소한</Link></li>
                         <li className={menuOn === 2 ? "on" : ""}><Link to="/about-vip">VIP 소개팅</Link></li>
                         <li className={`is_submenu${menuOn === 3 ? " on" : ""}`}>
-                            <a href="/square/all-feed">사소한 스퀘어</a>
+                            <Link to="/square/all-feed" onClick={onLinkRefresh}>사소한 스퀘어</Link>
                             <div className='submenu_box'>
                                 <ul>
-                                    <li><a href="/square/all-feed">피드 스퀘어</a></li>
-                                    <li><a href="/square/manager-list">사소한 매니저</a></li>
+                                    <li><Link to="/square/all-feed" onClick={onLinkRefresh}>피드 스퀘어</Link></li>
+                                    <li><Link to="/square/manager-list" onClick={onLinkRefresh}>사소한 매니저</Link></li>
                                 </ul>
                             </div>
                         </li>
@@ -265,13 +273,13 @@ const Header = () => {
                                 <Link to="/about-vip">VIP 소개팅</Link>
                             </li>
                             <li className={menuOn === 3 ? "on" : ""}>
-                                <Link to="/square/all-feed">사소한 스퀘어</Link>
+                                <Link to="/square/all-feed" onClick={onLinkRefresh}>사소한 스퀘어</Link>
                                 <ul className='submenu_ul flex_center'>
                                     <li>
-                                        <Link to={'/square/all-feed'}>피드 스퀘어</Link>
+                                        <Link to={'/square/all-feed'} onClick={onLinkRefresh}>피드 스퀘어</Link>
                                     </li>
                                     <li>
-                                        <Link to={'/square/manager-list'}>사소한 매니저</Link>
+                                        <Link to={'/square/manager-list'} onClick={onLinkRefresh}>사소한 매니저</Link>
                                     </li>
                                 </ul>
                             </li>

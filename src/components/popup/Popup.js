@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { createPortal } from "react-dom";
 import ManagerPop from "./ManagerPop";
@@ -12,7 +12,6 @@ import FeedPop from "./FeedPop";
 import FeedAddPop from "./FeedAddPop";
 import FeedProfilePop from "./FeedProfilePop";
 import VipApplyPop from "./VipApplyPop";
-
 import AppTermsPop from "./app/TermsPop";
 import AppProfilePop from "./app/ProfilePop";
 import AppProfileImgPop from "./app/ProfileImgPop";
@@ -28,17 +27,6 @@ const Popup = () => {
     const popup = useSelector((state)=>state.popup);
 
 
-    //팝업 열리면 배경스크롤X
-    useEffect(() => {
-        if (Object.values(popup).some(value => value === true)) {
-            document.body.style.cssText = `overflow: hidden;`;
-            return () => {
-                document.body.style.cssText = '';
-            };
-        }
-    }, [popup]);
-
-
     return createPortal(
         <>
             {/* 챠밍매니저 팝업 */}
@@ -49,9 +37,6 @@ const Popup = () => {
 
             {/* 후기 팝업 */}
             {popup.reviewPop && <ReviewPop />}
-
-            {/* 소개팅신청하기 팝업 */}
-            {popup.applyPop && <ApplyPop />}
 
             {/* 소개팅신청하기 팝업 */}
             {popup.applyPop && <ApplyPop />}
