@@ -135,17 +135,7 @@ const AllFeed = () => {
 
     //검색하기버튼 클릭시
     const searchHandler = () => {
-        if(searchValue.length > 0){
-            getAllFeed(pageNo, false);
-        }else{
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt:'검색어를 입력해주세요.',
-                confirmPopBtn:1,
-            }));
-            setConfirm(true);
-        }
+        getAllFeed(pageNo, false);
     };
 
 

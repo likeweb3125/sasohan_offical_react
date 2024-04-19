@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import moment from "moment/moment";
+import Cookies from 'js-cookie';
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
 import { confirmPop, loadingPop } from "../../store/popupSlice";
+import { userInfo, userLogin, userToken, userRank } from "../../store/userSlice";
+import { logout } from '../../store/etcSlice';
 import MyInfoForm from "../../components/component/MyInfoForm";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 
@@ -22,6 +24,7 @@ const EditMyInfo = () => {
     const user = useSelector((state)=>state.user);
     const [confirm, setConfirm] = useState(false);
     const [okConfirm, setOkConfirm] = useState(false);
+    const [idChangeConfirm, setIdChangeConfirm] = useState(false);
     const [info ,setInfo] = useState({});
     const [values, setValues] = useState({});
     const [passShow, setPassShow] = useState({"password":false,"password2":false});
@@ -31,6 +34,7 @@ const EditMyInfo = () => {
     const [nick, setNick] = useState('');
     const [idChecked, setIdChecked] = useState(true);
     const [nickChecked, setNickChecked] = useState(true);
+    const [beforeId, setBeforeId] = useState('');
 
 
     // Confirm팝업 닫힐때
@@ -38,6 +42,7 @@ const EditMyInfo = () => {
         if(popup.confirmPop === false){
             setConfirm(false);
             setOkConfirm(false);
+            setIdChangeConfirm(false);
         }
     },[popup.confirmPop]);
 
@@ -57,6 +62,7 @@ const EditMyInfo = () => {
                 //자신이 직접가입한 회원만
                 if(data.modify_flag){
                     setId(data.m_id);
+                    setBeforeId(data.m_id);
                 }
                 setNick(data.m_n_name);
             }
@@ -294,9 +300,6 @@ const EditMyInfo = () => {
     };
 
 
-    
-
-
     //입력값 체크
     const errorCheck = () => {
         const newError = {...error};
@@ -474,13 +477,24 @@ const EditMyInfo = () => {
         })
         .then((res)=>{
             if(res.status === 200){
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'기본정보가 수정되었습니다.',
-                    confirmPopBtn:1,
-                }));
-                setOkConfirm(true);
+                //아이디 변경시 로그아웃
+                if(beforeId !== id){
+                    dispatch(confirmPop({
+                        confirmPop:true,
+                        confirmPopTit:'알림',
+                        confirmPopTxt:'기본정보가 수정되었습니다. 로그인을 다시 해주세요.',
+                        confirmPopBtn:1,
+                    }));
+                    setIdChangeConfirm(true);
+                }else{
+                    dispatch(confirmPop({
+                        confirmPop:true,
+                        confirmPopTit:'알림',
+                        confirmPopTxt:'기본정보가 수정되었습니다.',
+                        confirmPopBtn:1,
+                    }));
+                    setOkConfirm(true);
+                }
             }
         })
         .catch((error) => {
@@ -493,6 +507,20 @@ const EditMyInfo = () => {
             }));
             setConfirm(true);
         }); 
+    };
+
+
+    //로그아웃하기
+    const logoutHandler = () => {
+        dispatch(userInfo({}));
+        dispatch(userLogin(false));
+        dispatch(userToken(''));
+        dispatch(userRank({userRank:false, userRankData:{}}));
+        dispatch(logout(true));
+        Cookies.remove('refreshT');
+        localStorage.removeItem('endTime');
+
+        navigate('/');
     };
 
 
@@ -537,6 +565,9 @@ const EditMyInfo = () => {
                 </div>
             </div>
         </div>
+
+        {/* 아이디변경완료 confirm팝업 */}
+        {idChangeConfirm && <ConfirmPop closePop="custom" onCloseHandler={logoutHandler}/>}
 
         {/* 기본정보 수정완료 confirm팝업 */}
         {okConfirm && <ConfirmPop closePop="custom" onCloseHandler={()=>{navigate('/member/mypage')}}/>}

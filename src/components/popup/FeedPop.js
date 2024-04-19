@@ -605,7 +605,7 @@ const FeedPop = () => {
                     <div className="cont_box tab_show">
                         <div className="top_box">
                             <div className="profile_box flex_between flex_wrap">
-                                <div className="flex">
+                                <div className="flex pointer" onClick={onManagerClickHandler}>
                                     <div className="profile"><img src={feedData.profile} alt="프로필 이미지"/></div>
                                     <p className={`name${feedData.manager_type == 'C' ? ' charming' : ''}`}>{feedData.manager_name}</p>
                                 </div>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie";
+import util from "../../config/util";
 import moment from "moment";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
@@ -330,9 +330,9 @@ const Login = () => {
 
                 //아이디저장 체크시 쿠키에 저장
                 if(saveIdCheck){
-                    Cookies.set("saveId",info.m_id);
+                    util.setCookie("saveId",info.m_id,1);
                 }else{
-                    Cookies.remove("saveId");
+                    util.setCookie("saveId",info.m_id,-1);
                 }
 
                 //회원랭킹정보 store 에 저장
@@ -349,10 +349,10 @@ const Login = () => {
                 dispatch(userInfo(info));
                 dispatch(userLogin(true));
                 dispatch(userToken(token.accessToken));
-                Cookies.set('refreshToken',token.refreshToken);
+                util.setCookie("refreshT",token.refreshToken,1);
                 localStorage.setItem(
-                    "expiresAt",
-                    moment().format("yyyy-MM-DD HH:mm:ss")
+                    "endTime",
+                    moment().add(12, 'hours').format("yyyy-MM-DD HH:mm:ss")
                 );
 
                 //메인페이지로 이동
@@ -387,9 +387,9 @@ const Login = () => {
 
                 //아이디저장 체크시 쿠키에 저장
                 if(saveIdCheck){
-                    Cookies.set("saveId",info.m_id);
+                    util.setCookie("saveId",info.m_id,1);
                 }else{
-                    Cookies.remove("saveId");
+                    util.setCookie("saveId",info.m_id,-1);
                 }
 
                 const data = res.data;
@@ -400,9 +400,9 @@ const Login = () => {
                 dispatch(userInfo(newInfo));
                 dispatch(userLogin(true));
                 dispatch(userToken(token.accessToken));
-                Cookies.set('refreshToken',token.refreshToken);
+                util.setCookie("refreshT",token.refreshToken,1);
                 localStorage.setItem(
-                    "expiresAt",
+                    "endTime",
                     moment().add(12, 'hours').format("yyyy-MM-DD HH:mm:ss")
                 );
 
@@ -427,7 +427,7 @@ const Login = () => {
 
     //아이디저장값이 있을때
     useEffect(()=>{
-        const id = Cookies.get("saveId");
+        const id = util.getCookie("saveId");
         if(id){
             const newValues = {...values};
             newValues.id = id;

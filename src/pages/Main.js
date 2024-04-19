@@ -15,7 +15,7 @@ import ConfirmPop from "../components/popup/ConfirmPop";
 import MainFixMenu from "../components/layout/MainFixMenu";
 import { enum_api_uri } from "../config/enum";
 import * as CF from "../config/function";
-import Cookies from "js-cookie";
+import util from "../config/util";
 import m_visual_tag from "../images/main_visual_tag.svg";
 import m_visual_img1 from "../images/main_visual_txt1.png";
 import tip_box_img from "../images/tip_box.svg";
@@ -77,7 +77,7 @@ const Main = () => {
     const [count, setCount] = useState(0);
     const charmingSliderRef = useRef();
     const storySliderRef = useRef();
-    const ref_browser = Cookies.get("ref_browser");
+    const ref_browser = util.getCookie("ref_browser");
     const [externalSliderActive,setExternalSliderActive] = useState(0);
     const [paperSliderActive,setPaperSliderActive] = useState(0);
     const [donaSliderActive, setDonaSliderActive] = useState(1);

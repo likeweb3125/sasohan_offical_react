@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import Cookies from "js-cookie";
+import util from "../../../config/util";
 import { enum_api_uri } from "../../../config/enum";
 import * as CF from "../../../config/function";
 import { appChangePasswordPop, confirmPop } from "../../../store/popupSlice";
@@ -25,7 +25,7 @@ const ChangePasswordPop = () => {
     const [errorPassword3, setErrorPassword3] = useState(false);
     const [confirm, setConfirm] = useState(false);
     const [editOkConfirm, setEditOkConfirm] = useState(false);
-    const token = Cookies.get("token");
+    const token = util.getCookie("token");
 
 
     // Confirm팝업 닫힐때

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import * as CF from '../../config/function';
 import { enum_api_uri } from "../../config/enum";
-import Cookies from "js-cookie";
+import util from "../../config/util";
 import { confirmPop } from "../../store/popupSlice";
 import { profileData, profileDataChange } from "../../store/userSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
@@ -18,7 +18,7 @@ const Withdraw = () => {
     const [confirm, setConfirm] = useState(false);
     const [withdrawConfirm, setWithdrawConfirm] = useState(false);
     const [withdrawOkConfirm, setWithdrawOkConfirm] = useState(false);
-    const token = Cookies.get("token");
+    const token = util.getCookie("token");
     const [valPassword, setValPassword] = useState("");
     const [valReason, setValReason] = useState("");
     const [passView, setPassView] = useState(false);

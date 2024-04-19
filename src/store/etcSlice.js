@@ -6,6 +6,7 @@ const etc = createSlice({
         detailPageBack: false,
         listPageData: {},
         scrollY: null,
+        logout:false,
     },
     reducers:{
         detailPageBack: (state, action) => {
@@ -17,6 +18,9 @@ const etc = createSlice({
         scrollY: (state, action) => {
             state.scrollY = action.payload;
         },
+        logout: (state, action) => {
+            state.logout = action.payload;
+        },
     }
 });
 
@@ -24,5 +28,6 @@ export const {
     detailPageBack,
     listPageData,
     scrollY,
+    logout,
 } = etc.actions;
 export default etc;

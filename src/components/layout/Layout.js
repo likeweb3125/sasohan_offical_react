@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie";
+import util from "../../config/util";
 import moment from "moment";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
-import { logout } from "../../store/commonSlice";
+import { logout } from "../../store/etcSlice";
 import { userInfo, userLogin, userToken, userRank } from "../../store/userSlice";
 import { confirmPop } from "../../store/popupSlice";
 import Header from "./Header";
@@ -23,6 +23,7 @@ const Layout = (props) => {
     const common = useSelector((state)=>state.common);
     const popup = useSelector((state)=>state.popup);
     const user = useSelector((state)=>state.user);
+    const etc = useSelector((state)=>state.etc);
     const [confirm, setConfirm] = useState(false);
 
 
@@ -54,7 +55,7 @@ const Layout = (props) => {
 
     //로그아웃시 팝업띄우기
     useEffect(()=>{
-        if(common.logout){
+        if(etc.logout){
             dispatch(logout(false));
 
             dispatch(confirmPop({
@@ -65,14 +66,14 @@ const Layout = (props) => {
             }));
             setConfirm(true);
         }
-    },[common.logout]);
+    },[etc.logout]);
 
 
     //토큰 재발급
     useEffect(()=>{
         if(user.userLogin){
-            const refreshToken = Cookies.get("refreshToken");
-            const expireAt = localStorage.getItem("expiresAt");
+            const refreshToken = util.getCookie('refreshT');
+            const expireAt = localStorage.getItem("endTime");
             
             if (expireAt) {
                 const expiredTime = moment(expireAt);
@@ -87,11 +88,11 @@ const Layout = (props) => {
                             const data = res.data;
                             // 토큰 재발급 성공
                             dispatch(userToken(data.accessToken));
-                            Cookies.set('refreshToken',data.refreshToken);
+                            util.setCookie('refreshT',data.refreshToken,1);
 
                             // 만료 시간 업데이트
                             localStorage.setItem(
-                                "expiresAt",
+                                "endTime",
                                 moment().add(12, 'hours').format("yyyy-MM-DD HH:mm:ss")
                             );
                         }
@@ -103,8 +104,8 @@ const Layout = (props) => {
                         dispatch(userToken(''));
                         dispatch(userRank({userRank:false, userRankData:{}}));
                         dispatch(logout(true));
-                        Cookies.remove('refreshToken');
-                        localStorage.removeItem('expiresAt');
+                        util.setCookie('refreshT',refreshToken,-1);
+                        localStorage.removeItem('endTime');
                 
                         navigate('/');
                     });
@@ -122,8 +123,11 @@ const Layout = (props) => {
             dispatch(userToken(''));
             dispatch(userRank({userRank:false, userRankData:{}}));
             dispatch(logout(true));
-            Cookies.remove('refreshToken');
-            localStorage.removeItem('expiresAt');
+            const refreshToken = util.getCookie('refreshT');
+            util.setCookie('refreshT',refreshToken,-1);
+            localStorage.removeItem('endTime');
+
+            navigate('/');
         };
     
         window.addEventListener("unload", handleUnload);

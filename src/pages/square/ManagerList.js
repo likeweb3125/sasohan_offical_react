@@ -202,7 +202,7 @@ const ManagerList = () => {
 
     //검색하기버튼 클릭시
     const searchHandler = () => {
-        getManagerList(pageNo, false, true);
+        getManagerList(pageNo, false);
     };
 
 

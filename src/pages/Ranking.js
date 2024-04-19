@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie";
+import util from "../config/util";
 import moment from "moment";
 import { enum_api_uri } from "../config/enum";
 import * as CF from "../config/function";
@@ -32,7 +32,7 @@ const Ranking = () => {
     const [myData, setMyData] = useState(false);
     const [authMyData, setAuthMyData] = useState({});
     const [appPage, setAppPage] = useState(false);
-    const token = Cookies.get("token");
+    const token = util.getCookie("token");
     const [searchValue, setSearchValue] = useState("");
     const [classCount, setClassCount] = useState([]);
 

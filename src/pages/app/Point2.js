@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import axios from "axios";
-import Cookies from "js-cookie";
+import util from "../../config/util";
 import { enum_api_uri } from "../../config/enum";
 import { appPointPop } from "../../store/popupSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
@@ -14,8 +14,8 @@ const Point2 = () => {
     const popup = useSelector((state)=>state.popup);
     const m_pay_check = enum_api_uri.m_pay_check;
     const [confirm, setConfirm] = useState(false);
-    const token = Cookies.get("token");
-    const checkDataStr = Cookies.get("checkData");
+    const token = util.getCookie("token");
+    const checkDataStr = util.getCookie("checkData");
     const [complete, setComplete] = useState(false);
 
 

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import Cookies from 'js-cookie';
+import util from "../../config/util";
 import * as CF from "../../config/function";
 import { applyPop } from '../../store/popupSlice';
 import { userInfo, userLogin, userToken, userRank } from "../../store/userSlice";
-import { logout } from '../../store/commonSlice';
+import { logout } from '../../store/etcSlice';
 import ConfirmPop from '../popup/ConfirmPop';
 import logo_big_b from "../../images/logo_big_b.svg";
 import none_profile from "../../images/none_profile2.jpg";
@@ -14,6 +14,7 @@ import none_profile from "../../images/none_profile2.jpg";
 const Header = () => {
     const popup = useSelector((state)=>state.popup);
     const user = useSelector((state)=>state.user);
+    const etc = useSelector((state)=>state.etc);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [confirm, setConfirm] = useState(false);
@@ -133,8 +134,9 @@ const Header = () => {
         dispatch(userToken(''));
         dispatch(userRank({userRank:false, userRankData:{}}));
         dispatch(logout(true));
-        Cookies.remove('refreshToken');
-        localStorage.removeItem('expiresAt');
+        const refreshToken = util.getCookie('refreshT');
+        util.setCookie('refreshT',refreshToken,-1);
+        localStorage.removeItem('endTime');
 
         navigate('/');
     };
