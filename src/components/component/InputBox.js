@@ -44,6 +44,7 @@ const InputBox = (props) => {
                             }
                         }}
                         maxLength={props.maxLength}
+                        disabled={props.disabled}
                     />
             }
         </>

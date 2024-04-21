@@ -34,6 +34,7 @@ const EditMyInfo = () => {
     const [idChecked, setIdChecked] = useState(true);
     const [nickChecked, setNickChecked] = useState(true);
     const [beforeId, setBeforeId] = useState('');
+    const [editId, setEditId] = useState(false);
 
 
     // Confirm팝업 닫힐때
@@ -64,6 +65,11 @@ const EditMyInfo = () => {
                     setBeforeId(data.m_id);
                 }
                 setNick(data.m_n_name);
+
+                //아이디 변경가능한지 체크 (수정안했을경우 0, 수정했을경우 1)
+                if(data.id_change == 0){
+                    setEditId(true);
+                }
             }
         })
         .catch((error) => {
@@ -553,6 +559,7 @@ const EditMyInfo = () => {
                                     nickChecked={nickChecked}
                                     idCheckHandler={idCheckHandler}
                                     nickCheckHandler={nickNameCheckHandler}
+                                    editId={editId}
                                 />
                             </ul>
                         </div>

@@ -1398,6 +1398,7 @@ const Signup2 = () => {
                                     nickChecked={nickChecked}
                                     idCheckHandler={idCheckHandler}
                                     nickCheckHandler={nickNameCheckHandler}
+                                    editId={true}
                                 />
                             </ul>
                         </div>

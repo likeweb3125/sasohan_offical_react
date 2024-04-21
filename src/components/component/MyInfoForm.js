@@ -17,12 +17,35 @@ const MyInfoForm = (
         nickChecked,
         idCheckHandler,
         nickCheckHandler,
+        editId,
     }) => {
 
     return(<>
         <li>
             <p className="color_black2">아이디 <span className="color_point">*</span></p>
-            <div className="input_btn_box">
+            {editId ? 
+                <>
+                    <div className="input_btn_box">
+                        <div className={`input_box f_18 light${focusInput.m_id ? " on" : error.m_id ? " error" : ""}`}>
+                            <InputBox 
+                                type={'text'}
+                                placeholder={`아이디를 입력해주세요.`}
+                                value={id}
+                                onChangeHandler={onInputChangeHandler}
+                                id={`m_id`}
+                                onFocusHandler={(e)=>{
+                                    focusHandler(e,true);
+                                }}
+                                onBlurHandler={(e)=>{
+                                    focusHandler(e,false);
+                                }}
+                            />
+                        </div>
+                        <button type="button" disabled={idChecked ? true : false} onClick={idCheckHandler}>중복확인</button>
+                    </div>
+                    {(focusInput.m_id || error.m_id) && <p className={`error_txt${focusInput.m_id ? ' color_point' : ''}`}>영문자, 소문자, _ 최소 4자 이상 입력해주세요!</p>}
+                </>
+                :
                 <div className={`input_box f_18 light${focusInput.m_id ? " on" : error.m_id ? " error" : ""}`}>
                     <InputBox 
                         type={'text'}
@@ -36,11 +59,10 @@ const MyInfoForm = (
                         onBlurHandler={(e)=>{
                             focusHandler(e,false);
                         }}
+                        disabled={editId ? false : true}
                     />
                 </div>
-                <button type="button" disabled={idChecked ? true : false} onClick={idCheckHandler}>중복확인</button>
-            </div>
-            {(focusInput.m_id || error.m_id) && <p className={`error_txt${focusInput.m_id ? ' color_point' : ''}`}>영문자, 소문자, _ 최소 4자 이상 입력해주세요!</p>}
+            }
         </li>
         <li>
             <p className="color_black2">비밀번호 <span className="color_point">*</span></p>
