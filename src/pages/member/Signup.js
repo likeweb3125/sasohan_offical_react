@@ -96,9 +96,10 @@ const Signup = () => {
     //전체동의시 tradeid sessionStorage에 저장
     useEffect(()=>{
         if(isAllChecked){
+            const date = new Date();
             const id = moment().format("YYYYMMDDHHmmss");
-            setTradeid(id);
-            sessionStorage.setItem("tradeid",id);
+            setTradeid(date);
+            sessionStorage.setItem("tradeid",date);
         }
     },[isAllChecked]);
 
