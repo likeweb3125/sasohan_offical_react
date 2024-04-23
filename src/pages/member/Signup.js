@@ -97,8 +97,8 @@ const Signup = () => {
     useEffect(()=>{
         if(isAllChecked){
             const date = new Date();
-            const id = moment().format("YYYYMMDDHHmmss");
-            setTradeid(date);
+            const id = moment(date).format("YYYYMMDDHHmmss");
+            setTradeid(id);
             sessionStorage.setItem("tradeid",date);
         }
     },[isAllChecked]);
