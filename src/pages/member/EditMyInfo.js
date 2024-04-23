@@ -56,15 +56,16 @@ const EditMyInfo = () => {
         })
         .then((res)=>{
             if(res.status === 200){
-                const data = res.data.my_info;
-                setInfo(data);
+                const data = res.data;
+                const myInfo = data.my_info;
+                setInfo(myInfo);
 
                 //자신이 직접가입한 회원만
-                if(data.modify_flag){
-                    setId(data.m_id);
-                    setBeforeId(data.m_id);
+                if(myInfo.modify_flag){
+                    setId(myInfo.m_id);
+                    setBeforeId(myInfo.m_id);
                 }
-                setNick(data.m_n_name);
+                setNick(myInfo.m_n_name);
 
                 //아이디 변경가능한지 체크 (수정안했을경우 0, 수정했을경우 1)
                 if(data.id_change == 0){
