@@ -53,9 +53,10 @@ const Layout = (props) => {
     },[location]);
 
 
+
     //로그아웃시 팝업띄우기
     useEffect(()=>{
-        if(userLogin === false){
+        if(userLogin == 'false'){
             dispatch(confirmPop({
                 confirmPop:true,
                 confirmPopTit:'알림',
@@ -63,8 +64,10 @@ const Layout = (props) => {
                 confirmPopBtn:1,
             }));
             setConfirm(true);
+            
+            Cookies.remove('userLogin');
         }
-        if(userLogin === undefined){
+        if(userLogin == undefined){
             dispatch(userInfo({}));
             dispatch(userToken(''));
             dispatch(userRank({userRank:false, userRankData:{}}));
@@ -78,7 +81,7 @@ const Layout = (props) => {
 
     //토큰 재발급
     useEffect(()=>{
-        if(userLogin){
+        if(userLogin === true){
             const refreshToken = Cookies.get('refreshT');
             const expireAt = localStorage.getItem("expiresAt");
             

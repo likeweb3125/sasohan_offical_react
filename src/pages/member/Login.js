@@ -8,6 +8,7 @@ import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
 import { confirmPop, loadingPop } from "../../store/popupSlice";
 import { userToken, userInfo, userRank } from "../../store/userSlice";
+import { phoneLogin } from "../../store/commonSlice";
 import InputBox from "../../components/component/InputBox";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 import logo_b from "../../images/logo_b.svg";
@@ -23,6 +24,7 @@ const Login = () => {
     const rank_token = enum_api_uri.rank_token;
     const manager_profile = enum_api_uri.manager_profile;
     const popup = useSelector((state)=>state.popup);
+    const common = useSelector((state)=>state.common);
     const [tabOn, setTabOn] = useState(1);
     const [confirm, setConfirm] = useState(false);
     const [values, setValues] = useState({});
@@ -46,6 +48,14 @@ const Login = () => {
             setConfirm(false);
         }
     },[popup.confirmPop]);
+
+
+    useEffect(()=>{
+        if(common.phoneLogin){
+            setTabOn(2);
+            dispatch(phoneLogin(false));
+        }
+    },[common.phoneLogin]);
 
 
     //input값 변경시

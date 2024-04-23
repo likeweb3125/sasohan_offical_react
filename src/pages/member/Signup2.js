@@ -9,6 +9,7 @@ import * as CF from "../../config/function";
 import { heightList, visualList, mbtiList, smokList, drinkList } from "../../config/constants";
 import { confirmPop, imgPop, loadingPop } from "../../store/popupSlice";
 import { signupCompletedName } from "../../store/userSlice";
+import { phoneLogin } from "../../store/commonSlice";
 import StepBox from "../../components/component/StepBox";
 import MyInfoForm from "../../components/component/MyInfoForm";
 import MyProfileForm from "../../components/component/MyProfileForm";
@@ -33,7 +34,8 @@ const Signup2 = () => {
     const tradeid = sessionStorage.getItem("tradeid");
     const popup = useSelector((state)=>state.popup);
     const [confirm, setConfirm] = useState(false);
-    const [authFailconfirm, setAuthFailConfirm] = useState(false);
+    const [authFailConfirm, setAuthFailConfirm] = useState(false);
+    const [loginConfirm, setLoginConfirm] = useState(false);
     const [realData ,setRealData] = useState({});
     const [values, setValues] = useState({});
     const [passShow, setPassShow] = useState({"password":false,"password2":false});
@@ -79,8 +81,18 @@ const Signup2 = () => {
         if(popup.confirmPop === false){
             setConfirm(false);
             setAuthFailConfirm(false);
+            setLoginConfirm(false);
         }
     },[popup.confirmPop]);
+
+
+
+    //연락처로그인페이지로 이동하기
+    const onLoginPageMove = () => {
+        dispatch(phoneLogin(true));
+        navigate('/member/login');
+    };
+
 
 
     //실명인증한 회원정보 가져오기
@@ -107,13 +119,23 @@ const Signup2 = () => {
         })
         .catch((error) => {
             const err_msg = CF.errorMsgHandler(error);
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt: err_msg,
-                confirmPopBtn:1,
-            }));
-            setAuthFailConfirm(true);
+            if(error.response.status === 409){//이미가입되어있는 정보일경우 로그인페이지로 이동
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt: err_msg,
+                    confirmPopBtn:1,
+                }));
+                setLoginConfirm(true);
+            }else{
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt: err_msg,
+                    confirmPopBtn:1,
+                }));
+                setAuthFailConfirm(true);
+            }
         })
     };
 
@@ -1349,13 +1371,24 @@ const Signup2 = () => {
             }else{
                 err_msg = CF.errorMsgHandler(error);
             }
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt: err_msg,
-                confirmPopBtn:1,
-            }));
-            setConfirm(true);
+
+            if(error.response.status === 409){//이미가입되어있는 정보일경우 로그인페이지로 이동
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt: err_msg,
+                    confirmPopBtn:1,
+                }));
+                setLoginConfirm(true);
+            }else{
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt: err_msg,
+                    confirmPopBtn:1,
+                }));
+                setAuthFailConfirm(true);
+            }
         }); 
     };
 
@@ -1487,8 +1520,11 @@ const Signup2 = () => {
             </div>
         </div>
 
+        {/* 이미가입되어있는정보 - 로그인페이지이동 confirm팝업 */}
+        {loginConfirm && <ConfirmPop closePop="custom" onCloseHandler={onLoginPageMove} />}
+
         {/* 실명인증 실패 confirm팝업 */}
-        {authFailconfirm && <ConfirmPop closePop="custom" onCloseHandler={()=>navigate('/member/signup')} />}
+        {authFailConfirm && <ConfirmPop closePop="custom" onCloseHandler={()=>navigate('/member/signup')} />}
 
         {/* confirm팝업 */}
         {confirm && <ConfirmPop />}

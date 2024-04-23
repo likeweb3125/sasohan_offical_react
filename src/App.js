@@ -75,7 +75,6 @@ function App() {
     useEffect(() => {
         const modalRoot = document.getElementById('modal-root');
         const hasChildren = modalRoot && modalRoot.hasChildNodes();
-        console.log(hasChildren);
 
         if (hasChildren) {
             document.body.style.cssText = 'overflow: hidden;';

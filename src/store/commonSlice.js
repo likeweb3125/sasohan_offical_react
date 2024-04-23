@@ -9,6 +9,7 @@ const common = createSlice({
         resetPasswordToken:'', //비밀번호찾기 완료시 받은 토큰값 (비밀번호변경시에 필요)
         feedRefresh:false,
         myPageRefresh:false,
+        phoneLogin:false,
     },
     reducers:{
         headerMenuOn: (state, action) => {
@@ -29,6 +30,9 @@ const common = createSlice({
         myPageRefresh: (state, action) => {
             state.myPageRefresh = action.payload;
         },
+        phoneLogin: (state, action) => {
+            state.phoneLogin = action.payload;
+        },
     }
 });
 
@@ -39,5 +43,6 @@ export const {
     resetPasswordToken,
     feedRefresh,
     myPageRefresh,
+    phoneLogin,
 } = common.actions;
 export default common;
