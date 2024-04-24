@@ -32,7 +32,6 @@ const Signup2 = () => {
     const text_check = enum_api_uri.text_check;
     const m_join = enum_api_uri.m_join;
     const tradeid = sessionStorage.getItem("tradeid");
-    const [tradeId, setTradeId] = useState('');
     const popup = useSelector((state)=>state.popup);
     const [confirm, setConfirm] = useState(false);
     const [authFailConfirm, setAuthFailConfirm] = useState(false);
@@ -97,15 +96,14 @@ const Signup2 = () => {
 
     useEffect(()=>{
         console.log(tradeid);
-        setTradeId(tradeid);
     },[tradeid]);
 
 
 
     //실명인증한 회원정보 가져오기
     const getRealData = () => {
-        console.log(tradeId);
-        axios.get(`${m_realname.replace(':tradeid',tradeId)}`)
+        console.log(tradeid);
+        axios.get(`${m_realname.replace(':tradeid',tradeid)}`)
         .then((res)=>{
             dispatch(loadingPop(false));
             if(res.status === 200){
