@@ -95,7 +95,10 @@ const Signup2 = () => {
 
 
     useEffect(()=>{
-        console.log(tradeid);
+        if(tradeid){
+            dispatch(loadingPop(true));
+            getRealData();
+        }
     },[tradeid]);
 
 
@@ -238,11 +241,11 @@ const Signup2 = () => {
     useEffect(()=>{
         //실명인증한 회원정보 가져오기
         dispatch(loadingPop(true));
-        setTimeout(()=>{
-            console.log('실명인증한 회원정보 가져오기');
+        // setTimeout(()=>{
+        //     console.log('실명인증한 회원정보 가져오기');
             
-            getRealData();
-        },500);
+        //     getRealData();
+        // },500);
 
         //주소 시,도 가져오기
         console.log('주소 시,도 가져오기');
