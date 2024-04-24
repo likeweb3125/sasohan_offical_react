@@ -31,7 +31,7 @@ const Signup2 = () => {
     const feed_profile_delt = enum_api_uri.feed_profile_delt;
     const text_check = enum_api_uri.text_check;
     const m_join = enum_api_uri.m_join;
-    // const tradeid = sessionStorage.getItem("tId");
+    const tradeid = sessionStorage.getItem("tId");
     const popup = useSelector((state)=>state.popup);
     const user = useSelector((state)=>state.user);
     const [confirm, setConfirm] = useState(false);
@@ -95,20 +95,20 @@ const Signup2 = () => {
     };
 
 
-    useEffect(()=>{
-        //실명인증한 회원정보 가져오기
-        dispatch(loadingPop(true));
-        if(user.tradeId.length > 0){
-            getRealData();
-        }
-    },[user.tradeId]);
+    // useEffect(()=>{
+    //     //실명인증한 회원정보 가져오기
+    //     dispatch(loadingPop(true));
+    //     if(user.tradeId.length > 0){
+    //         getRealData();
+    //     }
+    // },[user.tradeId]);
 
 
 
     //실명인증한 회원정보 가져오기
     const getRealData = () => {
-        console.log(user.tradeId);
-        axios.get(`${m_realname.replace(':tradeid',user.tradeId)}`)
+        // console.log(user.tradeId);
+        axios.get(`${m_realname.replace(':tradeid',tradeid)}`)
         .then((res)=>{
             dispatch(loadingPop(false));
             if(res.status === 200){
@@ -242,12 +242,12 @@ const Signup2 = () => {
     //맨처음
     useEffect(()=>{
         //실명인증한 회원정보 가져오기
-        // dispatch(loadingPop(true));
-        // setTimeout(()=>{
-        //     console.log('실명인증한 회원정보 가져오기');
+        dispatch(loadingPop(true));
+        setTimeout(()=>{
+            console.log('실명인증한 회원정보 가져오기');
             
-        //     getRealData();
-        // },500);
+            getRealData();
+        },500);
 
         //주소 시,도 가져오기
         console.log('주소 시,도 가져오기');
@@ -1381,8 +1381,8 @@ const Signup2 = () => {
                 navigate('/member/signup3');
 
                 //sessionStorage tradeid 삭제
-                // sessionStorage.removeItem("tId");
-                dispatch(tradeId(''));
+                sessionStorage.removeItem("tId");
+                // dispatch(tradeId(''));
             }
         })
         .catch((error) => {
