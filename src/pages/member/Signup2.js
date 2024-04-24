@@ -31,7 +31,7 @@ const Signup2 = () => {
     const feed_profile_delt = enum_api_uri.feed_profile_delt;
     const text_check = enum_api_uri.text_check;
     const m_join = enum_api_uri.m_join;
-    const tradeid = localStorage.getItem("tradeid");
+    const tradeid = sessionStorage.getItem("tId");
     const popup = useSelector((state)=>state.popup);
     const [confirm, setConfirm] = useState(false);
     const [authFailConfirm, setAuthFailConfirm] = useState(false);
@@ -1377,8 +1377,8 @@ const Signup2 = () => {
                 //회원가입 완료 페이지로 이동
                 navigate('/member/signup3');
 
-                //localStorage tradeid 삭제
-                localStorage.removeItem("tradeid");
+                //sessionStorage tradeid 삭제
+                sessionStorage.removeItem("tId");
             }
         })
         .catch((error) => {
