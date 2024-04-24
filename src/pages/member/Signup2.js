@@ -97,8 +97,7 @@ const Signup2 = () => {
 
     //실명인증한 회원정보 가져오기
     const getRealData = () => {
-        const id = moment(tradeid).format("YYYYMMDDHHmmss");
-        axios.get(`${m_realname.replace(':tradeid',id)}`)
+        axios.get(`${m_realname.replace(':tradeid',tradeid)}`)
         .then((res)=>{
             if(res.status === 200){
                 let data = res.data;

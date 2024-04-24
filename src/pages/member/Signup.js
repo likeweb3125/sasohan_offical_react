@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import moment from "moment/moment";
 import { enum_api_uri } from "../../config/enum";
 import { confirmPop, termsPop, termsCheckList } from "../../store/popupSlice";
 import StepBox from "../../components/component/StepBox";
@@ -88,18 +87,34 @@ const Signup = () => {
         document.body.appendChild(script);
     
         return () => {
-          document.body.removeChild(script);
+            document.body.removeChild(script);
         };
     }, []);
+
+
+    //현재시간 변환
+    function getCurrentDateTime() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+    
+        return `${year}${month}${day}${hours}${minutes}${seconds}`;
+    }
 
 
     //전체동의시 tradeid sessionStorage에 저장
     useEffect(()=>{
         if(isAllChecked){
-            const date = new Date();
-            const id = moment(date).format("YYYYMMDDHHmmss");
+            const id = getCurrentDateTime();
             setTradeid(id);
-            sessionStorage.setItem("tradeid",date);
+            sessionStorage.setItem("tradeid",id);
+        }else{
+            setTradeid('');
+            sessionStorage.removeItem("tradeid");
         }
     },[isAllChecked]);
 
@@ -108,7 +123,6 @@ const Signup = () => {
     const authHandler = () => {
         document.realnameForm.submit();
     };
-
 
 
     return(<>
