@@ -101,6 +101,7 @@ const Signup = () => {
             const id = time+num;
             setTradeid(id);
             sessionStorage.setItem("tradeid",id);
+            console.log(id);
         }else{
             setTradeid('');
             sessionStorage.removeItem("tradeid");

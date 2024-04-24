@@ -32,6 +32,7 @@ const Signup2 = () => {
     const text_check = enum_api_uri.text_check;
     const m_join = enum_api_uri.m_join;
     const tradeid = sessionStorage.getItem("tradeid");
+    const [tradeId, setTradeId] = useState('');
     const popup = useSelector((state)=>state.popup);
     const [confirm, setConfirm] = useState(false);
     const [authFailConfirm, setAuthFailConfirm] = useState(false);
@@ -94,10 +95,17 @@ const Signup2 = () => {
     };
 
 
+    useEffect(()=>{
+        console.log(tradeid);
+        setTradeId(tradeid);
+    },[tradeid]);
+
+
 
     //실명인증한 회원정보 가져오기
     const getRealData = () => {
-        axios.get(`${m_realname.replace(':tradeid',tradeid)}`)
+        console.log(tradeId);
+        axios.get(`${m_realname.replace(':tradeid',tradeId)}`)
         .then((res)=>{
             dispatch(loadingPop(false));
             if(res.status === 200){
@@ -233,13 +241,17 @@ const Signup2 = () => {
         //실명인증한 회원정보 가져오기
         dispatch(loadingPop(true));
         setTimeout(()=>{
+            console.log('실명인증한 회원정보 가져오기');
+            
             getRealData();
         },500);
 
         //주소 시,도 가져오기
+        console.log('주소 시,도 가져오기');
         getAddress();
 
         //select 리스트 가져오기
+        console.log('select 리스트 가져오기');
         getSelectList();
     },[]);
 
