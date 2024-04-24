@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import moment from "moment";
 import { enum_api_uri } from "../../config/enum";
 import { confirmPop, termsPop, termsCheckList } from "../../store/popupSlice";
 import StepBox from "../../components/component/StepBox";
@@ -92,24 +93,12 @@ const Signup = () => {
     }, []);
 
 
-    //현재시간 변환
-    function getCurrentDateTime() {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const day = String(now.getDate()).padStart(2, '0');
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-    
-        return `${year}${month}${day}${hours}${minutes}${seconds}`;
-    }
-
-
     //전체동의시 tradeid sessionStorage에 저장
     useEffect(()=>{
         if(isAllChecked){
-            const id = getCurrentDateTime();
+            const time = moment().format("YYYYMMDDHHmmss");
+            const num = Math.floor(Math.random() * 1000);
+            const id = time+num;
             setTradeid(id);
             sessionStorage.setItem("tradeid",id);
         }else{

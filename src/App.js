@@ -73,8 +73,9 @@ function App() {
     // }, [popup]);
 
     useEffect(() => {
+        console.log(popup);
         const modalRoot = document.getElementById('modal-root');
-        const hasChildren = modalRoot && modalRoot.hasChildNodes();
+        const hasChildren = modalRoot.hasChildNodes();
 
         if (hasChildren) {
             document.body.style.cssText = 'overflow: hidden;';

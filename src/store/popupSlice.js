@@ -7,7 +7,7 @@ const popup = createSlice({
         confirmPop: false,
         confirmPopTit: "",
         confirmPopTxt: "",
-        confirmPopBtn: "",
+        confirmPopBtn: null,
 
         //로딩팝업
         loadingPop: false,

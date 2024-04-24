@@ -22,7 +22,7 @@ const ConfirmPop = (props) => {
         }
 
         if(!props.goBack && !props.closePop){
-            dispatch(confirmPop({confirmPop:false}));
+            dispatch(confirmPop({confirmPop:false,confirmPopTit:'',confirmPopTxt:'',confirmPopBtn:null}));
         }
     };
 

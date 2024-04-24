@@ -97,9 +97,9 @@ const Signup2 = () => {
 
     //실명인증한 회원정보 가져오기
     const getRealData = () => {
-        console.log('실명인증한 회원정보 가져오기');
         axios.get(`${m_realname.replace(':tradeid',tradeid)}`)
         .then((res)=>{
+            dispatch(loadingPop(false));
             if(res.status === 200){
                 let data = res.data;
 
@@ -119,6 +119,7 @@ const Signup2 = () => {
             }
         })
         .catch((error) => {
+            dispatch(loadingPop(false));
             const err_msg = CF.errorMsgHandler(error);
             if(error.response.status === 409){//이미가입되어있는 정보일경우 로그인페이지로 이동
                 dispatch(confirmPop({
@@ -143,7 +144,6 @@ const Signup2 = () => {
 
     //주소 시,도 가져오기
     const getAddress = () => {
-        console.log('주소 시,도 가져오기');
         axios.get(`${m_address}`)
         .then((res)=>{
             if(res.status === 200){
@@ -209,7 +209,6 @@ const Signup2 = () => {
 
     //select 리스트 가져오기 (직업,선호하는데이트,관심사,타입,가입경로,종교)
     const getSelectList = () => {
-        console.log('select 리스트 가져오기 (직업,선호하는데이트,관심사,타입,가입경로,종교)');
         axios.get(`${m_select_list}`)
         .then((res)=>{
             if(res.status === 200){
@@ -232,7 +231,10 @@ const Signup2 = () => {
     //맨처음
     useEffect(()=>{
         //실명인증한 회원정보 가져오기
-        getRealData();
+        dispatch(loadingPop(true));
+        setTimeout(()=>{
+            getRealData();
+        },500);
 
         //주소 시,도 가져오기
         getAddress();
