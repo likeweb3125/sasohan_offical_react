@@ -14,11 +14,13 @@ const ConfirmPop = (props) => {
         //팝업닫기 custom <ConfirmPop closePop="custom" onCloseHandler={팝업닫는함수} /> 형식으로 쓰면 원하는 팝업닫는함수사용 가능
         if(props.closePop == 'custom'){
             props.onCloseHandler();
+            dispatch(confirmPop({confirmPop:false,confirmPopTit:'',confirmPopTxt:'',confirmPopBtn:null}));
         }
 
         //창 이동 <ConfirmPop goBack={1}/> 형식으로 쓰면 숫자만큼 확인후 뒤로감
         if(props.goBack){
             navigate(-props.goBack);
+            dispatch(confirmPop({confirmPop:false,confirmPopTit:'',confirmPopTxt:'',confirmPopBtn:null}));
         }
 
         if(!props.goBack && !props.closePop){
