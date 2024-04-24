@@ -100,11 +100,11 @@ const Signup = () => {
             const num = Math.floor(Math.random() * 1000);
             const id = time+num;
             setTradeid(id);
-            sessionStorage.setItem("tradeid",id);
+            localStorage.setItem("tradeid",id);
             console.log(id);
         }else{
             setTradeid('');
-            sessionStorage.removeItem("tradeid");
+            localStorage.removeItem("tradeid");
         }
     },[isAllChecked]);
 
