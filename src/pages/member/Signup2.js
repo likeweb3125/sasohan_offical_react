@@ -8,7 +8,7 @@ import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
 import { heightList, visualList, mbtiList, smokList, drinkList } from "../../config/constants";
 import { confirmPop, imgPop, loadingPop } from "../../store/popupSlice";
-import { signupCompletedName } from "../../store/userSlice";
+import { signupCompletedName, tradeId } from "../../store/userSlice";
 import { phoneLogin } from "../../store/commonSlice";
 import StepBox from "../../components/component/StepBox";
 import MyInfoForm from "../../components/component/MyInfoForm";
@@ -31,8 +31,9 @@ const Signup2 = () => {
     const feed_profile_delt = enum_api_uri.feed_profile_delt;
     const text_check = enum_api_uri.text_check;
     const m_join = enum_api_uri.m_join;
-    const tradeid = sessionStorage.getItem("tId");
+    // const tradeid = sessionStorage.getItem("tId");
     const popup = useSelector((state)=>state.popup);
+    const user = useSelector((state)=>state.user);
     const [confirm, setConfirm] = useState(false);
     const [authFailConfirm, setAuthFailConfirm] = useState(false);
     const [loginConfirm, setLoginConfirm] = useState(false);
@@ -95,17 +96,19 @@ const Signup2 = () => {
 
 
     useEffect(()=>{
-        if(tradeid){
+        //실명인증한 회원정보 가져오기
+        dispatch(loadingPop(true));
+        if(user.tradeId.length > 0){
             getRealData();
         }
-    },[tradeid]);
+    },[user.tradeId]);
 
 
 
     //실명인증한 회원정보 가져오기
     const getRealData = () => {
-        console.log(tradeid);
-        axios.get(`${m_realname.replace(':tradeid',tradeid)}`)
+        console.log(user.tradeId);
+        axios.get(`${m_realname.replace(':tradeid',user.tradeId)}`)
         .then((res)=>{
             dispatch(loadingPop(false));
             if(res.status === 200){
@@ -239,7 +242,7 @@ const Signup2 = () => {
     //맨처음
     useEffect(()=>{
         //실명인증한 회원정보 가져오기
-        dispatch(loadingPop(true));
+        // dispatch(loadingPop(true));
         // setTimeout(()=>{
         //     console.log('실명인증한 회원정보 가져오기');
             
@@ -1378,7 +1381,8 @@ const Signup2 = () => {
                 navigate('/member/signup3');
 
                 //sessionStorage tradeid 삭제
-                sessionStorage.removeItem("tId");
+                // sessionStorage.removeItem("tId");
+                dispatch(tradeId(''));
             }
         })
         .catch((error) => {

@@ -8,6 +8,7 @@ const user = createSlice({
         userInfo: {},
         userRank: false,
         userRankData: {},
+        tradeId:'',
 
         //앱----------------
         signupData:{},
@@ -28,6 +29,9 @@ const user = createSlice({
             state.userRank = action.payload.userRank;
             state.userRankData = action.payload.userRankData;
         },
+        tradeId: (state, action) => {
+            state.tradeId = action.payload;
+        },
 
         //앱----------------
         signupData: (state, action) => {
@@ -47,6 +51,7 @@ export const {
     userToken,
     userInfo,
     userRank,
+    tradeId,
 
     //앱----------------
     signupData, 

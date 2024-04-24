@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { enum_api_uri } from "../../config/enum";
 import { confirmPop, termsPop, termsCheckList } from "../../store/popupSlice";
+import { tradeId } from "../../store/userSlice";
 import StepBox from "../../components/component/StepBox";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 
@@ -100,11 +101,13 @@ const Signup = () => {
             const num = Math.floor(Math.random() * 1000);
             const id = time+num;
             setTradeid(id);
-            sessionStorage.setItem("tId",id);
+            // sessionStorage.setItem("tId",id);
+            dispatch(tradeId(id));
             console.log(id);
         }else{
             setTradeid('');
-            sessionStorage.removeItem("tId");
+            // sessionStorage.removeItem("tId");
+            dispatch(tradeId(''));
         }
     },[isAllChecked]);
 
