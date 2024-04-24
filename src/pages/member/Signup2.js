@@ -97,6 +97,7 @@ const Signup2 = () => {
 
     //실명인증한 회원정보 가져오기
     const getRealData = () => {
+        console.log('실명인증한 회원정보 가져오기');
         axios.get(`${m_realname.replace(':tradeid',tradeid)}`)
         .then((res)=>{
             if(res.status === 200){
@@ -142,6 +143,7 @@ const Signup2 = () => {
 
     //주소 시,도 가져오기
     const getAddress = () => {
+        console.log('주소 시,도 가져오기');
         axios.get(`${m_address}`)
         .then((res)=>{
             if(res.status === 200){
@@ -207,6 +209,7 @@ const Signup2 = () => {
 
     //select 리스트 가져오기 (직업,선호하는데이트,관심사,타입,가입경로,종교)
     const getSelectList = () => {
+        console.log('select 리스트 가져오기 (직업,선호하는데이트,관심사,타입,가입경로,종교)');
         axios.get(`${m_select_list}`)
         .then((res)=>{
             if(res.status === 200){
