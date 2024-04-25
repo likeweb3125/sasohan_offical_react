@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDropzone } from 'react-dropzone';
 import axios from "axios";
 import moment from "moment/moment";
@@ -8,7 +8,7 @@ import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
 import { heightList, visualList, mbtiList, smokList, drinkList } from "../../config/constants";
 import { confirmPop, imgPop, loadingPop } from "../../store/popupSlice";
-import { signupCompletedName, tradeId } from "../../store/userSlice";
+import { signupCompletedName } from "../../store/userSlice";
 import { phoneLogin } from "../../store/commonSlice";
 import StepBox from "../../components/component/StepBox";
 import MyInfoForm from "../../components/component/MyInfoForm";
@@ -20,6 +20,7 @@ import ConfirmPop from "../../components/popup/ConfirmPop";
 const Signup2 = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const api_uri = enum_api_uri.api_uri;
     const m_realname = enum_api_uri.m_realname;
     const m_id_check = enum_api_uri.m_id_check;
@@ -31,7 +32,6 @@ const Signup2 = () => {
     const feed_profile_delt = enum_api_uri.feed_profile_delt;
     const text_check = enum_api_uri.text_check;
     const m_join = enum_api_uri.m_join;
-    const tradeid = sessionStorage.getItem("tId");
     const popup = useSelector((state)=>state.popup);
     const user = useSelector((state)=>state.user);
     const [confirm, setConfirm] = useState(false);
@@ -75,6 +75,7 @@ const Signup2 = () => {
     const [area, setArea] = useState('');
     const [area2, setArea2] = useState('');
     const [areaSelectList, setAreaSelectList] = useState([]);
+    const [tradeId, setTradeId] = useState('');
 
 
     // Confirm팝업 닫힐때
@@ -87,6 +88,12 @@ const Signup2 = () => {
     },[popup.confirmPop]);
 
 
+    //url 에서 tradeid 값 가져오기
+    useEffect(()=>{
+        let tid = location.search.replace("?mstr=","");
+        setTradeId(tid);
+    },[location.search]);
+
 
     //연락처로그인페이지로 이동하기
     const onLoginPageMove = () => {
@@ -95,20 +102,11 @@ const Signup2 = () => {
     };
 
 
-    // useEffect(()=>{
-    //     //실명인증한 회원정보 가져오기
-    //     dispatch(loadingPop(true));
-    //     if(user.tradeId.length > 0){
-    //         getRealData();
-    //     }
-    // },[user.tradeId]);
-
-
-
     //실명인증한 회원정보 가져오기
     const getRealData = () => {
-        // console.log(user.tradeId);
-        axios.get(`${m_realname.replace(':tradeid',tradeid)}`)
+        dispatch(loadingPop(true));
+        
+        axios.get(`${m_realname.replace(':tradeid',tradeId)}`)
         .then((res)=>{
             dispatch(loadingPop(false));
             if(res.status === 200){
@@ -242,19 +240,12 @@ const Signup2 = () => {
     //맨처음
     useEffect(()=>{
         //실명인증한 회원정보 가져오기
-        dispatch(loadingPop(true));
-        setTimeout(()=>{
-            console.log('실명인증한 회원정보 가져오기');
-            
-            getRealData();
-        },500);
+        getRealData();
 
         //주소 시,도 가져오기
-        console.log('주소 시,도 가져오기');
         getAddress();
 
         //select 리스트 가져오기
-        console.log('select 리스트 가져오기');
         getSelectList();
     },[]);
 
@@ -1379,10 +1370,6 @@ const Signup2 = () => {
 
                 //회원가입 완료 페이지로 이동
                 navigate('/member/signup3');
-
-                //sessionStorage tradeid 삭제
-                sessionStorage.removeItem("tId");
-                // dispatch(tradeId(''));
             }
         })
         .catch((error) => {

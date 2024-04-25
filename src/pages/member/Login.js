@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import moment from "moment";
@@ -40,6 +40,11 @@ const Login = () => {
     const [seconds, setSeconds] = useState(0);
     const formatTime = (time) => time.toString().padStart(2, '0');
     const [loginBtnOn, setLoginBtnOn] = useState(false);
+    const { id } = useParams();
+
+    useEffect(()=>{
+        console.log(id);
+    },[id]);
 
 
     // Confirm팝업 닫힐때

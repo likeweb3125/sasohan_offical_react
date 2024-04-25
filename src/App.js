@@ -81,7 +81,7 @@ function App() {
                 <Route path="/" element={<Layout><Main /></Layout>} />
 
                 {/* 로그인 */}
-                <Route path="/member/login" element={<Layout><Login /></Layout>} />
+                <Route path="/member/login/:id" element={<Layout><Login /></Layout>} />
 
                 {/* 회원가입 - 약관동의 */}
                 <Route path="/member/signup" element={<Layout><Signup /></Layout>} />
