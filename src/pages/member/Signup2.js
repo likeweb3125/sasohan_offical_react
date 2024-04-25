@@ -100,12 +100,20 @@ const Signup2 = () => {
         dispatch(phoneLogin(true));
         navigate('/member/login');
     };
+    
+
+    //실명인증한 회원정보 가져오기
+    useEffect(()=>{
+        if(tradeId){
+            getRealData();
+        }
+    },[tradeId]);
 
 
     //실명인증한 회원정보 가져오기
     const getRealData = () => {
         dispatch(loadingPop(true));
-        
+
         axios.get(`${m_realname.replace(':tradeid',tradeId)}`)
         .then((res)=>{
             dispatch(loadingPop(false));
@@ -240,7 +248,7 @@ const Signup2 = () => {
     //맨처음
     useEffect(()=>{
         //실명인증한 회원정보 가져오기
-        getRealData();
+        // getRealData();
 
         //주소 시,도 가져오기
         getAddress();
