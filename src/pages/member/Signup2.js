@@ -100,14 +100,6 @@ const Signup2 = () => {
         dispatch(phoneLogin(true));
         navigate('/member/login');
     };
-    
-
-    //실명인증한 회원정보 가져오기
-    useEffect(()=>{
-        if(tradeId){
-            getRealData();
-        }
-    },[tradeId]);
 
 
     //실명인증한 회원정보 가져오기
@@ -245,11 +237,16 @@ const Signup2 = () => {
     };
 
 
+    //실명인증한 회원정보 가져오기
+    useEffect(()=>{
+        if(tradeId){
+            getRealData();
+        }
+    },[tradeId]);
+
+
     //맨처음
     useEffect(()=>{
-        //실명인증한 회원정보 가져오기
-        // getRealData();
-
         //주소 시,도 가져오기
         getAddress();
 
