@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { enum_api_uri } from "../../config/enum";
@@ -19,6 +19,7 @@ import tip_box_img_mo from "../../images/tip_box_mo.svg";
 const ManagerList = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
     const manager_list = enum_api_uri.manager_list;
     const manager_favorite = enum_api_uri.manager_favorite;
     const popup = useSelector((state)=>state.popup);
@@ -37,6 +38,13 @@ const ManagerList = () => {
     const [scrollMove, setScrollMove] = useState(false);
     const [pageBack, setPageBack] = useState(false);
     const userLogin = Cookies.get('userLogin') === 'true'; // 'true' 문자열과 비교;
+    const [searchParams, setSearchParams] = useSearchParams();
+    const page = searchParams.get('page');
+    const type = searchParams.get('type');
+    const sort = searchParams.get('sort');
+    const favorite = searchParams.get('favorite');
+    const search = searchParams.get('search');
+    const more = searchParams.get('more');
 
 
     // Confirm팝업 닫힐때
@@ -48,52 +56,73 @@ const ManagerList = () => {
     },[popup.confirmPop]);
 
 
-
     //상세->목록으로 뒤로가기시 저장되었던 스크롤위치로 이동
     useEffect(()=>{
         if(scrollMove){
             const y = etc.scrollY;
-            window.scrollTo(0,y); 
+            // window.scrollTo(0,y); 
         }
     },[scrollMove]);
 
 
-    //상세->목록으로 뒤로가기시 저장되었던 값들로 매니저리스트 가져오기
     useEffect(()=>{
         const fetchData = async () => {
-            if(etc.detailPageBack){
-                for(let i = 1; i <= etc.listPageData.page; i++) {
-                    const isLast = i === etc.listPageData.page;
-                    await getManagerList(i, true, isLast);
-                }
+            for(let i = 1; i <= page; i++) {
+                const isLast = i === page;
+                await getManagerList(i,true,isLast);
             }
         };
+        if(page && page > 1){
+            fetchData();
+        }else{
+            getManagerList();
+        }
+    },[location]);
 
-        fetchData();
-    },[etc.detailPageBack]);
+
+    useEffect(()=>{
+        if(type){
+            setTypeCheck(type);
+        }else{
+            setTypeCheck('C');
+        }
+    },[type]);
+
+
+    useEffect(()=>{
+        if(sort){
+            setSortTabOn(sort);
+        }else{
+            setSortTabOn(1);
+        }
+    },[sort]);
+
+
+    useEffect(()=>{
+        if(favorite && favorite == 1){
+            setLikeCheck(true);
+        }else{
+            setLikeCheck(false);
+        }
+    },[favorite]);
+
+
+    useEffect(()=>{
+        if(search){
+            setSearchValue(search);
+        }else{
+            setSearchValue('');
+        }
+    },[search]);
+
+    
+
 
 
     //매니저 리스트 가져오기
-    const getManagerList = async (page, more, isLast) => {
+    const getManagerList = async (pageNum,more,isLast) => {
         dispatch(loadingPop(true));
 
-        let type = '';
-        let sort;
-        let favorite;
-        let searchText = '';
-
-        //상세페이지에서 뒤로가기시 저장된 리스트페이지 정보로 조회
-        if(etc.detailPageBack){
-            type = etc.listPageData.type;
-            sort = etc.listPageData.sort;
-            favorite = etc.listPageData.favorite;
-            searchText = etc.listPageData.search;
-        }else{
-            type = typeCheck;
-            sort = sortTabOn;
-            favorite = likeCheck;
-            searchText = searchValue;
-        }
 
         //내가누른 좋아요보기 체크시 or 로그인시에만 헤더값 넣기
         let headers = {};
@@ -104,7 +133,7 @@ const ManagerList = () => {
         }
 
         try {
-            const res = await axios.get(`${manager_list}?page_no=${page ? page : 1}${'&type='+type}${sort === 2 ? '&sort=favorite' : ''}${favorite ? '&favorite=1' : ''}${searchText.length > 0 ? '&search='+searchText : ''}`,{
+            const res = await axios.get(`${manager_list}?page_no=${pageNum ? pageNum : 1}${type ? '&type='+type : '&type=C'}${sort && sort == 2 ? '&sort=favorite' : ''}${favorite && favorite == 1 ? '&favorite=1' : ''}${search ? '&search='+search : ''}`,{
                 headers: headers,
             });
             if(res.status === 200){
@@ -128,27 +157,10 @@ const ManagerList = () => {
                     setMoreBtn(false);
                 }
 
-                //리스트페이지 조회 데이터저장
-                let pageData = {
-                    page: page ? page : 1,
-                    type: type,
-                    sort: sort,
-                    favorite: favorite,
-                    search: searchText,
-                };
-                dispatch(listPageData(pageData));
-
                 //상세페이지에서 뒤로가기시
                 if(isLast){
-                    setSearchValue(searchText);
-                    setTypeCheck(etc.listPageData.type);
-                    setSortTabOn(etc.listPageData.sort);
-                    setLikeCheck(etc.listPageData.favorite);
-
-                    setScrollMove(true);
-                    dispatch(detailPageBack(false));
-
-                    setPageBack(true);
+                    // setScrollMove(true);
+                    // dispatch(detailPageBack(false));
                 }
             }
         } catch (error) {
@@ -166,32 +178,62 @@ const ManagerList = () => {
     };
 
 
-    //매니저 리스트 가져오기
-    useEffect(()=>{
-        if(!pageBack && !etc.detailPageBack){
-            getManagerList();
-        }
-    },[typeCheck, sortTabOn, likeCheck]);
-
-
     //매니저타입 체크시
     const typeCheckHandler = (type) => {
         setTypeCheck(type);
         setPageBack(false);
+        if(type){
+            searchParams.set('type',type);
+        }else{
+            searchParams.append('type',type);
+        }
+        searchParams.delete('page');
+        setSearchParams(searchParams);
     };
 
 
     //정렬 탭 클릭시
     const sortTabClickHandler = (idx) => {
         setSortTabOn(idx);
-        setPageBack(false);
+
+        if(sort){
+            searchParams.set('sort',idx);
+        }else{
+            searchParams.append('sort',idx);
+        }
+        setSearchParams(searchParams);
     };
 
 
     //내가 누른 좋아요만보기 체크박스 클릭시
-    const likeCheckClickHandler = () => {
-        setLikeCheck(!likeCheck);
-        setPageBack(false);
+    const likeCheckClickHandler = (checked) => {
+        if(checked){
+            setLikeCheck(true);
+            if(favorite){
+                searchParams.set('favorite',1);
+            }else{
+                searchParams.append('favorite',1);
+            }
+            if(page){
+                searchParams.set('page',1);
+            }else{
+                searchParams.append('page',1);
+            }
+            setSearchParams(searchParams);
+        }else{
+            setLikeCheck(false);
+            if(favorite){
+                searchParams.set('favorite',0);
+            }else{
+                searchParams.append('favorite',0);
+            }
+            if(page){
+                searchParams.set('page',1);
+            }else{
+                searchParams.append('page',1);
+            }
+            setSearchParams(searchParams);
+        }
     };
 
 
@@ -203,13 +245,31 @@ const ManagerList = () => {
 
     //검색하기버튼 클릭시
     const searchHandler = () => {
-        getManagerList(pageNo, false);
+        if(searchValue.length > 0){
+            if(search){
+                searchParams.set('search',searchValue);
+            }else{
+                searchParams.append('search',searchValue);
+            }
+        }else{
+            searchParams.delete('search');
+        }
+        setSearchParams(searchParams);
     };
 
 
     //더보기버튼 클릭시 다음페이지 리스트 가져오기
     const moreBtnHandler = () => {
-        getManagerList(pageNo + 1, true);
+        const pageNum = pageNo + 1;
+        if(page){
+            searchParams.set('page',pageNum);
+        }else{
+            searchParams.append('page',pageNum);
+        }
+        if(more){
+            
+        }
+        setSearchParams(searchParams);
     };
 
 

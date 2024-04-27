@@ -57,12 +57,13 @@ const ReplyBox = ({
                     <p className="txt">{data.content}</p>
                     <div className="flex">
                         <p className="date">{data.w_date}</p>
-                        {(userLogin && user.userInfo.user_level == 'M') || (userLogin && user.userRank) && //로그인 && 랭킹있는 회원일때 or 매니저일때만 가능
+                        {(userLogin && user.userInfo.user_level == 'M') || (userLogin && user.userRank) ? //로그인 && 랭킹있는 회원일때 or 매니저일때만 가능
                             <button type="button" className="btn_reply" 
                                 onClick={()=>{
                                     onReplyBoxClickHandler(data.comment_idx);
                                 }}
                             >{replyBoxOn !== data.comment_idx ? '답글쓰기' : '닫기'}</button>
+                            :<></>
                         }
                     </div>
                 </div>

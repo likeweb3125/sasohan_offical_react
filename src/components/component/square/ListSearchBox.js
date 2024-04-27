@@ -69,6 +69,10 @@ const ListSearchBox = ({
                                     onChange={()=>{
                                         likeCheckClickHandler()
                                     }}
+                                    // onChange={(e)=>{
+                                    //     const checked = e.currentTarget.checked;
+                                    //     likeCheckClickHandler(checked);
+                                    // }}
                                     checked={likeCheck}
                                     id="like_check"
                                 />

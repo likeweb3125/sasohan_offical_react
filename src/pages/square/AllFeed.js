@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { enum_api_uri } from "../../config/enum";
@@ -40,6 +40,7 @@ const AllFeed = () => {
             setLoginConfirm(false);
         }
     },[popup.confirmPop]);
+
 
 
     //피드 리스트 가져오기
