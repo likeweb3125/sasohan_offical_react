@@ -802,11 +802,11 @@ const ProfilePop = () => {
                     {/* 외모점수 설정 */}
                     {step === 3 &&
                         <div className="scroll_wrap sel_list_box5">
-                            <div className="txt_line flex_between">
+                            {/* <div className="txt_line flex_between">
                                 <p>별로다</p>
                                 <p>보통이다</p>
                                 <p>만족한다</p>
-                            </div>
+                            </div> */}
                             <ul className="flex_wrap">
                                 {visualList.map((cont,i)=>{
                                     return(

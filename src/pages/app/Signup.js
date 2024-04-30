@@ -133,7 +133,7 @@ const SignUp = () => {
                         <p className="name">사소한 매니저 하니</p>
                         <div className="inner_box">
                             <div className="tit_box">
-                                <p className="f_20 medium"><span className="f_18">안녕하세요. <br/>
+                                <p className="f_18 medium"><span className="f_16">안녕하세요. <br/>
                                     저는 사소한 매니저 "하니" 입니다! <br/>
                                     지금부터 회원 가입을 도와드릴게요. :D <br/></span>
                                     <strong>회원 가입 약관동의</strong>를 진행해주세요</p>
@@ -146,7 +146,7 @@ const SignUp = () => {
                                             checked={allCheck} 
                                         />
                                         <span className="check">체크</span>
-                                        <span className="txt">전체 동의</span>
+                                        <span className="txt f_20">전체 동의</span>
                                     </label>
                                 </div>
                                 <ul>

@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import { enum_api_uri } from "../../config/enum";
@@ -13,6 +14,7 @@ import profile_img from "../../images/app/profile_img.jpg";
 
 const SignUp2 = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const user = useSelector((state)=>state.user);
     const popup = useSelector((state)=>state.popup);
     const common = useSelector((state)=>state.common);
@@ -23,6 +25,8 @@ const SignUp2 = () => {
     const m_join = enum_api_uri.m_join;
     const tradeid = sessionStorage.getItem("tradeid");
     const [confirm, setConfirm] = useState(false);
+    const [authFailConfirm, setAuthFailConfirm] = useState(false);
+    const [loginConfirm, setLoginConfirm] = useState(false);
     const [agreeList, setAgreeList] = useState(["개인정보 보호정책","개인정보수집","이용약관"]);
     const [step, setStep] = useState(1);
     const contRef = useRef();
@@ -76,6 +80,8 @@ const SignUp2 = () => {
     useEffect(()=>{
         if(popup.confirmPop === false){
             setConfirm(false);
+            setLoginConfirm(false);
+            setAuthFailConfirm(false);
         }
     },[popup.confirmPop]);
 
@@ -211,6 +217,12 @@ const SignUp2 = () => {
     },[user.signupData]);
 
 
+    //중복회원일경우 로그인페이지로 이동하기
+    const onLoginPageMove = () => {
+        // navigate('/app/login');
+    };
+
+
     //실명인증한 회원정보 가져오기
     const getRealData = () => {
         axios.get(`${m_realname.replace(':tradeid',tradeid)}`)
@@ -244,7 +256,24 @@ const SignUp2 = () => {
                 confirmPopTxt: err_msg,
                 confirmPopBtn:1,
             }));
-            setConfirm(true);
+            setAuthFailConfirm(true);
+            // if(error.response.status === 409){//이미가입되어있는 정보일경우 로그인페이지로 이동
+            //     dispatch(confirmPop({
+            //         confirmPop:true,
+            //         confirmPopTit:'알림',
+            //         confirmPopTxt: err_msg,
+            //         confirmPopBtn:1,
+            //     }));
+            //     setLoginConfirm(true);
+            // }else{
+            //     dispatch(confirmPop({
+            //         confirmPop:true,
+            //         confirmPopTit:'알림',
+            //         confirmPopTxt: err_msg,
+            //         confirmPopBtn:1,
+            //     }));
+            //     setAuthFailConfirm(true);
+            // }
         })
     };
 
@@ -1128,7 +1157,7 @@ const SignUp2 = () => {
                         <p className="name">사소한 매니저 하니</p>
                         <div className="inner_box">
                             <div className="tit_box">
-                                <p className="f_20 medium"><span className="f_18">안녕하세요. <br/>
+                                <p className="f_18 medium"><span className="f_16">안녕하세요. <br/>
                                     저는 사소한 매니저 "하니" 입니다! <br/>
                                     지금부터 회원 가입을 도와드릴게요. :D <br/></span>
                                     <strong>회원 가입 약관동의</strong>를 진행해주세요</p>
@@ -1141,7 +1170,7 @@ const SignUp2 = () => {
                                             disabled={true}
                                         />
                                         <span className="check">체크</span>
-                                        <span className="txt">전체 동의</span>
+                                        <span className="txt f_20">전체 동의</span>
                                     </label>
                                 </div>
                                 <ul>
@@ -1190,7 +1219,7 @@ const SignUp2 = () => {
                             <p className="name">사소한 매니저 하니</p>
                             <div className="inner_box">
                                 <div className="tit_box">
-                                    <p className="f_20 medium">좋아요! <br/>회원님의 <strong>본인인증</strong>이 완료되었습니다</p>
+                                    <p className="f_18 medium">좋아요! <br/>회원님의 <strong>본인인증</strong>이 완료되었습니다</p>
                                 </div>
                                 <ul className="txt_ul">
                                     <li className="flex_between flex_wrap">
@@ -1233,7 +1262,7 @@ const SignUp2 = () => {
                                 <p className="name">사소한 매니저 하니</p>
                                 <div className="inner_box">
                                     <div className="tit_box">
-                                        <p className="f_20 medium">회원님의 <strong>아이디</strong>를 입력해주세요 <br/></p>
+                                        <p className="f_18 medium">회원님의 <strong>아이디</strong>를 입력해주세요 <br/></p>
                                         <p className={`f_17 tp4${errorId ? " alert_txt" : ""}`}>영문자, 소문자, _만 입력 가능. <br/>최소 4자 이상 입력하세요.</p>
                                     </div>
                                     <div className={`custom_input${usableId ? " val_check" : ""}`}>
@@ -1268,7 +1297,7 @@ const SignUp2 = () => {
                             <p className="name">사소한 매니저 하니</p>
                             <div className="inner_box">
                                 <div className="tit_box">
-                                    <p className="f_20 medium"><strong>비밀번호</strong>를 입력해주세요 <br/></p>
+                                    <p className="f_18 medium"><strong>비밀번호</strong>를 입력해주세요 <br/></p>
                                     <p className={`f_17 tp4${errorPassword ? " alert_txt" : ""}`}>특수문자, 영문, 숫자를 포함하여 <br/>공백없이 8~12자까지 입력 필수.</p>
                                     {errorPassword2 && <p className="f_17 medium alert_txt">비밀번호가 일치하지 않습니다.</p>}
                                 </div>
@@ -1313,7 +1342,7 @@ const SignUp2 = () => {
                             <p className="name">사소한 매니저 하니</p>
                             <div className="inner_box">
                                 <div className="tit_box">
-                                    <p className="f_20 medium">회원님의 닉네임을 정해주세요 :)</p>
+                                    <p className="f_18 medium">회원님의 닉네임을 정해주세요 :)</p>
                                     <p className={`f_17 tp4${errorNickname ? " alert_txt" : ""}`}>최소 2자 이상 입력하세요.</p>
                                 </div>
                                 <div className={`custom_input${usableNickname ? " val_check" : ""}`}>
@@ -1346,7 +1375,7 @@ const SignUp2 = () => {
                             <p className="name">사소한 매니저 하니</p>
                             <div className="inner_box">
                                 <div className="tit_box">
-                                    <p className="f_20 medium">회원님의 개인정보를 모두 입력했어요 🎉</p>
+                                    <p className="f_18 medium">회원님의 개인정보를 모두 입력했어요 🎉</p>
                                     <p className="f_17 tp4">다음 단계로 이동할까요?</p>
                                 </div>
                             </div>
@@ -1372,7 +1401,7 @@ const SignUp2 = () => {
                                 <p className="name">사소한 매니저 하니</p>
                                 <div className="inner_box">
                                     <div className="tit_box">
-                                        <p className="f_20 medium">회원님의 <strong>프로필 정보</strong>를 <br/>입력해볼까요?</p>
+                                        <p className="f_18 medium">회원님의 <strong>프로필 정보</strong>를 <br/>입력해볼까요?</p>
                                     </div>
                                     <ul className="form_ul">
                                         <li>
@@ -1541,7 +1570,7 @@ const SignUp2 = () => {
                                 <p className="name">사소한 매니저 하니</p>
                                 <div className="inner_box">
                                     <div className="tit_box">
-                                        <p className="f_20 medium">본인의 얼굴이 잘보이는 사진을 <br/><strong>최소 1장</strong> 등록해주세요.</p>
+                                        <p className="f_18 medium">본인의 얼굴이 잘보이는 사진을 <br/><strong>최소 1장</strong> 등록해주세요.</p>
                                     </div>
                                 </div>
                                 <ul className="profile_img_ul flex_wrap">
@@ -1583,7 +1612,7 @@ const SignUp2 = () => {
                                 <p className="name">사소한 매니저 하니</p>
                                 <div className="inner_box">
                                     <div className="tit_box">
-                                        <p className="f_20 medium">회원님의 <strong>이상형 정보</strong>를 <br/>입력해볼까요?</p>
+                                        <p className="f_18 medium">회원님의 <strong>이상형 정보</strong>를 <br/>입력해볼까요?</p>
                                     </div>
                                     <ul className="form_ul">
                                         <li>
@@ -1706,7 +1735,7 @@ const SignUp2 = () => {
                                 <p className="name">사소한 매니저 하니</p>
                                 <div className="inner_box">
                                     <div className="tit_box">
-                                        <p className="f_20 medium">고생하셨습니다! <br/>좋은 결과가 있을 거예요 :D</p>
+                                        <p className="f_18 medium">고생하셨습니다! <br/>좋은 결과가 있을 거예요 :D</p>
                                     </div>
                                 </div>
                                 <div className="flex_end tp10">
@@ -1731,7 +1760,7 @@ const SignUp2 = () => {
                                 <p className="name">사소한 매니저 하니</p>
                                 <div className="inner_box">
                                     <div className="tit_box">
-                                        <p className="f_20 medium">감사합니다! <br/>사소한 매니저 "하니" 였습니다 :D <br/>행복한 하루 되세요!</p>
+                                        <p className="f_18 medium">감사합니다! <br/>사소한 매니저 "하니" 였습니다 :D <br/>행복한 하루 되세요!</p>
                                     </div>
                                 </div>
                                 <div className="flex_end tp10">
@@ -1747,6 +1776,12 @@ const SignUp2 = () => {
 
             </div>
         </div>
+
+        {/* 이미가입되어있는정보 - 로그인페이지이동 confirm팝업 */}
+        {loginConfirm && <ConfirmPop closePop="custom" onCloseHandler={onLoginPageMove} />}
+
+        {/* 실명인증 실패 confirm팝업 */}
+        {authFailConfirm && <ConfirmPop closePop="custom" onCloseHandler={()=>navigate('/app/signup')} />}
 
         {/* confirm팝업 */}
         {confirm && <ConfirmPop />}  

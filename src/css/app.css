@@ -110,12 +110,12 @@
 .app_page .signup_box .txt_box .name{font-size: 14px;color: #373D49;padding-bottom: 4px;}
 .app_page .signup_box .txt_box .inner_box{border: 1px solid #EAEAEA;border-radius: 8px;background: #fff;overflow: hidden;}
 .app_page .signup_box .txt_box .tit_box{background: #6840FD;padding: 16px;color: #fff;}
-.app_page .signup_box .agree_box .all_check{padding: 16px;background: #FAF8FF;}
+.app_page .signup_box .agree_box .all_check{padding:10px 16px;background: #FAF8FF;}
 .app_page .signup_box .agree_box ul{padding: 16px 5px 16px 16px;}
 .app_page .signup_box .agree_box ul li{padding-bottom: 8px;}
 .app_page .signup_box .agree_box ul li:last-child{padding-bottom: 0;}
 .app_page .signup_box .agree_box ul li .custom_check label>.check{background-size: 30px !important;}
-.app_page .signup_box .agree_box ul li button{padding-left: 8px;color: #666;text-decoration: underline;font-size: 18px;text-align: left;}
+.app_page .signup_box .agree_box ul li button{padding-left: 8px;color: #666;text-decoration: underline;font-size: 16px;text-align: left;}
 .app_page .signup_box .txt_box .txt_ul{padding: 16px;}
 .app_page .signup_box .txt_box .txt_ul li{padding-bottom: 8px;}
 .app_page .signup_box .txt_box .txt_ul li:last-child{padding-bottom: 0;}

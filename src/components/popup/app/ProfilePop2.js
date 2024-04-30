@@ -427,7 +427,7 @@ const ProfilePop2 = () => {
                     <button type="button" className="btn_close" onClick={closePopHandler}>닫기버튼</button>
                 </div>
                 <div className="pop_tit">
-                    <p className="tit">상대방의 <strong>{tit}</strong>{step === 1 || step === 4 ? "을" : "를"} 선택해주세요.</p>
+                    <p className="tit">원하는 상대방의 <strong>{tit}</strong>{step === 1 || step === 4 ? "을" : "를"} 선택해주세요.</p>
                     {step === 4 || step === 6 || step === 10 ? <p className="txt">아래 각 항목 중 3개씩 선택해주세요.</p> : null}
                 </div>
                 <div className="inner_box">
@@ -483,11 +483,11 @@ const ProfilePop2 = () => {
                     {/* 외모점수 설정 */}
                     {step === 2 &&
                         <div className="scroll_wrap sel_list_box5">
-                            <div className="txt_line flex_between">
+                            {/* <div className="txt_line flex_between">
                                 <p>별로다</p>
                                 <p>보통이다</p>
                                 <p>만족한다</p>
-                            </div>
+                            </div> */}
                             <ul className="flex_wrap">
                                 {visualList.map((cont,i)=>{
                                     return(

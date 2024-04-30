@@ -95,7 +95,7 @@ const Signup2 = () => {
     },[location.search]);
 
 
-    //연락처로그인페이지로 이동하기
+    //중복회원일경우 연락처로그인페이지로 이동하기
     const onLoginPageMove = () => {
         dispatch(phoneLogin(true));
         navigate('/member/login');
