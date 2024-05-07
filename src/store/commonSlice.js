@@ -5,6 +5,7 @@ const common = createSlice({
     initialState: {
         headerMenuOn:null,
         profileImgs:["","","","","","","",""],
+        feedProfileImg:"",
         payCheckData:{},
         resetPasswordToken:'', //비밀번호찾기 완료시 받은 토큰값 (비밀번호변경시에 필요)
         feedRefresh:false,
@@ -17,6 +18,9 @@ const common = createSlice({
         },
         profileImgs: (state, action) => {
             state.profileImgs = action.payload;
+        },
+        feedProfileImg: (state, action) => {
+            state.feedProfileImg = action.payload;
         },
         payCheckData: (state, action) => {
             state.payCheckData = action.payload;
@@ -39,6 +43,7 @@ const common = createSlice({
 export const { 
     headerMenuOn,
     profileImgs,
+    feedProfileImg,
     payCheckData,
     resetPasswordToken,
     feedRefresh,

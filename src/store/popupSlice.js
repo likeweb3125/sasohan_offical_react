@@ -73,6 +73,7 @@ const popup = createSlice({
         //회원가입 - 회원프로필사진 팝업
         appProfileImgPop: false,
         appProfileImgPopIdx: null,
+        appProfileImgPopFeed: false,
         appProfileImgPop2: false,
         appProfileImgPopIdx2: null,
 
@@ -180,6 +181,7 @@ const popup = createSlice({
         appProfileImgPop: (state, action) => {
             state.appProfileImgPop = action.payload.appProfileImgPop;
             state.appProfileImgPopIdx = action.payload.appProfileImgPopIdx;
+            state.appProfileImgPopFeed = action.payload.appProfileImgPopFeed;
         },
         appProfileImgPop2: (state, action) => {
             state.appProfileImgPop2 = action.payload.appProfileImgPop2;

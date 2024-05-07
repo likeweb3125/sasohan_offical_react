@@ -20,7 +20,6 @@ const ProfilePop = () => {
     const [tit, setTit] = useState("");
     const [stepList, setStepList] = useState(["거주지","키","직업","외모 점수","내 관심사","MBTI","타입","흡연 여부","음주 여부","종교","선호하는 데이트","가입경로"]);
     const [step, setStep] = useState(null);
-    
     const [addressList, setAddressList] = useState([]);
     const [addressList2, setAddressList2] = useState([]);
     const [heightList, setHeightList] = useState([{txt:"149cm 이하",val:"149"},{txt:"150cm ~ 154cm",val:"150"},{txt:"155cm ~ 159cm",val:"155"},{txt:"160cm ~ 164cm",val:"160"},{txt:"165cm ~ 169cm",val:"165"},{txt:"170cm ~ 174cm",val:"170"},{txt:"175cm ~ 179cm",val:"175"},{txt:"180cm ~ 184cm",val:"180"},{txt:"185cm ~ 189cm",val:"185"},{txt:"190cm ~ 194cm",val:"190"},{txt:"195cm ~ 200cm",val:"195"}]);
@@ -29,7 +28,6 @@ const ProfilePop = () => {
     const [mbtiList, setMbtiList] = useState(["ISTP","ISTJ","ISFP","ISFJ","INTP","INTJ","INFP","INFJ","ESTP","ESTJ","ESFP","ESFJ","ENTP","ENTJ","ENFP","ENFJ"]);
     const [smokList, setSmokList] = useState([{txt:"한다",val:"1"},{txt:"가끔 한다",val:"3"},{txt:"안 한다",val:"2"}]);
     const [drinkList, setDrinkList] = useState([{txt:"한다",val:"1"},{txt:"가끔 한다",val:"2"},{txt:"안 한다",val:"3"}]);
-
     const [address, setAddress] = useState("");
     const [address2, setAddress2] = useState("");
     const [height, setHeight] = useState("");

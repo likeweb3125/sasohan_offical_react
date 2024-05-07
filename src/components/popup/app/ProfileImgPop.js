@@ -4,7 +4,7 @@ import axios from "axios";
 import { enum_api_uri } from "../../../config/enum";
 import * as CF from "../../../config/function";
 import { appProfileImgPop, confirmPop } from "../../../store/popupSlice";
-import { profileImgs } from "../../../store/commonSlice";
+import { profileImgs, feedProfileImg } from "../../../store/commonSlice";
 import ConfirmPop from "../ConfirmPop";
 
 
@@ -13,6 +13,7 @@ const ProfileImgPop = () => {
     const popup = useSelector((state)=>state.popup);
     const common = useSelector((state)=>state.common);
     const m_img_add = enum_api_uri.m_img_add;
+    const feed_profile_add = enum_api_uri.feed_profile_add;
     const [off, setOff] = useState(false);
     const [confirm, setConfirm] = useState(false);
     
@@ -25,7 +26,7 @@ const ProfileImgPop = () => {
     useEffect(()=>{
         if(off){
             setTimeout(()=>{
-                dispatch(appProfileImgPop({appProfileImgPop:false, appProfileImgPopIdx:null}));
+                dispatch(appProfileImgPop({appProfileImgPop:false, appProfileImgPopIdx:null, appProfileImgPopFeed:false}));
             },500);
         }
     },[off]);
@@ -36,42 +37,81 @@ const ProfileImgPop = () => {
         const idx = popup.appProfileImgPopIdx;
         const formData = new FormData();
         formData.append("media", postData.target.files[0]);
-        setTimeout(()=>{      
-            axios.post(`${m_img_add}`, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            })
-            .then((res) => {
-                if (res.status === 201) {
-                    let imgName = res.data.mediaUrls[0];
-                    let newList = [...common.profileImgs];
-                        newList[idx] = imgName;
-                    dispatch(profileImgs(newList));
+        setTimeout(()=>{
+            //피드프로필 사진 등록일때
+            if(popup.appProfileImgPopFeed){
+                axios.post(`${feed_profile_add}`, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
+                .then((res) => {
+                    if (res.status === 201) {
+                        let imgName = res.data.mediaUrls[0];
+                        dispatch(feedProfileImg(imgName));
 
-                    setTimeout(()=>{
-                        closePopHandler();
-                    },100);
-                }else{
+                        setTimeout(()=>{
+                            closePopHandler();
+                        },100);
+                    }else{
+                        dispatch(confirmPop({
+                            confirmPop:true,
+                            confirmPopTit:'알림',
+                            confirmPopTxt: "",
+                            confirmPopBtn:1,
+                        }));
+                        setConfirm(true);
+                    }
+                })
+                .catch((error) => {
+                    const err_msg = CF.errorMsgHandler(error);
                     dispatch(confirmPop({
                         confirmPop:true,
                         confirmPopTit:'알림',
-                        confirmPopTxt: "",
+                        confirmPopTxt: err_msg,
                         confirmPopBtn:1,
                     }));
                     setConfirm(true);
-                }
-            })
-            .catch((error) => {
-                const err_msg = CF.errorMsgHandler(error);
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt: err_msg,
-                    confirmPopBtn:1,
-                }));
-                setConfirm(true);
-            });    
+                }); 
+            }
+            //프로필사진 등록일때
+            else{
+                axios.post(`${m_img_add}`, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
+                .then((res) => {
+                    if (res.status === 201) {
+                        let imgName = res.data.mediaUrls[0];
+                        let newList = [...common.profileImgs];
+                            newList[idx] = imgName;
+                        dispatch(profileImgs(newList));
+    
+                        setTimeout(()=>{
+                            closePopHandler();
+                        },100);
+                    }else{
+                        dispatch(confirmPop({
+                            confirmPop:true,
+                            confirmPopTit:'알림',
+                            confirmPopTxt: "",
+                            confirmPopBtn:1,
+                        }));
+                        setConfirm(true);
+                    }
+                })
+                .catch((error) => {
+                    const err_msg = CF.errorMsgHandler(error);
+                    dispatch(confirmPop({
+                        confirmPop:true,
+                        confirmPopTit:'알림',
+                        confirmPopTxt: err_msg,
+                        confirmPopBtn:1,
+                    }));
+                    setConfirm(true);
+                }); 
+            }
         }  ,200);
         
     };

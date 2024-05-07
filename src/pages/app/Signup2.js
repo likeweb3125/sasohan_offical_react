@@ -6,7 +6,7 @@ import moment from "moment";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
 import { appTermsPop, confirmPop, appProfilePop, appProfileImgPop, appProfilePop2, appSignupCompletePop } from "../../store/popupSlice";
-import { profileImgs } from "../../store/commonSlice";
+import { profileImgs, feedProfileImg } from "../../store/commonSlice";
 import { signupData } from "../../store/userSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 import profile_img from "../../images/app/profile_img.jpg";
@@ -38,6 +38,7 @@ const SignUp2 = () => {
     const [height2, setHeight2] = useState(""); //상대방 키
     const [imgList, setImgList] = useState([1,2,3,4,5,6,7,8]);
     const [imgNameList, setImgNameList] = useState(["","","","","","","",""]);
+    const [feedImgName, setFeedImgName] = useState("");
     const [valId, setValId] = useState("");
     const [valPassword, setValPassword] = useState("");
     const [valPassword2, setValPassword2] = useState("");
@@ -88,8 +89,6 @@ const SignUp2 = () => {
 
     useEffect(()=>{
         setAllData(user.signupData);
-
-        console.log(user.signupData);
 
         //나의 거주지
         if(user.signupData.hasOwnProperty("m_address")){
@@ -213,13 +212,12 @@ const SignUp2 = () => {
         }else{
             setUsableProfile2(false);
         }
-
     },[user.signupData]);
 
 
-    //중복회원일경우 로그인페이지로 이동하기
+    //중복회원일경우 앱 로그인페이지로 이동하기
     const onLoginPageMove = () => {
-        // navigate('/app/login');
+        window.flutter_inappwebview.callHandler('flutterAlreadyExistAccout');
     };
 
 
@@ -238,7 +236,7 @@ const SignUp2 = () => {
                 }else if(data.Sex == "M"){
                     m_gender = "1";
                 }
-                let newData = {...user.signupData};
+                let newData = {};
                 newData.m_name = data.Name;
                 newData.m_born = data.Socialno;
                 newData.m_c_phone = data.M_C_Phone;
@@ -250,30 +248,23 @@ const SignUp2 = () => {
         })
         .catch((error) => {
             const err_msg = CF.errorMsgHandler(error);
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt: err_msg,
-                confirmPopBtn:1,
-            }));
-            setAuthFailConfirm(true);
-            // if(error.response.status === 409){//이미가입되어있는 정보일경우 로그인페이지로 이동
-            //     dispatch(confirmPop({
-            //         confirmPop:true,
-            //         confirmPopTit:'알림',
-            //         confirmPopTxt: err_msg,
-            //         confirmPopBtn:1,
-            //     }));
-            //     setLoginConfirm(true);
-            // }else{
-            //     dispatch(confirmPop({
-            //         confirmPop:true,
-            //         confirmPopTit:'알림',
-            //         confirmPopTxt: err_msg,
-            //         confirmPopBtn:1,
-            //     }));
-            //     setAuthFailConfirm(true);
-            // }
+            if(error.response.status === 409){//이미가입되어있는 정보일경우 앱 로그인페이지로 이동
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt: err_msg,
+                    confirmPopBtn:1,
+                }));
+                setLoginConfirm(true);
+            }else{
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt: err_msg,
+                    confirmPopBtn:1,
+                }));
+                setAuthFailConfirm(true);
+            }
         })
     };
 
@@ -689,6 +680,12 @@ const SignUp2 = () => {
     },[common.profileImgs]);
 
 
+    //피드프로필사진 등록시
+    useEffect(()=>{
+        setFeedImgName(common.feedProfileImg);
+    },[common.feedProfileImg]);
+
+
     //프로필사진 삭제
     const imgDeltHandler = (idx) => {
         let newNameList = [...common.profileImgs];
@@ -700,25 +697,153 @@ const SignUp2 = () => {
 
     //프로필사진등록 다음버튼 클릭시
     const profileImgCheckHandler = () => {
-        console.log(usableProfileImg)
-        // if(!usableProfileImg){
-        //     setConfirm(true);
-        //     dispatch(confirmPop({
-        //         confirmPop:true,
-        //         confirmPopTit:'알림',
-        //         confirmPopTxt:'프로필 사진을 최소1장 등록해주세요.',
-        //         confirmPopBtn:1,
-        //     }));
-        // }else{
-        //     if(step < 9){
-        //         setStep(9);
-        //     }
-        // }
-
         //아이디랑 비밀번호,닉네임,프로필정보,프로필사진 입력 확인
         if(usableId && usablePass && usableNickname && usableProfile && usableProfileImg){
             if(step < 9){
                 setStep(9);
+            }
+        }else if(!usableProfileImg){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'프로필 사진을 최소1장 등록해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(!usableId){
+            if(valId.length < 4){
+                setErrorId(true);
+            }
+
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'아이디 사용가능을 확인해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usablePass){
+            let num = valPassword.search(/[0-9]/g);
+            let eng = valPassword.search(/[a-z]/ig);
+            let spe = valPassword.search(/[!@#$%^&*()]/g);   //숫자키 1~0까지 있는 특수문자만 사용
+            if(valPassword.length < 8 || valPassword.length > 13 || valPassword.search(/\s/) != -1 || num < 0 || eng < 0 || spe < 0){
+                setErrorPassword(true);
+            }
+            if(valPassword !== valPassword2){
+                setErrorPassword2(true);
+            }
+
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'비밀번호를 입력해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usableNickname){
+            if(valNickname.length < 2){
+                setErrorNickname(true);
+            }
+            
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'닉네임 사용가능을 확인해주세요.',
+                confirmPopBtn:1,
+            }));
+        }else if(!usableProfile){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'프로필 정보를 모두 입력해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+
+        // 프로필 정보 에러문구-----------
+        if(user.signupData.hasOwnProperty("m_address") && user.signupData.m_address.length > 0){
+            setErrorAddress(false);
+        }else{
+            setErrorAddress(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_height") && user.signupData.m_height.length > 0 ){
+            setErrorHeight(false);
+        }else{
+            setErrorHeight(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_job") && user.signupData.m_job.length > 0 ){
+            setErrorJob(false);
+        }else{
+            setErrorJob(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_visual") && user.signupData.m_visual.length > 0){
+            setErrorVisual(false);
+        }else{
+            setErrorVisual(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_like") && user.signupData.m_like.length > 0){
+            setErrorLike(false);
+        }else{
+            setErrorLike(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_mbti") && user.signupData.m_mbti.length > 0){
+            setErrorMbti(false);
+        }else{
+            setErrorMbti(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_character") && user.signupData.m_character.length > 0){
+            setErrorType(false);
+        }else{
+            setErrorType(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_smok") && user.signupData.m_smok.length > 0){
+            setErrorSmok(false);
+        }else{
+            setErrorSmok(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_drink") && user.signupData.m_drink.length > 0){
+            setErrorDrink(false);
+        }else{
+            setErrorDrink(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_religion") && user.signupData.m_religion.length > 0){
+            setErrorReligion(false);
+        }else{
+            setErrorReligion(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_date") && user.signupData.m_date.length > 0){
+            setErrorDate(false);
+        }else{
+            setErrorDate(true);
+        }
+
+        if(user.signupData.hasOwnProperty("m_motive") && user.signupData.m_motive.length > 0){
+            setErrorRoute(false);
+        }else{
+            setErrorRoute(true);
+        }
+    };
+
+
+    //피드프로필사진등록 다음버튼 클릭시
+    const feedProfileImgCheckHandler = () => {
+        //아이디랑 비밀번호,닉네임,프로필정보,프로필사진 입력 확인
+        if(usableId && usablePass && usableNickname && usableProfile && usableProfileImg){
+            if(step < 10){
+                setStep(10);
                 dispatch(appProfilePop2({appProfilePop2:true,appProfilePopTit2:"키"}));
             }
         }else if(!usableProfileImg){
@@ -864,14 +989,14 @@ const SignUp2 = () => {
 
             //이상형정보등록 다음버튼 클릭일때
             if(status == "profileCheck"){
-                if(step < 10){
-                    setStep(10);
+                if(step < 11){
+                    setStep(11);
                 }
             }
             //좋은결과 다음버튼 클릭일때
             if(status == "profileCheck2"){
-                if(step < 11){
-                    setStep(11);
+                if(step < 12){
+                    setStep(12);
                 }
             }
             //회원가입 다음버튼 클릭일때 회원가입 진행
@@ -913,7 +1038,8 @@ const SignUp2 = () => {
                     t_smok: user.signupData.t_smok,
                     t_drink: user.signupData.t_drink,
                     t_religion: user.signupData.t_religion,
-                    app_token: "Y"
+                    app_token: "Y",
+                    feed_profile_image: feedImgName
                 };
 
                 axios.post(`${m_join}`,body)
@@ -1579,7 +1705,7 @@ const SignUp2 = () => {
                                             <li key={`imgUp${i}`} className={imgNameList[i] ? "on" : ""}>
                                                 <div className="img"
                                                     onClick={()=>{
-                                                        dispatch(appProfileImgPop({appProfileImgPop:true, appProfileImgPopIdx:i}));
+                                                        dispatch(appProfileImgPop({appProfileImgPop:true, appProfileImgPopIdx:i, appProfileImgPopFeed:false}));
                                                     }}
                                                 >
                                                     {imgNameList[i] && <img src={imgNameList[i]} alt="프로필이미지"/>}
@@ -1600,8 +1726,51 @@ const SignUp2 = () => {
                     </div>
                 }
 
-                {/* 이상형정보 입력 */}
+                {/* 피드프로필사진 등록 */}
                 {step > 8 &&
+                    <div className="signup_box">
+                        <div className="gray_box">회원님의 피드프로필 사진을 등록해주세요!</div>
+                        <div className="flex_top">
+                            <div className="img_box">
+                                <img src={profile_img} alt="이미지" />
+                            </div>
+                            <div className="txt_box">
+                                <p className="name">사소한 매니저 하니</p>
+                                <div className="inner_box">
+                                    <div className="tit_box">
+                                        <p className="f_18 medium">사소한에서 활동하면서 보여지는 사진을 <strong>1장</strong> 등록해주세요.</p>
+                                    </div>
+                                </div>
+                                <ul className="profile_img_ul feed_profile_img_ul flex_wrap">
+                                    <li className={feedImgName.length > 0 ? "on" : ""}>
+                                        <div className="img"
+                                            onClick={()=>{
+                                                dispatch(appProfileImgPop({appProfileImgPop:true, appProfileImgPopIdx:0, appProfileImgPopFeed:true}));
+                                            }}
+                                        >
+                                            {feedImgName.length > 0 && <img src={feedImgName} alt="피드프로필이미지"/>}
+                                        </div>
+                                        <button type="button" className="btn_delt" 
+                                            onClick={()=>{
+                                                setFeedImgName('');
+                                                dispatch(feedProfileImg(''));
+                                            }}
+                                        >삭제버튼</button>
+                                    </li>
+                                </ul>
+                                <div className="flex_end tp10">
+                                    <button type="button" className="app_btn_s"
+                                        onClick={feedProfileImgCheckHandler}
+                                        disabled={step > 9 ? true : false}
+                                    >다음</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                {/* 이상형정보 입력 */}
+                {step > 9 &&
                     <div className="signup_box">
                         <div className="gray_box">회원님의 이상형 정보를 입력해주세요!</div>
                         <div className="flex_top">
@@ -1725,7 +1894,7 @@ const SignUp2 = () => {
                 }
 
                 {/* 좋은결과 */}
-                {step > 9 &&
+                {step > 10 &&
                     <div className="signup_box">
                         <div className="flex_top">
                             <div className="img_box">
@@ -1750,7 +1919,7 @@ const SignUp2 = () => {
                 }
 
                 {/* 회원가입 */}
-                {step > 10 &&
+                {step > 11 &&
                     <div className="signup_box">
                         <div className="flex_top">
                             <div className="img_box">

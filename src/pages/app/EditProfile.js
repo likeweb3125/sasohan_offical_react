@@ -4,8 +4,9 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import * as CF from '../../config/function';
 import { enum_api_uri } from "../../config/enum";
-import { appProfilePop, appProfilePop2, confirmPop, appChangePasswordPop } from "../../store/popupSlice";
+import { appProfilePop, appProfilePop2, confirmPop, appChangePasswordPop, appProfileImgPop } from "../../store/popupSlice";
 import { profileData, profileDataChange } from "../../store/userSlice";
+import { feedProfileImg } from "../../store/commonSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 
 
@@ -13,10 +14,12 @@ const EditProfile = () => {
     const dispatch = useDispatch();
     const user = useSelector((state)=>state.user);
     const popup = useSelector((state)=>state.popup);
+    const common = useSelector((state)=>state.common);
     const m_profile_info = enum_api_uri.m_profile_info;
     const m_profile_modify = enum_api_uri.m_profile_modify;
     const m_nick_check = enum_api_uri.m_nick_check;
     const m_address = enum_api_uri.m_address;
+    const feed_profile_delt = enum_api_uri.feed_profile_delt;
     const [confirm, setConfirm] = useState(false);
     const [editOkConfirm, setEditOkConfirm] = useState(false);
     const [tabOn, setTabOn] = useState(1);
@@ -36,6 +39,9 @@ const EditProfile = () => {
     const [height, setHeight] = useState("");
     const [height2, setHeight2] = useState(""); //상대방 키
     const [hasRunOnce, setHasRunOnce] = useState(false);
+    const [feedImg, setFeedImg] = useState("");
+    const [feedImgName, setFeedImgName] = useState("");
+    const [deltImgList, setDeltImgList] = useState([]);
 
 
     // Confirm팝업 닫힐때
@@ -81,6 +87,9 @@ const EditProfile = () => {
 
                 //나의 프로필정보
                 setMyType(data.my_type);
+
+                //나의 피드프로필 사진
+                dispatch(feedProfileImg(data.my_info.feed_profile_image));
 
                 //나의 키
                 if(data.my_type.hasOwnProperty("m_height")){
@@ -150,6 +159,7 @@ const EditProfile = () => {
                     t_religion: data.ideal_type.t_religion,
                 };
                 dispatch(profileData(infoData));
+
             }
         })
         .catch((error) => {
@@ -196,6 +206,29 @@ const EditProfile = () => {
             },500);
         }
     },[token]);
+
+
+    //피드프로필사진 등록시
+    useEffect(()=>{
+        setFeedImg(common.feedProfileImg);
+    },[common.feedProfileImg]);
+
+
+    //피드프로필사진 이미지이름만 
+    useEffect(()=>{
+        const imgName = feedImg.substring(feedImg.lastIndexOf('/') + 1);
+        setFeedImgName(imgName);
+    },[feedImg]);
+
+
+    //피드프로필사진 삭제시
+    const feedImgDeltHandler = () => {
+        const newDeltImgList = [...deltImgList];
+        newDeltImgList.push(feedImgName);
+        setDeltImgList(newDeltImgList);
+
+        dispatch(feedProfileImg(''));
+    };
 
 
     //회원 기본정보값 변경시 닉네임, 이메일값 변경
@@ -431,10 +464,47 @@ const EditProfile = () => {
             })
         }
     };
+
+
+    //프로필 수정진행 -> 삭제할이미지 있으면 삭제후 프로필수정
+    const editHandler = () => {
+        if(deltImgList.length > 0){
+            // 삭제할 이미지가 있는 경우 각 이미지를 순회하며 삭제
+            deltImgList.forEach((imageName, index) => {
+                feedProfileImgDelt(imageName, index === deltImgList.length - 1); // 각 이미지를 삭제하는 함수 호출
+            });
+        }else{
+            profileEdit();
+        }
+    };
+
+
+    //피드프로필 이미지 삭제하기
+    const feedProfileImgDelt = (imageName, isLast) => {
+        axios.delete(feed_profile_delt.replace(':filename',imageName))
+        .then((res)=>{
+            if(res.status === 200){
+                if (isLast) {
+                    // 마지막 이미지 삭제 후 프로필 수정 함수 호출
+                    profileEdit();
+                }
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
+    };
     
 
     //프로필수정하기
-    const EditHandler = () => {
+    const profileEdit = () => {
         let addr = "";
         if(user.profileData.m_address2.length > 0){
             addr = user.profileData.m_address + " " + user.profileData.m_address2;
@@ -465,6 +535,7 @@ const EditProfile = () => {
             t_smok: user.profileData.t_smok,
             t_drink: user.profileData.t_drink,
             t_religion: user.profileData.t_religion,
+            feed_profile_image: feedImgName
         };
 
         axios.post(`${m_profile_modify}`, body,
@@ -571,7 +642,7 @@ const EditProfile = () => {
                             </div>
                             {errorNickname && <p className="alert_txt tp4">최소 2자 이상 입력하세요.</p>}
                         </li>
-                        <li>
+                        {/* <li>
                             <p className="input_tit">이메일</p>
                             <div className={`custom_input2${inputFocus.hasOwnProperty("email") && inputFocus.email ? " on" : ""}`}>
                                 <input type={"text"} placeholder="이메일을 입력해주세요." 
@@ -597,12 +668,29 @@ const EditProfile = () => {
                                     }}
                                 />
                             </div>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
                 <div className="line_box" id="box2">
                     <p className="top_tit">나의 프로필</p>
                     <ul className="form_ul">
+                        <li>
+                            <p className="input_tit">나의 피드 프로필</p>
+                            <ul className="profile_img_ul feed_profile_img_ul flex_wrap">
+                                <li className={feedImg.length > 0 ? "on" : ""}>
+                                    <div className="img"
+                                        onClick={()=>{
+                                            dispatch(appProfileImgPop({appProfileImgPop:true, appProfileImgPopIdx:0, appProfileImgPopFeed:true}));
+                                        }}
+                                    >
+                                        {feedImg.length > 0 && <img src={feedImg} alt="피드프로필이미지"/>}
+                                    </div>
+                                    <button type="button" className="btn_delt" 
+                                        onClick={feedImgDeltHandler}
+                                    >삭제버튼</button>
+                                </li>
+                            </ul>
+                        </li>
                         <li>
                             <p className="input_tit">나의 거주지</p>
                             <div className="btn_sel_box2 flex_between">
@@ -806,7 +894,7 @@ const EditProfile = () => {
                 <button type="button" className="app_btn2" 
                     onClick={()=>{
                         if(usableNickname && usableEmail){
-                            EditHandler();
+                            editHandler();
                         }else if(!usableNickname){
                             setConfirm(true);
                             dispatch(confirmPop({
