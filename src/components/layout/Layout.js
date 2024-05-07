@@ -45,9 +45,9 @@ const Layout = (props) => {
     },[popup.confirmPop]);
 
 
-    //페이지이동시 스크롤탑으로 이동 (상세->목록으로 뒤로가기시 제외)
+    //페이지이동시 스크롤탑으로 이동 (상세->목록으로 뒤로가기시 && 소개팅신청 해당섹션으로 이동시 제외)
     useEffect(()=>{
-        if(!common.detailPageBack){
+        if(!common.detailPageBack && common.aboutVipScroll.length == 0){
             window.scrollTo(0,0);
         }
     },[location]);

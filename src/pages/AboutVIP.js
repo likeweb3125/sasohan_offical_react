@@ -12,6 +12,7 @@ import axios from "axios";
 import * as CF from "../config/function";
 import { enum_api_uri } from "../config/enum";
 import { confirmPop, vipApplyPop, applyPop } from "../store/popupSlice";
+import { aboutVipScroll } from "../store/commonSlice";
 import ConfirmPop from "../components/popup/ConfirmPop";
 import main_txt_img from "../images/about_vip_main_txt.png";
 import main_img from "../images/about_vip_main_img.png";
@@ -34,6 +35,7 @@ const AboutVIP = () => {
     const dispatch = useDispatch();
     const popup = useSelector((state)=>state.popup);
     const user = useSelector((state)=>state.user);
+    const common = useSelector((state)=>state.common);
     const vip_list = enum_api_uri.vip_list;
     const [confirm, setConfirm] = useState(false);
     const sect1Ref = useRef(null);
@@ -125,7 +127,18 @@ const AboutVIP = () => {
     };
 
 
-    
+    //헤더,푸터 소개팅신청,VIP지원 버튼클릭시 해당섹션으로 스크롤
+    useEffect(()=>{
+        if(common.aboutVipScroll.length > 0){
+            const sectionId = common.aboutVipScroll;
+            const section = document.getElementById(sectionId);
+            if(section){
+                section.scrollIntoView({behavior:'smooth'});
+                dispatch(aboutVipScroll(''));
+            }
+        }
+    },[common.aboutVipScroll]);
+
     
 
     return(<> 
@@ -236,7 +249,7 @@ const AboutVIP = () => {
                 </div>
             </div>
 
-            <div className={`vip_sect vip_sect4 ${sect4On ? "on" : ""}`} ref={sect4Ref}>
+            <div className={`vip_sect vip_sect4 ${sect4On ? "on" : ""}`} ref={sect4Ref} id="vip_sect4">
                 <div className="cont4">
                     <div className="vip_apply_cont">
                         <div className="txt_box flex_top">
@@ -267,14 +280,14 @@ const AboutVIP = () => {
                                 </li>
                             </ul>
                             <div className="btn_box">
-                                <Link to='/member/signup' className="btn_click">소개팅을 신청해 보세요!</Link>
+                                <button type="button" className="btn_click" onClick={()=>dispatch(applyPop(true))}>소개팅을 신청해 보세요!</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className={`vip_sect vip_sect5 ${sect5On ? "on" : ""}`} ref={sect5Ref}>
+            <div className={`vip_sect vip_sect5 ${sect5On ? "on" : ""}`} ref={sect5Ref} id="vip_sect5">
                 <div className="cont4">
                     <div className="vip_apply_cont">
                         <div className="txt_box flex_top">

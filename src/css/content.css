@@ -433,8 +433,8 @@
 .vip_sect4{padding-top: 120px;}
 .vip_sect4::before{position: absolute;content: '';width: 100%;height: 680px;background: #F8F9FB;left: 0;top: 0;z-index: -1;}
 .vip_apply_cont {opacity: 0;}
-.vip_apply_cont .txt_box .tit{width: 40%;font-size: 48px;font-weight: 700;padding-left: 74px;position: relative;}
-.vip_apply_cont .txt_box .tit::after{position: absolute;content: '';width: 54px;height: 54px;background: url(../images/vip_sect4_check.png) no-repeat center;left: 0;top: 0;}
+.vip_apply_cont .txt_box .tit{width: 40%;font-size: 48px;font-weight: 700;padding-left: 88px;position: relative;}
+.vip_apply_cont .txt_box .tit::after{position: absolute;content: '';width: 72px;height: 72px;background: url(../images/vip_sect4_check.png) no-repeat center;left: 0;top: -7px;}
 .vip_apply_cont .txt_box .txt{font-size: 24px;font-weight: 600;}
 .vip_apply_cont .txt_box .txt strong{color: #6840FD;font-weight: 800;}
 .vip_apply_cont .txt_box .txt2{font-size: 18px;color: #666;padding-top: 20px;}

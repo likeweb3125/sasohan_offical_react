@@ -5,6 +5,7 @@ import Cookies from "js-cookie"
 import * as CF from "../../config/function";
 import { applyPop } from '../../store/popupSlice';
 import { userInfo, userToken, userRank } from "../../store/userSlice";
+import { aboutVipScroll } from '../../store/commonSlice';
 import ConfirmPop from '../popup/ConfirmPop';
 import logo_big_b from "../../images/logo_big_b.svg";
 import none_profile from "../../images/none_profile2.jpg";
@@ -202,12 +203,20 @@ const Header = () => {
                                 <li><Link to={'/member/signup'}>회원가입</Link></li>
                             </ul>
                     }
-                    {!login &&
-                        // <button type='button' className='btn_apply' onClick={()=>{
-                        //     dispatch(applyPop(true));
-                        // }}>소개팅 신청</button>
-                        <Link to={'/member/signup'} className='btn_apply'>소개팅 신청</Link>
-                    }
+                    <div className='link_btn_box flex_wrap'>
+                        <button type='button' className='btn_apply'
+                            onClick={()=>{
+                                dispatch(aboutVipScroll('vip_sect4'));
+                                navigate('/about-vip');
+                            }}
+                        >소개팅 신청</button>
+                        <button type='button' className='btn_vip'
+                            onClick={()=>{
+                                dispatch(aboutVipScroll('vip_sect5'));
+                                navigate('/about-vip');
+                            }}
+                        >VIP 지원</button>
+                    </div>
                 </div>
                 <button type='button' className='btn_menu' onClick={()=>setMenuWrap(true)}>모바일메뉴열기버튼</button>
             </div>

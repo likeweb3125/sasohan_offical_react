@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
 import { confirmPop, applyPop } from "../../store/popupSlice";
+import { aboutVipScroll } from "../../store/commonSlice";
 import ConfirmPop from "../popup/ConfirmPop";
 import logo from "../../images/logo_foot.svg";
 
@@ -132,13 +133,21 @@ const Footer = () => {
                 </li>
             </ul>
             <button type="button" className="btn_top" onClick={scrollToTop}></button>
+            <div className="link_btn_box">
+                <button type='button' className='btn_apply'
+                    onClick={()=>{
+                        dispatch(aboutVipScroll('vip_sect4'));
+                        navigate('/about-vip');
+                    }}
+                >소개팅 <br/>신청</button>
+                <button type='button' className='btn_vip'
+                    onClick={()=>{
+                        dispatch(aboutVipScroll('vip_sect5'));
+                        navigate('/about-vip');
+                    }}
+                >VIP <br/>지원</button>
+            </div>
         </div>
-        {!userLogin &&
-            // <button type='button' className='btn_apply_foot' onClick={()=>{
-            //     dispatch(applyPop(true));
-            // }}>소개팅 <br/>신청</button>
-            <Link to={'/member/signup'} className='btn_apply_foot'>소개팅 <br/>신청</Link>
-        }
 
         {/* confirm팝업 */}
         {confirm && <ConfirmPop />}

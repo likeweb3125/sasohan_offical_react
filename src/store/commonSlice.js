@@ -11,6 +11,7 @@ const common = createSlice({
         feedRefresh:false,
         myPageRefresh:false,
         phoneLogin:false,
+        aboutVipScroll:'',
     },
     reducers:{
         headerMenuOn: (state, action) => {
@@ -37,6 +38,9 @@ const common = createSlice({
         phoneLogin: (state, action) => {
             state.phoneLogin = action.payload;
         },
+        aboutVipScroll: (state, action) => {
+            state.aboutVipScroll = action.payload;
+        },
     }
 });
 
@@ -49,5 +53,6 @@ export const {
     feedRefresh,
     myPageRefresh,
     phoneLogin,
+    aboutVipScroll,
 } = common.actions;
 export default common;

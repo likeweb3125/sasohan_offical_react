@@ -56,12 +56,6 @@ function App() {
     },[popup.confirmPop]);
 
 
-    //페이지이동시 스크롤탑으로 이동
-    useEffect(()=>{
-        window.scrollTo(0,0);
-    },[location]);
-
-
     // 팝업이 열리면 배경 스크롤을 막음
     useEffect(() => {
         const hasOpenPop = Object.keys(popup).some(key => key.endsWith('Pop') && popup[key]);
