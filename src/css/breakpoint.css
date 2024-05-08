@@ -519,8 +519,8 @@
     .fixed_box .list_sns{width: 40px;}
     .fixed_box .list_sns li a{height: 42px;background-size: 20px !important;}
     .fixed_box .btn_top{width: 40px;height: 40px;background-size: 100%;}
-    .fixed_box .link_btn_box{width: 72px;border-radius: 12px 0 0 12px;}
-    .fixed_box .link_btn_box>*{height: 72px;font-size: 16px;}
+    .fixed_box .link_btn_box{width: 60px;border-radius: 12px 0 0 12px;}
+    .fixed_box .link_btn_box>*{height: 60px;font-size: 15px;}
 
     /* 팝업 */
     .pop_wrap .pop_cont{width: calc(100% - 40px);border-width: 2px;border-radius: 8px;padding: 28px 20px;}
