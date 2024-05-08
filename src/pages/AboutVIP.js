@@ -130,6 +130,11 @@ const AboutVIP = () => {
     //헤더,푸터 소개팅신청,VIP지원 버튼클릭시 해당섹션으로 스크롤
     useEffect(()=>{
         if(common.aboutVipScroll.length > 0){
+            setSect1On(true);
+            setSect2On(true);
+            setSect3On(true);
+            setSect4On(true);
+            setSect5On(true);
             const sectionId = common.aboutVipScroll;
             const section = document.getElementById(sectionId);
             if(section){
@@ -140,7 +145,6 @@ const AboutVIP = () => {
             }
         }
     },[common.aboutVipScroll]);
-
     
 
     return(<> 
