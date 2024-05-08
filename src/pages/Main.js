@@ -449,6 +449,7 @@ const Main = () => {
                     <Swiper 
                         className="charming_slider"
                         slidesPerView={1}
+                        spaceBetween={0}
                         observer={true}
                         observeParents={true}
                         navigation={{nextEl: ".manager_wrap .swiper-button-next.manager_btn",prevEl: ".manager_wrap .swiper-button-prev.manager_btn"}}
@@ -470,6 +471,11 @@ const Main = () => {
                         }}
                         ref={charmingSliderRef}
                         modules={[Navigation,Pagination]}
+                        breakpoints={
+                            {
+                                768:{spaceBetween:30},//width >= 768
+                            }
+                        }
                     >
                         {managerList.map((data,i)=>{
                             return(

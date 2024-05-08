@@ -323,7 +323,7 @@ const ApplyPop = () => {
                                             </ul>
                                         </li> 
                                         <li className="addr_select_li bp0">
-                                            <p>지역 <span className="color_point">*</span></p>
+                                            <p>선호지역 <span className="color_point">*</span></p>
                                             <div>
                                                 <div className="custom_check">
                                                     <label>
