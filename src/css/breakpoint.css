@@ -727,7 +727,7 @@
     .vip_sect3 .txt_box .txt4{padding-top: 40px;}
     .vip_sect4{padding-top: 60px;}
     .vip_apply_cont .txt_box .tit{font-size: 36px;padding-left: 60px;margin-bottom: 28px;}
-    .vip_apply_cont .txt_box .tit::after{width: 40px;height: 40px;background-size: 100%;top: 4px;}
+    .vip_apply_cont .txt_box .tit::after{width: 55px;height: 55px;}
     .vip_apply_cont .txt_box .txt{font-size: 20px;}
     .vip_apply_cont .txt_box .txt2{padding-top: 8px;}
     .vip_apply_cont .box{margin-top: 40px;padding: 36px 16px;}
