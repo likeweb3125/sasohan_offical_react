@@ -145,7 +145,7 @@ const Footer = () => {
                         dispatch(aboutVipScroll('vip_sect5'));
                         navigate('/about-vip');
                     }}
-                >VIP <br/>지원</button>
+                >1% <br/>지원</button>
             </div>
         </div>
 

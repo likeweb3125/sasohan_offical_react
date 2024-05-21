@@ -163,7 +163,7 @@ const Header = () => {
                 <nav className="gnb_wrap">
                     <ul className="gnb">
                         <li className={menuOn === 1 ? "on" : ""}><Link to="/">About 사소한</Link></li>
-                        <li className={menuOn === 2 ? "on" : ""}><Link to="/about-vip">VIP 소개팅</Link></li>
+                        <li className={menuOn === 2 ? "on" : ""}><Link to="/about-vip">1% 소개팅</Link></li>
                         <li className={`is_submenu${menuOn === 3 ? " on" : ""}`}>
                             <Link to="/square/all-feed" onClick={onLinkRefresh}>사소한 스퀘어</Link>
                             <div className='submenu_box'>
@@ -215,7 +215,7 @@ const Header = () => {
                                 dispatch(aboutVipScroll('vip_sect5'));
                                 navigate('/about-vip');
                             }}
-                        >VIP 지원</button>
+                        >1% 지원</button>
                     </div>
                 </div>
                 <button type='button' className='btn_menu' onClick={()=>setMenuWrap(true)}>모바일메뉴열기버튼</button>
@@ -279,7 +279,7 @@ const Header = () => {
                                 <Link to="/">About 사소한</Link>
                             </li>
                             <li className={menuOn === 2 ? "on" : ""}>
-                                <Link to="/about-vip">VIP 소개팅</Link>
+                                <Link to="/about-vip">1% 소개팅</Link>
                             </li>
                             <li className={menuOn === 3 ? "on" : ""}>
                                 <Link to="/square/all-feed" onClick={onLinkRefresh}>사소한 스퀘어</Link>

@@ -303,7 +303,7 @@ const VipApplyPop = () => {
             <div className="pop_cont">
                 <button type="button" className="btn_close" onClick={closePopHandler}>닫기버튼</button>
                 <div className="apply_cont">
-                    <div className="tit">사소한 VIP 회원 지원하기</div>
+                    <div className="tit">사소한 1% 회원 지원하기</div>
                     <div className="form_box scroll_wrap">
                         <ul className="form_ul flex_between flex_wrap">
                             <li>

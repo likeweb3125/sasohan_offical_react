@@ -51,7 +51,7 @@ const ListSearchBox = ({
                                     name="manager_type"
                                 />
                                 <div className="box flex">
-                                    <img src={manager_tag} alt="매니저타입 아이콘"/><span>VIP 매니저</span>
+                                    <img src={manager_tag} alt="매니저타입 아이콘"/><span>1% 매니저</span>
                                 </div>
                             </label>
                         </li>

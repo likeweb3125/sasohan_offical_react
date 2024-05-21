@@ -713,6 +713,7 @@
     .vip_slider .swiper-slide .img_box p{font-size: 12px;padding-top: 10px;}
     .vip_sect2{padding-top: 40px;}
     .vip_sect2 .txt{font-size: 16px;}
+    .vip_sect2 .txt_box .mo_show img{max-width: 94px;}
     .vip_sect2 .txt_box p{font-size: 32px;}
     .vip_sect2 .txt_box p strong{font-size: 40px;font-weight: 700;}
     .vip_sect3{padding: 40px 0 80px;}
