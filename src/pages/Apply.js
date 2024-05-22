@@ -17,7 +17,6 @@ const Apply = () => {
     const popup = useSelector((state)=>state.popup);
     const policy_cont = enum_api_uri.policy_cont;
     const m_address = enum_api_uri.m_address;
-    const m_address2 = enum_api_uri.m_address2;
     const date_apply = enum_api_uri.date_apply;
     const [confirm, setConfirm] = useState(false);
     const [terms, setTerms] = useState({});
@@ -25,7 +24,6 @@ const Apply = () => {
     const [montList, setMonthList] = useState([]);
     const [dayList, setDayList] = useState([]);
     const [addressList, setAddressList] = useState([]);
-    const [addressList2, setAddressList2] = useState([]);
     const [addrSelectList, setAddrSelectList] = useState([]);
     const [step, setStep] = useState(1);
     const location = useLocation();
@@ -94,27 +92,6 @@ const Apply = () => {
             if(res.status === 200){
                 const data = res.data;
                 setAddressList(data);
-            }
-        })
-        .catch((error) => {
-            const err_msg = CF.errorMsgHandler(error);
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt: err_msg,
-                confirmPopBtn:1,
-            }));
-            setConfirm(true);
-        })
-    };
-
-
-    //주소 시,도 셀렉트박스 선택시 구,군 가져오기
-    const getAddress2 = (code) => {
-        axios.get(`${m_address2.replace(':parent_local_code',code)}`)
-        .then((res)=>{
-            if(res.status === 200){
-                setAddressList2(res.data);
             }
         })
         .catch((error) => {
@@ -311,12 +288,12 @@ const Apply = () => {
                                             <div className="year_input_box flex_between">
                                                 <div className="input_box2">
                                                     <select 
-                                                        name="year"
-                                                        value={values.year}
+                                                        name="day"
+                                                        value={values.day}
                                                         onChange={handleChange}
                                                     >
-                                                        <option value='' hidden>생년</option>
-                                                        {yearList.map((cont,i)=>{
+                                                        <option value='' hidden>일</option>
+                                                        {dayList.map((cont,i)=>{
                                                             return(
                                                                 <option value={cont} key={i}>{cont}</option>
                                                             );
@@ -339,12 +316,12 @@ const Apply = () => {
                                                 </div>
                                                 <div className="input_box2">
                                                     <select 
-                                                        name="day"
-                                                        value={values.day}
+                                                        name="year"
+                                                        value={values.year}
                                                         onChange={handleChange}
                                                     >
-                                                        <option value='' hidden>일</option>
-                                                        {dayList.map((cont,i)=>{
+                                                        <option value='' hidden>생년</option>
+                                                        {yearList.map((cont,i)=>{
                                                             return(
                                                                 <option value={cont} key={i}>{cont}</option>
                                                             );
@@ -386,119 +363,38 @@ const Apply = () => {
                                         </li>
                                         <li className="bp0">
                                             <p className="tit">선호지역 <span className="color_point">*</span></p>
-                                            <div className="address_box flex_between">
-                                                <div className="input_box2">
-                                                    <select 
-                                                        name="address1" 
-                                                        value={values.address1} 
-                                                        onChange={(e)=>{
-                                                            const code = e.target.options[e.target.selectedIndex].getAttribute("data-code");
-                                                            handleChange(e);
-                                                            getAddress2(code);
+                                            <div className="input_box2">
+                                                <select 
+                                                    name="address1" 
+                                                    value={values.address1} 
+                                                    onChange={(e)=>{
+                                                        handleChange(e);
 
-                                                            setFieldValue("address2","");
-
-                                                            const val = e.currentTarget.value;
-                                                            if(val == "세종특별자치시" && !addrSelectList.includes("세종")){
-                                                                if(addrSelectList.length > 9){
-                                                                    dispatch(confirmPop({
-                                                                        confirmPop:true,
-                                                                        confirmPopTit:'알림',
-                                                                        confirmPopTxt:'선호지역은 최대 10개까지만 선택해주세요.',
-                                                                        confirmPopBtn:1,
-                                                                    }));
-                                                                    setConfirm(true);
-                                                                }else{
-                                                                    const updatedList = [...addrSelectList];
-                                                                        updatedList.push("세종");
-                                                                    setAddrSelectList(updatedList);
-                                                                }
+                                                        const val = e.currentTarget.value;
+                                                        if(val.length > 0){
+                                                            if(addrSelectList.length > 9){
+                                                                dispatch(confirmPop({
+                                                                    confirmPop:true,
+                                                                    confirmPopTit:'알림',
+                                                                    confirmPopTxt:'선호지역은 최대 10개까지만 선택해주세요.',
+                                                                    confirmPopBtn:1,
+                                                                }));
+                                                                setConfirm(true);
+                                                            }else{
+                                                                const updatedList = [...addrSelectList];
+                                                                    updatedList.push(val);
+                                                                setAddrSelectList(updatedList);
                                                             }
-                                                        }}
-                                                    >
-                                                        <option value='' hidden disabled>시/도</option>
-                                                        {addressList.map((cont, i)=>{
-                                                            return(
-                                                                <option value={cont.sido_gugun} key={i} data-code={cont.local_code}>{cont.sido_gugun}</option>
-                                                            );
-                                                        })}
-                                                    </select>
-                                                </div>
-                                                <div className="input_box2">
-                                                    <select 
-                                                        name="address2" 
-                                                        value={values.address2} 
-                                                        onChange={(e)=>{
-                                                            handleChange(e);
-
-                                                            const val = e.currentTarget.value;
-
-                                                            let address1_txt = values.address1;
-                                                            if(address1_txt === "강원도"){
-                                                                address1_txt = "강원";
-                                                            }
-                                                            if(address1_txt === "경기도"){
-                                                                address1_txt = "경기";
-                                                            }
-                                                            if(address1_txt === "경상남도"){
-                                                                address1_txt = "경남";
-                                                            }
-                                                            if(address1_txt === "경상북도"){
-                                                                address1_txt = "경북";
-                                                            }
-                                                            if(address1_txt === "전라남도"){
-                                                                address1_txt = "전남";
-                                                            }
-                                                            if(address1_txt === "전라북도"){
-                                                                address1_txt = "전북";
-                                                            }
-                                                            if(address1_txt === "충청남도"){
-                                                                address1_txt = "충남";
-                                                            }
-                                                            if(address1_txt === "충청북도"){
-                                                                address1_txt = "충북";
-                                                            }
-                                                            if(address1_txt.includes("광역시")){
-                                                                address1_txt = address1_txt.replace("광역시","");
-                                                            }
-                                                            if(address1_txt.includes("특별시")){
-                                                                address1_txt = address1_txt.replace("특별시","");
-                                                            }
-                                                            if(address1_txt.includes("특별자치시")){
-                                                                address1_txt = address1_txt.replace("특별자치시","");
-                                                            }
-                                                            if(address1_txt.includes("특별자치도")){
-                                                                address1_txt = address1_txt.replace("특별자치도","");
-                                                            }
-
-                                                            if(val.length > 0){
-                                                                if(addrSelectList.length > 9){
-                                                                    dispatch(confirmPop({
-                                                                        confirmPop:true,
-                                                                        confirmPopTit:'알림',
-                                                                        confirmPopTxt:'선호지역은 최대 10개까지만 선택해주세요.',
-                                                                        confirmPopBtn:1,
-                                                                    }));
-                                                                    setConfirm(true);
-                                                                }else{
-                                                                    const txt = address1_txt + " " + val;
-                                                                    if(!addrSelectList.includes(txt)){
-                                                                        const updatedList = [...addrSelectList];
-                                                                            updatedList.push(txt);
-                                                                        setAddrSelectList(updatedList);
-                                                                    }
-                                                                }
-                                                            }  
-                                                        }}
-                                                    >
-                                                        <option value='' hidden disabled>구</option>
-                                                        {addressList2.map((cont, i)=>{
-                                                            return(
-                                                                <option value={cont.sido_gugun} key={i}>{cont.sido_gugun}</option>
-                                                            );
-                                                        })}
-                                                    </select>
-                                                </div>
+                                                        }
+                                                    }}
+                                                >
+                                                    <option value='' hidden disabled>시/도</option>
+                                                    {addressList.map((cont, i)=>{
+                                                        return(
+                                                            <option value={cont.sido_gugun} key={i} data-code={cont.local_code}>{cont.sido_gugun}</option>
+                                                        );
+                                                    })}
+                                                </select>
                                             </div>
                                         </li>
                                         <li className="addr_li">
