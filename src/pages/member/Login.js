@@ -350,12 +350,32 @@ const Login = () => {
                     Cookies.remove("saveId");
                 }
 
+                //회원랭킹 정의
+                // if(text === 'X클래스') {
+                //     classNum = 1;
+                // } else if(text === 'S클래스') {
+                //     classNum = 2;
+                // } else if(text === 'A클래스') {
+                //     classNum = 3;
+                // } else if(text === 'B클래스') {
+                //     classNum = 4;
+                // } else if(text === 'C클래스') {
+                //     classNum = 5;
+                // } else if(text === 'Unranked') {
+                //     classNum = 0;
+                // } else {
+                //     classNum = -1;
+                // }
+                // ** class_name 값이 X클래스~C클래스, Unranked 일때만 flag = true
+
                 //회원랭킹정보 store 에 저장
                 const data = res.data;
                 let rank = false;
                 let rankData = {};
                 if(data.flag){
-                    rank = true;
+                    if(data.class_number > 0){
+                        rank = true;
+                    }
                     rankData = data;
                 }
                 dispatch(userRank({userRank:rank, userRankData:rankData}));
