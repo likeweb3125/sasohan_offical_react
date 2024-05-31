@@ -143,8 +143,9 @@ const Header = () => {
             const num = user.userRankData.class_number;
             if(num > 0){
                 setUserClassNum(num);
+            }else{
+                setUserClassNum(null);
             }
-            setUserClassNum(null);
         }else{
             setUserClassNum(null);
         }
