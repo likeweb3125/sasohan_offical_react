@@ -123,9 +123,28 @@ const Header = () => {
 
     //회원 랭킹정보 - 클래스번호 값 가져오기
     useEffect(()=>{
+        // if(text === 'X클래스') {
+        //     classNum = 1;
+        // } else if(text === 'S클래스') {
+        //     classNum = 2;
+        // } else if(text === 'A클래스') {
+        //     classNum = 3;
+        // } else if(text === 'B클래스') {
+        //     classNum = 4;
+        // } else if(text === 'C클래스') {
+        //     classNum = 5;
+        // } else if(text === 'Unranked') {
+        //     classNum = 0;
+        // } else {
+        //     classNum = -1;
+        // }
+
         if(user.userRank){
             const num = user.userRankData.class_number;
-            setUserClassNum(num);
+            if(num > 0){
+                setUserClassNum(num);
+            }
+            setUserClassNum(null);
         }else{
             setUserClassNum(null);
         }
