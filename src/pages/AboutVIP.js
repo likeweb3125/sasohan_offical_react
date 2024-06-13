@@ -153,9 +153,9 @@ const AboutVIP = () => {
                 <div className="cont4">
                     <div className="txt_box">
                         <img src={main_txt_img} alt="vip 소개팅" />
-                        <p className="txt">사소한 1% 소개팅 서비스는 <br/><strong>결제 회원님과 1% 회원님</strong><br/>으로 구성되어 있습니다. </p>
+                        <p className="txt">사소한 1% 소개팅 서비스는 <br/><strong>선택 회원님과 1% 회원님</strong><br/>으로 구성되어 있습니다. </p>
                         <p className="txt2">두 유형의 회원님들은 매니저의 매칭을 통해 서로 소개팅을 주선받습니다. <br/><br/>
-                            결제 회원은 매칭에 비용을 투자하여 <br/>
+                            선택 회원은 매칭에 비용을 투자하여 <br/>
                             자신이 원하는 1% 회원을 선택, 소개를 받는 권리를 갖게 됩니다.<br/>
                             반면, 1% 회원은 자신의 매력을 인정받아 소개팅 시 매너베이트를 전달받는 혜택을 누리게 됩니다.</p>
                     </div>
