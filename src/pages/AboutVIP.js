@@ -259,14 +259,14 @@ const AboutVIP = () => {
                 <div className="cont4">
                     <div className="vip_apply_cont">
                         <div className="txt_box flex_top">
-                            <p className="tit">결제 회원이란?</p>
+                            <p className="tit">선택 회원이란?</p>
                             <div>
-                                <p className="txt"><strong>결제 회원님</strong>은 소개팅 과정을 주도하는 회원님입니다.</p>
-                                <p className="txt2">비용을 지불하고 1% 회원님 중 마음에 드는 상대를 선택하여 매칭을 요청하실 수 있습니다. <br/>결제 회원님은 바쁜 일상에서 이성을 찾는 시간을 크게 절약하며 본인의 취향에 딱 맞는 이상형을 찾는 장점이 있습니다.</p>
+                                <p className="txt"><strong>선택 회원님</strong>은 소개팅 과정을 주도하는 회원님입니다.</p>
+                                <p className="txt2">비용을 지불하고 1% 회원님 중 마음에 드는 상대를 선택하여 매칭을 요청하실 수 있습니다. <br/>선택 회원님은 바쁜 일상에서 이성을 찾는 시간을 크게 절약하며 본인의 취향에 딱 맞는 이상형을 찾는 장점이 있습니다.</p>
                             </div>
                         </div>
                         <div className="box tx_c">
-                            <p className="txt"><strong>결제회원님</strong>은 아래와 같은 서비스가 제공되고 있어요!</p>
+                            <p className="txt"><strong>선택회원님</strong>은 아래와 같은 서비스가 제공되고 있어요!</p>
                             <ul className="img_ul flex_between flex_wrap">
                                 <li>
                                     <div><img src={vip_sect4_img1} alt="이미지" /></div>
@@ -308,7 +308,7 @@ const AboutVIP = () => {
                             <ul className="img_ul flex_between flex_wrap">
                                 <li>
                                     <div><img src={vip_sect5_img1} alt="이미지" /></div>
-                                    <p>소개팅 진행 시 결제 회원님께서 <br/>1만 원의 매너베이트 전달</p>
+                                    <p>소개팅 진행 시 선택 회원님께서 <br/>1만 원의 매너베이트 전달</p>
                                 </li>
                                 <li>
                                     <div><img src={vip_sect5_img2} alt="이미지" /></div>
