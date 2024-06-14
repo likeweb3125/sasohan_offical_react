@@ -1885,7 +1885,7 @@ const SignUp2 = () => {
                                 <div className="flex_end tp10">
                                     <button type="button" className="app_btn_s"
                                         onClick={()=>signupHandler("profileCheck")}
-                                        disabled={step > 9 && usableProfile2 ? true : false}
+                                        disabled={step > 10 && usableProfile2 ? true : false}
                                     >다음</button>
                                 </div>
                             </div> 
@@ -1910,7 +1910,7 @@ const SignUp2 = () => {
                                 <div className="flex_end tp10">
                                     <button type="button" className="app_btn_s"
                                         onClick={()=>signupHandler("profileCheck2")}
-                                        disabled={step > 10 ? true : false}
+                                        disabled={step > 11 ? true : false}
                                     >네!</button>
                                 </div>
                             </div> 
@@ -1935,7 +1935,7 @@ const SignUp2 = () => {
                                 <div className="flex_end tp10">
                                     <button type="button" className="app_btn_s"
                                         onClick={()=>signupHandler("signup")}
-                                        disabled={step > 11 ? true : false}
+                                        disabled={step > 12 ? true : false}
                                     >다음</button>
                                 </div>
                             </div> 
