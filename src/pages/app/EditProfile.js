@@ -277,8 +277,6 @@ const EditProfile = () => {
 
 
     useEffect(()=>{
-        console.log(user.profileData);
-
         //나의 거주지
         if(user.profileData.hasOwnProperty("m_address")){
             setAddress(user.profileData.m_address);
@@ -500,6 +498,205 @@ const EditProfile = () => {
             }));
             setConfirm(true);
         });
+    };
+
+
+    //프로필수정버튼 클릭시
+    const editBtnClickHandler = () => {
+        if(!usableNickname){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'닉네임 중복확인을 해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        //나의 프로필
+        else if(user.profileData.m_address.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 거주지를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(!height){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 키를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(user.profileData.m_job.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 직업을 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(user.profileData.m_visual.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 외모점수를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(user.profileData.m_like.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 관심사를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(user.profileData.m_mbti.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 MBTI를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(user.profileData.m_character.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 타입을 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(user.profileData.m_smok.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 흡연여부를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(user.profileData.m_drink.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 음주여부를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(user.profileData.m_religion.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 종교를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(user.profileData.m_date.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 선호하는 데이트를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(user.profileData.m_motive.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'나의 가입경로를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        //이상형 프로필
+        else if(!height2){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'상대방의 키를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(user.profileData.t_job.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'상대방의 직업을 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(user.profileData.t_visual.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'상대방의 외모점수를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(user.profileData.t_mbti.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'상대방의 MBTI를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(user.profileData.t_character.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'상대방의 타입을 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(user.profileData.t_smok.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'상대방의 흡연여부를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(user.profileData.t_drink.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'상대방의 음주여부를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else if(user.profileData.t_religion.length === 0){
+            setConfirm(true);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'상대방의 종교를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+        }
+        else{
+            editHandler();
+        }
     };
     
 
@@ -891,29 +1088,7 @@ const EditProfile = () => {
                 </div>
             </div>
             <div className="btn_box">
-                <button type="button" className="app_btn2" 
-                    onClick={()=>{
-                        if(usableNickname && usableEmail){
-                            editHandler();
-                        }else if(!usableNickname){
-                            setConfirm(true);
-                            dispatch(confirmPop({
-                                confirmPop:true,
-                                confirmPopTit:'알림',
-                                confirmPopTxt:'닉네임 중복확인을 해주세요.',
-                                confirmPopBtn:1,
-                            }));
-                        }else if(!usableEmail){
-                            setConfirm(true);
-                            dispatch(confirmPop({
-                                confirmPop:true,
-                                confirmPopTit:'알림',
-                                confirmPopTxt:'이메일을 입력해주세요.',
-                                confirmPopBtn:1,
-                            }));
-                        }
-                    }}
-                >저장</button>
+                <button type="button" className="app_btn2" onClick={editBtnClickHandler}>저장</button>
             </div>
         </div>
 
