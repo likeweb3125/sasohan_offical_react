@@ -227,7 +227,7 @@ const ProfileEditPop = () => {
     const profileEdit = () => {
         const body = {
             m_n_name: name,
-            photo: [profileImgName],
+            photo: [profileImg],
         };
 
         axios.put(`${rank_profile}`, body,{

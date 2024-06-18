@@ -312,13 +312,15 @@ const MyProfileForm = (
             </div>
             <p className="f_14 color_gray tp10">본인의 얼굴이 잘 보이는 사진을 최소 <span className="color_point">1장</span> 등록해주세요. 9장까지 등록하실 수 있어요!</p>
             <div className="img_drop_box">
-                <div {...getRootProps1({className: 'dropzone'})}>
-                    <input {...getInputProps1()} />
-                    <div className="txt_box tx_c">
-                        <div className="txt1">이미지 첨부</div>
-                        <p className="txt2">이미지를 드래그 앤 드롭하여 첨부하세요!<span>파일 업로드는 jpg, jpeg, png, gif 형식만 첨부 가능</span></p>
+                {profileImgs.length < 9 &&
+                    <div {...getRootProps1({className: 'dropzone'})}>
+                        <input {...getInputProps1()} />
+                        <div className="txt_box tx_c">
+                            <div className="txt1">이미지 첨부</div>
+                            <p className="txt2">이미지를 드래그 앤 드롭하여 첨부하세요!<span>파일 업로드는 jpg, jpeg, png, gif 형식만 첨부 가능</span></p>
+                        </div>
                     </div>
-                </div>
+                }
                 {profileImgs.length > 0 &&
                     <div className="img_list_box scroll_wrap_x">
                         <ul className='flex tp12'>
@@ -335,13 +337,15 @@ const MyProfileForm = (
             </div>
             <p className="f_14 color_gray tp10">사소한에서 활동하면서 보여지는 프로필 이미지입니다. <span className="color_point">1장</span> 등록해주세요.</p>
             <div className="img_drop_box">
-                <div {...getRootProps2({className: 'dropzone'})}>
-                    <input {...getInputProps2()} />
-                    <div className="txt_box tx_c">
-                        <div className="txt1">이미지 첨부</div>
-                        <p className="txt2">이미지를 드래그 앤 드롭하여 첨부하세요!<span>파일 업로드는 jpg, jpeg, png, gif 형식만 첨부 가능</span></p>
+                {feedImgs.length === 0 &&
+                    <div {...getRootProps2({className: 'dropzone'})}>
+                        <input {...getInputProps2()} />
+                        <div className="txt_box tx_c">
+                            <div className="txt1">이미지 첨부</div>
+                            <p className="txt2">이미지를 드래그 앤 드롭하여 첨부하세요!<span>파일 업로드는 jpg, jpeg, png, gif 형식만 첨부 가능</span></p>
+                        </div>
                     </div>
-                </div>
+                }
                 {feedImgs.length > 0 &&
                     <div className="img_list_box scroll_wrap_x">
                         <ul className='flex tp12'>

@@ -235,7 +235,7 @@ const EditProfile = () => {
     useEffect(()=>{
         if(Object.keys(myInfo).length > 0){
             setValNickname(myInfo.m_n_name);
-            setValEmail(myInfo.m_email);
+            // setValEmail(myInfo.m_email);
         }
     },[myInfo]);
 
@@ -482,8 +482,11 @@ const EditProfile = () => {
         axios.delete(feed_profile_delt.replace(':filename',imageName))
         .then((res)=>{
             if(res.status === 200){
+                //마지막 이미지 삭제후
                 if (isLast) {
-                    // 마지막 이미지 삭제 후 프로필 수정 함수 호출
+                    // deltImgList 값 초기화
+                    setDeltImgList([]);
+                    // 프로필 수정 함수 호출
                     profileEdit();
                 }
             }
@@ -732,7 +735,7 @@ const EditProfile = () => {
             t_smok: user.profileData.t_smok,
             t_drink: user.profileData.t_drink,
             t_religion: user.profileData.t_religion,
-            feed_profile_image: feedImgName
+            feed_profile_image: feedImg
         };
 
         axios.post(`${m_profile_modify}`, body,

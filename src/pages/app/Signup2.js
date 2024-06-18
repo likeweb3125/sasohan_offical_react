@@ -460,11 +460,6 @@ const SignUp2 = () => {
 
     //기본정보입력 다음버튼 클릭시
     const infoCheckHandler = () => {
-        // if(step < 7){
-        //     setStep(7);
-        //     dispatch(appProfilePop({appProfilePop:true,appProfilePopTit:"거주지"}));
-        // }
-
         //아이디랑 비밀번호,닉네임 사용가능인지 확인
         if(usableId && usablePass && usableNickname){
             if(step < 7){
@@ -662,13 +657,8 @@ const SignUp2 = () => {
             //프로필사진 배열정렬후 signupData store 값에 저장
             const nonEmptyValues = imgNameList.filter(value => value !== '');
             const sortedArr = [...nonEmptyValues, ...Array(imgNameList.length - nonEmptyValues.length).fill('')];
-            const updatedImgList = sortedArr.map(url => {
-                let updatedUrl = url.substring(url.lastIndexOf('/') + 1);
-                return updatedUrl;
-            });
-
             let newData = {...user.signupData};
-            newData.pic = updatedImgList;
+            newData.pic = sortedArr;
             dispatch(signupData(newData));
         }
     },[imgNameList]);
@@ -1042,31 +1032,33 @@ const SignUp2 = () => {
                     feed_profile_image: feedImgName
                 };
 
-                axios.post(`${m_join}`,body)
-                .then((res)=>{
-                    if(res.status === 200){
-                        //회원가입완료 팝업 띄우기
-                        dispatch(appSignupCompletePop({appSignupCompletePop:true,appSignupCompletePopUser:user.signupData.m_name}));
+                console.log(body);
 
-                        //sessionStorage tradeid 삭제
-                        sessionStorage.removeItem("tradeid");
-                    }
-                })
-                .catch((error) => {
-                    let err_msg;
-                    if(error.response.status === 422){
-                        err_msg = error.response.data.errors[0].msg;
-                    }else{
-                        err_msg = CF.errorMsgHandler(error);
-                    }
-                    dispatch(confirmPop({
-                        confirmPop:true,
-                        confirmPopTit:'알림',
-                        confirmPopTxt: err_msg,
-                        confirmPopBtn:1,
-                    }));
-                    setConfirm(true);
-                }); 
+                // axios.post(`${m_join}`,body)
+                // .then((res)=>{
+                //     if(res.status === 200){
+                //         //회원가입완료 팝업 띄우기
+                //         dispatch(appSignupCompletePop({appSignupCompletePop:true,appSignupCompletePopUser:user.signupData.m_name}));
+
+                //         //sessionStorage tradeid 삭제
+                //         sessionStorage.removeItem("tradeid");
+                //     }
+                // })
+                // .catch((error) => {
+                //     let err_msg;
+                //     if(error.response.status === 422){
+                //         err_msg = error.response.data.errors[0].msg;
+                //     }else{
+                //         err_msg = CF.errorMsgHandler(error);
+                //     }
+                //     dispatch(confirmPop({
+                //         confirmPop:true,
+                //         confirmPopTit:'알림',
+                //         confirmPopTxt: err_msg,
+                //         confirmPopBtn:1,
+                //     }));
+                //     setConfirm(true);
+                // }); 
             }
             
         }else if(!usableProfile2){

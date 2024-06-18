@@ -93,7 +93,7 @@ const Signup = () => {
     }, []);
 
 
-    //전체동의시 tradeid sessionStorage에 저장
+    //전체약관 체크박스
     useEffect(()=>{
         if(isAllChecked){
             const time = moment().format("YYYYMMDDHHmmss");

@@ -1253,8 +1253,11 @@ const Mypage = () => {
         axios.delete(feed_profile_delt.replace(':filename',imageName))
         .then((res)=>{
             if(res.status === 200){
+                //마지막 이미지 삭제후
                 if (isLast) {
-                    // 마지막 이미지 삭제 후 프로필 수정 함수 호출
+                    // deltImgList 값 초기화
+                    setDeltImgList([]);
+                    // 프로필 수정 함수 호출
                     profileEdit();
                 }
             }
@@ -1270,6 +1273,11 @@ const Mypage = () => {
             setConfirm(true);
         });
     };
+
+
+    useEffect(()=>{
+        console.log(deltImgList);
+    },[deltImgList])
 
 
     //나의 프로필수정하기
@@ -1294,8 +1302,8 @@ const Mypage = () => {
             m_religion: values.m_religion,
             m_date: date,
             m_motive: values.m_motive,
-            photo: imgNameList,
-            feed_photo: feedImgNameList,
+            photo: imgList,
+            feed_photo: feedImgList,
         };
 
         axios.put(`${profile_modify}`,body,

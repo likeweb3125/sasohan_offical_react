@@ -1319,8 +1319,8 @@ const Signup2 = () => {
         let t_height2 = t_height[1];
 
         let feedImg = '';
-        if(feedImgNameList.length > 0){
-            feedImg = feedImgNameList[0];
+        if(feedImgList.length > 0){
+            feedImg = feedImgList[0];
         }
 
 
@@ -1351,7 +1351,7 @@ const Signup2 = () => {
             m_religion: values.m_religion,
             m_date: date,
             m_motive: values.m_motive,
-            pic: imgNameList,
+            pic: imgList,
             t_height1: t_height1,
             t_height2: t_height2,
             t_job: values.t_job,
