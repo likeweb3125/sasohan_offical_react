@@ -84,6 +84,7 @@ const Footer = () => {
                 <ul>
                     {info && info.site_email && <li>이메일 : {info.site_email}</li>}
                     <li>본사 연락처 : 070-4355-6649</li>
+                    <li>대표자 : 서정승</li>
                 </ul>
             </div>
             <div className="link_box">
