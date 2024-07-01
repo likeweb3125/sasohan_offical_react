@@ -274,7 +274,7 @@ const AboutVIP = () => {
                                 </li>
                                 <li>
                                     <div><img src={vip_sect4_img2} alt="이미지" /></div>
-                                    <p>4박 5일 <br/>소개팅 보장</p>
+                                    <p>3박 4일 <br/>소개팅 보장</p>
                                 </li>
                                 <li>
                                     <div><img src={vip_sect4_img3} alt="이미지" /></div>
