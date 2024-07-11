@@ -1032,33 +1032,31 @@ const SignUp2 = () => {
                     feed_profile_image: feedImgName
                 };
 
-                console.log(body);
+                axios.post(`${m_join}`,body)
+                .then((res)=>{
+                    if(res.status === 200){
+                        //회원가입완료 팝업 띄우기
+                        dispatch(appSignupCompletePop({appSignupCompletePop:true,appSignupCompletePopUser:user.signupData.m_name}));
 
-                // axios.post(`${m_join}`,body)
-                // .then((res)=>{
-                //     if(res.status === 200){
-                //         //회원가입완료 팝업 띄우기
-                //         dispatch(appSignupCompletePop({appSignupCompletePop:true,appSignupCompletePopUser:user.signupData.m_name}));
-
-                //         //sessionStorage tradeid 삭제
-                //         sessionStorage.removeItem("tradeid");
-                //     }
-                // })
-                // .catch((error) => {
-                //     let err_msg;
-                //     if(error.response.status === 422){
-                //         err_msg = error.response.data.errors[0].msg;
-                //     }else{
-                //         err_msg = CF.errorMsgHandler(error);
-                //     }
-                //     dispatch(confirmPop({
-                //         confirmPop:true,
-                //         confirmPopTit:'알림',
-                //         confirmPopTxt: err_msg,
-                //         confirmPopBtn:1,
-                //     }));
-                //     setConfirm(true);
-                // }); 
+                        //sessionStorage tradeid 삭제
+                        sessionStorage.removeItem("tradeid");
+                    }
+                })
+                .catch((error) => {
+                    let err_msg;
+                    if(error.response.status === 422){
+                        err_msg = error.response.data.errors[0].msg;
+                    }else{
+                        err_msg = CF.errorMsgHandler(error);
+                    }
+                    dispatch(confirmPop({
+                        confirmPop:true,
+                        confirmPopTit:'알림',
+                        confirmPopTxt: err_msg,
+                        confirmPopBtn:1,
+                    }));
+                    setConfirm(true);
+                }); 
             }
             
         }else if(!usableProfile2){
