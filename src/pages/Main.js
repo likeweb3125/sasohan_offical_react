@@ -1208,16 +1208,16 @@ const Main = () => {
                     <ul className="flex">
                         <li>
                             <a
-                                href="/"
-                                // target="_blank"
+                                href="https://play.google.com/store/apps/details?id=net.sasohan.app&hl=ko"
+                                target="_blank"
                                 rel="noopener noreferrer"
                             >Google Play
                             </a>
                         </li>
                         <li>
                             <a
-                                href="/"
-                                // target="_blank"
+                                href="https://apps.apple.com/kr/app/%EC%82%AC%EC%86%8C%ED%95%9C/id6464238142"
+                                target="_blank"
                                 rel="noopener noreferrer"
                             >App Store
                             </a>
