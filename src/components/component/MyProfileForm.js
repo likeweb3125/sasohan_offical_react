@@ -296,7 +296,7 @@ const MyProfileForm = (
                     className={values.m_motive && values.m_motive.length > 0 ? 'selected' : ''}
                     id={`m_motive`}
                 >
-                    <option value='' hidden disabled>종교를 선택해주세요.</option>
+                    <option value='' hidden disabled>가입경로를 선택해주세요.</option>
                     {selectList && selectList.ref_rul && selectList.ref_rul.map((cont, i)=>{
                         return(
                             <option value={cont.name} key={i}>{cont.name}</option>
