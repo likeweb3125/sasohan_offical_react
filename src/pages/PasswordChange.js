@@ -14,7 +14,7 @@ const PasswordChange = () => {
     const { token } = useParams();
     const navigate = useNavigate();
     const popup = useSelector((state)=>state.popup);
-    const rank_sms = enum_api_uri.rank_sms;
+    const reset_pw = enum_api_uri.reset_pw;
     const [confirm, setConfirm] = useState(false);
     const [doneConfirm, setDoneConfirm] = useState(false);
     const [values, setValues] = useState({});
@@ -117,12 +117,11 @@ const PasswordChange = () => {
     //비밀번호변경
     const passChangeHandler = () => {
         const body = {
-            password: values.password,
-            password2: values.password2,
+            m_password: values.password,
             token: token
         }
 
-        axios.post(rank_sms, body)
+        axios.post(reset_pw, body)
         .then((res)=>{
             if(res.status === 200){
                 //비밀번호변경 완료후 메인페이지로 이동
