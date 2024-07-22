@@ -269,7 +269,7 @@ const ManagerList = () => {
 
     //페이지 제목안에 팁박스
     const tipBox =  <div className="tip_box tab_none">
-                        <p className="tip_txt">매니저가 뭔가요?</p>
+                        <p className="tip_txt">매니저란?</p>
                         <div className="box">
                             <img src={tip_box_img} alt="말풍선이미지" className="mo_none" />
                             <img src={tip_box_img_mo} alt="말풍선이미지" className="mo_show" />
@@ -291,8 +291,9 @@ const ManagerList = () => {
         <div className="square_list_wrap gray_wrap">
             <div className="cont4">
                 <ListTopTitleBox
-                    tit='사소한 매니저'
-                    txt='성공적인 만남을 위한 사소한 매니저들을 소개합니다!'
+                    tit='피드 스퀘어'
+                    link='/square/all-feed'
+                    txt='성공적인 만남을 위한 1% 매니저들을 소개합니다!'
                     tipBox={tipBox}
                 />
                 <ListSearchBox

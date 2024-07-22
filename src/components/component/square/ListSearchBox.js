@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import SearchBox from "../SearchBox";
 import manager_tag from "../../../images/manager_tag.svg";
 import manager_tag_c from "../../../images/manager_tag_c.svg";
+import friend_tag from "../../../images/friend_tag.svg";
 
 
 const ListSearchBox = ({
@@ -52,6 +53,21 @@ const ListSearchBox = ({
                                 />
                                 <div className="box flex">
                                     <img src={manager_tag} alt="매니저타입 아이콘"/><span>1% 매니저</span>
+                                </div>
+                            </label>
+                        </li>
+                        <li className="custom_radio">
+                            <label htmlFor="friend_type">
+                                <input type={`radio`}
+                                    onChange={()=>{
+                                        typeCheckHandler('A');
+                                    }}
+                                    checked={typeCheck == 'A' ? true : false}
+                                    id="friend_type"
+                                    name="friend_type"
+                                />
+                                <div className="box flex">
+                                    <img src={friend_tag} alt="프렌즈타입 아이콘"/><span>1% 프렌즈</span>
                                 </div>
                             </label>
                         </li>

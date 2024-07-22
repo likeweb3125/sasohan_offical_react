@@ -64,11 +64,10 @@ const Header = () => {
         setMenuWrap(false);
 
         const path = location.pathname;
-        if(path == "/"){
+        if(path == '/'){
             setMenuOn(1);
             setMainPage(true);
-        }else if(path == '/about-vip'){
-            setMenuOn(2);
+        }else if(path.includes('/all-feed')){
             setMainPage(true);
         }else{
             setMenuOn(null);
@@ -76,11 +75,11 @@ const Header = () => {
         }
 
         if(path.includes('/square')){
-            setMenuOn(3);
+            setMenuOn(2);
         }
         
         if(path == "/ranking"){
-            setMenuOn(4);
+            setMenuOn(3);
         }
     },[location]);
 
@@ -162,18 +161,11 @@ const Header = () => {
                 </h1>
                 <nav className="gnb_wrap">
                     <ul className="gnb">
-                        <li className={menuOn === 1 ? "on" : ""}><Link to="/">About 사소한</Link></li>
-                        <li className={menuOn === 2 ? "on" : ""}><Link to="/about-vip">1% 소개팅</Link></li>
-                        <li className={`is_submenu${menuOn === 3 ? " on" : ""}`}>
-                            <Link to="/square/all-feed" onClick={onLinkRefresh}>사소한 스퀘어</Link>
-                            <div className='submenu_box'>
-                                <ul>
-                                    <li><Link to="/square/all-feed" onClick={onLinkRefresh}>피드 스퀘어</Link></li>
-                                    <li><Link to="/square/manager-list" onClick={onLinkRefresh}>사소한 매니저</Link></li>
-                                </ul>
-                            </div>
+                        <li className={menuOn === 1 ? "on" : ""}><Link to="/">1% 소개팅</Link></li>
+                        <li className={`is_submenu${menuOn === 2 ? " on" : ""}`}>
+                            <Link to="/square/manager-list" onClick={onLinkRefresh}>사소한 스퀘어</Link>
                         </li>
-                        <li className={menuOn === 4 ? "on" : ""}><Link to="/ranking">사소한 랭킹</Link></li>
+                        <li className={menuOn === 3 ? "on" : ""}><Link to="/ranking">사소한 랭킹</Link></li>
                     </ul>
                 </nav>
                 <div className='utill_wrap flex'>
@@ -203,20 +195,6 @@ const Header = () => {
                                 <li><Link to={'/member/signup'}>회원가입</Link></li>
                             </ul>
                     }
-                    <div className='link_btn_box flex_wrap'>
-                        <button type='button' className='btn_apply'
-                            onClick={()=>{
-                                dispatch(aboutVipScroll('vip_sect4'));
-                                navigate('/about-vip');
-                            }}
-                        >소개팅 신청</button>
-                        <button type='button' className='btn_vip'
-                            onClick={()=>{
-                                dispatch(aboutVipScroll('vip_sect5'));
-                                navigate('/about-vip');
-                            }}
-                        >1% 지원</button>
-                    </div>
                 </div>
                 <button type='button' className='btn_menu' onClick={()=>setMenuWrap(true)}>모바일메뉴열기버튼</button>
             </div>
@@ -276,23 +254,12 @@ const Header = () => {
                         }
                         <ul className='menu_list'>
                             <li className={menuOn === 1 ? "on" : ""}>
-                                <Link to="/">About 사소한</Link>
+                                <Link to="/">1% 소개팅</Link>
                             </li>
                             <li className={menuOn === 2 ? "on" : ""}>
-                                <Link to="/about-vip">1% 소개팅</Link>
+                                <Link to="/square/manager-list" onClick={onLinkRefresh}>사소한 스퀘어</Link>
                             </li>
                             <li className={menuOn === 3 ? "on" : ""}>
-                                <Link to="/square/all-feed" onClick={onLinkRefresh}>사소한 스퀘어</Link>
-                                <ul className='submenu_ul flex_center'>
-                                    <li>
-                                        <Link to={'/square/all-feed'} onClick={onLinkRefresh}>피드 스퀘어</Link>
-                                    </li>
-                                    <li>
-                                        <Link to={'/square/manager-list'} onClick={onLinkRefresh}>사소한 매니저</Link>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li className={menuOn === 4 ? "on" : ""}>
                                 <Link to="/ranking">사소한 랭킹</Link>
                             </li>
                         </ul>

@@ -1,6 +1,7 @@
 import * as CF from "../../../config/function";
 import manager_tag from '../../../images/manager_tag.svg';
 import manager_tag_c from '../../../images/manager_tag_c.svg';
+import friend_tag from '../../../images/friend_tag.svg';
 import none_profile from "../../../images/none_profile2.jpg";
 
 
@@ -14,8 +15,8 @@ const Manager = ({data, likeBtnClickHandler, managerClickHandler}) => {
                     <p className="txt_like">{CF.MakeIntComma(data.fv_cnt)}</p>
                 </div>
                 <div className={`manager_tag flex${data.manager_type == 'C' ? ' charming' : ''}`}>
-                    <img src={data.manager_type == 'C' ? manager_tag_c : manager_tag} alt="매니저타입 아이콘" />
-                    <p>{data.manager_type == 'C' ? '챠밍 매니저' : 'VIP 매니저'}</p>
+                    <img src={data.manager_type == 'C' ? manager_tag_c : data.manager_type == 'V' ? manager_tag : friend_tag} alt="매니저타입 아이콘" />
+                    <p>{data.manager_type == 'C' ? '챠밍 매니저' : data.manager_type == 'V' ? '1% 매니저' : '1% 프렌즈'}</p>
                 </div>
             </div>
             <div className="txt_box">

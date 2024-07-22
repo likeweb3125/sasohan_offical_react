@@ -11,6 +11,8 @@ import ConfirmPop from "../../components/popup/ConfirmPop";
 import ListTopTitleBox from "../../components/component/square/ListTopTitleBox";
 import ListSearchBox from "../../components/component/square/ListSearchBox";
 import ListCont from "../../components/component/square/ListCont";
+import m_visual_tag from "../../images/main_visual_tag.svg";
+import m_visual_img1 from "../../images/main_visual_txt1.png";
 
 
 const AllFeed = () => {
@@ -215,10 +217,24 @@ const AllFeed = () => {
 
     
     return(<>
+        <div className="main_visual_wrap">
+            <div className="main_visual flex_center">
+                <div className="tag_img">
+                    <img src={m_visual_tag} alt="띠이미지" />
+                </div>
+                <div className="visual_txt">
+                    <img src={m_visual_img1} alt="메인이미지" className="img1" />
+                </div>
+                <div className="scroll">
+                    <strong>Scroll</strong>
+                </div>
+            </div>
+        </div>
         <div className="square_list_wrap gray_wrap">
             <div className="cont4">
                 <ListTopTitleBox
-                    tit='피드 스퀘어'
+                    tit='사소한 매니저'
+                    link='/square/manager-list'
                 />
                 <ListSearchBox
                     sortTabOn={sortTabOn}
