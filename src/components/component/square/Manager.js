@@ -7,16 +7,16 @@ import none_profile from "../../../images/none_profile2.jpg";
 
 const Manager = ({data, likeBtnClickHandler, managerClickHandler}) => {
     return(
-        <div className={`feed_box manager${data.manager_type == 'V' ? ' vip' : ''}`}>
+        <div className={`feed_box manager${data.manager_type === 'V' ? ' vip' : ''}`}>
             <div className="img_box" onClick={()=>managerClickHandler(data.manager_id)}>
                 <img src={data.photo ? data.photo : none_profile} alt="피드이미지" />
                 <div className="box flex_center">
                     <p className="txt_feed">{CF.MakeIntComma(data.feed_cnt)}</p>
                     <p className="txt_like">{CF.MakeIntComma(data.fv_cnt)}</p>
                 </div>
-                <div className={`manager_tag flex${data.manager_type == 'C' ? ' charming' : ''}`}>
-                    <img src={data.manager_type == 'C' ? manager_tag_c : data.manager_type == 'V' ? manager_tag : friend_tag} alt="매니저타입 아이콘" />
-                    <p>{data.manager_type == 'C' ? '챠밍 매니저' : data.manager_type == 'V' ? '1% 매니저' : '1% 프렌즈'}</p>
+                <div className={`manager_tag flex${data.manager_type === 'C' ? ' charming' : ''}`}>
+                    <img src={data.manager_type === 'C' ? manager_tag_c : data.manager_type === 'V' ? manager_tag : friend_tag} alt="매니저타입 아이콘" />
+                    <p>{data.manager_type === 'C' ? '챠밍 매니저' : data.manager_type === 'V' ? '1% 매니저' : '1% 프렌즈'}</p>
                 </div>
             </div>
             <div className="txt_box">
