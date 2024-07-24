@@ -5,7 +5,6 @@ import MoreBtn from "./MoreBtn";
 
 const ListCont = ({list, moreBtn, moreBtnHandler, moreBtnTxt, likeBtnClickHandler, feedCont, feedClickHandler, managerClickHandler, myFeed, profileClickHandler}) => {
 
-
     return(<>
         <div className="square_list_cont">
             {list && list.length > 0 ?

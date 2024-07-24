@@ -6,7 +6,8 @@ import Cookies from "js-cookie";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
 import { detailPageBack, listPageData, scrollY } from "../../store/etcSlice";
-import { confirmPop, loadingPop } from "../../store/popupSlice";
+import { confirmPop, feedPop, feedPopNoList, loadingPop } from "../../store/popupSlice";
+import { feedRefresh } from "../../store/commonSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 import ListTopTitleBox from "../../components/component/square/ListTopTitleBox";
 import ListSearchBox from "../../components/component/square/ListSearchBox";
@@ -21,13 +22,15 @@ const ManagerList = () => {
     const navigate = useNavigate();
     const manager_list = enum_api_uri.manager_list;
     const manager_favorite = enum_api_uri.manager_favorite;
+    const feed_list = enum_api_uri.feed_list;
+    const feed_favorite = enum_api_uri.feed_favorite;
     const popup = useSelector((state)=>state.popup);
     const user = useSelector((state)=>state.user);
     const common = useSelector((state)=>state.common);
     const etc = useSelector((state)=>state.etc);
     const [confirm, setConfirm] = useState(false);
     const [loginConfirm, setLoginConfirm] = useState(false);
-    const [typeCheck, setTypeCheck] = useState('C');
+    const [typeCheck, setTypeCheck] = useState('');
     const [sortTabOn, setSortTabOn] = useState(1);
     const [likeCheck, setLikeCheck] = useState(false);
     const [searchValue, setSearchValue] = useState('');
@@ -37,6 +40,7 @@ const ManagerList = () => {
     const [scrollMove, setScrollMove] = useState(false);
     const [pageBack, setPageBack] = useState(false);
     const userLogin = Cookies.get('userLogin') === 'true'; // 'true' 문자열과 비교;
+    const [feedList, setFeedList] = useState([]);
 
 
     // Confirm팝업 닫힐때
@@ -166,10 +170,14 @@ const ManagerList = () => {
     };
 
 
-    //매니저 리스트 가져오기
+    //피드리스트, 매니저 리스트 가져오기
     useEffect(()=>{
         if(!pageBack && !etc.detailPageBack){
-            getManagerList();
+            if(typeCheck){
+                getManagerList();
+            }else{
+                getAllFeed();
+            }
         }
     },[typeCheck, sortTabOn, likeCheck]);
 
@@ -202,19 +210,27 @@ const ManagerList = () => {
 
 
     //검색하기버튼 클릭시
-    const searchHandler = () => {
-        getManagerList(pageNo, false);
+    const searchHandler = () => {   
+        if(typeCheck){
+            getManagerList(pageNo, false);
+        }else{
+            getAllFeed(pageNo, false);
+        }
     };
 
 
     //더보기버튼 클릭시 다음페이지 리스트 가져오기
     const moreBtnHandler = () => {
-        getManagerList(pageNo + 1, true);
+        if(typeCheck){
+            getManagerList(pageNo + 1, true);
+        }else{
+            getAllFeed(pageNo + 1, true);
+        }
     };
 
 
     //매니저 좋아요하기
-    const likeBtnClickHandler = (m_id) => {
+    const managerLikeBtnClickHandler = (m_id) => {
         //로그인시에만 가능
         if(userLogin){
             const body = {
@@ -286,15 +302,161 @@ const ManagerList = () => {
     };
 
 
+    //피드 삭제, 수정시 피드리스트 가져오기
+    useEffect(()=>{
+        if(common.feedRefresh){
+            dispatch(feedRefresh(false));
+            getAllFeed();
+        }
+    },[common.feedRefresh]);
+
+
+    useEffect(()=>{
+        //피드리스트에서 각각 피드 idx store에 배열로 저장
+        let newFeedPopNoList = feedList.map(obj => obj.idx);
+        dispatch(feedPopNoList([...newFeedPopNoList]));
+    },[feedList]);
+
+
+    //피드 리스트 가져오기
+    const getAllFeed = (page, more) => {
+        dispatch(loadingPop(true));
+
+        //내가누른 좋아요보기 체크시 or 로그인시에만 헤더값 넣기
+        let headers = {};
+        if(likeCheck || userLogin){
+            headers = {
+                Authorization: `Bearer ${user.userToken}`,
+            }
+        }
+
+        axios.get(`${feed_list}?page_no=${page ? page : 1}${sortTabOn === 2 ? '&sort=favorite' : ''}${likeCheck ? '&favorite=1' : ''}${searchValue.length > 0 ? '&search='+searchValue : ''}`,{
+            headers: headers,
+        })
+        .then((res)=>{
+            if(res.status === 200){
+                dispatch(loadingPop(false));
+
+                const data = res.data;
+                //더보기버튼 클릭시에만 리스트 추가
+                if(more){
+                    setFeedList([...feedList,...data.result]);
+                }else{
+                    setFeedList(data.result);
+                }
+
+                // 현재페이지번호 저장
+                setPageNo(data.current_page);
+
+                //리스트가 더있으면 more 버튼 보이기
+                if(data.current_page < data.end_page){
+                    setMoreBtn(true);
+                }else{
+                    setMoreBtn(false);
+                }
+            }
+        })
+        .catch((error) => {
+            dispatch(loadingPop(false));
+            
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        })
+    };
+
+
+    //피드 좋아요하기
+    const feedLikeBtnClickHandler = (idx) => {
+        //로그인시에만 가능
+        if(userLogin){
+            const body = {
+                idx:idx
+            };
+            axios.post(feed_favorite,body,{
+                headers: {
+                    Authorization: `Bearer ${user.userToken}`,
+                },
+            })
+            .then((res)=>{
+                if(res.status === 200){
+                    const data = res.data;
+                    const flag = data.flag;
+                    let count;
+                    const list = [...feedList];
+                    const index = list.findIndex((item)=>item.idx === idx);
+                    const newFeedList = list;
+
+                    if(flag){
+                        count = newFeedList[index].fv_cnt+1;
+                    }else{
+                        count = newFeedList[index].fv_cnt-1;
+                    }
+
+                    newFeedList[index].fv_cnt = count;
+                    newFeedList[index].fv_flag = flag;
+                    setFeedList(newFeedList);
+                }
+            })
+            .catch((error) => {
+                const err_msg = CF.errorMsgHandler(error);
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt: err_msg,
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            })
+        }else{
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'로그인을 해주세요.',
+                confirmPopBtn:2,
+            }));
+            setLoginConfirm(true);
+        }
+    };
+
+
+    //피드 클릭시 피드상세팝업열기
+    const feedClickHandler = (idx) => {
+        dispatch(feedPop({feedPop:true, feedPopNo:idx}));
+    };
+
+
+    //매니저프로필클릭시 매니저상세페이지로 이동
+    const profileClickHandler = (id) => {
+        navigate(`/square/manager/${id}`);
+    };
+
+
+    const onTitClickHandler = () => {
+        setTypeCheck('');
+        setSortTabOn(1);
+        setLikeCheck(false);
+        setSearchValue('');
+        setPageNo(1);
+        setMoreBtn(false);
+        setPageBack(false);
+    };
+
+
     
     return(<>
         <div className="square_list_wrap gray_wrap">
             <div className="cont4">
                 <ListTopTitleBox
                     tit='피드 스퀘어'
-                    link='/square/all-feed'
                     txt='성공적인 만남을 위한 1% 매니저들을 소개합니다!'
                     tipBox={tipBox}
+                    onTitClickHandler={onTitClickHandler}
                 />
                 <ListSearchBox
                     managerType={true}
@@ -308,14 +470,28 @@ const ManagerList = () => {
                     searchInputChangeHandler={searchInputChangeHandler}
                     searchHandler={searchHandler}
                 />
-                <ListCont 
-                    list={managerList}
-                    moreBtn={moreBtn}
-                    moreBtnHandler={moreBtnHandler}
-                    moreBtnTxt='매니저'
-                    likeBtnClickHandler={likeBtnClickHandler}
-                    managerClickHandler={managerClickHandler}
-                />
+                {typeCheck ? //매니저리스트일때
+                    <ListCont 
+                        list={managerList}
+                        moreBtn={moreBtn}
+                        moreBtnHandler={moreBtnHandler}
+                        moreBtnTxt='매니저'
+                        likeBtnClickHandler={managerLikeBtnClickHandler}
+                        managerClickHandler={managerClickHandler}
+                    />
+                : //피드리스트일때
+                    <ListCont 
+                        list={feedList}
+                        moreBtn={moreBtn}
+                        moreBtnHandler={moreBtnHandler}
+                        moreBtnTxt='피드'
+                        likeBtnClickHandler={feedLikeBtnClickHandler}
+                        feedCont={true}
+                        feedClickHandler={feedClickHandler}
+                        profileClickHandler={profileClickHandler}
+                    />
+                }
+                
             </div>
         </div>
 

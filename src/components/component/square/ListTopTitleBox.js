@@ -1,9 +1,7 @@
-import { Link } from "react-router-dom";
-
-const ListTopTitleBox = ({tit, link, txt, tipBox}) => {
+const ListTopTitleBox = ({tit, txt, tipBox, onTitClickHandler}) => {
     return(<>
         <div className="list_tit_box">
-            <Link to={link} className="tit">{tit}</Link>
+            <button type="button" className="tit" onClick={onTitClickHandler}>{tit}</button>
             <div className="flex_wrap">
                 <p className="txt rp20">{txt}</p>
                 {tipBox}

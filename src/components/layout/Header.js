@@ -65,9 +65,10 @@ const Header = () => {
 
         const path = location.pathname;
         if(path == '/'){
-            setMenuOn(1);
+            setMenuOn(null);
             setMainPage(true);
-        }else if(path.includes('/all-feed')){
+        }else if(path == '/about'){
+            setMenuOn(2);
             setMainPage(true);
         }else{
             setMenuOn(null);
@@ -75,7 +76,7 @@ const Header = () => {
         }
 
         if(path.includes('/square')){
-            setMenuOn(2);
+            setMenuOn(1);
         }
         
         if(path == "/ranking"){
@@ -161,10 +162,10 @@ const Header = () => {
                 </h1>
                 <nav className="gnb_wrap">
                     <ul className="gnb">
-                        <li className={menuOn === 1 ? "on" : ""}><Link to="/">1% 소개팅</Link></li>
-                        <li className={`is_submenu${menuOn === 2 ? " on" : ""}`}>
+                        <li className={`is_submenu${menuOn === 1 ? " on" : ""}`}>
                             <Link to="/square/manager-list" onClick={onLinkRefresh}>사소한 스퀘어</Link>
                         </li>
+                        <li className={menuOn === 2 ? "on" : ""}><Link to="/about">1% 소개팅</Link></li>
                         <li className={menuOn === 3 ? "on" : ""}><Link to="/ranking">사소한 랭킹</Link></li>
                     </ul>
                 </nav>
@@ -254,10 +255,10 @@ const Header = () => {
                         }
                         <ul className='menu_list'>
                             <li className={menuOn === 1 ? "on" : ""}>
-                                <Link to="/">1% 소개팅</Link>
+                                <Link to="/square/manager-list" onClick={onLinkRefresh}>사소한 스퀘어</Link>
                             </li>
                             <li className={menuOn === 2 ? "on" : ""}>
-                                <Link to="/square/manager-list" onClick={onLinkRefresh}>사소한 스퀘어</Link>
+                                <Link to="/about">1% 소개팅</Link>
                             </li>
                             <li className={menuOn === 3 ? "on" : ""}>
                                 <Link to="/ranking">사소한 랭킹</Link>

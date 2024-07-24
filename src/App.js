@@ -5,6 +5,7 @@ import ConfirmPop from './components/popup/ConfirmPop';
 import Popup from './components/popup/Popup';
 import Layout from './components/layout/Layout';
 import AppLayout from './components/layout/app/Layout';
+import Main from './pages/Main';
 import Login from './pages/member/Login';
 import Signup from './pages/member/Signup';
 import Signup2 from './pages/member/Signup2';
@@ -69,7 +70,7 @@ function App() {
         <div id="wrap">
             <Routes>
                 {/* 메인 */}
-                <Route path="/" element={<Layout><AboutVIP /></Layout>} />
+                <Route path="/" element={<Layout><Main /></Layout>} />
 
                 {/* 로그인 */}
                 <Route path="/member/login" element={<Layout><Login /></Layout>} />
@@ -97,13 +98,16 @@ function App() {
                 {/* 스퀘어 -------------------*/}
                 <Route path="/square" element={<Layout><Outlet/></Layout>}>
                     {/* 피드 스퀘어 */}
-                    <Route path="all-feed" element={<AllFeed />} />
+                    {/* <Route path="all-feed" element={<AllFeed />} /> */}
 
                     {/* 매니저 리스트 */}
                     <Route path="manager-list" element={<ManagerList />} />
                     {/* 매니저 리스트 - 상세 */}
                     <Route path="manager/:m_id" element={<ManagerDetail />} />
                 </Route>
+
+                {/* 1% 소개팅 */}
+                <Route path="/about" element={<Layout><AboutVIP /></Layout>} />
 
                 {/* 랭킹 */}
                 <Route path="/ranking" element={<Layout><Ranking /></Layout>} />
