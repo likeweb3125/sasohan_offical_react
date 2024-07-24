@@ -65,7 +65,7 @@ const Header = () => {
 
         const path = location.pathname;
         if(path == '/'){
-            setMenuOn(null);
+            setMenuOn(1);
             setMainPage(true);
         }else if(path == '/about'){
             setMenuOn(2);
@@ -75,10 +75,6 @@ const Header = () => {
             setMainPage(false);
         }
 
-        if(path.includes('/square')){
-            setMenuOn(1);
-        }
-        
         if(path == "/ranking"){
             setMenuOn(3);
         }
@@ -163,7 +159,7 @@ const Header = () => {
                 <nav className="gnb_wrap">
                     <ul className="gnb">
                         <li className={`is_submenu${menuOn === 1 ? " on" : ""}`}>
-                            <Link to="/square/manager-list" onClick={onLinkRefresh}>사소한 스퀘어</Link>
+                            <Link to="/" onClick={onLinkRefresh}>사소한 스퀘어</Link>
                         </li>
                         <li className={menuOn === 2 ? "on" : ""}><Link to="/about">1% 소개팅</Link></li>
                         <li className={menuOn === 3 ? "on" : ""}><Link to="/ranking">사소한 랭킹</Link></li>
@@ -255,7 +251,7 @@ const Header = () => {
                         }
                         <ul className='menu_list'>
                             <li className={menuOn === 1 ? "on" : ""}>
-                                <Link to="/square/manager-list" onClick={onLinkRefresh}>사소한 스퀘어</Link>
+                                <Link to="/" onClick={onLinkRefresh}>사소한 스퀘어</Link>
                             </li>
                             <li className={menuOn === 2 ? "on" : ""}>
                                 <Link to="/about">1% 소개팅</Link>
