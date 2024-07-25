@@ -5,7 +5,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
-import { confirmPop, feedPop, feedAddPop, loadingPop, feedPopNoList, feedProfilePop } from "../../store/popupSlice";
+import { confirmPop, feedPop, feedAddPop, loadingPop, feedProfilePop } from "../../store/popupSlice";
 import { feedRefresh } from "../../store/commonSlice";
 import { detailPageBack } from "../../store/etcSlice"
 import history from "../../config/history";
@@ -202,13 +202,6 @@ const ManagerDetail = () => {
         getCommentList();   //방명록 리스트 가져오기
         getFeedList();      //피드 리스트 가져오기
     },[m_id]);
-
-
-    useEffect(()=>{
-        //피드리스트에서 각각 피드 idx store에 배열로 저장
-        let newFeedPopNoList = feedList.map(obj => obj.idx);
-        dispatch(feedPopNoList([...newFeedPopNoList]));
-    },[feedList]);
 
 
     //피드 삭제, 수정시 피드리스트 가져오기

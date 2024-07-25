@@ -44,7 +44,6 @@ const FeedPop = () => {
     const [commentEditOn, setCommentEditOn] = useState(null);
     const [feedEditBtn, setFeedEditBtn] = useState(false);
     const [commentEditBtn, setCommentEditBtn] = useState(false);
-    const feedIdx = popup.feedPopNoList.indexOf(popup.feedPopNo);
     const [nextBtn, setNextBtn] = useState(false);
     const [prevBtn, setPrevBtn] = useState(false);
     const commentListBoxRef = useRef(null);
@@ -135,20 +134,6 @@ const FeedPop = () => {
         getFeed();
         getCommentList();
 
-        //피드 다음버튼
-        if(feedIdx+1 < popup.feedPopNoList.length){
-            setNextBtn(true);
-        }else{
-            setNextBtn(false);
-        }
-        
-        //피드 이전버튼
-        if(feedIdx === 0){
-            setPrevBtn(false);
-        }else{
-            setPrevBtn(true);
-        }
-
         //팝업 맨위로 스크롤
         if (feedPopRef.current) {
             setTimeout(()=>{
@@ -156,6 +141,23 @@ const FeedPop = () => {
             },10);
         }
     },[popup.feedPopNo]);
+
+
+    useEffect(()=>{
+        //피드 다음버튼
+        if(feedData.prev_idx){
+            setNextBtn(true);
+        }else{
+            setNextBtn(false);
+        }
+
+        //피드 이전버튼
+        if(feedData.next_idx){
+            setPrevBtn(true);
+        }else{
+            setPrevBtn(false);
+        }
+    },[feedData]);
 
 
     //피드 수정시 피드내용, 댓글리스트 가져오기
@@ -239,13 +241,13 @@ const FeedPop = () => {
 
     //다음버튼 클릭시
     const nextHandler = () => {
-        dispatch(feedPop({feedPop:true,feedPopNo:popup.feedPopNoList[feedIdx+1]}));
+        dispatch(feedPop({feedPop:true,feedPopNo:feedData.prev_idx}));
         setImgOn(0);
     };
 
     //이전버튼 클릭시
     const prevHandler = () => {
-        dispatch(feedPop({feedPop:true,feedPopNo:popup.feedPopNoList[feedIdx-1]}));
+        dispatch(feedPop({feedPop:true,feedPopNo:feedData.next_idx}));
         setImgOn(0);
     };
 

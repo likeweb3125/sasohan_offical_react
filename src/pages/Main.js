@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import { enum_api_uri } from "../config/enum";
 import * as CF from "../config/function";
 import { detailPageBack, listPageData, scrollY } from "../store/etcSlice";
-import { confirmPop, feedPop, feedPopNoList, loadingPop } from "../store/popupSlice";
+import { confirmPop, feedPop, loadingPop } from "../store/popupSlice";
 import { feedRefresh } from "../store/commonSlice";
 import ConfirmPop from "../components/popup/ConfirmPop";
 import ListTopTitleBox from "../components/component/square/ListTopTitleBox";
@@ -311,13 +311,6 @@ const Main = () => {
             getAllFeed();
         }
     },[common.feedRefresh]);
-
-
-    useEffect(()=>{
-        //피드리스트에서 각각 피드 idx store에 배열로 저장
-        let newFeedPopNoList = feedList.map(obj => obj.idx);
-        dispatch(feedPopNoList([...newFeedPopNoList]));
-    },[feedList]);
 
 
     //피드 리스트 가져오기
