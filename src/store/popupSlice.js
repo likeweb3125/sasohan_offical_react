@@ -47,8 +47,9 @@ const popup = createSlice({
         //스퀘어 - 피드팝업
         feedPop: false,
         feedPopNo: null,
+        feedPopId: null, //매니저개인피드일때 매니저id
         feedAddPop: false,
-        feedAddPopNo: null, //피드수정일때 피드 idx값
+        feedAddPopNo: null, //피드수정일때 피드 idx값 
 
         //피드프로필 팝업
         feedProfilePop: false,
@@ -148,6 +149,7 @@ const popup = createSlice({
         feedPop: (state, action) => {
             state.feedPop = action.payload.feedPop;
             state.feedPopNo = action.payload.feedPopNo;
+            state.feedPopId = action.payload.feedPopId;
         },
         feedAddPop: (state, action) => {
             state.feedAddPop = action.payload.feedAddPop;

@@ -64,7 +64,7 @@ const FeedPop = () => {
 
     //팝업닫기
     const closePopHandler = () => {
-        dispatch(feedPop({feedPop:false,feedPopNo:null}));
+        dispatch(feedPop({feedPop:false,feedPopNo:null,feedPopId:null}));
     };
 
 
@@ -86,7 +86,12 @@ const FeedPop = () => {
 
     //피드내용 가져오기
     const getFeed = () => {
-        axios.get(`${feed_content.replace(":idx",popup.feedPopNo)}`)
+        //매니저개인피드인지 확인
+        let id = '';
+        if(popup.feedPopId){
+            id = popup.feedPopId;
+        }
+        axios.get(`${feed_content.replace(":idx",popup.feedPopNo)}${id.length > 0 ? '?m_id='+id : ''}`)
         .then((res)=>{
             if(res.status === 200){
                 const data = res.data;
@@ -241,13 +246,21 @@ const FeedPop = () => {
 
     //다음버튼 클릭시
     const nextHandler = () => {
-        dispatch(feedPop({feedPop:true,feedPopNo:feedData.prev_idx}));
+        let id = null;
+        if(popup.feedPopId){
+            id = popup.feedPopId;
+        }
+        dispatch(feedPop({feedPop:true, feedPopNo:feedData.prev_idx, feedPopId:id}));
         setImgOn(0);
     };
 
     //이전버튼 클릭시
     const prevHandler = () => {
-        dispatch(feedPop({feedPop:true,feedPopNo:feedData.next_idx}));
+        let id = null;
+        if(popup.feedPopId){
+            id = popup.feedPopId;
+        }
+        dispatch(feedPop({feedPop:true, feedPopNo:feedData.next_idx, feedPopId:id}));
         setImgOn(0);
     };
 

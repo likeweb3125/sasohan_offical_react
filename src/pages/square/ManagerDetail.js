@@ -506,7 +506,7 @@ const ManagerDetail = () => {
 
     //피드 클릭시 피드상세팝업열기
     const feedClickHandler = (idx) => {
-        dispatch(feedPop({feedPop:true, feedPopNo:idx}));
+        dispatch(feedPop({feedPop:true, feedPopNo:idx, feedPopId: m_id}));
     };
     
 
