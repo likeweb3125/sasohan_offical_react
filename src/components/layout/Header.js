@@ -3,9 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Cookies from "js-cookie"
 import * as CF from "../../config/function";
-import { applyPop } from '../../store/popupSlice';
 import { userInfo, userToken, userRank } from "../../store/userSlice";
-import { aboutVipScroll } from '../../store/commonSlice';
 import ConfirmPop from '../popup/ConfirmPop';
 import logo_big_b from "../../images/logo_big_b.svg";
 import none_profile from "../../images/none_profile2.jpg";

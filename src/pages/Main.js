@@ -325,7 +325,7 @@ const Main = () => {
             }
         }
 
-        axios.get(`${feed_list}?page_no=${page ? page : 1}${sortTabOn === 2 ? '&sort=favorite' : ''}${likeCheck ? '&favorite=1' : ''}${searchValue.length > 0 ? '&search='+searchValue : ''}`,{
+        axios.get(`${feed_list}?limit=40&page_no=${page ? page : 1}${sortTabOn === 2 ? '&sort=favorite' : ''}${likeCheck ? '&favorite=1' : ''}${searchValue.length > 0 ? '&search='+searchValue : ''}`,{
             headers: headers,
         })
         .then((res)=>{

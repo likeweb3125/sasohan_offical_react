@@ -40,6 +40,7 @@ import none_img from "../images/none_img.jpg";
 
 const AboutVIP = () => {
     const dispatch = useDispatch();
+    const location = useLocation();
     const popup = useSelector((state)=>state.popup);
     const user = useSelector((state)=>state.user);
     const common = useSelector((state)=>state.common);
@@ -275,23 +276,55 @@ const AboutVIP = () => {
 
 
     //헤더,푸터 소개팅신청,VIP지원 버튼클릭시 해당섹션으로 스크롤
-    useEffect(()=>{
-        if(common.aboutVipScroll.length > 0){
+    useEffect(() => {
+        if (common.aboutVipScroll.length > 0) {
+            const path = common.aboutVipScrollPath;
+        
             setSect1On(true);
             setSect2On(true);
+            setSect2_2On(true);
             setSect3On(true);
+            setSect3_2On(true);
+            setSect3_3On(true);
+            setSect3_4On(true);
+            setSect3_5On(true);
             setSect4On(true);
             setSect5On(true);
+        
             const sectionId = common.aboutVipScroll;
-            const section = document.getElementById(sectionId);
-            if(section){
-                setTimeout(()=>{
-                    section.scrollIntoView({behavior:'smooth'});
-                    dispatch(aboutVipScroll(''));
-                },200);
+            let time = 700;
+            if (path === '/about') {
+                time = 200;
+            }
+        
+            const scrollToSection = (sectionRef) => {
+                const scroll = () => {
+                    if (sectionRef.current) {
+                        const top = sectionRef.current.offsetTop;
+                        window.scroll({
+                            top: top,
+                            behavior: 'smooth'
+                        })
+                        dispatch(aboutVipScroll({ aboutVipScroll: '', aboutVipScrollPath: '' }));
+                    } else {
+                        requestAnimationFrame(scroll);
+                    }
+                };
+                scroll();
+            };
+        
+            if (sectionId === 'vip_sect4') {
+                setTimeout(() => {
+                    scrollToSection(sect4Ref);
+                }, time);
+            }
+            if (sectionId === 'vip_sect5') {
+                setTimeout(() => {
+                    scrollToSection(sect5Ref);
+                }, time);
             }
         }
-    },[common.aboutVipScroll]);
+      }, [common.aboutVipScroll]);
     
 
     return(<> 
@@ -530,7 +563,6 @@ const AboutVIP = () => {
                     </div>
                 </div>
             </div>
-            
             <div className={`vip_sect vip_sect3_3 ${sect3_3On ? "on" : ""}`} ref={sect3_3Ref}>
                 <div className="section_inner">
                     <div className="title_box">
@@ -832,8 +864,7 @@ const AboutVIP = () => {
                     </div>
                 </div>
             </div>
-
-            <div className={`vip_sect vip_sect4 ${sect4On ? "on" : ""}`} ref={sect4Ref} id="vip_sect4">
+            <div className={`vip_sect vip_sect4 ${sect4On ? "on" : ""}`} ref={sect4Ref}>
                 <div className="cont4">
                     <div className="vip_apply_cont">
                         <div className="txt_box flex_top">
@@ -870,8 +901,7 @@ const AboutVIP = () => {
                     </div>
                 </div>
             </div>
-
-            <div className={`vip_sect vip_sect5 ${sect5On ? "on" : ""}`} ref={sect5Ref} id="vip_sect5">
+            <div className={`vip_sect vip_sect5 ${sect5On ? "on" : ""}`} ref={sect5Ref}>
                 <div className="cont4">
                     <div className="vip_apply_cont">
                         <div className="txt_box flex_top">
@@ -919,7 +949,6 @@ const AboutVIP = () => {
                     </div>
                 </div>
             </div>
-
         </div>
 
         {/* confirm팝업 */}

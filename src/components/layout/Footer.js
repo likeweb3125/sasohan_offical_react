@@ -137,14 +137,14 @@ const Footer = () => {
             <div className="link_btn_box">
                 <button type='button' className='btn_apply'
                     onClick={()=>{
-                        dispatch(aboutVipScroll('vip_sect4'));
-                        navigate('/');
+                        dispatch(aboutVipScroll({aboutVipScroll:'vip_sect4', aboutVipScrollPath:location.pathname}));
+                        navigate('/about');
                     }}
                 >소개팅 <br/>신청</button>
                 <button type='button' className='btn_vip'
                     onClick={()=>{
-                        dispatch(aboutVipScroll('vip_sect5'));
-                        navigate('/');
+                        dispatch(aboutVipScroll({aboutVipScroll:'vip_sect5', aboutVipScrollPath:location.pathname}));
+                        navigate('/about');
                     }}
                 >1% <br/>지원</button>
             </div>

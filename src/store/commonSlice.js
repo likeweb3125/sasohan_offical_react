@@ -12,6 +12,7 @@ const common = createSlice({
         myPageRefresh:false,
         phoneLogin:false,
         aboutVipScroll:'',
+        aboutVipScrollPath:'',
     },
     reducers:{
         headerMenuOn: (state, action) => {
@@ -39,7 +40,8 @@ const common = createSlice({
             state.phoneLogin = action.payload;
         },
         aboutVipScroll: (state, action) => {
-            state.aboutVipScroll = action.payload;
+            state.aboutVipScroll = action.payload.aboutVipScroll;
+            state.aboutVipScrollPath = action.payload.aboutVipScrollPath;
         },
     }
 });
