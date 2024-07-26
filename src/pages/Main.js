@@ -5,7 +5,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { enum_api_uri } from "../config/enum";
 import * as CF from "../config/function";
-import { detailPageBack, listPageData, scrollY } from "../store/etcSlice";
+import { detailPageBack, listPageData, scrollY, detailPageBackFeed } from "../store/etcSlice";
 import { confirmPop, feedPop, loadingPop } from "../store/popupSlice";
 import { feedRefresh } from "../store/commonSlice";
 import ConfirmPop from "../components/popup/ConfirmPop";
@@ -64,13 +64,20 @@ const Main = () => {
     },[scrollMove]);
 
 
-    //상세->목록으로 뒤로가기시 저장되었던 값들로 매니저리스트 가져오기
+    //상세->목록으로 뒤로가기시 저장되었던 값들로 매니저리스트 or 피드리스트 가져오기
     useEffect(()=>{
         const fetchData = async () => {
             if(etc.detailPageBack){
-                for(let i = 1; i <= etc.listPageData.page; i++) {
-                    const isLast = i === etc.listPageData.page;
-                    await getManagerList(i, true, isLast);
+                if(etc.detailPageBackFeed){
+                    for(let i = 1; i <= etc.listPageData.page; i++) {
+                        const isLast = i === etc.listPageData.page;
+                        await getAllFeed(i, true, isLast);
+                    }
+                }else{
+                    for(let i = 1; i <= etc.listPageData.page; i++) {
+                        const isLast = i === etc.listPageData.page;
+                        await getManagerList(i, true, isLast);
+                    }
                 }
             }
         };
@@ -153,6 +160,95 @@ const Main = () => {
 
                     setScrollMove(true);
                     dispatch(detailPageBack(false));
+
+                    setPageBack(true);
+                }
+            }
+        } catch (error) {
+            dispatch(loadingPop(false));
+    
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        }
+    };
+
+
+    //피드 리스트 가져오기
+    const getAllFeed = async (page, more, isLast) => {
+        dispatch(loadingPop(true));
+
+        let sort;
+        let favorite;
+        let searchText = '';
+
+        //상세페이지에서 뒤로가기시 저장된 리스트페이지 정보로 조회
+        if(etc.detailPageBack){
+            sort = etc.listPageData.sort;
+            favorite = etc.listPageData.favorite;
+            searchText = etc.listPageData.search;
+        }else{
+            sort = sortTabOn;
+            favorite = likeCheck;
+            searchText = searchValue;
+        }
+
+        //내가누른 좋아요보기 체크시 or 로그인시에만 헤더값 넣기
+        let headers = {};
+        if(likeCheck || userLogin){
+            headers = {
+                Authorization: `Bearer ${user.userToken}`,
+            }
+        }
+
+        try {
+            const res = await axios.get(`${feed_list}?limit=40&page_no=${page ? page : 1}${sort === 2 ? '&sort=favorite' : ''}${favorite ? '&favorite=1' : ''}${searchText.length > 0 ? '&search='+searchText : ''}`,{
+                headers: headers,
+            });
+            if(res.status === 200){
+                dispatch(loadingPop(false));
+
+                const data = res.data;
+                //더보기버튼 클릭시에만 리스트 추가
+                if(more){
+                    setFeedList(prevFeedList => [...prevFeedList, ...data.result]);
+                }else{
+                    setFeedList(data.result);
+                }
+
+                // 현재페이지번호 저장
+                setPageNo(data.current_page);
+
+                //리스트가 더있으면 more 버튼 보이기
+                if(data.current_page < data.end_page){
+                    setMoreBtn(true);
+                }else{
+                    setMoreBtn(false);
+                }
+
+                //리스트페이지 조회 데이터저장
+                let pageData = {
+                    page: page ? page : 1,
+                    sort: sort,
+                    favorite: favorite,
+                    search: searchText,
+                };
+                dispatch(listPageData(pageData));
+
+                //상세페이지에서 뒤로가기시
+                if(isLast){
+                    setSearchValue(searchText);
+                    setSortTabOn(etc.listPageData.sort);
+                    setLikeCheck(etc.listPageData.favorite);
+
+                    setScrollMove(true);
+                    dispatch(detailPageBack(false));
+                    dispatch(detailPageBackFeed(false));
 
                     setPageBack(true);
                 }
@@ -313,59 +409,6 @@ const Main = () => {
     },[common.feedRefresh]);
 
 
-    //피드 리스트 가져오기
-    const getAllFeed = (page, more) => {
-        dispatch(loadingPop(true));
-
-        //내가누른 좋아요보기 체크시 or 로그인시에만 헤더값 넣기
-        let headers = {};
-        if(likeCheck || userLogin){
-            headers = {
-                Authorization: `Bearer ${user.userToken}`,
-            }
-        }
-
-        axios.get(`${feed_list}?limit=40&page_no=${page ? page : 1}${sortTabOn === 2 ? '&sort=favorite' : ''}${likeCheck ? '&favorite=1' : ''}${searchValue.length > 0 ? '&search='+searchValue : ''}`,{
-            headers: headers,
-        })
-        .then((res)=>{
-            if(res.status === 200){
-                dispatch(loadingPop(false));
-
-                const data = res.data;
-                //더보기버튼 클릭시에만 리스트 추가
-                if(more){
-                    setFeedList([...feedList,...data.result]);
-                }else{
-                    setFeedList(data.result);
-                }
-
-                // 현재페이지번호 저장
-                setPageNo(data.current_page);
-
-                //리스트가 더있으면 more 버튼 보이기
-                if(data.current_page < data.end_page){
-                    setMoreBtn(true);
-                }else{
-                    setMoreBtn(false);
-                }
-            }
-        })
-        .catch((error) => {
-            dispatch(loadingPop(false));
-            
-            const err_msg = CF.errorMsgHandler(error);
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt: err_msg,
-                confirmPopBtn:1,
-            }));
-            setConfirm(true);
-        })
-    };
-
-
     //피드 좋아요하기
     const feedLikeBtnClickHandler = (idx) => {
         //로그인시에만 가능
@@ -428,17 +471,19 @@ const Main = () => {
 
     //매니저프로필클릭시 매니저상세페이지로 이동
     const profileClickHandler = (id) => {
+        setPageBack(false);
+        dispatch(scrollY(window.scrollY)); //현재스크롤위치 저장
+        dispatch(detailPageBackFeed(true));
         navigate(`/square/manager/${id}`);
     };
 
 
+    //피드스퀘어 타이틀클릭시
     const onTitClickHandler = () => {
         setTypeCheck('');
         setSortTabOn(1);
         setLikeCheck(false);
-        setSearchValue('');
         setPageNo(1);
-        setMoreBtn(false);
         setPageBack(false);
     };
 
