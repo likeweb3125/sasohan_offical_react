@@ -374,7 +374,7 @@
     #header .logo{width: 128px;height: 20px;}
     #header .gnb_wrap{width: calc(100% + 40px);top: 50px;left: -20px;}
     #header .btn_menu{width: 50px;height: 50px;background-size: 36px;background-position: right center;}
-    #header .menu_box{width: 280px;padding: 18px 20px;background-size: 90%;}
+    #header .menu_box{width: 280px;padding: 18px 20px;background-size: 65%;}
     #header .menu_box .top_box img{width: 160px;}
     #header .menu_box .btn_close{width: 24px;height: 24px;background-size: 100%;}
     #header .menu_box .link_ul{padding-top: 32px;}
