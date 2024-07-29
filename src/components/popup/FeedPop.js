@@ -8,6 +8,7 @@ import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
 import { feedPop, feedAddPop, confirmPop, loadingPop, feedProfilePop } from "../../store/popupSlice";
 import { feedRefresh } from "../../store/commonSlice";
+import { detailPageBackFeed, scrollY } from "../../store/etcSlice";
 import EditBox from "../component/square/EditBox";
 import Comment from "../component/square/Comment";
 import WriteTextareaBox from "../component/square/WriteTextareaBox";
@@ -580,6 +581,8 @@ const FeedPop = () => {
 
     //매니저프로필클릭시 매니저상세페이지로 이동
     const onManagerClickHandler = () => {
+        dispatch(scrollY(window.scrollY)); //현재스크롤위치 저장
+        dispatch(detailPageBackFeed(true));
         closePopHandler();
         navigate(`/square/manager/${feedData.manager_id}`);
     };
