@@ -32,7 +32,8 @@ const Apply = () => {
 
     //신청페이지 url 에서 idx 값 가져오기
     useEffect(()=>{
-        let idx = location.search.replace("?idx=","");
+        const params = new URLSearchParams(location.search);
+        const idx = params.get('idx');
         setApplyIdx(idx);
 
         // Google tag Google Analytics 초기화
