@@ -249,6 +249,7 @@
 .feed_box .txt_box .name p{font-size: 22px;font-weight: 700;padding-right: 30px;position: relative;width: calc(100% - 48px);}
 .feed_box .txt_box .name p::after{position: absolute;content: '';width: 24px;height: 24px;right: 0;top: 2px;background: url(../images/manager_tag.svg) no-repeat center right;}
 .feed_box .txt_box .name.charming p::after{background: url(../images/manager_tag_c.svg) no-repeat center right;}
+.feed_box .txt_box .name.friend p::after{background: url(../images/friend_tag.svg) no-repeat center right;}
 .feed_box .txt_box .ellipsis2{font-size: 18px;color: #666;height: 47px;}
 .feed_box .txt_box .date{color: #999;padding-top: 8px;}
 .feed_box .txt_box .btn_like{position: absolute;width: 50px;height: 50px;background: #fff url(../images/btn_like.png) no-repeat center;border-radius: 50%;right: 28px;top: -25px;font-size: 0;text-indent: -9999px;box-shadow: 0px 0px 12px 0px rgba(0, 0, 0, 0.12);}

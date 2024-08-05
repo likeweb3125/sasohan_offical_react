@@ -14,7 +14,7 @@ const Feed = ({data, likeBtnClickHandler, feedClickHandler, myFeed, profileClick
             </div>
             <div className="txt_box">
                 {!myFeed &&
-                    <div className={`name flex pointer${data.manager_type == 'C' ? ' charming' : ''}`}
+                    <div className={`name flex pointer${data.manager_type == 'C' ? ' charming' : data.manager_type == 'A' ? ' friend' : ''}`}
                         onClick={()=>profileClickHandler(data.manager_id)}
                     >
                         <div className="img">
