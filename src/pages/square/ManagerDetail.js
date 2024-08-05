@@ -16,6 +16,7 @@ import ListCont from "../../components/component/square/ListCont";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 import manager_tag from '../../images/manager_tag.svg';
 import manager_tag_c from '../../images/manager_tag_c.svg';
+import friend_tag from '../../images/friend_tag.svg';
 import none_profile from '../../images/none_profile2.jpg';
 
 
@@ -520,7 +521,7 @@ const ManagerDetail = () => {
                         <div className="img_box">
                             <img src={profile.photo ? profile.photo : none_profile} alt="프로필사진" />
                             <div className={`manager_tag flex${profile.manager_type == 'C' ? ' charming' : ''}`}>
-                                <img src={profile.manager_type == 'C' ? manager_tag_c : manager_tag} alt="매니저타입 아이콘" />
+                                <img src={profile.manager_type === 'C' ? manager_tag_c : profile.manager_type === 'V' ? manager_tag : friend_tag} alt="매니저타입 아이콘" />
                                 <p>{profile.manager_type == 'C' ? '챠밍 매니저' : 'VIP 매니저'}</p>
                             </div>
                         </div>

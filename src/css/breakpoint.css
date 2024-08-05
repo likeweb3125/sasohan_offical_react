@@ -276,6 +276,7 @@
     .square_list_cont ul li{width: calc(50% - 34px);margin: 0 68px 50px 0;}
     .square_list_cont ul li:nth-child(2n){margin-right: 0;}
     /* 매니저 상세 */
+    .manager_detail_cont{padding: 170px 0 140px;}
     .manager_detail_cont>div{width: 100% !important;}
     .manager_detail_cont .profile_box{display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; display: flex;padding: 20px 30px;margin-bottom: 50px;}
     .manager_detail_cont .profile_box .img_box{width: 300px;border-radius:8px;}
@@ -643,7 +644,7 @@
     .manager_tag img{width: 36px;}
     .manager_tag p{display: none;}
     /* 매니저 상세 */
-    .manager_detail_cont{padding: 100px 0;}
+    .manager_detail_cont{padding: 140px 0 100px;}
     .manager_detail_cont .profile_box{display: block;padding: 20px 20px 40px;margin-bottom: 40px;}
     .manager_detail_cont .profile_box .img_box{width: 100%;border-radius: 8px 8px 0 0;}
     .manager_detail_cont .profile_box .txt_box{width: 100%;display: block;}

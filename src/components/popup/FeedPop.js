@@ -628,7 +628,7 @@ const FeedPop = () => {
                             <div className="profile_box flex_between flex_wrap">
                                 <div className="flex pointer" onClick={onManagerClickHandler}>
                                     <div className="profile"><img src={feedData.profile} alt="프로필 이미지"/></div>
-                                    <p className={`name${feedData.manager_type == 'C' ? ' charming' : ''}`}>{feedData.manager_name}</p>
+                                    <p className={`name${feedData.manager_type === 'C' ? ' charming' : feedData.manager_type === 'A' ? ' friend' : ''}`}>{feedData.manager_name}</p>
                                 </div>
                                 <EditBox 
                                     editBoxIdx={0}
@@ -673,7 +673,7 @@ const FeedPop = () => {
                             <div className="profile_box flex_between flex_wrap">
                                 <div className="flex pointer" onClick={onManagerClickHandler}>
                                     <div className="profile"><img src={feedData.profile} alt="프로필 이미지"/></div>
-                                    <p className={`name${feedData.manager_type == 'C' ? ' charming' : ''}`}>{feedData.manager_name}</p>
+                                    <p className={`name${feedData.manager_type === 'C' ? ' charming' : feedData.manager_type === 'A' ? ' friend' : ''}`}>{feedData.manager_name}</p>
                                 </div>
                                 <EditBox 
                                     editBoxIdx={0}

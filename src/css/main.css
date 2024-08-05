@@ -633,6 +633,7 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .feed_pop .feed_con .cont_box .top_box .profile_box .profile{width: 40px;height: 40px;overflow: hidden;border-radius: 50%;margin-right: 8px;}
 .feed_pop .feed_con .cont_box .top_box .profile_box .name{font-size: 22px;font-weight: 700;padding-right: 30px;background: url(../images/manager_tag.svg) no-repeat center right;max-width: calc(100% - 48px);}
 .feed_pop .feed_con .cont_box .top_box .profile_box .name.charming{background: url(../images/manager_tag_c.svg) no-repeat center right;}
+.feed_pop .feed_con .cont_box .top_box .profile_box .name.friend{background: url(../images/friend_tag.svg) no-repeat center right;}
 .edit_box{position: relative;}
 .edit_box .btn_edit{font-size: 0;text-indent: -9999px;width: 24px;height: 24px;background: url(../images/ic_edit.png) no-repeat center;}
 .edit_box .btn_edit.gray{background: url(../images/ic_edit_g.png) no-repeat center;}
