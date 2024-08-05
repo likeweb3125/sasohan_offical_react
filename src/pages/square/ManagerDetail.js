@@ -522,7 +522,7 @@ const ManagerDetail = () => {
                             <img src={profile.photo ? profile.photo : none_profile} alt="프로필사진" />
                             <div className={`manager_tag flex${profile.manager_type == 'C' ? ' charming' : ''}`}>
                                 <img src={profile.manager_type === 'C' ? manager_tag_c : profile.manager_type === 'V' ? manager_tag : friend_tag} alt="매니저타입 아이콘" />
-                                <p>{profile.manager_type == 'C' ? '챠밍 매니저' : 'VIP 매니저'}</p>
+                                <p>{profile.manager_type === 'C' ? '챠밍 매니저' : profile.manager_type === 'V' ? '1% 매니저' : '1% 프렌즈'}</p>
                             </div>
                         </div>
                         <div className="txt_box">
