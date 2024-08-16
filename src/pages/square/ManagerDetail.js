@@ -169,7 +169,7 @@ const ManagerDetail = () => {
                 const data = res.data;
                 //더보기버튼 클릭시에만 리스트 추가
                 if(more){
-                    setFeedList([...feedList,...data.result]);
+                    setFeedList(prevList => [...prevList, ...data.result]);
                 }else{
                     setFeedList(data.result);
                 }

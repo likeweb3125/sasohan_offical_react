@@ -51,7 +51,6 @@ const Main = () => {
     const [pageBack, setPageBack] = useState(false);
     const userLogin = Cookies.get('userLogin') === 'true'; // 'true' 문자열과 비교;
     const [feedList, setFeedList] = useState([]);
-
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const sect2_2Ref = useRef(null);
     const [sect2_2On, setSect2_2On] = useState(false);
