@@ -11,7 +11,7 @@ import 'swiper/css/grid';
 import axios from "axios";
 import * as CF from "../config/function";
 import { enum_api_uri } from "../config/enum";
-import { confirmPop, vipApplyPop, applyPop, storyPopList, storyPop, imgPop, imgPopLink } from "../store/popupSlice";
+import { confirmPop, vipApplyPop, applyPop, imgPop, imgPopLink } from "../store/popupSlice";
 import { aboutVipScroll } from "../store/commonSlice";
 import ConfirmPop from "../components/popup/ConfirmPop";
 import main_txt_img from "../images/about_vip_main_txt.png";
@@ -50,7 +50,6 @@ const AboutVIP = () => {
     const [confirm, setConfirm] = useState(false);
     const sect1Ref = useRef(null);
     const sect2Ref = useRef(null);
-    const sect2_2Ref = useRef(null);
     const sect3Ref = useRef(null);
     const sect3_2Ref = useRef(null);
     const sect3_3Ref = useRef(null);
@@ -61,7 +60,6 @@ const AboutVIP = () => {
     const vipSliderRef = useRef();
     const [sect1On, setSect1On] = useState(false);
     const [sect2On, setSect2On] = useState(false);
-    const [sect2_2On, setSect2_2On] = useState(false);
     const [sect3On, setSect3On] = useState(false);
     const [sect3_2On, setSect3_2On] = useState(false);
     const [sect3_3On, setSect3_3On] = useState(false);
@@ -72,8 +70,6 @@ const AboutVIP = () => {
     const [vipList, setVipList] = useState([]);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [vipSwiperKey, setVipSwiperKey] = useState(0); // Swiper의 key를 상태로 관리
-    const [storyList, setStoryList] = useState([]);
-    const storySliderRef = useRef();
     const aboutTabList = ["금액","프로그램","환불"];
     const [aboutTab, setAboutTab] = useState(0);
     const [externalSliderActive,setExternalSliderActive] = useState(0);
@@ -109,7 +105,6 @@ const AboutVIP = () => {
         const sections = [
             { ref: sect1Ref, onSet: setSect1On },
             { ref: sect2Ref, onSet: setSect2On },
-            { ref: sect2_2Ref, onSet: setSect2_2On },
             { ref: sect3Ref, onSet: setSect3On },
             { ref: sect3_2Ref, onSet: setSect3_2On },
             { ref: sect3_3Ref, onSet: setSect3_3On },
@@ -129,7 +124,6 @@ const AboutVIP = () => {
     
     useEffect(() => {    
         getVipList();
-        getStoryList();
         getTrustList();
 
         const handleWindowResize = () => {
@@ -172,29 +166,6 @@ const AboutVIP = () => {
             }));
             setConfirm(true);
         }); 
-    };
-
-
-    //스토리리스트 가져오기
-    const getStoryList = () => {
-        axios.get(`${story_list}`)
-        .then((res)=>{
-            if(res.status === 200){
-                let data = res.data;
-                setStoryList([...data]);
-                dispatch(storyPopList(data));
-            }
-        })
-        .catch((error) => {
-            const err_msg = CF.errorMsgHandler(error);
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt: err_msg,
-                confirmPopBtn:1,
-            }));
-            setConfirm(true);
-        });
     };
 
 
@@ -250,15 +221,6 @@ const AboutVIP = () => {
     };
 
 
-    //스토리팝업 다음버튼,이전버튼으로 넘길때 스토리슬라이드 active 변경
-    useEffect(()=>{
-        if(popup.storyPopNo != null){
-            const idx = popup.storyPopNo;
-            storySliderRef.current.swiper.slideTo(idx);
-        }
-    },[popup.storyPopNo]);
-
-
     //사소한의 신뢰 슬라이드부분-------
     useEffect(() => {
         if (trustList.length > 0 && trustSwiper.current && trustSwiper.current.swiper) {
@@ -282,7 +244,6 @@ const AboutVIP = () => {
         
             setSect1On(true);
             setSect2On(true);
-            setSect2_2On(true);
             setSect3On(true);
             setSect3_2On(true);
             setSect3_3On(true);
@@ -410,55 +371,6 @@ const AboutVIP = () => {
                         </div>
                     </div> 
                 </div>
-            </div>
-            <div className={`vip_sect vip_sect2_2 ${sect2_2On ? "on" : ""}`} ref={sect2_2Ref}>
-                {storyList.length > 0 &&
-                <div className="section_inner">
-                    <div className="tit_box">
-                        <p className="tit">실시간 만남 <strong>스토리</strong></p>
-                        <p className="txt">정확하고 빠른 사소한만의 <br className="mo_show" />실시간 매칭 만남을 확인하세요! </p>
-                    </div>
-                    <div className="story_wrap">
-                        <Swiper 
-                            className={`story_slider`}
-                            slidesPerView={`auto`}
-                            spaceBetween={8}
-                            observer={true}
-                            observeParents={true}
-                            navigation={{nextEl: `.story_slider .swiper-button-next`,prevEl: `.story_slider .swiper-button-prev`}}
-                            scrollbar={{draggable: true}}
-                            breakpoints={
-                                {
-                                    1200:{spaceBetween:80},//width >= 1200
-                                    768:{spaceBetween:50},//width >= 768
-                                }
-                            }
-                            ref={storySliderRef}
-                            modules={[Navigation,Scrollbar]}
-                        >
-                            {storyList.map((cont,i)=>{
-                                return(
-                                    <SwiperSlide key={i} 
-                                        onClick={()=>{
-                                            dispatch(storyPop({storyPop:true,storyPopNo:i}));
-                                        }}
-                                    >
-                                        <div className="img_box"><img src={cont.photo} alt="프로필이미지" /></div>
-                                        <div className="txt_box">
-                                            <p className="name flex_center"><strong>{cont.manager_name}</strong>{cont.manager_type_txt}</p>
-                                            <p className="time">{cont.w_date}</p>
-                                        </div>
-                                    </SwiperSlide>
-                                );
-                            })}
-                            <div className="btn_box flex_between mo_none">
-                                <div className="swiper-button-prev hover_btn_w"></div>
-                                <div className="swiper-button-next hover_btn_w"></div>
-                            </div>
-                        </Swiper>
-                    </div>
-                </div>
-                }
             </div>
             <div className={`vip_sect vip_sect3 ${sect3On ? "on" : ""}`} ref={sect3Ref}>
                 <div className="cont4">

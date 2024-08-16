@@ -1,12 +1,19 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Scrollbar, Navigation, Grid } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+import "swiper/css/navigation";
+import 'swiper/css/grid';
 import axios from "axios";
 import Cookies from "js-cookie";
 import { enum_api_uri } from "../config/enum";
 import * as CF from "../config/function";
 import { detailPageBack, listPageData, scrollY, detailPageBackFeed } from "../store/etcSlice";
-import { confirmPop, feedPop, loadingPop } from "../store/popupSlice";
+import { confirmPop, feedPop, loadingPop, storyPop, storyPopList } from "../store/popupSlice";
 import { feedRefresh } from "../store/commonSlice";
 import ConfirmPop from "../components/popup/ConfirmPop";
 import ListTopTitleBox from "../components/component/square/ListTopTitleBox";
@@ -26,6 +33,7 @@ const Main = () => {
     const manager_favorite = enum_api_uri.manager_favorite;
     const feed_list = enum_api_uri.feed_list;
     const feed_favorite = enum_api_uri.feed_favorite;
+    const story_list = enum_api_uri.story_list;
     const popup = useSelector((state)=>state.popup);
     const user = useSelector((state)=>state.user);
     const common = useSelector((state)=>state.common);
@@ -44,6 +52,12 @@ const Main = () => {
     const userLogin = Cookies.get('userLogin') === 'true'; // 'true' 문자열과 비교;
     const [feedList, setFeedList] = useState([]);
 
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const sect2_2Ref = useRef(null);
+    const [sect2_2On, setSect2_2On] = useState(false);
+    const [storyList, setStoryList] = useState([]);
+    const storySliderRef = useRef();
+
 
     // Confirm팝업 닫힐때
     useEffect(()=>{
@@ -52,6 +66,69 @@ const Main = () => {
             setLoginConfirm(false);
         }
     },[popup.confirmPop]);
+
+
+    //스크롤시 section on
+    const scrollSectOn = () => {
+        const scroll = window.scrollY;
+        const sections = [
+            { ref: sect2_2Ref, onSet: setSect2_2On },
+        ];
+      
+        sections.forEach(({ ref, onSet }) => {
+            const offsetTop = ref.current.offsetTop;
+            if (scroll >= offsetTop - 500) {
+                onSet(true);
+            }
+        });
+    };
+    
+    useEffect(() => {    
+        getStoryList();
+
+        const handleWindowResize = () => {
+            setWindowWidth(window.innerWidth);
+        };
+        window.addEventListener("scroll", scrollSectOn);
+        window.addEventListener('resize', handleWindowResize);
+
+        return () => {
+            window.removeEventListener("scroll", scrollSectOn);
+            window.removeEventListener('resize', handleWindowResize);
+        };
+    }, []);
+
+
+    //스토리리스트 가져오기
+    const getStoryList = () => {
+        axios.get(`${story_list}`)
+        .then((res)=>{
+            if(res.status === 200){
+                let data = res.data;
+                setStoryList([...data]);
+                dispatch(storyPopList(data));
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
+    };
+
+
+    //스토리팝업 다음버튼,이전버튼으로 넘길때 스토리슬라이드 active 변경
+    useEffect(()=>{
+        if(popup.storyPopNo != null){
+            const idx = popup.storyPopNo;
+            storySliderRef.current.swiper.slideTo(idx);
+        }
+    },[popup.storyPopNo]);
 
 
 
@@ -385,17 +462,6 @@ const Main = () => {
     };
 
 
-    //페이지 제목안에 팁박스
-    const tipBox =  <div className="tip_box tab_none">
-                        <p className="tip_txt">매니저란?</p>
-                        <div className="box">
-                            <img src={tip_box_img} alt="말풍선이미지" className="mo_none" />
-                            <img src={tip_box_img_mo} alt="말풍선이미지" className="mo_show" />
-                        </div>
-                    </div>;
-
-
-
     //매니저클릭시 해당매니저상세페이지로 이동
     const managerClickHandler = (id) => {
         setPageBack(false);
@@ -507,12 +573,58 @@ const Main = () => {
                 </div>
             </div>
         </div>
+        <div className={`vip_sect vip_sect2_2 ${sect2_2On ? "on" : ""}`} ref={sect2_2Ref}>
+            {storyList.length > 0 &&
+            <div className="section_inner">
+                <div className="tit_box">
+                    <p className="tit">실시간 만남 <strong>스토리</strong></p>
+                </div>
+                <div className="story_wrap">
+                    <Swiper 
+                        className={`story_slider`}
+                        slidesPerView={`auto`}
+                        spaceBetween={8}
+                        observer={true}
+                        observeParents={true}
+                        navigation={{nextEl: `.story_slider .swiper-button-next`,prevEl: `.story_slider .swiper-button-prev`}}
+                        scrollbar={{draggable: true}}
+                        breakpoints={
+                            {
+                                1200:{spaceBetween:80},//width >= 1200
+                                768:{spaceBetween:50},//width >= 768
+                            }
+                        }
+                        ref={storySliderRef}
+                        modules={[Navigation,Scrollbar]}
+                    >
+                        {storyList.map((cont,i)=>{
+                            return(
+                                <SwiperSlide key={i} 
+                                    onClick={()=>{
+                                        dispatch(storyPop({storyPop:true,storyPopNo:i}));
+                                    }}
+                                >
+                                    <div className="img_box"><img src={cont.photo} alt="프로필이미지" /></div>
+                                    <div className="txt_box">
+                                        <p className="name flex_center"><strong>{cont.manager_name}</strong>{cont.manager_type_txt}</p>
+                                        <p className="time">{cont.w_date}</p>
+                                    </div>
+                                </SwiperSlide>
+                            );
+                        })}
+                        <div className="btn_box flex_between mo_none">
+                            <div className="swiper-button-prev hover_btn"></div>
+                            <div className="swiper-button-next hover_btn"></div>
+                        </div>
+                    </Swiper>
+                </div>
+            </div>
+            }
+        </div>
         <div className="square_list_wrap gray_wrap" style={{'paddingTop':'100px'}}>
             <div className="cont4">
                 <ListTopTitleBox
                     tit='피드 스퀘어'
-                    txt='성공적인 만남을 위한 1% 매니저들을 소개합니다!'
-                    tipBox={tipBox}
                     onTitClickHandler={onTitClickHandler}
                 />
                 <ListSearchBox

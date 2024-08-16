@@ -227,7 +227,6 @@ const AllFeed = () => {
             <div className="cont4">
                 <ListTopTitleBox
                     tit='사소한 매니저'
-                    link='/square/manager-list'
                 />
                 <ListSearchBox
                     sortTabOn={sortTabOn}

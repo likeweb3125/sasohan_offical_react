@@ -7,7 +7,7 @@ import none_profile from "../../../images/none_profile2.jpg";
 
 const Manager = ({data, likeBtnClickHandler, managerClickHandler}) => {
     return(
-        <div className={`feed_box manager${data.manager_type === 'V' ? ' vip' : ''}`}>
+        <div className={`feed_box manager${data.manager_type === 'V' || data.manager_type === 'A' ? ' vip' : ''}`}>
             <div className="img_box" onClick={()=>managerClickHandler(data.manager_id)}>
                 <img src={data.photo ? data.photo : none_profile} alt="피드이미지" />
                 <div className="box flex_center">
