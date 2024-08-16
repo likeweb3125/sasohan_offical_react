@@ -33,6 +33,7 @@ const ManagerDetail = () => {
     const manager_favorite = enum_api_uri.manager_favorite;
     const feed_favorite = enum_api_uri.feed_favorite;
     const text_check = enum_api_uri.text_check;
+    const feed_pin = enum_api_uri.feed_pin;
     const popup = useSelector((state)=>state.popup);
     const user = useSelector((state)=>state.user);
     const common = useSelector((state)=>state.common);
@@ -509,6 +510,31 @@ const ManagerDetail = () => {
     const feedClickHandler = (idx) => {
         dispatch(feedPop({feedPop:true, feedPopNo:idx, feedPopId: m_id}));
     };
+
+
+    //피드 고정하기
+    const pinCheckHandler = (idx) => {
+        axios.put(feed_pin.replace(':idx', idx),null,{
+            headers: {
+                Authorization: `Bearer ${user.userToken}`,
+            },
+        })
+        .then((res)=>{
+            if(res.status === 200){
+                dispatch(feedRefresh(true));
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
+    };
     
 
     
@@ -611,7 +637,9 @@ const ManagerDetail = () => {
                                 likeBtnClickHandler={feedLikeBtnClickHandler}
                                 feedCont={true}
                                 feedClickHandler={feedClickHandler}
-                                myFeed={true}
+                                managerDetail={true}
+                                myDetail={feedAddBtn}
+                                pinCheckHandler={pinCheckHandler}
                             />
                         </div>
                     </div>

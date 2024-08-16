@@ -79,11 +79,15 @@ const Main = () => {
                         await getManagerList(i, true, isLast);
                     }
                 }
+            }else{
+                for(let i = 1; i <= etc.listPageData.page; i++) {
+                    await getAllFeed(i, true);
+                }
             }
         };
 
         fetchData();
-    },[etc.detailPageBack]);
+    },[etc.detailPageBack, etc.detailPageBackFeed]);
 
 
     //매니저 리스트 가져오기
@@ -117,7 +121,7 @@ const Main = () => {
         }
 
         try {
-            const res = await axios.get(`${manager_list}?page_no=${page ? page : 1}${'&type='+type}${sort === 2 ? '&sort=favorite' : ''}${favorite ? '&favorite=1' : ''}${searchText.length > 0 ? '&search='+searchText : ''}`,{
+            const res = await axios.get(`${manager_list}?page_no=${page ? page : 1}${'&type='+type}${sort === 2 ? '&sort=favorite' : sort === 3 ? '&sort=views' : ''}${favorite ? '&favorite=1' : ''}${searchText.length > 0 ? '&search='+searchText : ''}`,{
                 headers: headers,
             });
             if(res.status === 200){
@@ -207,7 +211,7 @@ const Main = () => {
         }
 
         try {
-            const res = await axios.get(`${feed_list}?limit=40&page_no=${page ? page : 1}${sort === 2 ? '&sort=favorite' : ''}${favorite ? '&favorite=1' : ''}${searchText.length > 0 ? '&search='+searchText : ''}`,{
+            const res = await axios.get(`${feed_list}?limit=40&page_no=${page ? page : 1}${sort === 2 ? '&sort=favorite' : sort === 3 ? '&sort=views' : ''}${favorite ? '&favorite=1' : ''}${searchText.length > 0 ? '&search='+searchText : ''}`,{
                 headers: headers,
             });
             if(res.status === 200){

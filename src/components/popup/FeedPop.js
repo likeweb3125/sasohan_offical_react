@@ -606,6 +606,8 @@ const FeedPop = () => {
         }
         //매니저일때
         if(info.user_level == 'M'){
+            dispatch(scrollY(window.scrollY)); //현재스크롤위치 저장
+            dispatch(detailPageBackFeed(true));
             closePopHandler();
             navigate(`/square/manager/${info.m_id}`);
         }

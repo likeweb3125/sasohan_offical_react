@@ -3,7 +3,7 @@ import Manager from "./Manager";
 import MoreBtn from "./MoreBtn";
 
 
-const ListCont = ({list, moreBtn, moreBtnHandler, moreBtnTxt, likeBtnClickHandler, feedCont, feedClickHandler, managerClickHandler, myFeed, profileClickHandler}) => {
+const ListCont = ({list, moreBtn, moreBtnHandler, moreBtnTxt, likeBtnClickHandler, feedCont, feedClickHandler, managerClickHandler, managerDetail, profileClickHandler, pinCheckHandler, myDetail}) => {
 
     return(<>
         <div className="square_list_cont">
@@ -17,8 +17,10 @@ const ListCont = ({list, moreBtn, moreBtnHandler, moreBtnTxt, likeBtnClickHandle
                                         data={cont}
                                         likeBtnClickHandler={likeBtnClickHandler}
                                         feedClickHandler={feedClickHandler}
-                                        myFeed={myFeed}
+                                        managerDetail={managerDetail}
                                         profileClickHandler={profileClickHandler}
+                                        pinCheckHandler={pinCheckHandler}
+                                        myDetail={myDetail}
                                     />
                                     :<Manager 
                                         data={cont}

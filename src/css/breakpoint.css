@@ -44,7 +44,7 @@
 
     /* 스퀘어 */
     .feed_box:hover .img_box {box-shadow: 0px 8px 16px 0px rgba(104, 64, 253, 0.20);}
-    .feed_box:hover .img_box>img{transform: scale(1.1);}
+    .feed_box:hover .img_box .img img{transform: scale(1.1);}
     .feed_box:hover .img_box .box{opacity: 1;}
 
     /* 스퀘어 - 피드상세팝업 */
@@ -631,6 +631,8 @@
     .square_list_cont{padding-top: 48px;}
     .square_list_cont ul li{width: calc(50% - 7.5px);margin: 0 15px 36px 0;}
     .feed_box .img_box{border-radius: 16px;}
+    .feed_box .img_box .pin_box{right: 10px;top: 10px;}
+    .feed_box .img_box .pin_box label{width: 32px;height: 32px;border-radius: 8px;background-size: 24px !important;}
     .feed_box .txt_box{padding-top: 12px;}
     .feed_box .txt_box .name{padding-bottom: 4px;}
     .feed_box .txt_box .name .img{width: 24px;height: 24px;margin-right: 4px;}

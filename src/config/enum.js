@@ -60,6 +60,7 @@ exports.enum_api_uri = {
     feed_img_delt: `${api_uri}/v1/manager/feed-image-remove`,
     feed_add: `${api_uri}/v1/manager/feed-add`,
     feed_modify: `${api_uri}/v1/manager/feed-modify`,
+    feed_pin: `${api_uri}/v1/main-list/feed-pin/:idx`,
     
     //VIP 소개팅
     vip_list: `${api_uri}/v1/main/vip-list`,

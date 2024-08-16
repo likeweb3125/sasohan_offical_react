@@ -235,13 +235,18 @@
 .square_list_cont ul li{width: calc(25% - 30px);margin:0 40px 50px 0;}
 .square_list_cont ul li:nth-child(4n){margin-right: 0;}
 .feed_box .img_box{border-radius: 32px;overflow: hidden;width: 100%;height: 0;padding-bottom: 100%;cursor: pointer; transition: all .3s;position: relative;}
-.feed_box .img_box>img{width: 100%; transform: scale(1); transition: all .3s;position: absolute;height: 100%;top: 0;left: 0;object-fit: cover;}
+.feed_box .img_box .img{height: 0;padding-bottom: 100%;}
+.feed_box .img_box .img img{width: 100%; transform: scale(1); transition: all .3s;position: absolute;height: 100%;top: 0;left: 0;object-fit: cover;}
 .feed_box .img_box .box{position: absolute;width: 100%;bottom: 0;background: rgba(0, 0, 0, 0.60);padding: 12px 5px; transition: all .3s;opacity: 0;}
 .feed_box .img_box .box p{padding-left: 28px;color: #fff;font-size: 14px;font-weight: 500;margin-right: 20px;position: relative;}
 .feed_box .img_box .box p:last-of-type{margin-right: 0;}
 .feed_box .img_box .box .txt_comment::after{position: absolute;content: '';width: 24px;height: 24px;left: 0;top: 50%;transform: translateY(-50%);background: url(../images/ic_comment.png) no-repeat center left;}
 .feed_box .img_box .box .txt_like::after{position: absolute;content: '';width: 24px;height: 24px;left: 0;top: 50%;transform: translateY(-50%);background: url(../images/ic_like.png) no-repeat center left;}
 .feed_box .img_box .box .txt_feed::after{position: absolute;content: '';width: 24px;height: 24px;left: 0;top: 50%;transform: translateY(-50%);background: url(../images/ic_feed.png) no-repeat center left;}
+.feed_box .img_box .pin_box{position: absolute;right: 20px;top: 20px;}
+.feed_box .img_box .pin_box label{width: 52px;height: 52px;border: 1px solid #ddd; background: #fff url(../images/ic_pin.svg) no-repeat center;border-radius: 16px;display: block;text-indent: -9999px;cursor: pointer;}
+.feed_box .img_box .pin_box input:checked + label{border: none;background: rgba(0,0,0,0.6) url(../images/ic_pin_on.svg) no-repeat center;}
+.feed_box .img_box .pin_box input:disabled + label{cursor: default;}
 .feed_box .txt_box{padding-top: 16px;position: relative;}
 .feed_box .txt_box .name {padding-bottom: 12px;}
 .feed_box .txt_box .name .img{width: 40px;height: 40px;border-radius: 50%;overflow: hidden;margin-right: 8px;}

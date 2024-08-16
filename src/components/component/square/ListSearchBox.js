@@ -77,6 +77,7 @@ const ListSearchBox = ({
                     <ul className="sort_ul flex">
                         <li className={sortTabOn == 1 ? 'on' : ''} onClick={()=>sortTabClickHandler(1)}>기본순</li>
                         <li className={sortTabOn == 2 ? 'on' : ''} onClick={()=>sortTabClickHandler(2)}>좋아요순</li>
+                        <li className={sortTabOn == 3 ? 'on' : ''} onClick={()=>sortTabClickHandler(3)}>조회수순</li>
                     </ul>
                     {userLogin && //로그인했을때만 노출
                         <div className="custom_check">
