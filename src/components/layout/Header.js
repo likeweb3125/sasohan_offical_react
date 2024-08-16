@@ -5,7 +5,7 @@ import Cookies from "js-cookie"
 import * as CF from "../../config/function";
 import { userInfo, userToken, userRank } from "../../store/userSlice";
 import ConfirmPop from '../popup/ConfirmPop';
-import logo_big_b from "../../images/logo_big_b.svg";
+import logo_color from "../../images/logo_color.svg";
 import none_profile from "../../images/none_profile2.jpg";
 
 
@@ -151,7 +151,7 @@ const Header = () => {
     return(<>
         <header id="header" className={`flex_center ${headerOn ? "on" : ""}`}>
             <div className="header_inner">
-                <h1 className={`logo${!mainPage ? " logo_b" : ""}`}>
+                <h1 className={`logo${!mainPage ? " logo_color" : ""}`}>
                     <Link to="/">사소한</Link>
                 </h1>
                 <nav className="gnb_wrap">
@@ -197,7 +197,7 @@ const Header = () => {
                 <div className='dim'></div>
                 <div className='menu_box'>
                     <div className='top_box flex_between'>
-                        <img src={logo_big_b} alt="로고" />
+                        <img src={logo_color} alt="로고" />
                         <button type='button' className='btn_close' onClick={()=>setMenuWrap(false)}>모바일메뉴닫기버튼</button>
                     </div>
                     <div className='scroll_wrap'>

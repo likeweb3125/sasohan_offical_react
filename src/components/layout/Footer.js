@@ -8,7 +8,7 @@ import { enum_api_uri } from "../../config/enum";
 import { confirmPop, applyPop } from "../../store/popupSlice";
 import { aboutVipScroll } from "../../store/commonSlice";
 import ConfirmPop from "../popup/ConfirmPop";
-import logo from "../../images/logo_foot.svg";
+import logo from "../../images/logo_color.svg";
 
 const Footer = () => {
     const dispatch = useDispatch();

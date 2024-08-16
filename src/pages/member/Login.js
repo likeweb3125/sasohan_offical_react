@@ -11,7 +11,7 @@ import { userToken, userInfo, userRank } from "../../store/userSlice";
 import { phoneLogin } from "../../store/commonSlice";
 import InputBox from "../../components/component/InputBox";
 import ConfirmPop from "../../components/popup/ConfirmPop";
-import logo_b from "../../images/logo_b.svg";
+import logo from "../../images/logo_color.svg";
 
 
 const Login = () => {
@@ -476,7 +476,7 @@ const Login = () => {
         <div className="login_wrap gray_wrap">
             <div className="cont">
                 <div className="form_cont">
-                    <div className="tx_c bp60 tab_none"><img src={logo_b} alt="로고" /></div>
+                    <div className="tx_c bp60 tab_none"><img src={logo} alt="로고" /></div>
                     <div className="shadow_box">
                         <ul className="tab_type1 flex">
                             <li className={tabOn === 1 ? 'on' : ''} onClick={()=>setTabOn(1)}>아이디 로그인</li>

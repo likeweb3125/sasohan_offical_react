@@ -606,6 +606,7 @@
 .apply_wrap{background: #F7F7FA;min-height: 100vh;padding-bottom: 120px;}
 .apply_wrap .top_banner{padding: 50px 0 320px;position: relative;text-align: center;background: url(../images/apply_bg.jpg) no-repeat center;background-size: cover;border-radius: 0 0 40px 40px;}
 .apply_wrap .top_banner .logo{padding-top: 70px;background: url(../images/ic_snow.svg)no-repeat center top;}
+.apply_wrap .top_banner .logo img{height: 60px;}
 .apply_wrap .top_banner p{padding-top: 16px;font-size: 36px;font-weight: 700;color: #fff;}
 .apply_wrap .cont_box{margin: -260px auto 0;box-shadow: 0px 0px 20px 0px #6840FD14;background: #fff;border-radius: 20px;max-width: 1200px;position: relative;padding: 60px 0;}
 .apply_wrap .cont_box .title{font-size: 36px;font-weight: 700;}

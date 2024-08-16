@@ -7,7 +7,7 @@ import * as CF from "../config/function";
 import { enum_api_uri } from "../config/enum";
 import { confirmPop } from "../store/popupSlice";
 import ConfirmPop from "../components/popup/ConfirmPop";
-import logo from "../images/logo_big.svg";
+import logo from "../images/logo.svg";
 import img_complete from "../images/apply_complete_img.svg";
 import { useLocation } from "react-router-dom";
 

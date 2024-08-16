@@ -9,7 +9,7 @@ import { confirmPop } from "../../store/popupSlice";
 import { userInfo, userToken, userRank } from "../../store/userSlice";
 import InputBox from "../../components/component/InputBox";
 import ConfirmPop from "../../components/popup/ConfirmPop";
-import logo_b from "../../images/logo_b.svg";
+import logo from "../../images/logo_color.svg";
 
 
 const UserDelt = () => {
@@ -187,7 +187,7 @@ const UserDelt = () => {
         <div className="login_wrap gray_wrap">
             <div className="cont">
                 <div className="form_cont">
-                    <div className="tx_c bp60 tab_none"><img src={logo_b} alt="로고" /></div>
+                    <div className="tx_c bp60 tab_none"><img src={logo} alt="로고" /></div>
                     <div className="shadow_box">
                         <div className="inner">
                             <ul className="form_ul">
