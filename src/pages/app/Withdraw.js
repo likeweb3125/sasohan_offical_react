@@ -158,8 +158,10 @@ const Withdraw = () => {
 
     //회원탈퇴 완료 팝업 확인버튼클릭시 마이페이지로 이동
     const withdrawOkHandler = () => {
+        alert(1);
         //앱에 회원탈퇴완료 보내기
         if(window.flutterWithdraw){
+            alert(2);
             const data = {};
             window.flutterWithdraw.postMessage(JSON.stringify(data));
         }
