@@ -5,7 +5,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
-import { appPointPop, confirmPop } from "../../store/popupSlice";
+import { appPointPop, confirmPop, loadingPop } from "../../store/popupSlice";
 import { payCheckData } from "../../store/commonSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 
@@ -90,11 +90,14 @@ const Point = () => {
     //맨처음 token이 있고 getInfo,getPoint 함수들이 한번도 실행안됐을때 실행하기
     useEffect(() => {
         if (token && !hasRunOnce) {
+            dispatch(loadingPop(false));
             setTimeout(()=>{
                 getInfo();
                 getPoint();
                 setHasRunOnce(true);
             },500);
+        }else{
+            dispatch(loadingPop(true));
         }
     }, [token]);
     
