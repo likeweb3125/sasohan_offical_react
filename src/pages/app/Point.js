@@ -39,6 +39,14 @@ const Point = () => {
     },[popup.confirmPop]);
 
 
+    useEffect(()=>{
+        //앱에 토큰값 요청
+        window.flutter_inappwebview.callHandler('requestToken').then(function(token) {
+            console.log("Received token from app: " + token);
+        });
+    },[]);
+
+
     //회원정보 가져오기
     const getInfo = () => {
         axios.get(`${m_info}`,
