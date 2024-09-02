@@ -39,13 +39,23 @@ const Point = () => {
     },[popup.confirmPop]);
 
 
-    useEffect(()=>{
-        //앱에 토큰값 요청
-        window.flutter_inappwebview.callHandler('requestToken').then(function(token) {
-            console.log("Received token from app: " + token);
-        });
-    },[]);
-
+    //앱에 토큰 요청
+    useEffect(() => {
+        const checkAndRequestToken = () => {
+            if (window.flutter_inappwebview && window.flutter_inappwebview.callHandler) {
+                window.flutter_inappwebview.callHandler('requestToken').then(function(token) {
+                    console.log("Received token from app: " + token);
+                }).catch(function(error) {
+                    console.error("Error while calling handler:", error);
+                });
+            } else {
+                console.error("flutter_inappwebview or callHandler is not defined.");
+            }
+        };
+    
+        setTimeout(checkAndRequestToken, 1000); // 1초 후에 토큰 요청 시도
+    }, []);
+    
 
     //회원정보 가져오기
     const getInfo = () => {
