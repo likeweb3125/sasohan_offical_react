@@ -107,14 +107,7 @@ const Point = () => {
 
     //맨처음 token이 있고 getInfo,getPoint 함수들이 한번도 실행안됐을때 실행하기
     useEffect(() => {
-        if(token){
-            dispatch(loadingPop(false));
-        }else{
-            dispatch(loadingPop(true));
-        }
-
         if (token && !hasRunOnce) {
-            dispatch(loadingPop(false));
             setTimeout(()=>{
                 getInfo();
                 getPoint();
