@@ -94,7 +94,7 @@ const Point = () => {
         }else{
             dispatch(loadingPop(true));
         }
-        
+
         if (token && !hasRunOnce) {
             dispatch(loadingPop(false));
             setTimeout(()=>{
@@ -274,6 +274,7 @@ const Point = () => {
 
     return(<>
         <div className="point_wrap">
+            <p>토큰:{token}</p>
             <div className="top_box">
                 <div className="box">
                     <div className="txt flex_between flex_wrap">
