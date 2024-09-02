@@ -89,6 +89,12 @@ const Point = () => {
 
     //맨처음 token이 있고 getInfo,getPoint 함수들이 한번도 실행안됐을때 실행하기
     useEffect(() => {
+        if(token){
+            dispatch(loadingPop(false));
+        }else{
+            dispatch(loadingPop(true));
+        }
+        
         if (token && !hasRunOnce) {
             dispatch(loadingPop(false));
             setTimeout(()=>{
@@ -96,8 +102,6 @@ const Point = () => {
                 getPoint();
                 setHasRunOnce(true);
             },500);
-        }else{
-            dispatch(loadingPop(true));
         }
     }, [token]);
     
@@ -271,7 +275,6 @@ const Point = () => {
     return(<>
         <div className="point_wrap">
             <div className="top_box">
-                <p>토큰:{token}</p>
                 <div className="box">
                     <div className="txt flex_between flex_wrap">
                         <p>잔여포인트</p>

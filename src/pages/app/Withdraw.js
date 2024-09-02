@@ -4,7 +4,7 @@ import axios from "axios";
 import * as CF from '../../config/function';
 import { enum_api_uri } from "../../config/enum";
 import Cookies from "js-cookie";
-import { confirmPop } from "../../store/popupSlice";
+import { confirmPop, loadingPop } from "../../store/popupSlice";
 import { profileData, profileDataChange } from "../../store/userSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 
@@ -37,6 +37,15 @@ const Withdraw = () => {
             setWithdrawOkConfirm(false);
         }
     },[popup.confirmPop]);
+
+
+    useEffect(()=>{
+        if(token){
+            dispatch(loadingPop(false));
+        }else{
+            dispatch(loadingPop(true));
+        }
+    },[token]);
 
 
 
