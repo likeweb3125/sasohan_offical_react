@@ -268,6 +268,7 @@ const Point = () => {
     return(<>
         <div className="point_wrap">
             <div className="top_box">
+                <p>토큰:{token}</p>
                 <div className="box">
                     <div className="txt flex_between flex_wrap">
                         <p>잔여포인트</p>
