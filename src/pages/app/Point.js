@@ -27,7 +27,6 @@ const Point = () => {
     const [userInfo, setUserInfo] = useState({});
     const [var1, setVar1] = useState("");
     const [checkStart, setCheckStart] = useState(false);
-    // const token = Cookies.get("token");
     const [token, setToken] = useState('');
     const [hasRunOnce, setHasRunOnce] = useState(false);
 
@@ -42,16 +41,34 @@ const Point = () => {
 
     //앱에 토큰 요청
     useEffect(() => {
+        dispatch(loadingPop(true));
+
         const checkAndRequestToken = () => {
             if (window.flutter_inappwebview && window.flutter_inappwebview.callHandler) {
+                dispatch(loadingPop(false));
                 window.flutter_inappwebview.callHandler('requestToken').then(function(token) {
                     console.log("Received token from app: " + token);
                     setToken(token);
                 }).catch(function(error) {
                     console.error("Error while calling handler:", error);
+                    dispatch(confirmPop({
+                        confirmPop:true,
+                        confirmPopTit:'알림',
+                        confirmPopTxt:'새로고침 버튼을 눌러주세요.',
+                        confirmPopBtn:1,
+                    }));
+                    setConfirm(true);
                 });
             } else {
+                dispatch(loadingPop(false));
                 console.error("flutter_inappwebview or callHandler is not defined.");
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'새로고침 버튼을 눌러주세요.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
             }
         };
     
@@ -287,7 +304,7 @@ const Point = () => {
 
     return(<>
         <div className="point_wrap">
-            <p>토큰:{token}</p>
+            {/* <p>토큰:{token}</p> */}
             <div className="top_box">
                 <div className="box">
                     <div className="txt flex_between flex_wrap">
