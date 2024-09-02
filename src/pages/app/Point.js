@@ -27,7 +27,8 @@ const Point = () => {
     const [userInfo, setUserInfo] = useState({});
     const [var1, setVar1] = useState("");
     const [checkStart, setCheckStart] = useState(false);
-    const token = Cookies.get("token");
+    // const token = Cookies.get("token");
+    const [token, setToken] = useState('');
     const [hasRunOnce, setHasRunOnce] = useState(false);
 
 
@@ -45,6 +46,7 @@ const Point = () => {
             if (window.flutter_inappwebview && window.flutter_inappwebview.callHandler) {
                 window.flutter_inappwebview.callHandler('requestToken').then(function(token) {
                     console.log("Received token from app: " + token);
+                    setToken(token);
                 }).catch(function(error) {
                     console.error("Error while calling handler:", error);
                 });
