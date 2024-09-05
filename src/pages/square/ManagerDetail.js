@@ -7,7 +7,7 @@ import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
 import { confirmPop, feedPop, feedAddPop, loadingPop, feedProfilePop } from "../../store/popupSlice";
 import { feedRefresh } from "../../store/commonSlice";
-import { detailPageBack } from "../../store/etcSlice"
+import { detailPageBack, listPageData } from "../../store/etcSlice"
 import history from "../../config/history";
 import ListTopTitleBox from "../../components/component/square/ListTopTitleBox";
 import GuestBookBox from "../../components/component/square/GuestBookBox";
@@ -535,6 +535,24 @@ const ManagerDetail = () => {
             setConfirm(true);
         });
     };
+
+
+    //제목클릭시 메인페이지 현재 매니저타입으로 리스트 불러오기
+    const onTitClickHandler = () => {
+        dispatch(detailPageBack(true));
+        let pageData = {
+            page: 1,
+            type: profile.manager_type,
+            sort: 1,
+            favorite: false,
+            search: "",
+        };
+        dispatch(listPageData(pageData));
+
+        setTimeout(()=>{
+            navigate('/');
+        },200);
+    };
     
 
     
@@ -542,7 +560,7 @@ const ManagerDetail = () => {
         <div className="gray_wrap">
             <div className="cont4">
                 <div className="manager_detail_cont flex_between flex_wrap flex_top">
-                    <ListTopTitleBox tit='사소한 매니저' />
+                    <ListTopTitleBox tit={profile.manager_type === 'V' ? '1% 매니저' : profile.manager_type_txt} onTitClickHandler={onTitClickHandler}/>
                     <div className="profile_box">
                         <div className="img_box">
                             <img src={profile.photo ? profile.photo : none_profile} alt="프로필사진" />

@@ -144,7 +144,12 @@ const Main = () => {
     useEffect(()=>{
         const fetchData = async () => {
             if(etc.detailPageBack){
+                dispatch(detailPageBack(false));
+                setPageBack(true);
+
                 if(etc.detailPageBackFeed){
+                    dispatch(detailPageBackFeed(false));
+
                     for(let i = 1; i <= etc.listPageData.page; i++) {
                         const isLast = i === etc.listPageData.page;
                         await getAllFeed(i, true, isLast);
@@ -155,15 +160,19 @@ const Main = () => {
                         await getManagerList(i, true, isLast);
                     }
                 }
-            }else{
-                for(let i = 1; i <= etc.listPageData.page; i++) {
-                    await getAllFeed(i, true);
-                }
             }
         };
 
         fetchData();
     },[etc.detailPageBack, etc.detailPageBackFeed]);
+
+
+    //맨처음 피드리스트 가져오기
+    useEffect(()=>{
+        if(!etc.detailPageBack){
+            getAllFeed();
+        }
+    },[]);
 
 
     //매니저 리스트 가져오기
@@ -239,9 +248,9 @@ const Main = () => {
                     setLikeCheck(etc.listPageData.favorite);
 
                     setScrollMove(true);
-                    dispatch(detailPageBack(false));
+                    // dispatch(detailPageBack(false));
 
-                    setPageBack(true);
+                    // setPageBack(true);
                 }
             }
         } catch (error) {
@@ -327,10 +336,10 @@ const Main = () => {
                     setLikeCheck(etc.listPageData.favorite);
 
                     setScrollMove(true);
-                    dispatch(detailPageBack(false));
-                    dispatch(detailPageBackFeed(false));
+                    // dispatch(detailPageBack(false));
+                    // dispatch(detailPageBackFeed(false));
 
-                    setPageBack(true);
+                    // setPageBack(true);
                 }
             }
         } catch (error) {

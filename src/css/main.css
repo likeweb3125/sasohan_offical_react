@@ -163,7 +163,7 @@ html,.body{height: auto;scroll-behavior: smooth;}
 /************************* header *****************************/
 #header {position: fixed; left: 0; top: 20px; width: 100%; height: 60px; z-index: 200;}
 #header .header_inner {position: relative; width: calc(100% - 80px); height: 100%; backdrop-filter: blur(20px); background: rgba(255, 255, 255, 0.16);border-radius: 16px;}
-#header .logo {position: absolute; left: 40px; top: 50%; background: url('../images/logo.svg') no-repeat 0% 50%; width: 177px; height: 46px; transform: translateY(-50%);}
+#header .logo {position: absolute; left: 40px; top: 50%; background: url('../images/logo.svg') no-repeat 0% 50%; width: 177px; height: 46px; transform: translateY(-50%);background-size: contain;}
 #header .logo.logo_color{background: url('../images/logo_color.svg') no-repeat 0% 50%;}
 #header .logo a {display: block; width: 100%; height: 100%; text-indent: -9999px;}
 #header .gnb_wrap {height: 100%;}
