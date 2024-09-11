@@ -27,7 +27,7 @@ const Point = () => {
     const [userInfo, setUserInfo] = useState({});
     const [var1, setVar1] = useState("");
     const [checkStart, setCheckStart] = useState(false);
-    const [token, setToken] = useState('');
+    const [token, setToken] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJsaWtldGVzdCIsInVzZXJMZXZlbCI6MSwiaWF0IjoxNzI2MDIwNjE1LCJleHAiOjE3MjYwNjM4MTV9.H3H2ENoBTzCNEdpC8NnUc0RTW1kiaBGk04Oni9YW4ls');
     const [hasRunOnce, setHasRunOnce] = useState(false);
 
 
@@ -41,7 +41,7 @@ const Point = () => {
 
     //앱에 토큰 요청
     useEffect(() => {
-        dispatch(loadingPop(true));
+        // dispatch(loadingPop(true));
 
         const checkAndRequestToken = () => {
             if (window.flutter_inappwebview && window.flutter_inappwebview.callHandler) {
@@ -72,7 +72,7 @@ const Point = () => {
             }
         };
     
-        setTimeout(checkAndRequestToken, 1000); // 1초 후에 토큰 요청 시도
+        // setTimeout(checkAndRequestToken, 1000); // 1초 후에 토큰 요청 시도
     }, []);
     
 
