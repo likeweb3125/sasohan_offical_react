@@ -27,7 +27,7 @@ const Point = () => {
     const [userInfo, setUserInfo] = useState({});
     const [var1, setVar1] = useState("");
     const [checkStart, setCheckStart] = useState(false);
-    const [token, setToken] = useState('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJsaWtldGVzdCIsInVzZXJMZXZlbCI6MSwiaWF0IjoxNzI2MDIwNjE1LCJleHAiOjE3MjYwNjM4MTV9.H3H2ENoBTzCNEdpC8NnUc0RTW1kiaBGk04Oni9YW4ls');
+    const [token, setToken] = useState('');
     const [hasRunOnce, setHasRunOnce] = useState(false);
 
 
@@ -39,41 +39,41 @@ const Point = () => {
     },[popup.confirmPop]);
 
 
-    // //앱에 토큰 요청
-    // useEffect(() => {
-    //     // dispatch(loadingPop(true));
+    //앱에 토큰 요청
+    useEffect(() => {
+        dispatch(loadingPop(true));
 
-    //     const checkAndRequestToken = () => {
-    //         if (window.flutter_inappwebview && window.flutter_inappwebview.callHandler) {
-    //             dispatch(loadingPop(false));
-    //             window.flutter_inappwebview.callHandler('requestToken').then(function(token) {
-    //                 console.log("Received token from app: " + token);
-    //                 setToken(token);
-    //             }).catch(function(error) {
-    //                 console.error("Error while calling handler:", error);
-    //                 dispatch(confirmPop({
-    //                     confirmPop:true,
-    //                     confirmPopTit:'알림',
-    //                     confirmPopTxt:'새로고침 버튼을 눌러주세요.',
-    //                     confirmPopBtn:1,
-    //                 }));
-    //                 setConfirm(true);
-    //             });
-    //         } else {
-    //             dispatch(loadingPop(false));
-    //             console.error("flutter_inappwebview or callHandler is not defined.");
-    //             dispatch(confirmPop({
-    //                 confirmPop:true,
-    //                 confirmPopTit:'알림',
-    //                 confirmPopTxt:'새로고침 버튼을 눌러주세요.',
-    //                 confirmPopBtn:1,
-    //             }));
-    //             setConfirm(true);
-    //         }
-    //     };
+        const checkAndRequestToken = () => {
+            if (window.flutter_inappwebview && window.flutter_inappwebview.callHandler) {
+                dispatch(loadingPop(false));
+                window.flutter_inappwebview.callHandler('requestToken').then(function(token) {
+                    console.log("Received token from app: " + token);
+                    setToken(token);
+                }).catch(function(error) {
+                    console.error("Error while calling handler:", error);
+                    dispatch(confirmPop({
+                        confirmPop:true,
+                        confirmPopTit:'알림',
+                        confirmPopTxt:'새로고침 버튼을 눌러주세요.',
+                        confirmPopBtn:1,
+                    }));
+                    setConfirm(true);
+                });
+            } else {
+                dispatch(loadingPop(false));
+                console.error("flutter_inappwebview or callHandler is not defined.");
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'새로고침 버튼을 눌러주세요.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
+            }
+        };
     
-    //     // setTimeout(checkAndRequestToken, 1000); // 1초 후에 토큰 요청 시도
-    // }, []);
+        setTimeout(checkAndRequestToken, 1000); // 1초 후에 토큰 요청 시도
+    }, []);
     
 
     //회원정보 가져오기
@@ -194,15 +194,15 @@ const Point = () => {
                 let phone = userInfo.phone.replace(/\D/g, '');
 
                 //앱에 결제체크데이터값 보내기
-                // const checkData = Object.assign({
-                //     pay: pay,
-                //     price: price,
-                //     point: point,
-                // }, body);
-                // window.flutter_inappwebview.callHandler(
-                //     "flutterPointChargeRequest",
-                //     JSON.stringify(checkData)
-                // );
+                const checkData = Object.assign({
+                    pay: pay,
+                    price: price,
+                    point: point,
+                }, body);
+                window.flutter_inappwebview.callHandler(
+                    "flutterPointChargeRequest",
+                    JSON.stringify(checkData)
+                );
 
                 //페이앱결제창 띄우기
                 if(window.PayApp) {
