@@ -175,6 +175,11 @@ const Main = () => {
     },[]);
 
 
+    useEffect(()=>{
+        console.log(etc.listPageData);
+    },[etc.listPageData]);
+
+
     //매니저 리스트 가져오기
     const getManagerList = async (page, more, isLast) => {
         dispatch(loadingPop(true));

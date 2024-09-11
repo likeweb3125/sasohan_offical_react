@@ -2,11 +2,9 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import axios from "axios";
-import Cookies from "js-cookie";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
-import { appPointPop, confirmPop, loadingPop } from "../../store/popupSlice";
-import { payCheckData } from "../../store/commonSlice";
+import { confirmPop, loadingPop } from "../../store/popupSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 
 
@@ -47,10 +45,8 @@ const Point = () => {
             if (window.flutter_inappwebview && window.flutter_inappwebview.callHandler) {
                 dispatch(loadingPop(false));
                 window.flutter_inappwebview.callHandler('requestToken').then(function(token) {
-                    console.log("Received token from app: " + token);
                     setToken(token);
                 }).catch(function(error) {
-                    console.error("Error while calling handler:", error);
                     dispatch(confirmPop({
                         confirmPop:true,
                         confirmPopTit:'알림',
@@ -61,7 +57,6 @@ const Point = () => {
                 });
             } else {
                 dispatch(loadingPop(false));
-                console.error("flutter_inappwebview or callHandler is not defined.");
                 dispatch(confirmPop({
                     confirmPop:true,
                     confirmPopTit:'알림',
@@ -194,14 +189,14 @@ const Point = () => {
                 let phone = userInfo.phone.replace(/\D/g, '');
 
                 //앱에 결제체크데이터값 보내기
-                const checkData = Object.assign({
+                const pointCheckData = Object.assign({
                     pay: pay,
                     price: price,
                     point: point,
                 }, body);
                 window.flutter_inappwebview.callHandler(
-                    "flutterPointChargeRequest",
-                    JSON.stringify(checkData)
+                    "postPointCheckData",
+                    JSON.stringify(pointCheckData)
                 );
 
                 //페이앱결제창 띄우기

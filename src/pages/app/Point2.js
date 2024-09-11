@@ -2,9 +2,8 @@ import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { enum_api_uri } from "../../config/enum";
-import { appPointPop } from "../../store/popupSlice";
+import { appPointPop, loadingPop, confirmPop } from "../../store/popupSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 import pay_check_img from "../../images/app/pay_check_img.svg";
 
@@ -14,8 +13,8 @@ const Point2 = () => {
     const popup = useSelector((state)=>state.popup);
     const m_pay_check = enum_api_uri.m_pay_check;
     const [confirm, setConfirm] = useState(false);
-    const token = Cookies.get("token");
-    const checkDataStr = Cookies.get("checkData");
+    const [token, setToken] = useState('');
+    const [pointData, setPointData] = useState({});
     const [complete, setComplete] = useState(false);
 
 
@@ -27,12 +26,60 @@ const Point2 = () => {
     },[popup.confirmPop]);
 
 
+    //앱에 토큰 && 결제데이터 요청
+    useEffect(() => {
+        dispatch(loadingPop(true));
+    
+        const checkAndRequestToken = () => {
+            if (window.flutter_inappwebview && window.flutter_inappwebview.callHandler) {
+                dispatch(loadingPop(false));
+                // 토큰 요청
+                window.flutter_inappwebview.callHandler('requestToken').then(function(token) {
+                    setToken(token);
+    
+                    // 토큰 요청 성공 후 결제데이터 요청
+                    window.flutter_inappwebview.callHandler('requestPointCheckData').then(function(pointData) {
+                        setPointData(pointData);
+                    }).catch(function(error) {
+                        dispatch(confirmPop({
+                            confirmPop: true,
+                            confirmPopTit: '알림',
+                            confirmPopTxt: '새로고침 버튼을 눌러주세요.',
+                            confirmPopBtn: 1,
+                        }));
+                        setConfirm(true);
+                    });
+                }).catch(function(error) {
+                    // 토큰 요청 실패 시
+                    dispatch(confirmPop({
+                        confirmPop: true,
+                        confirmPopTit: '알림',
+                        confirmPopTxt: '새로고침 버튼을 눌러주세요.',
+                        confirmPopBtn: 1,
+                    }));
+                    setConfirm(true);
+                });
+            } else {
+                dispatch(loadingPop(false));
+                dispatch(confirmPop({
+                    confirmPop: true,
+                    confirmPopTit: '알림',
+                    confirmPopTxt: '새로고침 버튼을 눌러주세요.',
+                    confirmPopBtn: 1,
+                }));
+                setConfirm(true);
+            }
+        };
+    
+        setTimeout(checkAndRequestToken, 1000); // 1초 후에 토큰 && 결제데이터 요청 시도
+    }, []);
+    
+
+
     //결제처리 체크하기
     const payCheckHandler = () => {
-        if(checkDataStr){
-            const checkData = JSON.parse(checkDataStr);
-
-            axios.get(`${m_pay_check.replace(":var1",checkData.var1)}`,
+        if(Object.keys(pointData).length > 0){
+            axios.get(`${m_pay_check.replace(":var1",pointData.var1)}`,
                 {headers:{Authorization: `Bearer ${token}`}}
             )
             .then((res)=>{
@@ -42,17 +89,17 @@ const Point2 = () => {
                         // 포인트충전완료 팝업 띄우기
                         let payType;
 
-                        if(checkData.pay == "card"){
+                        if(pointData.pay == "card"){
                             payType = "신용카드";
-                        }else if(checkData.pay == "phone"){
+                        }else if(pointData.pay == "phone"){
                             payType = "휴대폰결제";
                         }
 
                         const data = {
                             data: moment().format("YYYY.MM.DD"),
                             payType: payType,
-                            price: checkData.price,
-                            point: checkData.point
+                            price: pointData.price,
+                            point: pointData.point
                         };
                         dispatch(appPointPop({appPointPop:true,appPointPopData:data}));
 
