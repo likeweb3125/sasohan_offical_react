@@ -44,8 +44,8 @@ const Point2 = () => {
                         var jsonData = JSON.parse(data);
                         addLog(`jsonData.token: ${jsonData.token}`);  // 로그 추가
                         addLog('Received data from app: ' + JSON.stringify(data));  // 로그 추가
-                        setPointData(data);
-                        setToken(data.token);
+                        setPointData(jsonData);
+                        setToken(jsonData.token);
                     })
                     .catch(function(error) {
                         dispatch(confirmPop({
