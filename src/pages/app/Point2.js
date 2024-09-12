@@ -34,19 +34,21 @@ const Point2 = () => {
         const checkAndRequestToken = () => {
             if (window.flutter_inappwebview && window.flutter_inappwebview.callHandler) {
                 dispatch(loadingPop(false));
-                window.flutter_inappwebview.callHandler('requestPointCheckData').then(function(result) {
-                    const data = JSON.stringify(result);
-                    setPointData(data);
-                    setToken(data.token);
-                }).catch(function(error) {
-                    dispatch(confirmPop({
-                        confirmPop: true,
-                        confirmPopTit: '알림',
-                        confirmPopTxt: '새로고침 버튼을 눌러주세요.',
-                        confirmPopBtn: 1,
-                    }));
-                    setConfirm(true);
-                });
+                window.flutter_inappwebview.callHandler('requestPointCheckData')
+                    .then(function(data) {
+                        console.log('Received data from app:', data); 
+                        setPointData(data);
+                        setToken(data.token);
+                    })
+                    .catch(function(error) {
+                        dispatch(confirmPop({
+                            confirmPop: true,
+                            confirmPopTit: '알림',
+                            confirmPopTxt: '새로고침 버튼을 눌러주세요.',
+                            confirmPopBtn: 1,
+                        }));
+                        setConfirm(true);
+                    });
             } else {
                 dispatch(loadingPop(false));
                 dispatch(confirmPop({
@@ -66,59 +68,56 @@ const Point2 = () => {
 
     //결제처리 체크하기
     const payCheckHandler = () => {
-        if(token){
-            axios.get(`${m_pay_check.replace(":var1",pointData.var1)}`,
-                {headers:{Authorization: `Bearer ${token}`}}
-            )
-            .then((res)=>{
-                if(res.status === 200){
-                    if(res.data.result){
+        axios.get(`${m_pay_check.replace(":var1",pointData.var1)}`,
+            {headers:{Authorization: `Bearer ${token}`}}
+        )
+        .then((res)=>{
+            if(res.status === 200 && res.data.result){
+                // 포인트충전완료 팝업 띄우기
+                let payType;
 
-                        // 포인트충전완료 팝업 띄우기
-                        let payType;
-
-                        if(pointData.pay == "card"){
-                            payType = "신용카드";
-                        }else if(pointData.pay == "phone"){
-                            payType = "휴대폰결제";
-                        }
-
-                        const data = {
-                            data: moment().format("YYYY.MM.DD"),
-                            payType: payType,
-                            price: pointData.price,
-                            point: pointData.point
-                        };
-                        dispatch(appPointPop({appPointPop:true,appPointPopData:data}));
-
-                        setComplete(true);
-
-                        // 결제처리가 완료되면 타이머 중단
-                        if(timerRef.current) {
-                            clearInterval(timerRef.current);
-                        }
-                    }
+                if(pointData.pay == "card"){
+                    payType = "신용카드";
+                }else if(pointData.pay == "phone"){
+                    payType = "휴대폰결제";
                 }
-            })
-            .catch((error) => {
 
-            });
-        }
+                const data = {
+                    data: moment().format("YYYY.MM.DD"),
+                    payType: payType,
+                    price: pointData.price,
+                    point: pointData.point
+                };
+                dispatch(appPointPop({appPointPop:true,appPointPopData:data}));
+
+                setComplete(true);
+
+                // 결제처리가 완료되면 타이머 중단
+                if(timerRef.current) {
+                    clearInterval(timerRef.current);
+                }
+            }
+        })
+        .catch((error) => {
+            console.error('Error in payCheckHandler:', error);
+        });
     };
 
 
     //0.3초마다 결제처리 체크하기
     useEffect(()=>{
-        timerRef.current = setInterval(() => {
-            payCheckHandler();
-        }, 300);
+        if(token){
+            timerRef.current = setInterval(() => {
+                payCheckHandler();
+            }, 300);
+        }
 
         return () => {
             if(timerRef.current) {
                 clearInterval(timerRef.current);
             }
         };
-    },[]);
+    },[token]);
 
 
     //결제완료후 확인버튼 클릭시
