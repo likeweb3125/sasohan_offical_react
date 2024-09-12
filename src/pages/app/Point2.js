@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import axios from "axios";
@@ -16,6 +16,7 @@ const Point2 = () => {
     const [token, setToken] = useState('');
     const [pointData, setPointData] = useState({});
     const [complete, setComplete] = useState(false);
+    const timerRef = useRef(null);
 
 
     // Confirm팝업 닫힐때
@@ -57,13 +58,14 @@ const Point2 = () => {
             }
         };
     
-        setTimeout(checkAndRequestToken, 1000); // 1초 후에 결제데이터 요청 시도
+       setTimeout(checkAndRequestToken, 1000); // 1초 후에 결제데이터 요청 시도
     }, []);
+    
     
 
     //결제처리 체크하기
     const payCheckHandler = () => {
-        if(Object.keys(pointData).length > 0){
+        if(token){
             axios.get(`${m_pay_check.replace(":var1",pointData.var1)}`,
                 {headers:{Authorization: `Bearer ${token}`}}
             )
@@ -89,6 +91,11 @@ const Point2 = () => {
                         dispatch(appPointPop({appPointPop:true,appPointPopData:data}));
 
                         setComplete(true);
+
+                        // 결제처리가 완료되면 타이머 중단
+                        if(timerRef.current) {
+                            clearInterval(timerRef.current);
+                        }
                     }
                 }
             })
@@ -101,12 +108,14 @@ const Point2 = () => {
 
     //0.3초마다 결제처리 체크하기
     useEffect(()=>{
-        const timer = setInterval(() => {
+        timerRef.current = setInterval(() => {
             payCheckHandler();
         }, 300);
 
         return () => {
-            clearInterval(timer);
+            if(timerRef.current) {
+                clearInterval(timerRef.current);
+            }
         };
     },[]);
 
@@ -120,6 +129,9 @@ const Point2 = () => {
 
     return(<>
         <div className="point_wrap2 flex_center">
+            <button type="button" className="app_btn" onClick={()=>{
+                window.location.reload();
+            }}>새로고침</button>
             <div className="box tx_c">
                 <img src={pay_check_img} alt="결제아이콘" />
                 <p>결제가 {complete ? '완료되었습니다.' : '진행중 입니다.'}</p>
