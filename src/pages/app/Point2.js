@@ -41,6 +41,8 @@ const Point2 = () => {
                 dispatch(loadingPop(false));
                 window.flutter_inappwebview.callHandler('requestPointCheckData')
                     .then(function(data) {
+                        var jsonData = JSON.parse(data);
+                        addLog(`jsonData.token: ${jsonData.token}`);  // 로그 추가
                         addLog('Received data from app: ' + JSON.stringify(data));  // 로그 추가
                         setPointData(data);
                         setToken(data.token);
