@@ -115,9 +115,6 @@ const Point2 = () => {
 
     return(<>
         <div className="point_wrap2 flex_center">
-            <button type="button" className="app_btn" onClick={()=>{
-                window.location.reload();
-            }}>새로고침</button>
             <div className="box tx_c">
                 <img src={pay_check_img} alt="결제아이콘" />
                 <p>결제가 {complete ? '완료되었습니다.' : '진행중 입니다.'}</p>
