@@ -26,31 +26,17 @@ const Point2 = () => {
     },[popup.confirmPop]);
 
 
-    //앱에 토큰 && 결제데이터 요청
+    //앱에 결제데이터 요청
     useEffect(() => {
         dispatch(loadingPop(true));
-    
+
         const checkAndRequestToken = () => {
             if (window.flutter_inappwebview && window.flutter_inappwebview.callHandler) {
                 dispatch(loadingPop(false));
-                // 토큰 요청
-                window.flutter_inappwebview.callHandler('requestToken').then(function(token) {
-                    setToken(token);
-    
-                    // 토큰 요청 성공 후 결제데이터 요청
-                    window.flutter_inappwebview.callHandler('requestPointCheckData').then(function(pointData) {
-                        setPointData(pointData);
-                    }).catch(function(error) {
-                        dispatch(confirmPop({
-                            confirmPop: true,
-                            confirmPopTit: '알림',
-                            confirmPopTxt: '새로고침 버튼을 눌러주세요.',
-                            confirmPopBtn: 1,
-                        }));
-                        setConfirm(true);
-                    });
+                window.flutter_inappwebview.callHandler('requestPointCheckData').then(function(pointData) {
+                    setPointData(pointData);
+                    setToken(pointData.token);
                 }).catch(function(error) {
-                    // 토큰 요청 실패 시
                     dispatch(confirmPop({
                         confirmPop: true,
                         confirmPopTit: '알림',
@@ -62,19 +48,18 @@ const Point2 = () => {
             } else {
                 dispatch(loadingPop(false));
                 dispatch(confirmPop({
-                    confirmPop: true,
-                    confirmPopTit: '알림',
-                    confirmPopTxt: '새로고침 버튼을 눌러주세요.',
-                    confirmPopBtn: 1,
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'새로고침 버튼을 눌러주세요.',
+                    confirmPopBtn:1,
                 }));
                 setConfirm(true);
             }
         };
     
-        setTimeout(checkAndRequestToken, 1000); // 1초 후에 토큰 && 결제데이터 요청 시도
+        setTimeout(checkAndRequestToken, 1000); // 1초 후에 결제데이터 요청 시도
     }, []);
     
-
 
     //결제처리 체크하기
     const payCheckHandler = () => {
