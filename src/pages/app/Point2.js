@@ -17,6 +17,11 @@ const Point2 = () => {
     const [pointData, setPointData] = useState({});
     const [complete, setComplete] = useState(false);
     const timerRef = useRef(null);
+    const [logMessages, setLogMessages] = useState([]);  // log 메시지 배열
+
+    const addLog = (message) => {
+        setLogMessages((prevLogs) => [...prevLogs, message]);  // 로그 추가
+    };
 
 
     // Confirm팝업 닫힐때
@@ -36,7 +41,7 @@ const Point2 = () => {
                 dispatch(loadingPop(false));
                 window.flutter_inappwebview.callHandler('requestPointCheckData')
                     .then(function(data) {
-                        console.log('Received data from app:', data); 
+                        addLog('Received data from app: ' + JSON.stringify(data));  // 로그 추가
                         setPointData(data);
                         setToken(data.token);
                     })
@@ -68,6 +73,7 @@ const Point2 = () => {
 
     //결제처리 체크하기
     const payCheckHandler = () => {
+        addLog('payCheckHandler triggered');  // 로그 추가
         axios.get(`${m_pay_check.replace(":var1",pointData.var1)}`,
             {headers:{Authorization: `Bearer ${token}`}}
         )
@@ -99,7 +105,7 @@ const Point2 = () => {
             }
         })
         .catch((error) => {
-            console.error('Error in payCheckHandler:', error);
+            addLog('Error in payCheckHandler: ' + error.message);  // 에러 로그 추가
         });
     };
 
@@ -137,6 +143,13 @@ const Point2 = () => {
                 <p>결제가 {complete ? '완료되었습니다.' : '진행중 입니다.'}</p>
                 {complete && <button type="button" className="app_btn" onClick={payOkBtnClickHandler}>확인</button>}
             </div>
+            
+        </div>
+        <h1>로그 출력</h1>
+        <div className="log-output">
+            {logMessages.map((log, index) => (
+                <p key={index}>{log}</p>  // 로그 메시지를 화면에 출력
+            ))}
         </div>
 
         {/* confirm팝업 */}
