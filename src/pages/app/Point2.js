@@ -34,9 +34,10 @@ const Point2 = () => {
         const checkAndRequestToken = () => {
             if (window.flutter_inappwebview && window.flutter_inappwebview.callHandler) {
                 dispatch(loadingPop(false));
-                window.flutter_inappwebview.callHandler('requestPointCheckData').then(function(pointData) {
-                    setPointData(pointData);
-                    setToken(pointData.token);
+                window.flutter_inappwebview.callHandler('requestPointCheckData').then(function(result) {
+                    const data = JSON.stringify(result);
+                    setPointData(data);
+                    setToken(data.token);
                 }).catch(function(error) {
                     dispatch(confirmPop({
                         confirmPop: true,
