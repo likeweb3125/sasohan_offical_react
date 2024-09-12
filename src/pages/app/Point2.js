@@ -16,12 +16,6 @@ const Point2 = () => {
     const [token, setToken] = useState('');
     const [pointData, setPointData] = useState({});
     const [complete, setComplete] = useState(false);
-    const timerRef = useRef(null);
-    const [logMessages, setLogMessages] = useState([]);  // log 메시지 배열
-
-    const addLog = (message) => {
-        setLogMessages((prevLogs) => [...prevLogs, message]);  // 로그 추가
-    };
 
 
     // Confirm팝업 닫힐때
@@ -42,8 +36,6 @@ const Point2 = () => {
                 window.flutter_inappwebview.callHandler('requestPointCheckData')
                     .then(function(data) {
                         var jsonData = JSON.parse(data);
-                        addLog(`jsonData.token: ${jsonData.token}`);  // 로그 추가
-                        addLog('Received data from app: ' + JSON.stringify(data));  // 로그 추가
                         setPointData(jsonData);
                         setToken(jsonData.token);
                     })
@@ -75,7 +67,6 @@ const Point2 = () => {
 
     //결제처리 체크하기
     const payCheckHandler = () => {
-        addLog('payCheckHandler triggered');  // 로그 추가
         axios.get(`${m_pay_check.replace(":var1",pointData.var1)}`,
             {headers:{Authorization: `Bearer ${token}`}}
         )
@@ -99,32 +90,19 @@ const Point2 = () => {
                 dispatch(appPointPop({appPointPop:true,appPointPopData:data}));
 
                 setComplete(true);
-
-                // 결제처리가 완료되면 타이머 중단
-                if(timerRef.current) {
-                    clearInterval(timerRef.current);
-                }
             }
         })
         .catch((error) => {
-            addLog('Error in payCheckHandler: ' + error.message);  // 에러 로그 추가
+            
         });
     };
 
 
-    //0.3초마다 결제처리 체크하기
+    //토큰있을때 결제처리 체크하기
     useEffect(()=>{
         if(token){
-            timerRef.current = setInterval(() => {
-                payCheckHandler();
-            }, 300);
+            payCheckHandler();
         }
-
-        return () => {
-            if(timerRef.current) {
-                clearInterval(timerRef.current);
-            }
-        };
     },[token]);
 
 
@@ -146,12 +124,6 @@ const Point2 = () => {
                 {complete && <button type="button" className="app_btn" onClick={payOkBtnClickHandler}>확인</button>}
             </div>
             
-        </div>
-        <h1>로그 출력</h1>
-        <div className="log-output">
-            {logMessages.map((log, index) => (
-                <p key={index}>{log}</p>  // 로그 메시지를 화면에 출력
-            ))}
         </div>
 
         {/* confirm팝업 */}
