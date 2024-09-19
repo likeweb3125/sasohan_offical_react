@@ -15,7 +15,7 @@ const GuestBookBox = ({data, editBoxOn, editBox, onEditBoxClickHandler, onCommen
             : data.user_level == 'M' && <div className="img_box pointer" onClick={()=>onFeedProfileClickHandler(data)}><img src={data.photo && data.photo.length > 0 ? data.photo : none_profile} alt='프로필이미지' /></div>
         }
         <div className="txt_box">
-            <p className="name bold bp8">{data.m_n_name}</p>
+            <p className="name bold bp8">{data.m_n_name == '탈퇴한 회원' ? '익명' : data.m_n_name}</p>
             <div className="flex_bottom flex_wrap">
                 <div className="txt">{data.content}</div>
                 <div className="flex lp10">
