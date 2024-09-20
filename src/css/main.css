@@ -663,7 +663,7 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .comment_box .comment_list .comment .name_box .img_box img{width: 100%;height: 100%;object-fit: cover;}
 .comment_box .comment_list .comment .name_box .name{font-size: 16px;font-weight: 700;padding-left: 8px;max-width: calc(100% - 40px);}
 .comment_box .comment_list .comment .txt_box{padding-left: 48px;}
-.comment_box .comment_list .comment .txt_box .txt{font-size: 15px;color: #666;padding-bottom: 4px;}
+.comment_box .comment_list .comment .txt_box .txt{font-size: 15px;color: #666;padding-bottom: 4px;white-space: pre-line;}
 .comment_box .comment_list .comment .txt_box .date{font-size: 14px;color: #999;}
 .comment_box .comment_list .comment .txt_box .btn_reply{margin-left: 12px;position: relative;font-size:14px;color: #666;padding-left: 12px;}
 .comment_box .comment_list .comment .txt_box .btn_reply::after{position: absolute;content: '';width: 1px;height: 12px;background: #ddd;left: 0;top: 50%;transform: translateY(-50%);}
