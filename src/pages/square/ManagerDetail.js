@@ -348,6 +348,7 @@ const ManagerDetail = () => {
     //방명록 쓰기
     const onCommentHandler = () => {
         const body = {
+            comment_idx: null,
             manager_id: m_id,
             content: commentValue
         };
