@@ -86,6 +86,9 @@ const Footer = () => {
                     <li>본사 연락처 : 070-4355-6649</li>
                     <li>대표자 : 서정승</li>
                 </ul>
+                <ul>
+                    <li>국내 결혼중개업 신고번호 : 충북-청주-국내-24-0001 호</li>
+                </ul>
             </div>
             <div className="link_box">
                 <ul className="flex_center flex_wrap">
