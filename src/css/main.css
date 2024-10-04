@@ -105,6 +105,16 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .pass_input_box .input_box{padding-right: 24px;}
 .pass_input_box button{position: absolute;width: 24px;height: 100%;right: 0;top: 0;text-indent: -9999px;font-size: 0;background: url(../images/ic_eye.svg) no-repeat center;}
 .pass_input_box.on button{background: url(../images/ic_eye_on.svg) no-repeat center;}
+.input_box4 {height: 70px;}
+.input_box4 input{width: 100%;height: 100%;border: none;font-size: 24px;color: #222;background: none;padding: 0 20px;border-bottom:1px solid #222 ;}
+.input_box4 input::-webkit-input-placeholder {color: #666; text-align:left;font-size: 1824pxx;} 
+.input_box4 input:-moz-placeholder {color: #666; opacity: 1; text-align:left;font-size: 24px;} 
+.input_box4 input::-moz-placeholder {color: #666; opacity: 1; text-align:left; font-size: 24px;} 
+.input_box4 input:-ms-input-placeholder {color: #666; text-align:left;font-size: 24px;}
+.input_box4 input:focus{border-color: #6840FD;}
+.input_box4 select{width: 100%;height: 67px;border:none;border-bottom: 1px solid #222;padding:0 44px 0 20px;background: url(../images/arrow_select.svg) no-repeat center right 12px;background-size: 38px; font-size: 24px;color: #222;}
+.input_box4 select:focus{border-color: #6840FD;}
+
 
 /* animation */
 @keyframes aniUp {

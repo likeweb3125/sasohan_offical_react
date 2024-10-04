@@ -32,9 +32,13 @@ import AppEditProfile from './pages/app/EditProfile';
 import AppWithdraw from './pages/app/Withdraw';
 import AppListDetail from './pages/app/ListDetail';
 import AppImgTest from './pages/app/ImgTest';
+
+import OnePercentApply from './pages/landing/OnePercentApply';
+import Landing from './pages/landing/Landing';
 import './css/reset.css';
 import './css/main.css';
 import './css/content.css';
+import './css/landing.css';
 import './css/breakpoint.css';
 import './css/app.css';
 import './css/common.css';
@@ -69,6 +73,10 @@ function App() {
     return(
         <div id="wrap">
             <Routes>
+                {/* 랜딩페이지 */}
+                <Route path="/landing" element={<OnePercentApply/>} />
+                <Route path="/landing2" element={<Landing/>} />
+
                 {/* 메인 */}
                 <Route path="/" element={<Layout><Main /></Layout>} />
 

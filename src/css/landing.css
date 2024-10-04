@@ -1,0 +1,49 @@
+/* 1% 신청 */
+.one_apply .main_banner{height: 1440px; background: url(../images/landing/one_percent/main_banner_bg.jpg) no-repeat center;position: relative;padding-top: 80px;}
+.one_apply .main_banner .camera{position: absolute;left: 2%;top: 15%;z-index: 1;}
+.one_apply .main_banner .txt_box{display: flex;flex-direction: column;align-items: center;gap: 60px;position: relative;z-index: 2;}
+.one_apply .main_banner .img_box{text-align: center;animation: aniUp 1s 1s forwards;opacity: 0;}
+.one_apply .sect1{background: #FDF5FF;padding: 80px 0 160px;}
+.one_apply .sect1 ul{max-width: 1440px;margin: 0 auto;display: flex;flex-wrap: wrap; gap: 24px;}
+.one_apply .sect1 ul li{width: calc(50% - 12px);border-radius: 24px;background:#FEFAFF;box-shadow: 0px 0px 10px 0px rgba(104, 64, 253, 0.10);padding: 40px;display: flex;align-items: center;justify-content: space-between;}
+.one_apply .sect1 ul li h5{font-size: 32px;font-weight: 700;}
+.one_apply .sect1 ul li p{font-size: 18px;color: #666;padding-top: 12px;}
+.one_apply .sect2{background: #6840FD;padding: 80px 0;text-align: center;}
+.one_apply .sect2 p{font-size: 64px;color: #fff;font-weight: 700;margin-top: -20px;animation: aniUpAndDown 2s ease-in-out infinite;}
+@keyframes aniUpAndDown {
+    0% { opacity: 1; transform: translateY(0);}
+    50% { opacity: 1; transform: translateY(-10px);offset: 0.5;}
+    100% { opacity: 1; transform: translateY(0);}
+}
+.one_apply .sect3{padding: 160px 0;}
+.one_apply .sect3 .inner{width: 1440px;margin: 0 auto;display: flex;justify-content: center;}
+.one_apply .sect3 .form_box{border-radius: 40px;background: #FFF;box-shadow: 0px 0px 20px 0px rgba(104, 64, 253, 0.10);padding: 80px 40px;width: 830px;}
+.one_apply .sect3 .form_box .tit{font-size: 40px;font-weight: 700;text-align: center;}
+.one_apply .sect3 .form_box .txt_ul{color: #666;padding: 24px 0 40px;display: flex;flex-direction: column;gap: 8px;}
+.one_apply .sect3 .form_box .txt_ul li{position: relative;padding-left: 20px;}
+.one_apply .sect3 .form_box .txt_ul li::after{position: absolute;content: '';width: 3px;height: 3px;background: #666;border-radius: 50%;top: 8px;left: 6px;}
+.one_apply .form_ul>li{display: flex;align-items: center;}
+.one_apply .form_ul>li>p{width: 124px;font-size: 24px;font-weight: 500;}
+.one_apply .form_ul>li>p+*{flex: 1 1 0%;}
+.one_apply .gender_ul li{width: calc(50% - 12px);}
+.one_apply .gender_ul li label .box{height: 72px;line-height: 72px;font-size: 24px;color: #666;font-weight: 400;border-color: #D9D9D9;border-radius: 12px;}
+.one_apply .gender_ul li label input:checked + .box{border-color: #4962FF;color: #4962FF;}
+.one_apply .gender_ul li:nth-child(2) label input:checked + .box{border-color: #F56285;color: #F56285;}
+.one_apply .gender_ul li label .box span{padding-left: 30px;background: url(../images/landing/one_percent/ic_male.svg) no-repeat center left;}
+.one_apply .gender_ul li:nth-child(2) label .box span{background: url(../images/landing/one_percent/ic_female.svg) no-repeat center left;}
+.one_apply .gender_ul li label input:checked + .box span{background: url(../images/landing/one_percent/ic_male_on.svg) no-repeat center left;}
+.one_apply .gender_ul li:nth-child(2) label input:checked + .box span{background: url(../images/landing/one_percent/ic_female_on.svg) no-repeat center left;}
+.one_apply .btn_apply{font-size: 32px;height: 86px;width: 100%;color: #fff;font-weight: 700; border-radius: 12px;background: #6840FD;box-shadow: 0px -4px 4px 0px rgba(38, 15, 123, 0.50) inset, 4px 4px 8px 0px rgba(255, 255, 255, 0.30) inset;}
+
+.img_drop_box2{cursor: default;position: relative;}
+.img_drop_box2 .dropzone .box{display: flex;justify-content: space-between;cursor: pointer;}
+.img_drop_box2 .dropzone .box div{font-size: 24px;width: calc(100% - 151px); height: 70px; color: #666;padding: 0 20px;border-bottom: 1px solid #222;line-height: 70px;}
+.img_drop_box2 .dropzone .box button{font-size: 24px;color: #fff;width: 127px;height: 70px;background: #222;}
+.one_apply .img_list_box{width: 100%;background: #F6F6F6;border-radius: 12px;padding: 12px;}
+.one_apply .img_list_box h5{font-size: 18px;color: #6840FD;font-weight: 700;padding-bottom: 12px;}
+.one_apply .img_list_box ul{gap: 24px;}
+.one_apply .img_list_box ul li{padding-top: 12px;}
+.one_apply .img_list_box ul li p{font-size: 24px;color: #666;padding-right: 24px;}
+.one_apply .img_list_box ul li button{font-size: 24px;color: #6840FD;text-decoration: underline;}
+
+
