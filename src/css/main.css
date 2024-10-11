@@ -639,7 +639,7 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .feed_pop .feed_con .img_box{width: 760px;position: relative;}
 .feed_pop .feed_con .img_box .img{background: #222;text-align: center;height: 100%;}
 .feed_pop .feed_con .img_box .img img,.feed_pop .feed_con .img_box .img video{max-height: 100%;width: 100%;height: 100%;object-fit: contain;}
-.feed_pop .feed_con .img_box .img_list{position: absolute;width: 100%;bottom: 0;padding: 0 2px 12px;transition: all 0.3s;opacity: 0;}
+.feed_pop .feed_con .img_box .img_list{position: absolute;width: 100%;bottom: 50px;padding: 0 2px 12px;transition: all 0.3s;opacity: 0;}
 .feed_pop .feed_con .img_box .img_list li{width: 80px;height: 80px;border-radius: 12px;overflow: hidden;margin-left: 8px;cursor: pointer;filter: grayscale(1);position: relative;}
 .feed_pop .feed_con .img_box .img_list li:first-child{margin-left: 0;}
 .feed_pop .feed_con .img_box .img_list li::after{position: absolute;content: '';width: 100%;height: 100%;border: 2px solid #fff;top: 0;left: 0;box-sizing: border-box;border-radius: 12px;opacity: 0;}
@@ -650,10 +650,11 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .feed_pop .feed_con .img_box .btn_next{position: absolute;width: 60px;height: 100px;background:rgba(0,0,0,0.6) url(../images/arrow_next_w2.svg) no-repeat center;background-size: 18px; right: 0;top: 50%;transform: translateY(-50%);font-size: 0;text-indent: -9999px;}
 .feed_pop .feed_con .cont_box{width: calc(100% - 760px);position: relative;padding-bottom: 108px;display: -webkit-box; display: -ms-flexbox; display: -webkit-flex; display: flex;-webkit-box-orient: vertical; -ms-flex-direction: column; flex-direction: column;height: 100%;}
 .feed_pop .feed_con .cont_box .top_box{border-bottom: 1px solid #ddd;padding: 20px 30px 0;}
+.feed_pop .feed_con .cont_box .top_box .profile_box>div:first-of-type{flex: 1 1 0%;}
 .feed_pop .feed_con .cont_box .top_box .profile_box .profile{width: 40px;height: 40px;overflow: hidden;border-radius: 50%;margin-right: 8px;}
-.feed_pop .feed_con .cont_box .top_box .profile_box .name{font-size: 22px;font-weight: 700;padding-right: 30px;background: url(../images/manager_tag.svg) no-repeat center right;max-width: calc(100% - 48px);}
-.feed_pop .feed_con .cont_box .top_box .profile_box .name.charming{background: url(../images/manager_tag_c.svg) no-repeat center right;}
-.feed_pop .feed_con .cont_box .top_box .profile_box .name.friend{background: url(../images/friend_tag.svg) no-repeat center right;}
+.feed_pop .feed_con .cont_box .top_box .profile_box .name{font-size: 22px;font-weight: 700;padding-right: 30px;background: url(../images/manager_tag.svg) no-repeat top 2px right;max-width: calc(100% - 48px);}
+.feed_pop .feed_con .cont_box .top_box .profile_box .name.charming{background: url(../images/manager_tag_c.svg) no-repeat top 2px right;}
+.feed_pop .feed_con .cont_box .top_box .profile_box .name.friend{background: url(../images/friend_tag.svg) no-repeat top 2px right;}
 .edit_box{position: relative;}
 .edit_box .btn_edit{font-size: 0;text-indent: -9999px;width: 24px;height: 24px;background: url(../images/ic_edit.png) no-repeat center;}
 .edit_box .btn_edit.gray{background: url(../images/ic_edit_g.png) no-repeat center;}

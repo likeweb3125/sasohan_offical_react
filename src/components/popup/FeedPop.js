@@ -706,7 +706,7 @@ const FeedPop = () => {
                                 )
                             }
                         </div>
-                        <ul className="img_list flex_end">
+                        <ul className="img_list flex_center">
                             {imgList.length > 1 && imgList.map((url,i)=>{
                                 return(
                                     <li key={i} 
