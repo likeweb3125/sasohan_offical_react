@@ -23,6 +23,7 @@ import AppChangePasswordPop from "./app/ChangePasswordPop";
 import LoadingPop from "./LoadingPop";
 
 import LandingStoryPop from "./landing/StoryPop";
+import LandingTermsPop from "./landing/TermsPop";
 
 
 const Popup = () => {
@@ -95,6 +96,9 @@ const Popup = () => {
             {/* 선택회원간편신청 랜딩페이지 팝업----------------------------------------- */}
             {/* 후기 팝업 */}
             {landing.storyPop && <LandingStoryPop />}
+
+            {/* 약관 팝업 */}
+            {landing.termsPop && <LandingTermsPop />}
 
 
             {/* 로딩 팝업 */}

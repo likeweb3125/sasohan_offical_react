@@ -115,7 +115,7 @@ const StoryPop = () => {
 
 
     return(<>
-        <div className="flex_center pop_wrap story_pop select_apply_story_pop">
+        <div className="flex_center pop_wrap story_pop select_apply_pop">
             <div className="dim" onClick={closePopHandler}></div>
             <div className="pop_cont border">
                 <button type="button" className="btn_close" onClick={closePopHandler}>닫기버튼</button>

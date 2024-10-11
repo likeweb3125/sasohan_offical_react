@@ -95,8 +95,10 @@ const FeedAddPop = () => {
     //피드 이미지 등록
     const { getRootProps: getRootProps1, getInputProps: getInputProps1 } = useDropzone({
         accept: {
-            'image/*': [],
-            'video/*': []
+            'image/jpeg': [],
+            'image/png': [],
+            'image/gif': [],
+            'video/mp4': []
         },
         multiple: true, // 여러 개의 파일 선택 가능하도록 설정
         onDrop: acceptedFiles => {
@@ -354,7 +356,7 @@ const FeedAddPop = () => {
                                 <input {...getInputProps1()} />
                                 <div className="txt_box tx_c">
                                     <div className="txt1">이미지 첨부</div>
-                                    <p className="txt2">이미지를 드래그 앤 드롭하여 첨부하세요!<span>파일 업로드는 jpg, jpeg, png, gif, mp4, webm 형식만 첨부 가능</span></p>
+                                    <p className="txt2">이미지를 드래그 앤 드롭하여 첨부하세요!<span>파일 업로드는 jpg, jpeg, png, gif, mp4 형식만 첨부 가능</span></p>
                                 </div>
                             </div>
                             {feedImgs.length > 0 &&

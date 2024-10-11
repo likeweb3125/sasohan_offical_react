@@ -698,7 +698,7 @@ const FeedPop = () => {
                         <div className="img flex_center">
                             {imgList.length > 0 && 
                                 CF.isVideo(imgList[imgOn]) ? (
-                                    <video autoPlay loop playsInline muted preload="metadata">
+                                    <video autoPlay loop playsInline muted preload="metadata" controls>
                                         <source src={imgList[imgOn]} type="video/mp4" />
                                     </video>
                                 ) : (

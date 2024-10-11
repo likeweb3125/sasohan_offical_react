@@ -6,7 +6,7 @@ import { PatternFormat } from "react-number-format";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
 import { confirmPop } from "../../store/popupSlice";
-import { storyPop, storyPopList } from "../../store/landingSlice";
+import { storyPop, storyPopList, termsPop } from "../../store/landingSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -906,9 +906,9 @@ const SelectMember = () => {
             <div className="footer">
                 <div className="terms_box">
                     <ul className="inner flex">
-                        <li><button type="button">개인정보보호정책</button></li>
-                        <li><button type="button">개인정보수집</button></li>
-                        <li><button type="button">이용약관</button></li>
+                        <li><button type="button" onClick={()=>{dispatch(termsPop({termsPop:true, termsPopIdx:1}))}}>개인정보보호정책</button></li>
+                        <li><button type="button" onClick={()=>{dispatch(termsPop({termsPop:true, termsPopIdx:3}))}}>개인정보수집</button></li>
+                        <li><button type="button" onClick={()=>{dispatch(termsPop({termsPop:true, termsPopIdx:4}))}}>이용약관</button></li>
                     </ul>
                 </div>
                 <div className="bottom_box">
