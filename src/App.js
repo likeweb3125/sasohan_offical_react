@@ -73,9 +73,6 @@ function App() {
     return(
         <div id="wrap">
             <Routes>
-                {/* 랜딩페이지 */}
-                <Route path="/landing" element={<OnePercentApply/>} />
-                <Route path="/landing2" element={<SelectMember/>} />
 
                 {/* 메인 */}
                 <Route path="/" element={<Layout><Main /></Layout>} />
@@ -130,6 +127,9 @@ function App() {
                 {/* 간편가입신청 */}
                 <Route path="/apply" element={<Apply />} />
 
+                {/* 랜딩페이지 */}
+                <Route path="/apply/polaroid/:idx" element={<OnePercentApply/>} />
+                <Route path="/apply/1percent/:idx" element={<SelectMember/>} />
 
                 {/* 앱 페이지-------------------------------------------- */}
                 {/* 회원가입 - 약관동의 */}
