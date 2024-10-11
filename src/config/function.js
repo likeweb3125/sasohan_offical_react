@@ -39,3 +39,10 @@ export function errorMsgHandler (error) {
     }
     return errorMsg
 }
+
+//확장자 확인
+export const isVideo = (url) => {
+    const videoExtensions = ['mp4', 'webm', 'ogg']; // 비디오 확장자 목록
+    const extension = url.split('.').pop().toLowerCase(); // URL에서 확장자 추출
+    return videoExtensions.includes(extension);
+};

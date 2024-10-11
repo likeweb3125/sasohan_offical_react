@@ -7,12 +7,14 @@ import user from './userSlice';
 import common from './commonSlice';
 import popup from './popupSlice';
 import etc from './etcSlice';
+import landing from './landingSlice';
 
 const reducers = combineReducers({
   user: user.reducer,
   common: common.reducer,
   popup: popup.reducer,
   etc: etc.reducer,
+  landing: landing.reducer,
 });
 
 const persistConfig = {

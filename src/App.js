@@ -34,7 +34,7 @@ import AppListDetail from './pages/app/ListDetail';
 import AppImgTest from './pages/app/ImgTest';
 
 import OnePercentApply from './pages/landing/OnePercentApply';
-import Landing from './pages/landing/Landing';
+import SelectMember from './pages/landing/SelectMember';
 import './css/reset.css';
 import './css/main.css';
 import './css/content.css';
@@ -75,7 +75,7 @@ function App() {
             <Routes>
                 {/* 랜딩페이지 */}
                 <Route path="/landing" element={<OnePercentApply/>} />
-                <Route path="/landing2" element={<Landing/>} />
+                <Route path="/landing2" element={<SelectMember/>} />
 
                 {/* 메인 */}
                 <Route path="/" element={<Layout><Main /></Layout>} />
@@ -112,6 +112,7 @@ function App() {
                     <Route path="manager-list" element={<ManagerList />} />
                     {/* 매니저 리스트 - 상세 */}
                     <Route path="manager/:m_id" element={<ManagerDetail />} />
+                    <Route path="manager/:m_id/:feed_idx" element={<ManagerDetail />} />
                 </Route>
 
                 {/* 1% 소개팅 */}

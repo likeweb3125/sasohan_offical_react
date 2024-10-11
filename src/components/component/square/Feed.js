@@ -7,7 +7,15 @@ const Feed = ({data, likeBtnClickHandler, feedClickHandler, managerDetail, profi
     return(
         <div className="feed_box">
             <div className="img_box">
-                <div className="img" onClick={()=>feedClickHandler(data.idx)}><img src={data.photo} alt="피드이미지"/></div>
+                <div className="img" onClick={()=>feedClickHandler(data.idx)}>
+                    {CF.isVideo(data.photo) ? (
+                        <video>
+                            <source src={data.photo} type="video/mp4" />
+                        </video>
+                    ) : (
+                        <img src={data.photo} alt="피드이미지" />
+                    )}
+                </div>
                 <div className="box flex_center" onClick={()=>feedClickHandler(data.idx)}>
                     <p className="txt_comment">{CF.MakeIntComma(data.comment_cnt)}</p>
                     <p className="txt_like">{CF.MakeIntComma(data.fv_cnt)}</p>

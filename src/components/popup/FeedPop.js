@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import history from "../../config/history";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -16,6 +16,7 @@ import ConfirmPop from "./ConfirmPop";
 
 
 const FeedPop = () => {
+    const location = useLocation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state)=>state.user);
@@ -50,7 +51,14 @@ const FeedPop = () => {
     const commentListBoxRef = useRef(null);
     const feedPopRef = useRef(null);
     const userLogin = Cookies.get('userLogin') === 'true'; // 'true' 문자열과 비교;
-    
+    const [originUrl, setOriginUrl] = useState('');
+
+
+    //기존 url 저장 (팝업 닫혔을때 되돌리기위해)
+    useEffect(() => {
+        const path = location.pathname;
+        setOriginUrl(path);
+    }, [location]);
 
 
     // Confirm팝업 닫힐때
@@ -65,6 +73,7 @@ const FeedPop = () => {
 
     //팝업닫기
     const closePopHandler = () => {
+        window.history.pushState({}, '', originUrl);
         dispatch(feedPop({feedPop:false,feedPopNo:null,feedPopId:null}));
     };
 
@@ -150,6 +159,11 @@ const FeedPop = () => {
 
 
     useEffect(()=>{
+        // URL만 변경, 페이지 이동은 없음
+        if (Object.keys(feedData).length > 0 && feedData.manager_id && feedData.idx) {
+            window.history.pushState({}, '', `/square/manager/${feedData.manager_id}/${feedData.idx}`);
+        }
+        
         //피드 다음버튼
         if(feedData.prev_idx){
             setNextBtn(true);
@@ -176,7 +190,7 @@ const FeedPop = () => {
             setImgOn(0);
             dispatch(feedRefresh(false));
         }
-    },[common.feedRefresh])
+    },[common.feedRefresh]);
 
 
     //피드   ----------------------------------
@@ -316,6 +330,30 @@ const FeedPop = () => {
             }));
             setConfirm(true);
         })
+    };
+
+
+    // 링크 복사 하기
+    const copyToClipboard = () => {
+        const currentUrl = window.location.href; // 현재 URL 가져오기
+
+        navigator.clipboard.writeText(currentUrl).then(() => {
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'링크가 복사되었습니다!',
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        }).catch((err) => {
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'링크복사를 실패했습니다. 다시 시도해주세요.',
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
     };
 
 
@@ -650,20 +688,39 @@ const FeedPop = () => {
                                     <li className="flex"><div className="box"></div><p>{CF.MakeIntComma(feedData.fv_cnt)}</p></li>
                                     <li className="flex"><div className="box"></div><p>{CF.MakeIntComma(feedData.comment_cnt)}</p></li>
                                     <li className="flex"><div className="box"></div><p>{CF.MakeIntComma(feedData.counter)}</p></li>
+                                    <li><button type="button" className="btn_copy" onClick={copyToClipboard}>링크복사버튼</button></li>
                                 </ul>
                                 <p className="date">{feedData.w_date}</p>
                             </div>
                         </div>
                     </div>
                     <div className="img_box">
-                        <div className="img flex_center">{imgList.length > 0 && <img src={imgList[imgOn]} alt="피드 이미지"/>}</div>
+                        <div className="img flex_center">
+                            {imgList.length > 0 && 
+                                CF.isVideo(imgList[imgOn]) ? (
+                                    <video autoPlay loop playsInline muted preload="metadata">
+                                        <source src={imgList[imgOn]} type="video/mp4" />
+                                    </video>
+                                ) : (
+                                    <img src={imgList[imgOn]} alt="피드 이미지" />
+                                )
+                            }
+                        </div>
                         <ul className="img_list flex_end">
                             {imgList.length > 1 && imgList.map((url,i)=>{
                                 return(
                                     <li key={i} 
                                         className={imgOn === i ? 'on' : ''}
                                         onClick={()=>setImgOn(i)}
-                                    ><img src={url} alt="피드 이미지"/></li>
+                                    >
+                                        {CF.isVideo(url) ? (
+                                            <video>
+                                                <source src={url} type="video/mp4" />
+                                            </video>
+                                        ) : (
+                                            <img src={url} alt="피드 이미지"/>
+                                        )}
+                                    </li>
                                 );
                             })}
                         </ul>
@@ -696,6 +753,7 @@ const FeedPop = () => {
                                     <li className="flex"><div className="box"></div><p>{CF.MakeIntComma(feedData.fv_cnt)}</p></li>
                                     <li className="flex"><div className="box"></div><p>{CF.MakeIntComma(feedData.comment_cnt)}</p></li>
                                     <li className="flex"><div className="box"></div><p>{CF.MakeIntComma(feedData.counter)}</p></li>
+                                    <li><button type="button" className="btn_copy" onClick={copyToClipboard}>링크복사버튼</button></li>
                                 </ul>
                                 <p className="date">{feedData.w_date}</p>
                             </div>

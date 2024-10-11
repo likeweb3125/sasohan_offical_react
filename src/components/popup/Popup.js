@@ -22,9 +22,12 @@ import AppPointPop from "./app/PointPop";
 import AppChangePasswordPop from "./app/ChangePasswordPop";
 import LoadingPop from "./LoadingPop";
 
+import LandingStoryPop from "./landing/StoryPop";
+
 
 const Popup = () => {
     const popup = useSelector((state)=>state.popup);
+    const landing = useSelector((state)=>state.landing);
 
 
     return createPortal(
@@ -87,6 +90,12 @@ const Popup = () => {
 
             {/* 회원가입,VIP회원 지원팝업 - 약관 팝업 */}
             {popup.termsPop && <TermsPop />}
+
+
+            {/* 선택회원간편신청 랜딩페이지 팝업----------------------------------------- */}
+            {/* 후기 팝업 */}
+            {landing.storyPop && <LandingStoryPop />}
+
 
             {/* 로딩 팝업 */}
             {popup.loadingPop && <LoadingPop />}

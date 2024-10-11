@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { Formik } from "formik";
@@ -10,25 +10,34 @@ import { confirmPop, termsPop, termsCheckList } from "../../store/popupSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
 
 import camera_img from "../../images/landing/one_percent/main_banner_camera.png";
-import main_banner_top_txt from "../../images/landing/one_percent/main_banner_top_txt.png";
-import main_banner_txt from "../../images/landing/one_percent/main_banner_txt.png";
+import main_banner_top_txt from "../../images/landing/one_percent/main_banner_top_txt.svg";
+import main_banner_txt from "../../images/landing/one_percent/main_banner_txt.svg";
+import main_banner_txt_tab from "../../images/landing/one_percent/main_banner_txt_tab.svg";
+import main_banner_txt_mo from "../../images/landing/one_percent/main_banner_txt_mo.svg";
 import main_banner_img from "../../images/landing/one_percent/main_banner_img.png";
+import main_banner_img_tab from "../../images/landing/one_percent/main_banner_img_tab.png";
 import sect1_ic1 from "../../images/landing/one_percent/sect1_ic1.svg";
 import sect1_ic2 from "../../images/landing/one_percent/sect1_ic2.svg";
 import sect1_ic3 from "../../images/landing/one_percent/sect1_ic3.svg";
 import sect1_ic4 from "../../images/landing/one_percent/sect1_ic4.svg";
 import sect2_txt from "../../images/landing/one_percent/sect2_txt.svg";
 import sect3_img from "../../images/landing/one_percent/sect3_img.svg";
+import sect3_heart1 from "../../images/landing/one_percent/sect3_heart1.svg";
+import sect3_heart2 from "../../images/landing/one_percent/sect3_heart2.svg";
+import sect3_heart3 from "../../images/landing/one_percent/sect3_heart3.svg";
+import sect3_heart4 from "../../images/landing/one_percent/sect3_heart4.svg";
+import logo from "../../images/logo.svg";
 
 
 const OnePercentApply = () => {
     const dispatch = useDispatch();
     const popup = useSelector((state)=>state.popup);
-    const date_apply = enum_api_uri.date_apply;
+    const site_info = enum_api_uri.site_info;
+    const vip_apply = enum_api_uri.vip_apply;
     const vip_apply_img = enum_api_uri.vip_apply_img;
     const vip_apply_img_delt = enum_api_uri.vip_apply_img_delt;
     const [confirm, setConfirm] = useState(false);
-    const [submitConfirm, setSubmitConfirm] = useState(false);
+    const [applyOkConfirm, setApplyOkConfirm] = useState(false);
     const [values, setValues] = useState({});
     const [yearList, setYearList] = useState([]);
     const [yearSelected, setYearSelected] = useState(false);
@@ -36,16 +45,41 @@ const OnePercentApply = () => {
     const [imgList, setImgList] = useState([]);
     const [isAllChecked, setIsAllChecked] = useState(false);
     const [checkedItems, setCheckedItems] = useState([]);
-    const [applyBtn, setApplyBtn] = useState(false);
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const sect3Ref = useRef(null);
+    const [sect3On, setSect3On] = useState(false);
+    const [info, setInfo] = useState({});
 
 
     // Confirm팝업 닫힐때
     useEffect(()=>{
         if(popup.confirmPop === false){
             setConfirm(false);
-            setSubmitConfirm(false);
+            setApplyOkConfirm(false);
         }
     },[popup.confirmPop]);
+
+
+    //사이트정보 가져오기
+    const geInfo = () => {
+        axios.get(`${site_info}`)
+        .then((res)=>{
+            if(res.status === 200){
+                let data = res.data;
+                setInfo({...data});
+            }
+        })
+        .catch((error) => {
+            const err_msg = CF.errorMsgHandler(error);
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt: err_msg,
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        });
+    };
 
 
     //나이 년도 구하기
@@ -64,8 +98,39 @@ const OnePercentApply = () => {
     };
 
     useEffect(()=>{
+        geInfo();
         getYearList();
     },[]);
+
+
+    //스크롤시 section on
+    const scrollSectOn = () => {
+        const scroll = window.scrollY;
+        const sections = [
+            { ref: sect3Ref, onSet: setSect3On },
+        ];
+        
+        sections.forEach(({ ref, onSet }) => {
+            const offsetTop = ref.current.offsetTop;
+            if (scroll >= offsetTop - 500) {
+                onSet(true);
+            }
+        });
+    };
+    
+    useEffect(() => {    
+        const handleWindowResize = () => {
+            setWindowWidth(window.innerWidth);
+        };
+        window.addEventListener("scroll", scrollSectOn);
+        window.addEventListener('resize', handleWindowResize);
+
+        return () => {
+            window.removeEventListener("scroll", scrollSectOn);
+            window.removeEventListener('resize', handleWindowResize);
+        };
+    }, []);
+    
 
 
     //이미지 첨부-----------------------------------------
@@ -74,20 +139,10 @@ const OnePercentApply = () => {
         accept: {
             'image/*': []
         },
-        multiple: true, // 여러 개의 파일 선택 가능하도록 설정
+        multiple: false,
         onDrop: acceptedFiles => {
-            const files = acceptedFiles.length + imgList.length;
-
             if(acceptedFiles.length === 0){
                 return;
-            }else if(files > 3){
-                dispatch(confirmPop({
-                    confirmPop:true,
-                    confirmPopTit:'알림',
-                    confirmPopTxt:'사진은 최대 3개까지 첨부 가능합니다.',
-                    confirmPopBtn:1,
-                }));
-                setConfirm(true);
             }else{
                 const formData = new FormData();
                 acceptedFiles.forEach((item)=>{
@@ -102,7 +157,10 @@ const OnePercentApply = () => {
                 .then((res) => {
                     if (res.status === 201) {
                         const mediaUrls = res.data.mediaUrls;
-                        const newList = [...imgList, ...mediaUrls];
+                        const newList = [
+                            ...imgList,
+                            { name: acceptedFiles[0].name, url: mediaUrls[0] }
+                        ];
                         setImgList(newList);
                     }
                 })
@@ -121,7 +179,7 @@ const OnePercentApply = () => {
     });
 
 
-    //프로필, 피드 이미지 삭제
+    //이미지 삭제
     const handleRemove = (idx, url) => {
         const filename = url.substring(url.lastIndexOf('/') + 1);
 
@@ -148,19 +206,19 @@ const OnePercentApply = () => {
 
     
     // 프로필사진 미리보기 생성
-    const profileImgs = imgNameList.map((img,i) => (
-        <li key={i} className="flex">
-            <p>{img}</p>
-            <button className="btn_delt" onClick={() => handleRemove(i, img)}>삭제</button>
+    const profileImgs = imgList.map((img,i) => (
+        <li key={i} className="flex flex_top">
+            <p className="ellipsis"><span>{img.name}</span></p>
+            <button className="btn_delt" onClick={() => handleRemove(i, img.url)}>삭제</button>
         </li>
     ));
 
 
-    //프로필사진 이미지이름만 배열로 
+    //이미지이름만 배열로 
     useEffect(()=>{
-        const newNameList = imgList.map(url => {
-            let updatedUrl = url.substring(url.lastIndexOf('/') + 1);
-            return updatedUrl;
+        const newNameList = imgList.map(item => {
+            // URL의 마지막 부분(파일 이름)만 추출
+            return item.url.split('/').pop();
         });
         setImgNameList(newNameList);
     },[imgList]);
@@ -171,8 +229,8 @@ const OnePercentApply = () => {
     const allAgreeHandler = (checked) => {
         setIsAllChecked(!isAllChecked)
         if (checked) {
-          setCheckedItems(['terms1', 'terms3', 'terms4']);
-        } else if ((!checked && checkedItems.includes('terms1')) || (!checked && checkedItems.includes('terms3')) || (!checked && checkedItems.includes('terms4'))) {
+          setCheckedItems(['terms5', 'terms6']);
+        } else if ((!checked && checkedItems.includes('terms5')) || (!checked && checkedItems.includes('terms6'))) {
           setCheckedItems([]);
         }
     }
@@ -190,7 +248,7 @@ const OnePercentApply = () => {
 
     //약관동의 다하면 전체약관동의 체크박스 체크됨
     useEffect(() => {
-        if (checkedItems.length == 3) {
+        if (checkedItems.length == 2) {
             setIsAllChecked(true)
         } else {
             setIsAllChecked(false)
@@ -204,16 +262,6 @@ const OnePercentApply = () => {
     },[popup.termsCheckList]);
 
 
-
-    useEffect(()=>{
-        // if(values.age && values.age.length > 0 && values.phone && values.phone.length > 0 && imgList.length > 0 && isAllChecked){
-        //     setApplyBtn(true);
-        // }else{
-        //     setApplyBtn(false);
-        // }
-    },[values, imgList, isAllChecked]);
-
-
     //소개팅 신청하기
     const submit = (values) => {
         const tel = values.tel.replace(/[^0-9]/g, '');
@@ -223,14 +271,6 @@ const OnePercentApply = () => {
                 confirmPop:true,
                 confirmPopTit:'알림',
                 confirmPopTxt:'이름을 입력해주세요.',
-                confirmPopBtn:1,
-            }));
-            setConfirm(true);
-        }else if(!values.year){
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt:'나이를 선택해주세요.',
                 confirmPopBtn:1,
             }));
             setConfirm(true);
@@ -246,38 +286,53 @@ const OnePercentApply = () => {
             dispatch(confirmPop({
                 confirmPop:true,
                 confirmPopTit:'알림',
-                confirmPopTxt:'연락처를 입력해주세요.',
+                confirmPopTxt:'전화번호를 입력해주세요.',
                 confirmPopBtn:1,
             }));
             setConfirm(true);
-        }else if(!values.agree){
+        }else if(!values.year){
             dispatch(confirmPop({
                 confirmPop:true,
                 confirmPopTit:'알림',
-                confirmPopTxt:'개인 정보 수집 및 이용 동의 체크 해주세요.',
+                confirmPopTxt:'출생연도를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        }else if(imgList.length < 3){
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'정면사진을 3장 첨부해주세요.',
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
+        }else if(!isAllChecked){
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'전체동의 체크 해주세요.',
                 confirmPopBtn:1,
             }));
             setConfirm(true);
         }else{
-
-
-            let body = {
-                name: values.name,
-                year: values.year,
-                gender: values.gender,
-                tel: tel,
+            const age = calculateAge(values.year);
+            const body = {
+                m_name: values.name,
+                m_gender: values.gender,
+                age: age,
+                phone: tel,
+                photo: imgNameList,
             };
-
-            axios.post(`${date_apply}`,body)
+            axios.post(`${vip_apply}`,body)
             .then((res)=>{
                 if(res.status === 200){
+                    setApplyOkConfirm(true);
                     dispatch(confirmPop({
                         confirmPop:true,
                         confirmPopTit:'알림',
-                        confirmPopTxt:'소개팅신청이 완료되었습니다.',
+                        confirmPopTxt:'신청이 완료됐습니다.',
                         confirmPopBtn:1,
                     }));
-                    setSubmitConfirm(true);
                 }
             })
             .catch((error) => {
@@ -295,16 +350,26 @@ const OnePercentApply = () => {
     };
 
 
+    //사용자 나이구하기
+    const calculateAge = (birthYear) => {
+        const currentYear = new Date().getFullYear();  // 현재 연도 가져오기
+        return currentYear - birthYear;
+    };
+
+
     return(<>
     <div className="one_apply">
         <div className="main_banner">
             <img src={camera_img} alt="폴라로이드이미지" className="camera"/>
             <div className="txt_box">
                 <img src={main_banner_top_txt} alt="외모상위1% 챌린지"/>
-                <img src={main_banner_txt} alt="1% 폴라로이드를 찍어봐"/>
+                <img src={main_banner_txt} alt="1% 폴라로이드를 찍어봐" className="img_pc"/>
+                <img src={main_banner_txt_tab} alt="1% 폴라로이드를 찍어봐" className="img_tab"/>
+                <img src={main_banner_txt_mo} alt="1% 폴라로이드를 찍어봐" className="img_mo"/>
             </div>
             <div className="img_box">
-                <img src={main_banner_img} alt="회원이미지"/>
+                <img src={main_banner_img} alt="회원이미지" className="img_pc"/>
+                <img src={main_banner_img_tab} alt="회원이미지" className="img_tab"/>
             </div>
         </div>
         <div className="sect1">
@@ -343,8 +408,12 @@ const OnePercentApply = () => {
             <img src={sect2_txt} alt="상위 1%의 외모"/>
             <p>이제 당신 차례입니다. 도전해보세요!</p>
         </div>
-        <div className="sect3">
+        <div className={`sect3${sect3On ? ' on' : ''}`} ref={sect3Ref}>
             <div className="inner">
+                <img src={sect3_heart1} alt="하트이미지" className="heart_img heart_img1"/>
+                <img src={sect3_heart2} alt="하트이미지" className="heart_img heart_img2"/>
+                <img src={sect3_heart3} alt="하트이미지" className="heart_img heart_img3"/>
+                <img src={sect3_heart4} alt="하트이미지" className="heart_img heart_img4"/>
                 <div className="img_box">
                     <img src={sect3_img} alt="내가바로 상위1%"/>
                 </div>
@@ -359,10 +428,7 @@ const OnePercentApply = () => {
                                 name: "",
                                 year: "",
                                 gender: "",
-                                address1: "",
-                                address2: "",
                                 tel: "",
-                                agree: false
                             }}
                         >
                         {({values, handleChange, handleBlur, errors, touched, setFieldValue}) => (
@@ -439,47 +505,107 @@ const OnePercentApply = () => {
                                             
                                         </div>
                                     </li>
-                                    {profileImgs.length > 0 &&
-                                        <li>
-                                            <div className="img_list_box">
-                                                <h5>사진은 꼭 3장 이상 첨부해주세요!</h5>
+                                    <li>
+                                        <div className="img_list_box">
+                                            <h5>사진은 꼭 3장 이상 첨부해주세요!</h5>
+                                            {profileImgs.length > 0 &&
                                                 <ul className='flex flex_wrap'>
                                                     {profileImgs}
                                                 </ul>
-                                            </div>
-                                        </li>
-                                    }
+                                            }
+                                        </div>
+                                    </li>
                                 </ul>
-                                <div className="agree_box">
-                                    <div className="all_check custom_check">
-                                        <label>
-                                            <input type={`checkbox`} name="agree" value={values.agree} onChange={handleChange} />
+                                <div className="terms_box">
+                                    <div className="all_check custom_check2">
+                                        <label htmlFor="agreeAll">
+                                            <input type={`checkbox`}
+                                                onChange={(e)=>{
+                                                    allAgreeHandler(e.currentTarget.checked);
+                                                }} 
+                                                checked={isAllChecked}
+                                                id="agreeAll"
+                                            />
                                             <span className="check">체크박스</span>
-                                            <span className="txt">개인 정보 수집 및 이용 동의 <strong className="color_point">*</strong></span>
+                                            <span className="txt">전체동의 <span className="color_point">*</span></span>
                                         </label>
                                     </div>
-                                    <div className="scroll_wrap">
-                                        <div className="txt"></div>
-                                    </div>
+                                    <ul className="terms_ul">
+                                        <li>
+                                            <div className="custom_check2">
+                                                <label htmlFor="terms5">
+                                                    <input type={`checkbox`}
+                                                        onChange={(e)=>{
+                                                            agreeHandler(e.currentTarget.checked, e.currentTarget.id);
+                                                        }} 
+                                                        checked={checkedItems.includes('terms5') ? true : false}
+                                                        id="terms5"
+                                                    />
+                                                    <span className="check">체크박스</span>
+                                                    <span className="txt">개인정보 수집 및 이용에 관한 동의</span>
+                                                </label>
+                                            </div>
+                                            <button type="button" className="open_pop"
+                                                onClick={()=>{
+                                                    dispatch(termsPop({termsPop:true, termsPopIdx:5}))
+                                                }}
+                                            >레이어 팝업 버튼</button>
+                                        </li>
+                                        <li>
+                                            <div className="custom_check2">
+                                                <label htmlFor="terms6">
+                                                    <input type={`checkbox`}
+                                                        onChange={(e)=>{
+                                                            agreeHandler(e.currentTarget.checked, e.currentTarget.id);
+                                                        }} 
+                                                        checked={checkedItems.includes('terms6') ? true : false}
+                                                        id="terms6"
+                                                    />
+                                                    <span className="check">체크박스</span>
+                                                    <span className="txt">광고성 메시지 수신 동의</span>
+                                                </label>
+                                            </div>
+                                            <button type="button" className="open_pop"
+                                                onClick={()=>{
+                                                    dispatch(termsPop({termsPop:true, termsPopIdx:6}))
+                                                }}
+                                            >레이어 팝업 버튼</button>
+                                        </li>
+                                    </ul>
+                                    <button type="button" className="btn_apply" 
+                                        onClick={()=>{
+                                            submit(values);
+                                        }}
+                                    >신청하기</button>
                                 </div>
-                                <button type="button" className="btn_apply" 
-                                    onClick={()=>{
-                                        submit(values);
-                                    }}
-                                >신청하기</button>
                             </form>
                         )}
                     </Formik>
                 </div>
             </div>
         </div>
+        <div className="footer">
+            <div className="top_box">
+                <div className="logo"><img src={logo} alt="로고" /></div>
+                <ul>
+                    {info && info.site_num && <li>사업자 번호 : {info.site_num}</li>}
+                    <li>대표자 명 : 서정승</li>
+                </ul>
+                <ul>
+                    {info && info.site_address && <li>주소 : {info.site_address}</li>}
+                    {info && info.site_tel && <li>고객센터 : {info.site_address}</li>}
+                    <li>고객센터 운영 시간 : 13:00 - 21:30</li>
+                </ul>
+            </div>
+            <div className="copy">COPYRIGHT© 2023 사소한 ALL RIGHTS RESERVED.</div>
+        </div>
     </div>
     
     {/* confirm팝업 */}
     {confirm && <ConfirmPop />}
 
-    {/* 소개팅신청 완료 confirm팝업 */}
-    {submitConfirm && <ConfirmPop closePop="custom" onCloseHandler={()=>{}} />}
+    {/* 신청완료 confirm팝업 */}
+    {applyOkConfirm && <ConfirmPop closePop="custom" onCloseHandler={()=>window.location.reload()} />}
     </>);
 };
 

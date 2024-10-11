@@ -24,7 +24,7 @@ import none_profile from '../../images/none_profile2.jpg';
 const ManagerDetail = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { m_id } = useParams();
+    const { m_id, feed_idx } = useParams();
     const manager_profile = enum_api_uri.manager_profile;
     const manager_feed_list = enum_api_uri.manager_feed_list;
     const guest_book_list = enum_api_uri.guest_book_list;
@@ -52,6 +52,7 @@ const ManagerDetail = () => {
     const [commentValue, setCommentValue] = useState('');
     const [feedAddBtn, setFeedAddBtn] = useState(false);
     const userLogin = Cookies.get('userLogin') === 'true'; // 'true' 문자열과 비교;
+    const [replyBoxOn, setReplyBoxOn] = useState(null);
 
 
     //상세페이지 뒤로가기
@@ -206,6 +207,14 @@ const ManagerDetail = () => {
     },[m_id]);
 
 
+    //url 에 feed_idx 값 있을때 피드팝업열기
+    useEffect(()=>{
+        if(feed_idx){
+            feedClickHandler(feed_idx);
+        }
+    },[feed_idx]);
+
+
     //피드 삭제, 수정시 피드리스트 가져오기
     useEffect(()=>{
         if(common.feedRefresh){
@@ -272,9 +281,9 @@ const ManagerDetail = () => {
 
     //방명록  ------------------------------------
     //방명록 연속 작성인지 체크 (최대 2번까지만 가능)
-    const onCommentCheckHandler = () => {
+    const onCommentCheckHandler = (comment_idx) => {
         if(user.userInfo.m_id === m_id){
-            onTextCheckHandler();
+            onTextCheckHandler(comment_idx);
         }else{
             if(commentList.length > 1){
                 const last = commentList.length-1;
@@ -290,20 +299,26 @@ const ManagerDetail = () => {
                     }));
                     setConfirm(true);
                 }else{
-                onTextCheckHandler(); 
+                    onTextCheckHandler(comment_idx); 
                 }
             }else{
-                onTextCheckHandler();
+                onTextCheckHandler(comment_idx);
             }
         }
     };
 
 
     //방명록 부적격 체크하기
-    const onTextCheckHandler = () => {
+    const onTextCheckHandler = (comment_idx) => {
         dispatch(loadingPop(true));
+
+        let text = commentValue;
+        if(comment_idx){
+            text = replyValue;
+        }
+
         const body = {
-            text : commentValue,
+            text : text,
         };
 
         axios.post(text_check,body,{
@@ -327,7 +342,7 @@ const ManagerDetail = () => {
                     }));
                     setConfirm(true);
                 }else{
-                    onCommentHandler();
+                    onCommentHandler(comment_idx);
                 }
             }
         })
@@ -346,11 +361,19 @@ const ManagerDetail = () => {
     };
 
     //방명록 쓰기
-    const onCommentHandler = () => {
+    const onCommentHandler = (comment_idx) => {
+        //답글일때 
+        let idx = null;
+        let content = commentValue;
+        if(comment_idx){
+            idx = comment_idx;
+            content = replyValue;
+        }
+       
         const body = {
-            comment_idx: null,
+            comment_idx: idx,
             manager_id: m_id,
-            content: commentValue
+            content: content
         };
         axios.post(guest_book,body,{
             headers: {
@@ -360,6 +383,8 @@ const ManagerDetail = () => {
         .then((res)=>{
             if(res.status === 200){
                 setCommentValue('');
+                setReplyValue('');
+                setReplyBoxOn(null);
                 getCommentList();
             }
         })
@@ -444,6 +469,25 @@ const ManagerDetail = () => {
             navigate(`/square/manager/${info.m_id}`);
         }
     };
+
+
+    //방명록 답글쓰기 버튼 클릭시 답글달기 영역 토글
+    const onReplyClickHandler = (comment_idx) => {
+        if(replyBoxOn === null || replyBoxOn !== comment_idx){
+            setReplyBoxOn(comment_idx);
+        }else{
+            setReplyBoxOn(null);
+        }
+    };
+
+
+    const [replyValue, setReplyValue] = useState('');
+
+    const onReplyChangeHandler = (val) => {
+        setReplyValue(val);
+    };
+
+
 
 
     //피드  ------------------------------------
@@ -592,6 +636,10 @@ const ManagerDetail = () => {
                                                 {commentList.map((cont,i)=>{
                                                     //방명록 삭제버튼 
                                                     let editBox = false;
+
+                                                    //답글달기 버튼
+                                                    let replyBtn = false;
+
                                                     if(userLogin){
                                                         //일반회원일때
                                                         if(user.userInfo.user_level == 'U' && user.userInfo.m_id === cont.m_id){
@@ -601,10 +649,15 @@ const ManagerDetail = () => {
                                                         if(user.userInfo.user_level == 'M' && (user.userInfo.m_id === m_id || user.userInfo.m_id === cont.m_id)){
                                                             editBox = true;
                                                         }
+
+                                                        //매니저일때 본인매니저페이지일때 && 방명록 depth 가 0 일때만 답글달기 가능
+                                                        if(user.userInfo.user_level == 'M' && user.userInfo.m_id === m_id && cont.depth === 0){
+                                                            replyBtn = true;
+                                                        }
                                                     }
 
                                                     return(
-                                                        <li className="flex_between flex_top" key={i}>
+                                                        <li key={i}>
                                                             <GuestBookBox 
                                                                 data={cont}
                                                                 editBoxOn={editBoxOn}
@@ -613,6 +666,12 @@ const ManagerDetail = () => {
                                                                 onCommentDeltHandler={onCommentDeltHandler}
                                                                 btnGray={true}
                                                                 onFeedProfileClickHandler={onFeedProfileClickHandler}
+                                                                replyBtn={replyBtn}
+                                                                onReplyClickHandler={onReplyClickHandler}
+                                                                replyBoxOn={replyBoxOn}
+                                                                replyValue={replyValue}
+                                                                onReplyChangeHandler={onReplyChangeHandler}
+                                                                onReplyHadler={onCommentCheckHandler}
                                                             />
                                                         </li>
                                                     );

@@ -62,15 +62,12 @@ exports.enum_api_uri = {
     feed_modify: `${api_uri}/v1/manager/feed-modify`,
     feed_pin: `${api_uri}/v1/main-list/feed-pin/:idx`,
     
-    //VIP 소개팅
+    //VIP 소개팅---
     vip_list: `${api_uri}/v1/main/vip-list`,
     vip_apply: `${api_uri}/v1/main/vip-request`,
     vip_apply_img: `${api_uri}/v1/main/vip-request/image-add`,
     vip_apply_img_delt: `${api_uri}/v1/main/vip-request/image-remove/:filename`,
     
-
-
-
     //랭킹---
     rank_list: `${api_uri}/v1/main/ranking`,
     rank_sms: `${api_uri}/v1/main/ranking-sms`,
@@ -106,5 +103,13 @@ exports.enum_api_uri = {
     m_leave:`${api_uri}/v1/app/mypage/leave`,
     //공지사항 - 상세
     m_list_detail:`${api_uri}/v1/app/bbs/:list_no`,
+
+    //사소한 1% 랜딩페이지----------------------------------------
+
+
+    //사소한 선택회원 랜딩페이지----------------------------------------
+    s_story_list:`${api_uri}/v1/main/one-story`,
+    s_story_view:`${api_uri}/v1/main/one-story/:list_no`,
+    
 
 }

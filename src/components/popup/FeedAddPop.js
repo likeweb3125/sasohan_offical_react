@@ -5,7 +5,7 @@ import history from "../../config/history";
 import axios from "axios";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
-import { feedAddPop, confirmPop } from "../../store/popupSlice";
+import { feedAddPop, confirmPop, loadingPop } from "../../store/popupSlice";
 import { feedRefresh } from "../../store/commonSlice";
 import TextareaBox from "../component/TextareaBox";
 import ConfirmPop from "./ConfirmPop";
@@ -95,7 +95,8 @@ const FeedAddPop = () => {
     //피드 이미지 등록
     const { getRootProps: getRootProps1, getInputProps: getInputProps1 } = useDropzone({
         accept: {
-            'image/*': []
+            'image/*': [],
+            'video/*': []
         },
         multiple: true, // 여러 개의 파일 선택 가능하도록 설정
         onDrop: acceptedFiles => {
@@ -112,6 +113,8 @@ const FeedAddPop = () => {
                 }));
                 setConfirm(true);
             }else{
+                dispatch(loadingPop(true));
+
                 const formData = new FormData();
                 acceptedFiles.forEach((item)=>{
                     formData.append("media", item);
@@ -124,6 +127,7 @@ const FeedAddPop = () => {
                     },
                 })
                 .then((res) => {
+                    dispatch(loadingPop(false));
                     if (res.status === 201) {
                         const mediaUrls = res.data.mediaUrls;
                         const newList = [...imgList, ...mediaUrls];
@@ -131,6 +135,7 @@ const FeedAddPop = () => {
                     }
                 })
                 .catch((error) => {
+                    dispatch(loadingPop(false));
                     const err_msg = CF.errorMsgHandler(error);
                     dispatch(confirmPop({
                         confirmPop:true,
@@ -160,12 +165,15 @@ const FeedAddPop = () => {
 
 
     //피드 이미지 미리보기 생성
-    const feedImgs = imgList.map((url,i) => (
+    const feedImgs = imgList.map((url, i) => (
         <li key={i}>
-            <img
-                src={url}
-                alt="이미지"
-            />
+            {CF.isVideo(url) ? (
+                <video>
+                    <source src={url} type="video/mp4" />
+                </video>
+            ) : (
+                <img src={url} alt="이미지" />
+            )}
             <button className="btn_delt" onClick={() => handleRemove(i, url)}>삭제버튼</button>
         </li>
     ));
@@ -346,7 +354,7 @@ const FeedAddPop = () => {
                                 <input {...getInputProps1()} />
                                 <div className="txt_box tx_c">
                                     <div className="txt1">이미지 첨부</div>
-                                    <p className="txt2">이미지를 드래그 앤 드롭하여 첨부하세요!<span>파일 업로드는 jpg, jpeg, png, gif 형식만 첨부 가능</span></p>
+                                    <p className="txt2">이미지를 드래그 앤 드롭하여 첨부하세요!<span>파일 업로드는 jpg, jpeg, png, gif, mp4, webm 형식만 첨부 가능</span></p>
                                 </div>
                             </div>
                             {feedImgs.length > 0 &&
