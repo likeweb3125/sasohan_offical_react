@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Formik } from "formik";
 import { PatternFormat } from "react-number-format";
@@ -8,7 +9,6 @@ import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
 import { confirmPop, termsPop, termsCheckList } from "../../store/popupSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
-
 import camera_img from "../../images/landing/one_percent/main_banner_camera.png";
 import main_banner_top_txt from "../../images/landing/one_percent/main_banner_top_txt.svg";
 import main_banner_txt from "../../images/landing/one_percent/main_banner_txt.svg";
@@ -29,11 +29,12 @@ import sect3_heart4 from "../../images/landing/one_percent/sect3_heart4.svg";
 import logo from "../../images/logo.svg";
 
 
+
 const OnePercentApply = () => {
     const dispatch = useDispatch();
     const popup = useSelector((state)=>state.popup);
     const site_info = enum_api_uri.site_info;
-    const vip_apply = enum_api_uri.vip_apply;
+    const date_apply = enum_api_uri.date_apply;
     const vip_apply_img = enum_api_uri.vip_apply_img;
     const vip_apply_img_delt = enum_api_uri.vip_apply_img_delt;
     const [confirm, setConfirm] = useState(false);
@@ -49,6 +50,7 @@ const OnePercentApply = () => {
     const sect3Ref = useRef(null);
     const [sect3On, setSect3On] = useState(false);
     const [info, setInfo] = useState({});
+    const { apply_idx } = useParams();
 
 
     // Confirm팝업 닫힐때
@@ -315,15 +317,17 @@ const OnePercentApply = () => {
             }));
             setConfirm(true);
         }else{
-            const age = calculateAge(values.year);
             const body = {
-                m_name: values.name,
-                m_gender: values.gender,
-                age: age,
-                phone: tel,
+                name: values.name,
+                year: values.year,
+                gender: values.gender,
+                tel: tel,
+                is_photo: true,
                 photo: imgNameList,
+                is_not_address: true,
+                idx: apply_idx
             };
-            axios.post(`${vip_apply}`,body)
+            axios.post(`${date_apply}`,body)
             .then((res)=>{
                 if(res.status === 200){
                     setApplyOkConfirm(true);
@@ -347,13 +351,6 @@ const OnePercentApply = () => {
             }); 
         }
             
-    };
-
-
-    //사용자 나이구하기
-    const calculateAge = (birthYear) => {
-        const currentYear = new Date().getFullYear();  // 현재 연도 가져오기
-        return currentYear - birthYear;
     };
 
 

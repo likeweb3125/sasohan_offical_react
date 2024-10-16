@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { Formik } from "formik";
 import { PatternFormat } from "react-number-format";
@@ -16,7 +17,6 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import 'swiper/css/effect-fade';
 import 'swiper/css/autoplay';
-
 import logo from "../../images/landing/select_member/logo.svg";
 import main_video from "../../images/landing/select_member/main_video.mp4";
 import arrow_right from "../../images/landing/select_member/arrow_right_white.svg";
@@ -37,7 +37,6 @@ import form_heart_img from "../../images/landing/select_member/form_heart_img.sv
 import ic_male from "../../images/landing/select_member/ic_male.svg";
 import ic_female from "../../images/landing/select_member/ic_female.svg";
 import arrow_more from "../../images/landing/select_member/arrow_more.svg";
-
 
 
 
@@ -98,6 +97,7 @@ const SelectMember = () => {
     const [sect5On, setSect5On] = useState(false);
     const [navOn, setNavOn] = useState(0);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const { apply_idx } = useParams();
 
 
     // Confirm팝업 닫힐때
@@ -357,12 +357,13 @@ const SelectMember = () => {
                 addr = ['전지역'];
             }
 
-            let body = {
+            const body = {
                 name: values.name,
                 year: values.year,
                 gender: values.gender,
                 address1: addr,
                 tel: tel,
+                idx: apply_idx
             };
 
             axios.post(`${date_apply}`,body)

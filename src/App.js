@@ -128,8 +128,8 @@ function App() {
                 <Route path="/apply" element={<Apply />} />
 
                 {/* 랜딩페이지 */}
-                <Route path="/apply/polaroid/:idx" element={<OnePercentApply/>} />
-                <Route path="/apply/1percent/:idx" element={<SelectMember/>} />
+                <Route path="/apply/polaroid/:apply_idx" element={<OnePercentApply/>} />
+                <Route path="/apply/1percent/:apply_idx" element={<SelectMember/>} />
 
                 {/* 앱 페이지-------------------------------------------- */}
                 {/* 회원가입 - 약관동의 */}
