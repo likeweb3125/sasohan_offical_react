@@ -92,7 +92,7 @@ const VipApplyPop = () => {
                 dispatch(confirmPop({
                     confirmPop:true,
                     confirmPopTit:'알림',
-                    confirmPopTxt:'사진은 최대 3개까지 첨부 가능합니다.',
+                    confirmPopTxt:'사진은 최대 3장까지 첨부 가능합니다.',
                     confirmPopBtn:1,
                 }));
                 setConfirm(true);
@@ -162,7 +162,7 @@ const VipApplyPop = () => {
                 src={url}
                 alt="이미지"
             />
-            <button className="btn_delt" onClick={() => handleRemove(i, url)}>삭제버튼</button>
+            <button type="button" className="btn_delt" onClick={() => handleRemove(i, url)}>삭제버튼</button>
         </li>
     ));
 

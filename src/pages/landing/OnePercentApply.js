@@ -141,10 +141,20 @@ const OnePercentApply = () => {
         accept: {
             'image/*': []
         },
-        multiple: false,
+        multiple: true, // 여러 개의 파일 선택 가능하도록 설정
         onDrop: acceptedFiles => {
+            const files = acceptedFiles.length + imgList.length;
+
             if(acceptedFiles.length === 0){
                 return;
+            }else if(files > 5){
+                dispatch(confirmPop({
+                    confirmPop:true,
+                    confirmPopTit:'알림',
+                    confirmPopTxt:'사진은 최대 5장까지 첨부 가능합니다.',
+                    confirmPopBtn:1,
+                }));
+                setConfirm(true);
             }else{
                 const formData = new FormData();
                 acceptedFiles.forEach((item)=>{
@@ -159,11 +169,11 @@ const OnePercentApply = () => {
                 .then((res) => {
                     if (res.status === 201) {
                         const mediaUrls = res.data.mediaUrls;
-                        const newList = [
-                            ...imgList,
-                            { name: acceptedFiles[0].name, url: mediaUrls[0] }
-                        ];
-                        setImgList(newList);
+                        const newList = acceptedFiles.map((file, index) => ({
+                            name: file.name,
+                            url: mediaUrls[index]
+                        }));
+                        setImgList(prevList => [...prevList, ...newList]);
                     }
                 })
                 .catch((error) => {
@@ -211,7 +221,7 @@ const OnePercentApply = () => {
     const profileImgs = imgList.map((img,i) => (
         <li key={i} className="flex flex_top">
             <p className="ellipsis"><span>{img.name}</span></p>
-            <button className="btn_delt" onClick={() => handleRemove(i, img.url)}>삭제</button>
+            <button type="button" className="btn_delt" onClick={() => handleRemove(i, img.url)}>삭제</button>
         </li>
     ));
 

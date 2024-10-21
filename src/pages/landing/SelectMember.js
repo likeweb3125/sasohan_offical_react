@@ -447,7 +447,13 @@ const SelectMember = () => {
                         <div className="main_video">
                             <div className="video_box">
                                 <video src={main_video} type="video/mp4" ref={mainVideoRef} autoPlay loop playsInline muted preload="metadata" />
-                                {/* <video src={main_video} type="video/mp4" ref={mainVideoRef}  /> */}
+                                {/* <iframe width="100%" height="100%" 
+                                src="https://www.youtube.com/embed/E96BX2Dm4qg?si=9lFR_NF5qtQ-5l2e&autoplay=1&mute=1&controls=1" 
+                                title="YouTube video player" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                referrerpolicy="strict-origin-when-cross-origin" 
+                                allowfullscreen></iframe> */}
                             </div>
                             <div className="txt_box">
                                 <p>BJ 츄정도 설렜다는 출시 10년차, <strong>외모 상위 1% 이성 선택 서비스</strong></p>
