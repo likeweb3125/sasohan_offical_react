@@ -351,6 +351,14 @@ const SelectMember = () => {
                 confirmPopBtn:1,
             }));
             setConfirm(true);
+        }else if(!values.agree2){
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'광고성 수신 동의 체크 해주세요.',
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
         }else{
             let addr = addrSelectList;
             if(allAddressCheck){
@@ -446,21 +454,21 @@ const SelectMember = () => {
                     <div className="cont_box">
                         <div className="main_video">
                             <div className="video_box">
-                                <video src={main_video} type="video/mp4" ref={mainVideoRef} autoPlay loop playsInline muted preload="metadata" />
-                                {/* <iframe width="100%" height="100%" 
+                                {/* <video src={main_video} type="video/mp4" ref={mainVideoRef} autoPlay loop playsInline muted preload="metadata" /> */}
+                                <iframe width="100%" height="100%" 
                                 src="https://www.youtube.com/embed/E96BX2Dm4qg?si=9lFR_NF5qtQ-5l2e&autoplay=1&mute=1&controls=1" 
                                 title="YouTube video player" 
                                 frameborder="0" 
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                                 referrerpolicy="strict-origin-when-cross-origin" 
-                                allowfullscreen></iframe> */}
+                                allowfullscreen></iframe>
                             </div>
-                            <div className="txt_box">
+                            {/* <div className="txt_box">
                                 <p>BJ 츄정도 설렜다는 출시 10년차, <strong>외모 상위 1% 이성 선택 서비스</strong></p>
                                 <h4>BJ 츄정, <br/>1% 회원으로 선택받다!</h4>
                             </div>
                             <button type="button" className={`btn_sound${videoSound ? ' on' : ''}`} onClick={videoToggleSound}>소리버튼</button>
-                            <button type="button" className={`btn_play${videoPlay ? '' : ' pause'}`} onClick={()=>setVideoPlay(!videoPlay)}>{videoPlay ? '정지' : '재생'}</button>
+                            <button type="button" className={`btn_play${videoPlay ? '' : ' pause'}`} onClick={()=>setVideoPlay(!videoPlay)}>{videoPlay ? '정지' : '재생'}</button> */}
                             <div className="link_box">
                                 <a href="#form_box"><span>서비스 신청하기</span><span className="arrow"><img src={arrow_right} alt="화살표아이콘"/><img src={arrow_right} alt="화살표아이콘"/></span></a>
                             </div>
@@ -655,7 +663,8 @@ const SelectMember = () => {
                                     address1: "",
                                     address2: "",
                                     tel: "",
-                                    agree: false
+                                    agree: false,
+                                    agree2: false,
                                 }}
                             >
                                 {({values, handleChange, handleBlur, errors, touched, setFieldValue}) => (
@@ -894,6 +903,13 @@ const SelectMember = () => {
                                                     <p className="txt"><span>이용약관</span> 및 <span>개인정보 처리방침</span>에 동의합니다.</p>
                                                 </label>
                                             </div>
+                                            <div className="custom_check3">
+                                                <label>
+                                                    <input type={`checkbox`} name="agree2" value={values.agree2} onChange={handleChange} />
+                                                    <span className="check">체크박스</span>
+                                                    <p className="txt"><span>광고성 수신</span>에 동의합니다.</p>
+                                                </label>
+                                            </div>
                                             <div className="scroll_wrap">
                                                 <div className="txt">{terms.contents_p}</div>
                                             </div>
@@ -935,9 +951,9 @@ const SelectMember = () => {
                         <p>SNS</p>
                         <ul className="flex">
                             <li><a href="https://www.youtube.com/@user-sasohan" target={'_blank'}>유튜브</a></li> 
-                            <li><a href="https://www.instagram.com/sasohan_official_/" target={'_blank'}>인스타그램</a></li>
-                            <li><a href="#" target={'_blank'}>페이스북</a></li>
-                            <li><a href="#" target={'_blank'}>틱톡</a></li>
+                            <li><a href="https://www.instagram.com/sasohan1percent_official/" target={'_blank'}>인스타그램</a></li>
+                            <li><a href="https://www.facebook.com/people/%EC%82%AC%EC%86%8C%ED%95%9C-1/61565280974906/" target={'_blank'}>페이스북</a></li>
+                            <li><a href="https://www.tiktok.com/@sasohan_1" target={'_blank'}>틱톡</a></li>
                         </ul>
                     </div>
                 </div>
