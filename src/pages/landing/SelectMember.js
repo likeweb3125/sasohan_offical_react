@@ -6,10 +6,9 @@ import { Formik } from "formik";
 import { PatternFormat } from "react-number-format";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
-import { confirmPop } from "../../store/popupSlice";
-import { storyPop, storyPopList, termsPop } from "../../store/landingSlice";
+import { confirmPop, termsPop, termsCheckList } from "../../store/popupSlice";
+import { storyPop, storyPopList, policyPop } from "../../store/landingSlice";
 import ConfirmPop from "../../components/popup/ConfirmPop";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation, EffectFade, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -98,6 +97,8 @@ const SelectMember = () => {
     const [navOn, setNavOn] = useState(0);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const { apply_idx } = useParams();
+    const [isAllChecked, setIsAllChecked] = useState(false);
+    const [checkedItems, setCheckedItems] = useState([]);
 
 
     // Confirm팝업 닫힐때
@@ -284,10 +285,6 @@ const SelectMember = () => {
         }
     },[addrSelectList]);
 
-    useEffect(()=>{
-        console.log(allAddressCheck);
-    },[allAddressCheck]);
-
 
     //선호지역 삭제하기
     const addrDeltHandler = (idx) => {
@@ -343,19 +340,11 @@ const SelectMember = () => {
                 confirmPopBtn:1,
             }));
             setConfirm(true);
-        }else if(!values.agree){
+        }else if(!isAllChecked){
             dispatch(confirmPop({
                 confirmPop:true,
                 confirmPopTit:'알림',
-                confirmPopTxt:'개인 정보 수집 및 이용 동의 체크 해주세요.',
-                confirmPopBtn:1,
-            }));
-            setConfirm(true);
-        }else if(!values.agree2){
-            dispatch(confirmPop({
-                confirmPop:true,
-                confirmPopTit:'알림',
-                confirmPopTxt:'광고성 수신 동의 체크 해주세요.',
+                confirmPopTxt:'모든약관에 동의해주세요.',
                 confirmPopBtn:1,
             }));
             setConfirm(true);
@@ -401,32 +390,6 @@ const SelectMember = () => {
     };
     
 
-
-    const videoToggleSound = () => {
-        if (mainVideoRef.current) {
-            if(mainVideoRef.current.muted){
-                mainVideoRef.current.muted = false;  // 뮤트 해제
-                setVideoSound(true);
-            }else{
-                mainVideoRef.current.muted = true;
-                setVideoSound(false);
-            }
-        }
-    };
-
-
-    useEffect(()=>{
-        if(mainVideoRef.current){
-            if(videoPlay){
-                mainVideoRef.current.play();
-            }else{
-                mainVideoRef.current.pause();
-            }
-        }
-    },[videoPlay]);
-
-
-
     //후기팝업 열기
     const storyPopOpen = (idx) => {
         if(windowWidth < 768){
@@ -434,6 +397,31 @@ const SelectMember = () => {
         }
     };
 
+
+    //약관동의
+    const agreeHandler = (checked, value) => {
+        if (checked) {
+            setCheckedItems([...checkedItems, value]);
+        } else if (!checked && checkedItems.includes(value)) {
+            setCheckedItems(checkedItems.filter((el) => el !== value));
+        }
+    }
+
+
+    //약관동의 다하면 전체약관동의 체크박스 체크됨
+    useEffect(() => {
+        if (checkedItems.length == 2) {
+            setIsAllChecked(true)
+        } else {
+            setIsAllChecked(false)
+        }
+        dispatch(termsCheckList(checkedItems));
+    }, [checkedItems]);
+
+
+    useEffect(()=>{
+        setCheckedItems(popup.termsCheckList);
+    },[popup.termsCheckList]);
 
 
 
@@ -454,7 +442,6 @@ const SelectMember = () => {
                     <div className="cont_box">
                         <div className="main_video">
                             <div className="video_box">
-                                {/* <video src={main_video} type="video/mp4" ref={mainVideoRef} autoPlay loop playsInline muted preload="metadata" /> */}
                                 <iframe width="100%" height="100%" 
                                 src="https://www.youtube.com/embed/E96BX2Dm4qg?si=9lFR_NF5qtQ-5l2e&autoplay=1&mute=1&controls=1" 
                                 title="YouTube video player" 
@@ -663,8 +650,6 @@ const SelectMember = () => {
                                     address1: "",
                                     address2: "",
                                     tel: "",
-                                    agree: false,
-                                    agree2: false,
                                 }}
                             >
                                 {({values, handleChange, handleBlur, errors, touched, setFieldValue}) => (
@@ -898,16 +883,28 @@ const SelectMember = () => {
                                         <div className="agree_box">
                                             <div className="custom_check3">
                                                 <label>
-                                                    <input type={`checkbox`} name="agree" value={values.agree} onChange={handleChange} />
+                                                    <input type={`checkbox`} 
+                                                        onChange={(e)=>{
+                                                            agreeHandler(e.currentTarget.checked, e.currentTarget.id);
+                                                        }} 
+                                                        checked={checkedItems.includes('terms5') ? true : false}
+                                                        id="terms5"
+                                                    />
                                                     <span className="check">체크박스</span>
-                                                    <p className="txt"><span>이용약관</span> 및 <span>개인정보 처리방침</span>에 동의합니다.</p>
+                                                    <p className="txt" onClick={()=>{dispatch(termsPop({termsPop:true, termsPopIdx:5}))}}><span>이용약관</span> 및 <span>개인정보 처리방침</span>에 동의합니다.</p>
                                                 </label>
                                             </div>
                                             <div className="custom_check3">
                                                 <label>
-                                                    <input type={`checkbox`} name="agree2" value={values.agree2} onChange={handleChange} />
+                                                    <input type={`checkbox`}
+                                                        onChange={(e)=>{
+                                                            agreeHandler(e.currentTarget.checked, e.currentTarget.id);
+                                                        }} 
+                                                        checked={checkedItems.includes('terms6') ? true : false}
+                                                        id="terms6"
+                                                    />
                                                     <span className="check">체크박스</span>
-                                                    <p className="txt"><span>광고성 수신</span>에 동의합니다.</p>
+                                                    <p className="txt" onClick={()=>{dispatch(termsPop({termsPop:true, termsPopIdx:6}))}}><span>광고성 메시지 수신</span>에 동의합니다.</p>
                                                 </label>
                                             </div>
                                             <div className="scroll_wrap">
@@ -929,9 +926,9 @@ const SelectMember = () => {
             <div className="footer">
                 <div className="terms_box">
                     <ul className="inner flex">
-                        <li><button type="button" onClick={()=>{dispatch(termsPop({termsPop:true, termsPopIdx:1}))}}>개인정보보호정책</button></li>
-                        <li><button type="button" onClick={()=>{dispatch(termsPop({termsPop:true, termsPopIdx:3}))}}>개인정보수집</button></li>
-                        <li><button type="button" onClick={()=>{dispatch(termsPop({termsPop:true, termsPopIdx:4}))}}>이용약관</button></li>
+                        <li><button type="button" onClick={()=>{dispatch(policyPop({policyPop:true, policyPopIdx:1}))}}>개인정보보호정책</button></li>
+                        <li><button type="button" onClick={()=>{dispatch(policyPop({policyPop:true, policyPopIdx:3}))}}>개인정보수집</button></li>
+                        <li><button type="button" onClick={()=>{dispatch(policyPop({policyPop:true, policyPopIdx:4}))}}>이용약관</button></li>
                     </ul>
                 </div>
                 <div className="bottom_box">
@@ -943,7 +940,7 @@ const SelectMember = () => {
                         </ul>
                         <ul className="flex">
                             {info && info.site_num && <li>사업자 번호 : {info.site_num}</li>}
-                            <li>연락처 : 010-3924-3233 / 070-4355-6751</li>
+                            <li>연락처 : 070-4355-6751</li>
                         </ul>
                         <div className="copy">COPYRIGHT© 2023 사소한 ALL RIGHTS RESERVED.</div>
                     </div> 

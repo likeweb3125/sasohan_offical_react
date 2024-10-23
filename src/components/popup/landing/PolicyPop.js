@@ -4,10 +4,10 @@ import axios from "axios";
 import { enum_api_uri } from "../../../config/enum";
 import * as CF from "../../../config/function";
 import { confirmPop } from "../../../store/popupSlice";
-import { termsPop } from "../../../store/landingSlice";
+import { policyPop } from "../../../store/landingSlice";
 import ConfirmPop from "../ConfirmPop";
 
-const TermsPop = () => {
+const PolicyPop = () => {
     const dispatch = useDispatch();
     const popup = useSelector((state)=>state.popup);
     const landing = useSelector((state)=>state.landing);
@@ -26,13 +26,13 @@ const TermsPop = () => {
 
     //팝업닫기
     const closePopHandler = () => {
-        dispatch(termsPop({termsPop:false,termsPopIdx:null}));
+        dispatch(policyPop({policyPop:false,policyPopIdx:null}));
     };
 
 
     //약관내용 가져오기
     const getTerms = () => {
-        axios.get(`${policy_cont.replace(":policy_type",landing.termsPopIdx)}`)
+        axios.get(`${policy_cont.replace(":policy_type",landing.policyPopIdx)}`)
         .then((res)=>{
             if(res.status === 200){
                 let data = res.data;
@@ -54,11 +54,11 @@ const TermsPop = () => {
 
     useEffect(()=>{
         getTerms();
-    },[landing.termsPopIdx]);
+    },[landing.policyPopIdx]);
 
 
     const onTabClickHandler = (idx) => {
-        dispatch(termsPop({termsPop:true,termsPopIdx:idx}));
+        dispatch(policyPop({policyPop:true,policyPopIdx:idx}));
     };
 
 
@@ -73,9 +73,9 @@ const TermsPop = () => {
                     </div>
                     <div className="tab_box">
                         <ul className="flex">
-                            <li className={landing.termsPopIdx === 1 ? 'on' : ''}><button type="button" onClick={()=>onTabClickHandler(1)}>개인정보보호정책</button></li>
-                            <li className={landing.termsPopIdx === 3 ? 'on' : ''}><button type="button" onClick={()=>onTabClickHandler(3)}>개인정보수집</button></li>
-                            <li className={landing.termsPopIdx === 4 ? 'on' : ''}><button type="button" onClick={()=>onTabClickHandler(4)}>이용약관</button></li>
+                            <li className={landing.policyPopIdx === 1 ? 'on' : ''}><button type="button" onClick={()=>onTabClickHandler(1)}>개인정보보호정책</button></li>
+                            <li className={landing.policyPopIdx === 3 ? 'on' : ''}><button type="button" onClick={()=>onTabClickHandler(3)}>개인정보수집</button></li>
+                            <li className={landing.policyPopIdx === 4 ? 'on' : ''}><button type="button" onClick={()=>onTabClickHandler(4)}>이용약관</button></li>
                         </ul>
                     </div>
                     <div className="scroll_wrap">
@@ -91,4 +91,4 @@ const TermsPop = () => {
     </>);
 };
 
-export default TermsPop;
+export default PolicyPop;

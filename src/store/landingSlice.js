@@ -10,8 +10,8 @@ const landing = createSlice({
         storyPopList: [],
 
         //선택회원신청 - 약관팝업
-        termsPop: false,
-        termsPopIdx: null,
+        policyPop: false,
+        policyPopIdx: null,
     },
     reducers:{
         storyPop: (state, action) => {
@@ -21,9 +21,9 @@ const landing = createSlice({
         storyPopList: (state, action) => {
             state.storyPopList = action.payload;
         },
-        termsPop: (state, action) => {
-            state.termsPop = action.payload.termsPop;
-            state.termsPopIdx = action.payload.termsPopIdx;
+        policyPop: (state, action) => {
+            state.policyPop = action.payload.policyPop;
+            state.policyPopIdx = action.payload.policyPopIdx;
         },
     }
 });
@@ -31,6 +31,6 @@ const landing = createSlice({
 export const {
     storyPop,
     storyPopList,
-    termsPop,
+    policyPop,
 } = landing.actions;
 export default landing;

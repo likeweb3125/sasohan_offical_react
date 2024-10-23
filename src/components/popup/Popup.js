@@ -23,7 +23,7 @@ import AppChangePasswordPop from "./app/ChangePasswordPop";
 import LoadingPop from "./LoadingPop";
 
 import LandingStoryPop from "./landing/StoryPop";
-import LandingTermsPop from "./landing/TermsPop";
+import LandingPolicyPop from "./landing/PolicyPop";
 
 
 const Popup = () => {
@@ -98,7 +98,7 @@ const Popup = () => {
             {landing.storyPop && <LandingStoryPop />}
 
             {/* 약관 팝업 */}
-            {landing.termsPop && <LandingTermsPop />}
+            {landing.policyPop && <LandingPolicyPop />}
 
 
             {/* 로딩 팝업 */}
