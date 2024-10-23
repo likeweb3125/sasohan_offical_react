@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
+import DOMPurify from "dompurify";
 import { confirmPop } from "../../store/popupSlice";
 
 const ConfirmPop = (props) => {
@@ -38,7 +39,7 @@ const ConfirmPop = (props) => {
                             <p className="f_24"><strong>{popup.confirmPopTit}</strong></p>
                             <button type="button" className="btn_close" onClick={closePopHandler}>닫기버튼</button>
                         </div>
-                        <p className="tx_c bm30" dangerouslySetInnerHTML={{__html:popup.confirmPopTxt}}></p>
+                        <p className="tx_c bm30" dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(popup.confirmPopTxt)}}></p>
                         {popup.confirmPopBtn === 1 &&
                             <button type="button" className="btn" onClick={closePopHandler}>확인</button>
                         }

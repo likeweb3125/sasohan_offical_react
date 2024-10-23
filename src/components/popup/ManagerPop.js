@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import DOMPurify from "dompurify";
 import axios from "axios";
 import history from "../../config/history";
 import { managerPop } from "../../store/popupSlice";
@@ -76,7 +77,7 @@ const ManagerPop = () => {
                         </div>
                         <div className="txt_box">
                             <p className="name flex">{popup.managerPopData.manager_name}<span className="mo_show">챠밍매니저</span></p>
-                            <p className="txt" dangerouslySetInnerHTML={{ __html: popup.managerPopData.txt }}></p>
+                            <p className="txt" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(popup.managerPopData.txt) }}></p>
                         </div>
                     </div>
                     {/* {popup.managerPopData.manager_type == "C" &&

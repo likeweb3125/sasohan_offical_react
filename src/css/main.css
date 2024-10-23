@@ -674,7 +674,8 @@ html,.body{height: auto;scroll-behavior: smooth;}
 .feed_pop .feed_con .cont_box .top_box .count_box .date{font-size: 14px;color: #999;}
 .feed_pop .feed_con .cont_box .content_box{padding: 20px 0 20px 30px;color: #666;height: 300px;border-bottom: 1px solid #ddd;}
 .feed_pop .feed_con .cont_box .content_box .scroll_wrap{height: 100%;padding-right: 26px;}
-.feed_pop .feed_con .cont_box .content_box .scroll_wrap p{white-space: pre-line;}
+.feed_pop .feed_con .cont_box .content_box .scroll_wrap .txt{white-space: pre-line;}
+.feed_pop .feed_con .cont_box .content_box .scroll_wrap .txt a{text-decoration: underline;}
 .feed_pop .feed_con .cont_box .comment_box{overflow: hidden;}
 .feed_pop .feed_con .cont_box .comment_box .scroll_wrap{height: 100%;}
 .comment_box .comment_list>li{border-bottom: 1px solid #ddd;}

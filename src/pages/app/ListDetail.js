@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import DOMPurify from "dompurify";
 import axios from "axios";
 import { enum_api_uri } from "../../config/enum";
 import * as CF from "../../config/function";
@@ -53,7 +54,7 @@ const ListDetail = () => {
 
 
     return(<>
-        <div className="detail_wrap" dangerouslySetInnerHTML={{ __html: data }}></div>
+        <div className="detail_wrap" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data) }}></div>
 
         {/* confirm팝업 */}
         {confirm && <ConfirmPop />}  

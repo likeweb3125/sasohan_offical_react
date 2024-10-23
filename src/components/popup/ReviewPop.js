@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import DOMPurify from "dompurify";
 import axios from "axios";
 import history from "../../config/history";
 import * as CF from "../../config/function";
@@ -77,7 +78,7 @@ const ReviewPop = () => {
                         <p>{review.w_date}</p>
                         <button type="button" className="btn_close" onClick={closePopHandler}>닫기버튼</button>
                     </div>
-                    <div className="bottom_box" dangerouslySetInnerHTML={{ __html: review.contents }}></div>
+                    <div className="bottom_box" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(review.contents) }}></div>
                 </div>
             </div>
         </div>

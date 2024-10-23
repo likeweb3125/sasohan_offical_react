@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import DOMPurify from "dompurify";
 import history from "../../config/history";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -760,7 +761,7 @@ const FeedPop = () => {
                         </div>
                         <div className="content_box">
                             <div className="scroll_wrap gray">
-                                <p>{feedData.txt}</p>
+                                <div className="txt" dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(feedData.txt)}}></div>
                             </div>
                         </div>
                         <div className="btn_box tab_show">
