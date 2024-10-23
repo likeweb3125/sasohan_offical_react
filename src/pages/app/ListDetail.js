@@ -31,7 +31,10 @@ const ListDetail = () => {
         axios.get(m_list_detail.replace(":list_no",list_no))
         .then((res)=>{
             if(res.status === 200){
-                setData(res.data.contents);
+                const contents = DOMPurify.sanitize(res.data.contents, {
+                    ADD_ATTR: ['target'], // target 속성 허용
+                })
+                setData(contents);
             }
         })
         .catch((error) => {
@@ -45,6 +48,15 @@ const ListDetail = () => {
             setConfirm(true);
         })
     };
+
+
+    // rel="noopener noreferrer" 자동으로 추가하는 후크
+    DOMPurify.addHook('afterSanitizeAttributes', function (node) {
+        // a 태그에 target="_blank"가 있을 경우 rel="noopener noreferrer" 추가
+        if (node.tagName === 'A' && node.getAttribute('target') === '_blank') {
+            node.setAttribute('rel', 'noopener noreferrer');
+        }
+    });
 
 
     useEffect(()=>{

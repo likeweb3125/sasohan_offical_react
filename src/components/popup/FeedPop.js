@@ -106,6 +106,9 @@ const FeedPop = () => {
         .then((res)=>{
             if(res.status === 200){
                 const data = res.data;
+                data.txt = DOMPurify.sanitize(data.txt, {
+                    ADD_ATTR: ['target'], // target 속성 허용
+                })
                 setFeedData({...data});
                 setImgList([...data.photo]);
             }
@@ -121,6 +124,15 @@ const FeedPop = () => {
             setConfirm(true);
         });
     }
+
+    
+    // rel="noopener noreferrer" 자동으로 추가하는 후크
+    DOMPurify.addHook('afterSanitizeAttributes', function (node) {
+        // a 태그에 target="_blank"가 있을 경우 rel="noopener noreferrer" 추가
+        if (node.tagName === 'A' && node.getAttribute('target') === '_blank') {
+            node.setAttribute('rel', 'noopener noreferrer');
+        }
+    });
 
 
     //피드댓글리스트 가져오기
@@ -761,7 +773,7 @@ const FeedPop = () => {
                         </div>
                         <div className="content_box">
                             <div className="scroll_wrap gray">
-                                <div className="txt" dangerouslySetInnerHTML={{__html:DOMPurify.sanitize(feedData.txt)}}></div>
+                                <div className="txt" dangerouslySetInnerHTML={{__html:feedData.txt}}></div>
                             </div>
                         </div>
                         <div className="btn_box tab_show">
