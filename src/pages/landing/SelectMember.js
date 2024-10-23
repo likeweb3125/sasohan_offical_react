@@ -17,7 +17,6 @@ import "swiper/css/navigation";
 import 'swiper/css/effect-fade';
 import 'swiper/css/autoplay';
 import logo from "../../images/landing/select_member/logo.svg";
-import main_video from "../../images/landing/select_member/main_video.mp4";
 import arrow_right from "../../images/landing/select_member/arrow_right_white.svg";
 import sect1_txt from "../../images/landing/select_member/sect1_txt.svg";
 import sect1_img from "../../images/landing/select_member/sect1_img.png";
