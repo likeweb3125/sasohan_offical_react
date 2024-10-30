@@ -55,7 +55,6 @@ const authImgs = [
 const SelectMember = () => {
     const dispatch = useDispatch();
     const popup = useSelector((state)=>state.popup);
-    const mainVideoRef = useRef();
     const memberSwiperRef = useRef();
     const authSwiperRef = useRef();
     const reviewSwiperRef = useRef();
@@ -64,8 +63,6 @@ const SelectMember = () => {
     const m_address = enum_api_uri.m_address;
     const m_address2 = enum_api_uri.m_address2;
     const date_apply = enum_api_uri.date_apply;
-    const [videoSound, setVideoSound] = useState(false);
-    const [videoPlay, setVideoPlay] = useState(true);
     const [memberList] = useState([1,2,3,4]);
     const [authrList] = useState(["우수기술기업 인증서","상표등록증","법률자문 협약서","국내결혼중개업 신고필증"]);
     const [reviewList, setReviewList] = useState([]);
@@ -98,6 +95,20 @@ const SelectMember = () => {
     const { apply_idx } = useParams();
     const [isAllChecked, setIsAllChecked] = useState(false);
     const [checkedItems, setCheckedItems] = useState([]);
+
+
+    // Google tag
+    useEffect(()=>{
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { window.dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'AW-16615963599');
+        gtag('event', 'conversion', {
+            'send_to': 'AW-16615963599/XJ50CLit0uIZEM_3jfM9',
+            'value': 1.0,
+            'currency': 'KRW'
+        });
+    },[apply_idx]);
 
 
     // Confirm팝업 닫힐때
