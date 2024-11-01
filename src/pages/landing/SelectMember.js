@@ -733,14 +733,6 @@ const SelectMember = () => {
                                                                     }
 
                                                                     if(val == "전국"){
-                                                                        dispatch(confirmPop({
-                                                                            confirmPop:true,
-                                                                            confirmPopTit:'알림',
-                                                                            confirmPopTxt:'전국 선택시 다른지역은 선택불가합니다.',
-                                                                            confirmPopBtn:1,
-                                                                        }));
-                                                                        setConfirm(true);
-
                                                                         const updatedList = ["전국"];
                                                                         setAddrSelectList(updatedList);
                                                                     }
