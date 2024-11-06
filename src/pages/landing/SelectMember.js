@@ -108,6 +108,21 @@ const SelectMember = () => {
             'value': 1.0,
             'currency': 'KRW'
         });
+
+        // 현재페이지 내에서만 사용할 gtag_report_conversion 함수 정의
+        // Event snippet for 랜딩 신청서 제출 (버튼클릭) conversion page In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button.
+        window.gtag_report_conversion = function (url) {
+            var callback = function () {
+                if (typeof url !== 'undefined') {
+                    window.location = url;
+                }
+            };
+            gtag('event', 'conversion', {
+                'send_to': 'AW-16615963599/wlFWCPG0leUZEM_3jfM9',
+                'event_callback': callback
+            });
+            return false;
+        };
     },[apply_idx]);
 
 
@@ -455,10 +470,9 @@ const SelectMember = () => {
                                 <iframe width="100%" height="100%" 
                                 src="https://www.youtube.com/embed/E96BX2Dm4qg?si=9lFR_NF5qtQ-5l2e&autoplay=1&mute=1&controls=1" 
                                 title="YouTube video player" 
-                                frameborder="0" 
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                referrerpolicy="strict-origin-when-cross-origin" 
-                                allowfullscreen></iframe>
+                                referrerPolicy="strict-origin-when-cross-origin" 
+                                allowFullScreen></iframe>
                             </div>
                             {/* <div className="txt_box">
                                 <p>BJ 츄정도 설렜다는 출시 10년차, <strong>외모 상위 1% 이성 선택 서비스</strong></p>
@@ -916,6 +930,7 @@ const SelectMember = () => {
                                         <button type="button" className="btn_apply" 
                                             onClick={()=>{
                                                 submit(values);
+                                                window.gtag_report_conversion('https://sasohan.net/apply/1percent/17');
                                             }}
                                         >신청서 제출</button>
                                     </form>
