@@ -108,21 +108,6 @@ const SelectMember = () => {
             'value': 1.0,
             'currency': 'KRW'
         });
-
-        // 현재페이지 내에서만 사용할 gtag_report_conversion 함수 정의
-        // Event snippet for 랜딩 신청서 제출 (버튼클릭) conversion page In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button.
-        window.gtag_report_conversion = function (url) {
-            var callback = function () {
-                if (typeof url !== 'undefined') {
-                    window.location = url;
-                }
-            };
-            gtag('event', 'conversion', {
-                'send_to': 'AW-16615963599/wlFWCPG0leUZEM_3jfM9',
-                'event_callback': callback
-            });
-            return false;
-        };
     },[apply_idx]);
 
 
