@@ -6,6 +6,7 @@ import { PatternFormat } from "react-number-format";
 import * as CF from "../config/function";
 import { enum_api_uri } from "../config/enum";
 import { confirmPop } from "../store/popupSlice";
+import Footer from "../components/layout/Footer";
 import ConfirmPop from "../components/popup/ConfirmPop";
 import logo from "../images/logo.svg";
 import img_complete from "../images/apply_complete_img.svg";
@@ -467,6 +468,7 @@ const Apply = () => {
                 </div>
             }
         </div>
+        <Footer title={true} />
 
         {/* confirm팝업 */}
         {confirm && <ConfirmPop />}

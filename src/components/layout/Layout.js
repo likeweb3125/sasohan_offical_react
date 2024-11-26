@@ -131,7 +131,7 @@ const Layout = (props) => {
             <div className="content_wrap">
                 {props.children}
             </div>
-            <Footer />
+            <Footer linkBox={true} fixedBox={true} />
 
             {/* confirm팝업 */}
             {confirm && <ConfirmPop />}

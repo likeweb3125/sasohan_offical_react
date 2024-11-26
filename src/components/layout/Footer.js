@@ -1,25 +1,22 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie";
 import * as CF from "../../config/function";
 import { enum_api_uri } from "../../config/enum";
-import { confirmPop, applyPop } from "../../store/popupSlice";
+import { confirmPop } from "../../store/popupSlice";
 import { aboutVipScroll } from "../../store/commonSlice";
 import ConfirmPop from "../popup/ConfirmPop";
 import logo from "../../images/logo_color.svg";
 
-const Footer = () => {
+const Footer = (props) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const user = useSelector((state)=>state.user);
     const site_info = enum_api_uri.site_info;
     const [confirm, setConfirm] = useState(false);
     const [info, setInfo] = useState({});
     const location = useLocation();
     const [mainPage, setMainPage] = useState(null);
-    const userLogin = Cookies.get('userLogin') === 'true'; // 'true' 문자열과 비교;
 
 
     //사이트정보 가져오기
@@ -72,6 +69,11 @@ const Footer = () => {
         <footer id="footer" className={mainPage ? "main" : ""}>
             <div className="top_box">
                 <div className="logo"><img src={logo} alt="로고" /></div>
+                {props.title &&
+                    <ul>
+                        <li>상호명 : 사소한</li>
+                    </ul>
+                }
                 <ul>
                     {info && info.site_address && <li>주소 : {info.site_address}</li>}
                     {info && info.site_manager && <li>개인정보책임관리자 및 대표 : {info.site_manager}</li>}
@@ -90,68 +92,72 @@ const Footer = () => {
                     <li>국내 결혼중개업 신고번호 : 충북-청주-국내-24-0001 호</li>
                 </ul>
             </div>
-            <div className="link_box">
-                <ul className="flex_center flex_wrap">
-                    <li>
-                        <a
-                            href="/"
-                            // target="_blank"
-                            rel="noopener noreferrer"
-                        >공지사항</a>
-                    </li>
-                    <li>
-                        <Link to={'/terms/privacy-policy'}>개인정보 보호정책</Link>
-                    </li>
-                    <li>
-                        <Link to={'/terms/personal-information-collection'}>개인정보수집</Link>
-                    </li>
-                    <li>
-                        <Link to={'/terms/terms-of-use'}>이용약관</Link>
-                    </li>
-                </ul>
-            </div>
+            {props.linkBox &&
+                <div className="link_box">
+                    <ul className="flex_center flex_wrap">
+                        <li>
+                            <a
+                                href="/"
+                                // target="_blank"
+                                rel="noopener noreferrer"
+                            >공지사항</a>
+                        </li>
+                        <li>
+                            <Link to={'/terms/privacy-policy'}>개인정보 보호정책</Link>
+                        </li>
+                        <li>
+                            <Link to={'/terms/personal-information-collection'}>개인정보수집</Link>
+                        </li>
+                        <li>
+                            <Link to={'/terms/terms-of-use'}>이용약관</Link>
+                        </li>
+                    </ul>
+                </div>
+            }
             <div className="copy">COPYRIGHT© 2015 사소한 ALL RIGHTS RESERVED.</div>
         </footer>
-        <div className="fixed_box">
-            <ul className="list_sns">
-                <li>
-                    <a
-                        href="https://www.youtube.com/@user-sasohan"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >유튜브</a>
-                </li>
-                <li>
-                    <a
-                        href="https://www.instagram.com/sasohan_official_/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >인스타그램</a>
-                </li>
-                <li>
-                    <a
-                        href="https://blog.naver.com/sasohan_official"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >블로그</a>
-                </li>
-            </ul>
-            <button type="button" className="btn_top" onClick={scrollToTop}></button>
-            <div className="link_btn_box">
-                <button type='button' className='btn_apply'
-                    onClick={()=>{
-                        dispatch(aboutVipScroll({aboutVipScroll:'vip_sect4', aboutVipScrollPath:location.pathname}));
-                        navigate('/about');
-                    }}
-                >소개팅 <br/>신청</button>
-                <button type='button' className='btn_vip'
-                    onClick={()=>{
-                        dispatch(aboutVipScroll({aboutVipScroll:'vip_sect5', aboutVipScrollPath:location.pathname}));
-                        navigate('/about');
-                    }}
-                >1% <br/>지원</button>
+        {props.fixedBox &&
+            <div className="fixed_box">
+                <ul className="list_sns">
+                    <li>
+                        <a
+                            href="https://www.youtube.com/@user-sasohan"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >유튜브</a>
+                    </li>
+                    <li>
+                        <a
+                            href="https://www.instagram.com/sasohan_official_/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >인스타그램</a>
+                    </li>
+                    <li>
+                        <a
+                            href="https://blog.naver.com/sasohan_official"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >블로그</a>
+                    </li>
+                </ul>
+                <button type="button" className="btn_top" onClick={scrollToTop}></button>
+                <div className="link_btn_box">
+                    <button type='button' className='btn_apply'
+                        onClick={()=>{
+                            dispatch(aboutVipScroll({aboutVipScroll:'vip_sect4', aboutVipScrollPath:location.pathname}));
+                            navigate('/about');
+                        }}
+                    >소개팅 <br/>신청</button>
+                    <button type='button' className='btn_vip'
+                        onClick={()=>{
+                            dispatch(aboutVipScroll({aboutVipScroll:'vip_sect5', aboutVipScrollPath:location.pathname}));
+                            navigate('/about');
+                        }}
+                    >1% <br/>지원</button>
+                </div>
             </div>
-        </div>
+        }
 
         {/* confirm팝업 */}
         {confirm && <ConfirmPop />}
