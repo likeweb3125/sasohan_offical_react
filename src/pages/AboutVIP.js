@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Scrollbar, Navigation, Grid } from "swiper/modules";
 import "swiper/css";
@@ -35,17 +34,14 @@ import about_img5 from "../images/about_img5.svg";
 import dona_img1 from "../images/dona_img1.jpg";
 import dona_img2 from "../images/dona_img2.jpg";
 import dona_img3 from "../images/dona_img3.jpg";
-import none_img from "../images/none_img.jpg";
 
 
 const AboutVIP = () => {
     const dispatch = useDispatch();
-    const location = useLocation();
     const popup = useSelector((state)=>state.popup);
     const user = useSelector((state)=>state.user);
     const common = useSelector((state)=>state.common);
     const vip_list = enum_api_uri.vip_list;
-    const story_list = enum_api_uri.story_list;
     const license_list = enum_api_uri.license_list;
     const [confirm, setConfirm] = useState(false);
     const sect1Ref = useRef(null);
@@ -411,27 +407,29 @@ const AboutVIP = () => {
                             </div>
                             <ul className="txt_ul">
                                 <li className={aboutTab === 0 ? "on" : ""}>
-                                    <h4>매너베이트 시스템</h4>
+                                    <h4>베이트 티켓 시스템</h4>
                                     <img src={about_img3} alt="일러스트이미지" />
                                     <p className="txt">사소한 소개팅 서비스는 <strong>소개팅 진행시</strong> 비용을 한 쪽에서만 부담을 하는 <strong>단방향 결제 소개팅 시스템</strong>입니다.</p>
                                     <p className="txt2">이 과정에서,사소한은 소개팅을 유료로 진행한 결제자님에게 소개팅 비용 99,000원을 받고, <br/>
                                     상대 이성에게 1만 원을 따로 빼서 전달하게 됩니다. <br/>
-                                    이 1만원을 <span>매너베이트</span>라고 부르며, 매너베이트는 <span>manner(예의) + bait(미끼) 의 합성어</span> 입니다. <br/><br/>
+                                    이 1만원을 <span>베이트 티켓</span>이라고 부르며, 베이트 티켓은 <span>bait(미끼) + ticket(입장권) 의 합성어</span> 입니다. <br/><br/>
 
-                                    매너는 '태도와 예의'를 뜻하는 단어로, 상대 이성이 소개팅에 진지한 자세와 태도로 임함을 뜻하며, <br/>
-                                    베이트는 '미끼' 라는 뜻으로, <span>유료 결제자님의 상대 이성을 유도하여 소개팅 테이블로 모셔오는 역할</span>을 합니다. <br/><br/>
+                                    베이트는 '미끼' 라는 뜻으로, 유료 결제자님의 상대 이성을 유도하여 소개팅 테이블로 모셔오는 역할을 하며, <br/>
+                                    티켓은 소개팅에 참여할 수 있는 입장권으로, <br/>
+                                    선택 회원님께서 <span>입장권을 소지함으로써 소개팅에 참여할 자격</span>이 부여됩니다. <br/><br/>
 
-                                    즉 <span>매너베이트</span>는 소개팅 파트너를 진지한 태도로 소개팅에 참여하게 하고 책임감을 부여하며, <br/>
-                                    파트너를 유연하게 소개팅에 참여할 수 있도록 유도하는 보상입니다. <br/><br/>
+                                    베이트 티켓은 소개팅을 열기 위해 필수적으로 필요한 티켓이며, 소개팅 오픈 시 자동적으로 소진되는 티켓입니다. <br/><br/>
 
-                                    사소한은 매너베이트를 활용하여 유료 결제자님에게 <span>확실한 이상형 선택의 기회를 제공</span>합니다. <br/>
-                                    매너 베이트 시스템은 사소한 만이 진행하는 독창적인 시스템입니다. <br/><br/>
+                                    더불어, 소개팅 파트너에게 책임감을 부여하여 유연하고 진지한 태도로 소개팅에 참여할 수 있도록 유도합니다. <br/><br/>
 
-                                    비록 소개팅 비용에 있어서는 유료결제와, 매너베이트 사이의 비평등함이 존재하지만, <br/>
+                                    사소한 1% 소개팅은 베이트 티켓을 활용하여 유료 결제자님에게 <span>확실한 이상형 선택의 기회를 제공</span>합니다. <br/>
+                                    베이트 티켓 시스템은 사소한 만이 진행하는 독창적인 시스템입니다. <br/><br/>
+
+                                    비록 소개팅 비용에 있어서는 유료결제와, 베이트 티켓 사이의 비평등함이 존재하지만, <br/>
                                     오히려 놀랍게도 이를 통해 더 많은 이상형을 <br/>
                                     <span>매칭 받을 수 있는 기회의 평등함이 제공됩니다. </span><br/><br/>
 
-                                    따라서 매너베이트 시스템을 이용한 소개팅은 소개팅 경험에 대한 <br/>
+                                    따라서 베이트 티켓 시스템을 이용한 소개팅은 소개팅 경험에 대한 <br/>
                                     만족도가 높아질 것이며 더 적합한 이상형과 만날 수 있는 가능성도 높아집니다.</p>
                                 </li>
                                 <li className={aboutTab === 1 ? "on" : ""}>

@@ -2,12 +2,10 @@ import { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Scrollbar, Navigation, Grid } from "swiper/modules";
+import { Scrollbar, Navigation } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "swiper/css/navigation";
-import 'swiper/css/grid';
 import axios from "axios";
 import Cookies from "js-cookie";
 import { enum_api_uri } from "../config/enum";
@@ -21,9 +19,6 @@ import ListSearchBox from "../components/component/square/ListSearchBox";
 import ListCont from "../components/component/square/ListCont";
 import m_visual_tag from "../images/main_visual_tag.svg";
 import m_visual_img1 from "../images/main_visual_txt1.png";
-import tip_box_img from "../images/tip_box.svg";
-import tip_box_img_mo from "../images/tip_box_mo.svg";
-
 
 
 const Main = () => {
