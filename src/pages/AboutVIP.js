@@ -294,7 +294,7 @@ const AboutVIP = () => {
                         <p className="txt2">두 유형의 회원님들은 매니저의 매칭을 통해 서로 소개팅을 주선받습니다. <br/><br/>
                             선택 회원은 매칭에 비용을 투자하여 <br/>
                             자신이 원하는 1% 회원을 선택, 소개를 받는 권리를 갖게 됩니다.<br/>
-                            반면, 1% 회원은 자신의 매력을 인정받아 소개팅 시 매너베이트를 전달받는 혜택을 누리게 됩니다.</p>
+                            반면, 1% 회원은 자신의 매력을 인정받아 소개팅 시 베이트 티켓을 전달받는 혜택을 누리게 됩니다.</p>
                     </div>
                     <div className="img_box">
                         <img src={main_img} alt="vip 소개팅" />
@@ -826,7 +826,7 @@ const AboutVIP = () => {
                             <ul className="img_ul flex_between flex_wrap">
                                 <li>
                                     <div><img src={vip_sect5_img1} alt="이미지" /></div>
-                                    <p>소개팅 진행 시 선택 회원님께서 <br/>1만 원의 매너베이트 전달</p>
+                                    <p>소개팅 진행 시 선택 회원님께서 <br/>1만 원의 베이트 티켓 전달</p>
                                 </li>
                                 <li>
                                     <div><img src={vip_sect5_img2} alt="이미지" /></div>
@@ -854,7 +854,7 @@ const AboutVIP = () => {
                             <li><strong>3. </strong>소개팅이 꽤 진행됐음에도 실제 만남이 일어나지 않은 경우</li>
                             <li><strong>4. </strong>진중한 목적이 아닌 혜택만이 목적일 경우</li>
                             <li><strong>5. </strong>매니저에게 대가성으로 추가 금액을 받은 경우</li>
-                            <li><strong>6. </strong>그 외 "매너베이트" 이외의 금액을 편취한 경우</li>
+                            <li><strong>6. </strong>그 외 "베이트 티켓" 이외의 금액을 편취한 경우</li>
                         </ul>
                     </div>
                 </div>
