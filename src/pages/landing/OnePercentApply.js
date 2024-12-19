@@ -39,7 +39,6 @@ const OnePercentApply = () => {
     const vip_apply_img_delt = enum_api_uri.vip_apply_img_delt;
     const [confirm, setConfirm] = useState(false);
     const [applyOkConfirm, setApplyOkConfirm] = useState(false);
-    const [values, setValues] = useState({});
     const [yearList, setYearList] = useState([]);
     const [yearSelected, setYearSelected] = useState(false);
     const [imgNameList, setImgNameList] = useState([]);
@@ -51,6 +50,7 @@ const OnePercentApply = () => {
     const [sect3On, setSect3On] = useState(false);
     const [info, setInfo] = useState({});
     const { apply_idx } = useParams();
+    const termsList = [{value:6,txt:"개인정보 보호정책 동의"},{value:7,txt:"개인정보 수집 및 이용동의"},{value:8,txt:"이용약관 동의"},{value:5,txt:"광고성 메시지 수신 동의"}];
 
 
     // Confirm팝업 닫힐때
@@ -239,13 +239,10 @@ const OnePercentApply = () => {
 
     //전체약관 동의
     const allAgreeHandler = (checked) => {
-        setIsAllChecked(!isAllChecked)
-        if (checked) {
-          setCheckedItems(['terms5', 'terms6']);
-        } else if ((!checked && checkedItems.includes('terms5')) || (!checked && checkedItems.includes('terms6'))) {
-          setCheckedItems([]);
-        }
-    }
+        const allTerms = ['terms5', 'terms6', 'terms7', 'terms8'];
+        setIsAllChecked(checked);
+        setCheckedItems(checked ? allTerms : []);
+    };
 
 
     //약관동의
@@ -260,11 +257,7 @@ const OnePercentApply = () => {
 
     //약관동의 다하면 전체약관동의 체크박스 체크됨
     useEffect(() => {
-        if (checkedItems.length == 2) {
-            setIsAllChecked(true)
-        } else {
-            setIsAllChecked(false)
-        }
+        setIsAllChecked(checkedItems.length === 4);
         dispatch(termsCheckList(checkedItems));
     }, [checkedItems]);
 
@@ -538,46 +531,28 @@ const OnePercentApply = () => {
                                         </label>
                                     </div>
                                     <ul className="terms_ul">
-                                        <li>
-                                            <div className="custom_check2">
-                                                <label htmlFor="terms5">
-                                                    <input type={`checkbox`}
-                                                        onChange={(e)=>{
-                                                            agreeHandler(e.currentTarget.checked, e.currentTarget.id);
-                                                        }} 
-                                                        checked={checkedItems.includes('terms5') ? true : false}
-                                                        id="terms5"
-                                                    />
-                                                    <span className="check">체크박스</span>
-                                                    <span className="txt">개인정보 수집 및 이용에 관한 동의</span>
-                                                </label>
-                                            </div>
-                                            <button type="button" className="open_pop"
-                                                onClick={()=>{
-                                                    dispatch(termsPop({termsPop:true, termsPopIdx:5}))
-                                                }}
-                                            >레이어 팝업 버튼</button>
-                                        </li>
-                                        <li>
-                                            <div className="custom_check2">
-                                                <label htmlFor="terms6">
-                                                    <input type={`checkbox`}
-                                                        onChange={(e)=>{
-                                                            agreeHandler(e.currentTarget.checked, e.currentTarget.id);
-                                                        }} 
-                                                        checked={checkedItems.includes('terms6') ? true : false}
-                                                        id="terms6"
-                                                    />
-                                                    <span className="check">체크박스</span>
-                                                    <span className="txt">광고성 메시지 수신 동의</span>
-                                                </label>
-                                            </div>
-                                            <button type="button" className="open_pop"
-                                                onClick={()=>{
-                                                    dispatch(termsPop({termsPop:true, termsPopIdx:6}))
-                                                }}
-                                            >레이어 팝업 버튼</button>
-                                        </li>
+                                        {termsList.map((cont,i)=>(
+                                            <li key={`terms_${i}`}>
+                                                <div className="custom_check2">
+                                                    <label htmlFor={`terms${cont.value}`}>
+                                                        <input type={`checkbox`}
+                                                            onChange={(e)=>{
+                                                                agreeHandler(e.currentTarget.checked, e.currentTarget.id);
+                                                            }} 
+                                                            checked={checkedItems.includes(`terms${cont.value}`) ? true : false}
+                                                            id={`terms${cont.value}`}
+                                                        />
+                                                        <span className="check">체크박스</span>
+                                                        <span className="txt">{cont.txt}</span>
+                                                    </label>
+                                                </div>
+                                                <button type="button" className="open_pop"
+                                                    onClick={()=>{
+                                                        dispatch(termsPop({termsPop:true, termsPopIdx:cont.value}))
+                                                    }}
+                                                >레이어 팝업 버튼</button>
+                                            </li>
+                                        ))}
                                     </ul>
                                     <button type="button" className="btn_apply" 
                                         onClick={()=>{

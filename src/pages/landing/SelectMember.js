@@ -95,6 +95,7 @@ const SelectMember = () => {
     const { apply_idx } = useParams();
     const [isAllChecked, setIsAllChecked] = useState(false);
     const [checkedItems, setCheckedItems] = useState([]);
+    const termsList = [{value:9,txt:"개인정보 수집 및 이용"},{value:5,txt:"광고성 메시지 수신"}];
 
 
     // Google tag
@@ -420,11 +421,7 @@ const SelectMember = () => {
 
     //약관동의 다하면 전체약관동의 체크박스 체크됨
     useEffect(() => {
-        if (checkedItems.length == 2) {
-            setIsAllChecked(true)
-        } else {
-            setIsAllChecked(false)
-        }
+        setIsAllChecked(checkedItems.length === 2)
         dispatch(termsCheckList(checkedItems));
     }, [checkedItems]);
 
@@ -882,32 +879,21 @@ const SelectMember = () => {
                                             </li> 
                                         </ul>
                                         <div className="agree_box">
-                                            <div className="custom_check3">
-                                                <label>
-                                                    <input type={`checkbox`} 
-                                                        onChange={(e)=>{
-                                                            agreeHandler(e.currentTarget.checked, e.currentTarget.id);
-                                                        }} 
-                                                        checked={checkedItems.includes('terms5') ? true : false}
-                                                        id="terms5"
-                                                    />
-                                                    <span className="check">체크박스</span>
-                                                    <p className="txt" onClick={()=>{dispatch(termsPop({termsPop:true, termsPopIdx:5}))}}><span>이용약관</span> 및 <span>개인정보 처리방침</span>에 동의합니다.</p>
-                                                </label>
-                                            </div>
-                                            <div className="custom_check3">
-                                                <label>
-                                                    <input type={`checkbox`}
-                                                        onChange={(e)=>{
-                                                            agreeHandler(e.currentTarget.checked, e.currentTarget.id);
-                                                        }} 
-                                                        checked={checkedItems.includes('terms6') ? true : false}
-                                                        id="terms6"
-                                                    />
-                                                    <span className="check">체크박스</span>
-                                                    <p className="txt" onClick={()=>{dispatch(termsPop({termsPop:true, termsPopIdx:6}))}}><span>광고성 메시지 수신</span>에 동의합니다.</p>
-                                                </label>
-                                            </div>
+                                            {termsList.map((cont,i)=>(
+                                                <div key={`terms_${i}`} className="custom_check3">
+                                                    <label htmlFor={`terms${cont.value}`}>
+                                                        <input type={`checkbox`} 
+                                                            onChange={(e)=>{
+                                                                agreeHandler(e.currentTarget.checked, e.currentTarget.id);
+                                                            }} 
+                                                            checked={checkedItems.includes(`terms${cont.value}`) ? true : false}
+                                                            id={`terms${cont.value}`}
+                                                        />
+                                                        <span className="check">체크박스</span>
+                                                        <p className="txt" onClick={()=>{dispatch(termsPop({termsPop:true, termsPopIdx:cont.value}))}}><span>{cont.txt}</span>에 동의합니다.</p>
+                                                    </label>
+                                                </div>
+                                            ))}
                                             <div className="scroll_wrap">
                                                 <div className="txt">{terms.contents_p}</div>
                                             </div>

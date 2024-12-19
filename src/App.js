@@ -14,7 +14,6 @@ import FindUser from './pages/member/FindUser';
 import ResetPassword from './pages/member/ResetPassword';
 import Mypage from './pages/member/Mypage';
 import EditMyInfo from './pages/member/EditMyInfo';
-import AllFeed from './pages/square/AllFeed';
 import ManagerList from './pages/square/ManagerList';
 import ManagerDetail from './pages/square/ManagerDetail';
 import AboutVIP from './pages/AboutVIP';
@@ -32,7 +31,6 @@ import AppEditProfile from './pages/app/EditProfile';
 import AppWithdraw from './pages/app/Withdraw';
 import AppListDetail from './pages/app/ListDetail';
 import AppImgTest from './pages/app/ImgTest';
-
 import OnePercentApply from './pages/landing/OnePercentApply';
 import SelectMember from './pages/landing/SelectMember';
 import './css/reset.css';
