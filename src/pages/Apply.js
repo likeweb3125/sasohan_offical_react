@@ -115,7 +115,7 @@ const Apply = () => {
 
     //약관내용 가져오기
     const getTerms = () => {
-        axios.get(`${policy_cont.replace(":policy_type",3)}`)
+        axios.get(`${policy_cont.replace(":policy_type",5)}`)
         .then((res)=>{
             if(res.status === 200){
                 let data = res.data;

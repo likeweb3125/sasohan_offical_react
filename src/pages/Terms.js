@@ -49,11 +49,11 @@ const Terms = () => {
 
     useEffect(()=>{
         let idx;
-        if(terms_tit == 'privacy-policy'){
+        if(terms_tit == 'privacy-policy'){ //개인정보 보호정책
             idx = 1;
-        }else if(terms_tit == 'personal-information-collection'){
+        }else if(terms_tit == 'personal-information-collection'){ //개인정보수집
             idx = 3;
-        }else if(terms_tit == 'terms-of-use'){
+        }else if(terms_tit == 'terms-of-use'){ //이용약관
             idx = 4;
         }
         setTabOn(idx);

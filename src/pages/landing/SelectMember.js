@@ -95,7 +95,7 @@ const SelectMember = () => {
     const { apply_idx } = useParams();
     const [isAllChecked, setIsAllChecked] = useState(false);
     const [checkedItems, setCheckedItems] = useState([]);
-    const termsList = [{value:9,txt:"개인정보 수집 및 이용"},{value:5,txt:"광고성 메시지 수신"}];
+    const termsList = [{value:5,txt:"개인정보 수집 및 이용"},{value:6,txt:"광고성 메시지 수신"}];
 
 
     // Google tag

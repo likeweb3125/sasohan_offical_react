@@ -50,7 +50,7 @@ const OnePercentApply = () => {
     const [sect3On, setSect3On] = useState(false);
     const [info, setInfo] = useState({});
     const { apply_idx } = useParams();
-    const termsList = [{value:6,txt:"개인정보 보호정책 동의"},{value:7,txt:"개인정보 수집 및 이용동의"},{value:8,txt:"이용약관 동의"},{value:5,txt:"광고성 메시지 수신 동의"}];
+    const termsList = [{value:1,txt:"개인정보 보호정책 동의"},{value:3,txt:"개인정보 수집 및 이용동의"},{value:4,txt:"이용약관 동의"},{value:6,txt:"광고성 메시지 수신 동의"}];
 
 
     // Confirm팝업 닫힐때
@@ -239,7 +239,7 @@ const OnePercentApply = () => {
 
     //전체약관 동의
     const allAgreeHandler = (checked) => {
-        const allTerms = ['terms5', 'terms6', 'terms7', 'terms8'];
+        const allTerms = ['terms1', 'terms3', 'terms4', 'terms6'];
         setIsAllChecked(checked);
         setCheckedItems(checked ? allTerms : []);
     };
