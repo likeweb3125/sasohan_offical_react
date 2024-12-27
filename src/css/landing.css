@@ -274,6 +274,7 @@
 .select_apply_wrap .form_box>.box{width: 426px;border: 2px solid rgba(248, 92, 131, 0.40);border-radius: 40px;background: radial-gradient(87.22% 95.11% at 42.72% 19.09%, #FFF 0%, #FAFAFA 100%);box-shadow: -4px -6px 20px 0px rgba(255, 255, 255, 0.50), 4px 6px 40px 0px rgba(255, 115, 151, 0.20);padding: 28px 40px;position: sticky;top: 100px;right: 0;}
 .select_apply_wrap .form_box .tit{font-size: 32px;font-weight: 800;color: #F85C83;padding-bottom: 24px;}
 .select_apply_wrap .form_box .heart_img{position: absolute;top: -60px;right: 0;}
+.select_apply_wrap .form_box form>.scroll_wrap {max-height: 60vh;}
 .select_apply_wrap .form_ul>li{padding-bottom: 16px;}
 .select_apply_wrap .form_ul>li>p{color: #000;font-weight: 500;padding-bottom: 12px;}
 .select_apply_wrap .form_ul>li>p strong{color: #F85C83;}
@@ -327,7 +328,7 @@
     .select_apply{overflow-x: hidden;}
     .select_apply_wrap .form_box{position: static;height: auto;padding-top: 160px;max-width: 1200px;}
     .select_apply_wrap .form_box>.box{width: 100%;}
-
+    .select_apply_wrap .form_box form>.scroll_wrap {max-height: unset;}
 }
 
 

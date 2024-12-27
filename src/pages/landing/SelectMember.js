@@ -96,6 +96,7 @@ const SelectMember = () => {
     const [isAllChecked, setIsAllChecked] = useState(false);
     const [checkedItems, setCheckedItems] = useState([]);
     const termsList = [{value:5,txt:"개인정보 수집 및 이용"},{value:6,txt:"광고성 메시지 수신"}];
+    const channels = ['인스타그램', '유튜브', '틱톡'];
 
 
     // Google tag
@@ -351,6 +352,14 @@ const SelectMember = () => {
                 confirmPopBtn:1,
             }));
             setConfirm(true);
+        }else if(!values.channel){
+            dispatch(confirmPop({
+                confirmPop:true,
+                confirmPopTit:'알림',
+                confirmPopTxt:'신청경로를 선택해주세요.',
+                confirmPopBtn:1,
+            }));
+            setConfirm(true);
         }else if(!isAllChecked){
             dispatch(confirmPop({
                 confirmPop:true,
@@ -371,7 +380,8 @@ const SelectMember = () => {
                 gender: values.gender,
                 address1: addr,
                 tel: tel,
-                idx: apply_idx
+                idx: apply_idx,
+                motive: values.channel
             };
 
             axios.post(`${date_apply}`,body)
@@ -656,62 +666,145 @@ const SelectMember = () => {
                                     address1: "",
                                     address2: "",
                                     tel: "",
+                                    channel: ""
                                 }}
                             >
-                                {({values, handleChange, handleBlur, errors, touched, setFieldValue}) => (
+                                {({values, handleChange, setFieldValue}) => (
                                     <form>
-                                        <ul className="form_ul">
-                                            <li>
-                                                <p>이름</p>
-                                                <div className="input_box5">
-                                                    <input type={`text`} placeholder="이름을 입력해 주세요." name="name" value={values.name} onChange={handleChange} />
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <p>출생연도</p>
-                                                <div className="input_box5">
-                                                    <select 
-                                                        name="year"
-                                                        value={values.year}
-                                                        onChange={(e)=>{
-                                                            handleChange(e);
-                                                            setYearSelected(true);
-                                                        }}
-                                                        className={yearSelected ? "selected" : ""}
-                                                    >
-                                                        <option value='' hidden>출생연도를 선택해 주세요.</option>
-                                                        {yearList.map((cont,i)=>{
-                                                            return(
-                                                                <option value={cont} key={i}>{cont} 년생</option>
-                                                            );
-                                                        })}
-                                                    </select>
-                                                </div>
-                                            </li>
-                                            <li className="addr_select_li bp0">
-                                                <p>현재 <strong>선호지역</strong>을 선택해주세요! (택3)</p>
-                                                <div>
-                                                    <div className="address_box flex_between">
-                                                        <div className="input_box5">
-                                                            <select 
-                                                                name="address1" 
-                                                                value={values.address1} 
-                                                                onChange={(e)=>{
-                                                                    const code = e.target.options[e.target.selectedIndex].getAttribute("data-code");
-                                                                    handleChange(e);
-                                                                    setAddrSelected(true);
-                                                                    getAddress2(code);
+                                        <div className="scroll_wrap">
+                                            <ul className="form_ul">
+                                                <li>
+                                                    <p>이름</p>
+                                                    <div className="input_box5">
+                                                        <input type={`text`} placeholder="이름을 입력해 주세요." name="name" value={values.name} onChange={handleChange} />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <p>출생연도</p>
+                                                    <div className="input_box5">
+                                                        <select 
+                                                            name="year"
+                                                            value={values.year}
+                                                            onChange={(e)=>{
+                                                                handleChange(e);
+                                                                setYearSelected(true);
+                                                            }}
+                                                            className={yearSelected ? "selected" : ""}
+                                                        >
+                                                            <option value='' hidden>출생연도를 선택해 주세요.</option>
+                                                            {yearList.map((cont,i)=>{
+                                                                return(
+                                                                    <option value={cont} key={i}>{cont} 년생</option>
+                                                                );
+                                                            })}
+                                                        </select>
+                                                    </div>
+                                                </li>
+                                                <li className="addr_select_li bp0">
+                                                    <p>현재 <strong>선호지역</strong>을 선택해주세요! (택3)</p>
+                                                    <div>
+                                                        <div className="address_box flex_between">
+                                                            <div className="input_box5">
+                                                                <select 
+                                                                    name="address1" 
+                                                                    value={values.address1} 
+                                                                    onChange={(e)=>{
+                                                                        const code = e.target.options[e.target.selectedIndex].getAttribute("data-code");
+                                                                        handleChange(e);
+                                                                        setAddrSelected(true);
+                                                                        getAddress2(code);
 
-                                                                    setFieldValue("address2","");
+                                                                        setFieldValue("address2","");
 
-                                                                    const val = e.currentTarget.value;
-                                                                    if(val == "세종특별자치시" && !addrSelectList.includes("세종")){
-                                                                        if(addrSelectList.includes("전국")){
-                                                                            const updatedList = [...addrSelectList];
-                                                                                updatedList.pop('전국');
-                                                                                updatedList.push("세종");
+                                                                        const val = e.currentTarget.value;
+                                                                        if(val == "세종특별자치시" && !addrSelectList.includes("세종")){
+                                                                            if(addrSelectList.includes("전국")){
+                                                                                const updatedList = [...addrSelectList];
+                                                                                    updatedList.pop('전국');
+                                                                                    updatedList.push("세종");
+                                                                                setAddrSelectList(updatedList);
+                                                                            }else{
+                                                                                if(addrSelectList.length > 9){
+                                                                                    dispatch(confirmPop({
+                                                                                        confirmPop:true,
+                                                                                        confirmPopTit:'알림',
+                                                                                        confirmPopTxt:'선호지역은 최대 10개까지만 선택해주세요.',
+                                                                                        confirmPopBtn:1,
+                                                                                    }));
+                                                                                    setConfirm(true);
+                                                                                }else{
+                                                                                    const updatedList = [...addrSelectList];
+                                                                                        updatedList.push("세종");
+                                                                                    setAddrSelectList(updatedList);
+                                                                                }
+                                                                            }
+                                                                        }
+
+                                                                        if(val == "전국"){
+                                                                            const updatedList = ["전국"];
                                                                             setAddrSelectList(updatedList);
-                                                                        }else{
+                                                                        }
+                                                                    }}
+                                                                    className={addrSelected ? "selected" : ""}
+                                                                >
+                                                                    <option value='' hidden disabled>시/도</option>
+                                                                    <option value="전국">전국</option>
+                                                                    {addressList.map((cont, i)=>{
+                                                                        return(
+                                                                            <option value={cont.sido_gugun} key={i} data-code={cont.local_code}>{cont.sido_gugun}</option>
+                                                                        );
+                                                                    })}
+                                                                </select>
+                                                            </div>
+                                                            <div className="input_box5">
+                                                                <select 
+                                                                    name="address2" 
+                                                                    value={values.address2} 
+                                                                    onChange={(e)=>{
+                                                                        handleChange(e);
+                                                                        setAddr2Selected(true);
+
+                                                                        const val = e.currentTarget.value;
+
+                                                                        let address1_txt = values.address1;
+                                                                        if(address1_txt === "강원도"){
+                                                                            address1_txt = "강원";
+                                                                        }
+                                                                        if(address1_txt === "경기도"){
+                                                                            address1_txt = "경기";
+                                                                        }
+                                                                        if(address1_txt === "경상남도"){
+                                                                            address1_txt = "경남";
+                                                                        }
+                                                                        if(address1_txt === "경상북도"){
+                                                                            address1_txt = "경북";
+                                                                        }
+                                                                        if(address1_txt === "전라남도"){
+                                                                            address1_txt = "전남";
+                                                                        }
+                                                                        if(address1_txt === "전라북도"){
+                                                                            address1_txt = "전북";
+                                                                        }
+                                                                        if(address1_txt === "충청남도"){
+                                                                            address1_txt = "충남";
+                                                                        }
+                                                                        if(address1_txt === "충청북도"){
+                                                                            address1_txt = "충북";
+                                                                        }
+                                                                        if(address1_txt.includes("광역시")){
+                                                                            address1_txt = address1_txt.replace("광역시","");
+                                                                        }
+                                                                        if(address1_txt.includes("특별시")){
+                                                                            address1_txt = address1_txt.replace("특별시","");
+                                                                        }
+                                                                        if(address1_txt.includes("특별자치시")){
+                                                                            address1_txt = address1_txt.replace("특별자치시","");
+                                                                        }
+                                                                        if(address1_txt.includes("특별자치도")){
+                                                                            address1_txt = address1_txt.replace("특별자치도","");
+                                                                        }
+
+                                                                        if(val.length > 0){
                                                                             if(addrSelectList.length > 9){
                                                                                 dispatch(confirmPop({
                                                                                     confirmPop:true,
@@ -721,181 +814,118 @@ const SelectMember = () => {
                                                                                 }));
                                                                                 setConfirm(true);
                                                                             }else{
-                                                                                const updatedList = [...addrSelectList];
-                                                                                    updatedList.push("세종");
-                                                                                setAddrSelectList(updatedList);
+                                                                                let updatedList = [...addrSelectList];
+                                                                                const txt = address1_txt + " " + val;
+
+                                                                                if(addrSelectList.includes('전국')){
+                                                                                    updatedList.pop('전국');
+                                                                                }
+                                                                                if(!addrSelectList.includes(txt)){
+                                                                                    updatedList.push(txt);
+                                                                                    setAddrSelectList(updatedList);
+                                                                                }
+                                                                                
                                                                             }
-                                                                        }
-                                                                    }
-
-                                                                    if(val == "전국"){
-                                                                        const updatedList = ["전국"];
-                                                                        setAddrSelectList(updatedList);
-                                                                    }
-                                                                }}
-                                                                className={addrSelected ? "selected" : ""}
-                                                            >
-                                                                <option value='' hidden disabled>시/도</option>
-                                                                <option value="전국">전국</option>
-                                                                {addressList.map((cont, i)=>{
-                                                                    return(
-                                                                        <option value={cont.sido_gugun} key={i} data-code={cont.local_code}>{cont.sido_gugun}</option>
-                                                                    );
-                                                                })}
-                                                            </select>
-                                                        </div>
-                                                        <div className="input_box5">
-                                                            <select 
-                                                                name="address2" 
-                                                                value={values.address2} 
-                                                                onChange={(e)=>{
-                                                                    handleChange(e);
-                                                                    setAddr2Selected(true);
-
-                                                                    const val = e.currentTarget.value;
-
-                                                                    let address1_txt = values.address1;
-                                                                    if(address1_txt === "강원도"){
-                                                                        address1_txt = "강원";
-                                                                    }
-                                                                    if(address1_txt === "경기도"){
-                                                                        address1_txt = "경기";
-                                                                    }
-                                                                    if(address1_txt === "경상남도"){
-                                                                        address1_txt = "경남";
-                                                                    }
-                                                                    if(address1_txt === "경상북도"){
-                                                                        address1_txt = "경북";
-                                                                    }
-                                                                    if(address1_txt === "전라남도"){
-                                                                        address1_txt = "전남";
-                                                                    }
-                                                                    if(address1_txt === "전라북도"){
-                                                                        address1_txt = "전북";
-                                                                    }
-                                                                    if(address1_txt === "충청남도"){
-                                                                        address1_txt = "충남";
-                                                                    }
-                                                                    if(address1_txt === "충청북도"){
-                                                                        address1_txt = "충북";
-                                                                    }
-                                                                    if(address1_txt.includes("광역시")){
-                                                                        address1_txt = address1_txt.replace("광역시","");
-                                                                    }
-                                                                    if(address1_txt.includes("특별시")){
-                                                                        address1_txt = address1_txt.replace("특별시","");
-                                                                    }
-                                                                    if(address1_txt.includes("특별자치시")){
-                                                                        address1_txt = address1_txt.replace("특별자치시","");
-                                                                    }
-                                                                    if(address1_txt.includes("특별자치도")){
-                                                                        address1_txt = address1_txt.replace("특별자치도","");
-                                                                    }
-
-                                                                    if(val.length > 0){
-                                                                        if(addrSelectList.length > 9){
-                                                                            dispatch(confirmPop({
-                                                                                confirmPop:true,
-                                                                                confirmPopTit:'알림',
-                                                                                confirmPopTxt:'선호지역은 최대 10개까지만 선택해주세요.',
-                                                                                confirmPopBtn:1,
-                                                                            }));
-                                                                            setConfirm(true);
-                                                                        }else{
-                                                                            let updatedList = [...addrSelectList];
-                                                                            const txt = address1_txt + " " + val;
-
-                                                                            if(addrSelectList.includes('전국')){
-                                                                                updatedList.pop('전국');
-                                                                            }
-                                                                            if(!addrSelectList.includes(txt)){
-                                                                                updatedList.push(txt);
-                                                                                setAddrSelectList(updatedList);
-                                                                            }
-                                                                            
-                                                                        }
-                                                                    }  
-                                                                }}
-                                                                className={addr2Selected ? "selected" : ""}
-                                                            >
-                                                                <option value='' hidden disabled>구</option>
-                                                                {addressList2.map((cont, i)=>{
-                                                                    return(
-                                                                        <option value={cont.sido_gugun} key={i}>{cont.sido_gugun}</option>
-                                                                    );
-                                                                })}
-                                                            </select>
+                                                                        }  
+                                                                    }}
+                                                                    className={addr2Selected ? "selected" : ""}
+                                                                >
+                                                                    <option value='' hidden disabled>구</option>
+                                                                    {addressList2.map((cont, i)=>{
+                                                                        return(
+                                                                            <option value={cont.sido_gugun} key={i}>{cont.sido_gugun}</option>
+                                                                        );
+                                                                    })}
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </li>
-                                            <li className="addr_li">
-                                                <div className="addr_list_box">
-                                                    <ul className="flex_wrap">
-                                                        {addrSelectList.map((cont,i)=>{
-                                                            return(
-                                                                <li key={i}><span>{cont}</span><button type="button" className="btn_delt" onClick={()=>{addrDeltHandler(i)}}>삭제버튼</button></li>
-                                                            );
-                                                        })}
+                                                </li>
+                                                <li className="addr_li">
+                                                    <div className="addr_list_box">
+                                                        <ul className="flex_wrap">
+                                                            {addrSelectList.map((cont,i)=>{
+                                                                return(
+                                                                    <li key={i}><span>{cont}</span><button type="button" className="btn_delt" onClick={()=>{addrDeltHandler(i)}}>삭제버튼</button></li>
+                                                                );
+                                                            })}
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <p>연락처</p>
+                                                    <div className="input_box5">
+                                                        <PatternFormat format="###-####-####" name="tel" value={values.tel} onChange={handleChange} placeholder="연락처를 입력해주세요." />
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <p>성별</p>
+                                                    <ul className="gender_ul flex_between">
+                                                        <li>
+                                                            <label>
+                                                                <input type={`radio`} name="gender"
+                                                                    onChange={()=>{
+                                                                        setFieldValue("gender","1");
+                                                                    }} 
+                                                                />
+                                                                <div className="box">
+                                                                    <img src={ic_male} alt="남성"/>
+                                                                    <span>남성</span>
+                                                                </div>
+                                                            </label>
+                                                        </li>
+                                                        <li>
+                                                            <label>
+                                                                <input type={`radio`} name="gender" 
+                                                                    onChange={()=>{
+                                                                        setFieldValue("gender","2");
+                                                                    }}
+                                                                />
+                                                                <div className="box">
+                                                                    <img src={ic_female} alt="여성"/>
+                                                                    <span>여성</span>
+                                                                </div>
+                                                            </label>
+                                                        </li>
                                                     </ul>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <p>연락처</p>
-                                                <div className="input_box5">
-                                                    <PatternFormat format="###-####-####" name="tel" value={values.tel} onChange={handleChange} placeholder="연락처를 입력해주세요." />
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <p>성별</p>
-                                                <ul className="gender_ul flex_between">
-                                                    <li>
-                                                        <label>
-                                                            <input type={`radio`} name="gender"
-                                                                onChange={()=>{
-                                                                    setFieldValue("gender","1");
+                                                </li>
+                                                <li>
+                                                    <p>신청경로</p>
+                                                    <div className="input_box5">
+                                                        <select 
+                                                            name="channel"
+                                                            value={values.channel}
+                                                            onChange={handleChange}
+                                                        >
+                                                            <option value='' hidden>신청경로를 선택해 주세요.</option>
+                                                            {channels.map((cont,i)=>{
+                                                                return(
+                                                                    <option value={cont} key={i}>{cont}</option>
+                                                                );
+                                                            })}
+                                                        </select>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                            <div className="agree_box">
+                                                {termsList.map((cont,i)=>(
+                                                    <div key={`terms_${i}`} className="custom_check3">
+                                                        <label htmlFor={`terms${cont.value}`}>
+                                                            <input type={`checkbox`} 
+                                                                onChange={(e)=>{
+                                                                    agreeHandler(e.currentTarget.checked, e.currentTarget.id);
                                                                 }} 
+                                                                checked={checkedItems.includes(`terms${cont.value}`) ? true : false}
+                                                                id={`terms${cont.value}`}
                                                             />
-                                                            <div className="box">
-                                                                <img src={ic_male} alt="남성"/>
-                                                                <span>남성</span>
-                                                            </div>
+                                                            <span className="check">체크박스</span>
+                                                            <p className="txt" onClick={()=>{dispatch(termsPop({termsPop:true, termsPopIdx:cont.value}))}}><span>{cont.txt}</span>에 동의합니다.</p>
                                                         </label>
-                                                    </li>
-                                                    <li>
-                                                        <label>
-                                                            <input type={`radio`} name="gender" 
-                                                                onChange={()=>{
-                                                                    setFieldValue("gender","2");
-                                                                }}
-                                                            />
-                                                            <div className="box">
-                                                                <img src={ic_female} alt="여성"/>
-                                                                <span>여성</span>
-                                                            </div>
-                                                        </label>
-                                                    </li>
-                                                </ul>
-                                            </li> 
-                                        </ul>
-                                        <div className="agree_box">
-                                            {termsList.map((cont,i)=>(
-                                                <div key={`terms_${i}`} className="custom_check3">
-                                                    <label htmlFor={`terms${cont.value}`}>
-                                                        <input type={`checkbox`} 
-                                                            onChange={(e)=>{
-                                                                agreeHandler(e.currentTarget.checked, e.currentTarget.id);
-                                                            }} 
-                                                            checked={checkedItems.includes(`terms${cont.value}`) ? true : false}
-                                                            id={`terms${cont.value}`}
-                                                        />
-                                                        <span className="check">체크박스</span>
-                                                        <p className="txt" onClick={()=>{dispatch(termsPop({termsPop:true, termsPopIdx:cont.value}))}}><span>{cont.txt}</span>에 동의합니다.</p>
-                                                    </label>
+                                                    </div>
+                                                ))}
+                                                <div className="scroll_wrap">
+                                                    <div className="txt">{terms.contents_p}</div>
                                                 </div>
-                                            ))}
-                                            <div className="scroll_wrap">
-                                                <div className="txt">{terms.contents_p}</div>
                                             </div>
                                         </div>
                                         <button type="button" className="btn_apply" 
