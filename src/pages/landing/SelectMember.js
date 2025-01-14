@@ -56,6 +56,7 @@ const SelectMember = () => {
     const m_address = enum_api_uri.m_address;
     const m_address2 = enum_api_uri.m_address2;
     const date_apply = enum_api_uri.date_apply;
+    const s_motive_list = enum_api_uri.s_motive_list;
     const [memberList] = useState([1, 2, 3, 4]);
     const [authrList] = useState([
         "우수기술기업 인증서",
@@ -97,31 +98,7 @@ const SelectMember = () => {
         { value: 5, txt: "개인정보 수집 및 이용" },
         { value: 6, txt: "광고성 메시지 수신" },
     ];
-    const [channels, setChannels] = useState([
-        "유튜브",
-        "인스타",
-        "블로그",
-        "틱톡",
-        "X",
-    ]);
-
-    // Google tag
-    useEffect(() => {
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {
-            window.dataLayer.push(arguments);
-        }
-        gtag("js", new Date());
-        gtag("config", "AW-16615963599");
-        gtag("event", "conversion", {
-            send_to: "AW-16615963599/XJ50CLit0uIZEM_3jfM9",
-            value: 1.0,
-            currency: "KRW",
-        });
-        if (apply_idx === "18") {
-            setChannels(["유튜브", "인스타", "틱톡"]);
-        }
-    }, [apply_idx]);
+    const [channels, setChannels] = useState([]);
 
     // Confirm팝업 닫힐때
     useEffect(() => {
@@ -130,6 +107,20 @@ const SelectMember = () => {
             setSubmitConfirm(false);
         }
     }, [popup.confirmPop]);
+
+    //에러메시지
+    const errorHandler = (error) => {
+        const err_msg = CF.errorMsgHandler(error);
+        dispatch(
+            confirmPop({
+                confirmPop: true,
+                confirmPopTit: "알림",
+                confirmPopTxt: err_msg,
+                confirmPopBtn: 1,
+            })
+        );
+        setConfirm(true);
+    };
 
     //스크롤시 헤더메뉴 on
     const scrollHeaderOn = () => {
@@ -184,6 +175,21 @@ const SelectMember = () => {
         };
     }, []);
 
+    //신청경로 목록 가져오기
+    const getChannels = async () => {
+        try {
+            const res = await axios.get(
+                s_motive_list.replace(":idx", apply_idx)
+            );
+            if (res.status === 200) {
+                const data = res.data;
+                setChannels(data);
+            }
+        } catch (error) {
+            errorHandler(error);
+        }
+    };
+
     //후기리스트 가져오기
     const getReviewList = () => {
         axios
@@ -196,16 +202,7 @@ const SelectMember = () => {
                 }
             })
             .catch((error) => {
-                const err_msg = CF.errorMsgHandler(error);
-                dispatch(
-                    confirmPop({
-                        confirmPop: true,
-                        confirmPopTit: "알림",
-                        confirmPopTxt: err_msg,
-                        confirmPopBtn: 1,
-                    })
-                );
-                setConfirm(true);
+                errorHandler(error);
             });
     };
 
@@ -235,16 +232,7 @@ const SelectMember = () => {
                 }
             })
             .catch((error) => {
-                const err_msg = CF.errorMsgHandler(error);
-                dispatch(
-                    confirmPop({
-                        confirmPop: true,
-                        confirmPopTit: "알림",
-                        confirmPopTxt: err_msg,
-                        confirmPopBtn: 1,
-                    })
-                );
-                setConfirm(true);
+                errorHandler(error);
             });
     };
 
@@ -258,16 +246,7 @@ const SelectMember = () => {
                 }
             })
             .catch((error) => {
-                const err_msg = CF.errorMsgHandler(error);
-                dispatch(
-                    confirmPop({
-                        confirmPop: true,
-                        confirmPopTit: "알림",
-                        confirmPopTxt: err_msg,
-                        confirmPopBtn: 1,
-                    })
-                );
-                setConfirm(true);
+                errorHandler(error);
             });
     };
 
@@ -282,25 +261,32 @@ const SelectMember = () => {
                 }
             })
             .catch((error) => {
-                const err_msg = CF.errorMsgHandler(error);
-                dispatch(
-                    confirmPop({
-                        confirmPop: true,
-                        confirmPopTit: "알림",
-                        confirmPopTxt: err_msg,
-                        confirmPopBtn: 1,
-                    })
-                );
-                setConfirm(true);
+                errorHandler(error);
             });
     };
 
+    // 렌더링시 Google tag설정
     useEffect(() => {
-        getReviewList();
-        getYearList();
-        getAddress();
-        geInfo();
-    }, []);
+        if (apply_idx) {
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                window.dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+            gtag("config", "AW-16615963599");
+            gtag("event", "conversion", {
+                send_to: "AW-16615963599/XJ50CLit0uIZEM_3jfM9",
+                value: 1.0,
+                currency: "KRW",
+            });
+
+            getReviewList();
+            getYearList();
+            getAddress();
+            geInfo();
+            getChannels();
+        }
+    }, [apply_idx]);
 
     //선택한 지역리스트 값 변경시 전지역 체크박스값 변경
     useEffect(() => {
@@ -426,16 +412,7 @@ const SelectMember = () => {
                     }
                 })
                 .catch((error) => {
-                    const err_msg = CF.errorMsgHandler(error);
-                    dispatch(
-                        confirmPop({
-                            confirmPop: true,
-                            confirmPopTit: "알림",
-                            confirmPopTxt: err_msg,
-                            confirmPopBtn: 1,
-                        })
-                    );
-                    setConfirm(true);
+                    errorHandler(error);
                 });
         }
     };
@@ -758,93 +735,118 @@ const SelectMember = () => {
                                 id="sect5"
                                 ref={sect5Ref}
                             >
-                                <div className="tit_box flex">
-                                    <h4 className="top_tit">
-                                        <strong>사소한 1% </strong>
-                                        <span>실제 후기</span>
-                                    </h4>
-                                    <div>
-                                        <h5>진실된 후기로 증명해 드립니다.</h5>
-                                        <p>
-                                            만남이 이루어진 설레는 순간들을 지금
-                                            바로 확인하세요!
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className="slider">
-                                    <Swiper
-                                        ref={reviewSwiperRef}
-                                        initialSlide={0}
-                                        className="review_slider"
-                                        slidesPerView={1}
-                                        spaceBetween={0}
-                                        slidesPerGroup={1}
-                                        observer={true}
-                                        observeParents={true}
-                                        loop={true}
-                                        navigation={{
-                                            nextEl: ".sect5 .btn_box .swiper-button-next",
-                                            prevEl: ".sect5 .btn_box .swiper-button-prev",
-                                        }}
-                                        pagination={{
-                                            type: "fraction",
-                                            el: ".sect5 .btn_box .swiper-pagination",
-                                        }}
-                                        breakpoints={{
-                                            1200: {
-                                                slidesPerView: "auto",
-                                                spaceBetween: 12,
-                                            }, //width >= 1200
-                                        }}
-                                        modules={[Navigation, Pagination]}
-                                    >
-                                        {reviewList.map((cont, i) => (
-                                            <SwiperSlide
-                                                key={i}
-                                                onClick={() => {
-                                                    storyPopOpen(i);
+                                {reviewList.length > 0 && (
+                                    <>
+                                        <div className="tit_box flex">
+                                            <h4 className="top_tit">
+                                                <strong>사소한 1% </strong>
+                                                <span>실제 후기</span>
+                                            </h4>
+                                            <div>
+                                                <h5>
+                                                    진실된 후기로 증명해
+                                                    드립니다.
+                                                </h5>
+                                                <p>
+                                                    만남이 이루어진 설레는
+                                                    순간들을 지금 바로
+                                                    확인하세요!
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="slider">
+                                            <Swiper
+                                                ref={reviewSwiperRef}
+                                                initialSlide={0}
+                                                className="review_slider"
+                                                slidesPerView={1}
+                                                spaceBetween={0}
+                                                slidesPerGroup={1}
+                                                observer={true}
+                                                observeParents={true}
+                                                loop={true}
+                                                navigation={{
+                                                    nextEl: ".sect5 .btn_box .swiper-button-next",
+                                                    prevEl: ".sect5 .btn_box .swiper-button-prev",
                                                 }}
+                                                pagination={{
+                                                    type: "fraction",
+                                                    el: ".sect5 .btn_box .swiper-pagination",
+                                                }}
+                                                breakpoints={{
+                                                    1200: {
+                                                        slidesPerView: "auto",
+                                                        spaceBetween: 12,
+                                                    }, //width >= 1200
+                                                }}
+                                                modules={[
+                                                    Navigation,
+                                                    Pagination,
+                                                ]}
                                             >
-                                                <div className="img_box">
-                                                    <img
-                                                        src={cont.photo}
-                                                        alt="후기이미지"
-                                                    />
-                                                </div>
-                                                <div className="txt_box">
-                                                    <div>
-                                                        <h5>{cont.subject}</h5>
-                                                        <p>{cont.subject}</p>
-                                                    </div>
-                                                    <button
-                                                        type="button"
-                                                        className="btn_more"
+                                                {reviewList.map((cont, i) => (
+                                                    <SwiperSlide
+                                                        key={i}
                                                         onClick={() => {
-                                                            dispatch(
-                                                                storyPop({
-                                                                    storyPop: true,
-                                                                    storyPopNo:
-                                                                        i,
-                                                                })
-                                                            );
+                                                            storyPopOpen(i);
                                                         }}
                                                     >
-                                                        <span>더보기</span>
-                                                        <img
-                                                            src={arrow_more}
-                                                            alt="화살표"
-                                                        />
-                                                    </button>
-                                                </div>
-                                            </SwiperSlide>
-                                        ))}
-                                    </Swiper>
-                                    <div className="btn_box flex flex_between">
-                                        <div className="swiper-button-prev"></div>
-                                        <div className="swiper-pagination"></div>
-                                        <div className="swiper-button-next"></div>
-                                    </div>
-                                </div>
+                                                        <div className="img_box">
+                                                            <img
+                                                                src={cont.photo}
+                                                                alt="후기이미지"
+                                                            />
+                                                        </div>
+                                                        <div className="txt_box">
+                                                            <div>
+                                                                <h5>
+                                                                    {
+                                                                        cont.subject
+                                                                    }
+                                                                </h5>
+                                                                <p>
+                                                                    {
+                                                                        cont.subject
+                                                                    }
+                                                                </p>
+                                                            </div>
+                                                            <button
+                                                                type="button"
+                                                                className="btn_more"
+                                                                onClick={() => {
+                                                                    dispatch(
+                                                                        storyPop(
+                                                                            {
+                                                                                storyPop: true,
+                                                                                storyPopNo:
+                                                                                    i,
+                                                                            }
+                                                                        )
+                                                                    );
+                                                                }}
+                                                            >
+                                                                <span>
+                                                                    더보기
+                                                                </span>
+                                                                <img
+                                                                    src={
+                                                                        arrow_more
+                                                                    }
+                                                                    alt="화살표"
+                                                                />
+                                                            </button>
+                                                        </div>
+                                                    </SwiperSlide>
+                                                ))}
+                                            </Swiper>
+                                            <div className="btn_box flex flex_between">
+                                                <div className="swiper-button-prev"></div>
+                                                <div className="swiper-pagination"></div>
+                                                <div className="swiper-button-next"></div>
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </div>
                         <div className="form_box" id="form_box">

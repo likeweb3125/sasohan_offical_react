@@ -61,13 +61,13 @@ exports.enum_api_uri = {
     feed_add: `${api_uri}/v1/manager/feed-add`,
     feed_modify: `${api_uri}/v1/manager/feed-modify`,
     feed_pin: `${api_uri}/v1/main-list/feed-pin/:idx`,
-    
+
     //VIP 소개팅---
     vip_list: `${api_uri}/v1/main/vip-list`,
     vip_apply: `${api_uri}/v1/main/vip-request`,
     vip_apply_img: `${api_uri}/v1/main/vip-request/image-add`,
     vip_apply_img_delt: `${api_uri}/v1/main/vip-request/image-remove/:filename`,
-    
+
     //랭킹---
     rank_list: `${api_uri}/v1/main/ranking`,
     rank_sms: `${api_uri}/v1/main/ranking-sms`,
@@ -76,7 +76,6 @@ exports.enum_api_uri = {
     rank_profile_img: `${api_uri}/v1/main/ranking-profile/image-add`,
     rank_profile_img_delt: `${api_uri}/v1/main/ranking-profile/image-remove/:filename`,
     rank_profile: `${api_uri}/v1/main-mypage/ranking-profile/modify`,
-
 
     //앱----------------------------------------
     //회원가입
@@ -90,26 +89,24 @@ exports.enum_api_uri = {
     m_img_add: `${api_uri}/v1/app/user/user-profile-add`,
     m_join: `${api_uri}/v1/app/user/join`,
     //마이페이지 - 포인트충전
-    m_info:`${api_uri}/v1/app/mypage/profile`,
-    m_point:`${api_uri}/v1/app/mypage/point`,
-    m_pay_check:`${api_uri}/v1/pay/notice/:var1`,
-    m_pay_logs:`${api_uri}/v1/pay/logs`,
+    m_info: `${api_uri}/v1/app/mypage/profile`,
+    m_point: `${api_uri}/v1/app/mypage/point`,
+    m_pay_check: `${api_uri}/v1/pay/notice/:var1`,
+    m_pay_logs: `${api_uri}/v1/pay/logs`,
     //마이페이지 - 프로필수정
-    m_profile_info:`${api_uri}/v1/app/mypage/profile-info`,
-    m_profile_modify:`${api_uri}/v1/app/mypage/profile-modify`,
-    m_change_password:`${api_uri}/v1/app/mypage/change-password`,
+    m_profile_info: `${api_uri}/v1/app/mypage/profile-info`,
+    m_profile_modify: `${api_uri}/v1/app/mypage/profile-modify`,
+    m_change_password: `${api_uri}/v1/app/mypage/change-password`,
     //마이페이지 - 회원탈퇴
-    m_leave_info:`${api_uri}/v1/app/mypage/leave-info`,
-    m_leave:`${api_uri}/v1/app/mypage/leave`,
+    m_leave_info: `${api_uri}/v1/app/mypage/leave-info`,
+    m_leave: `${api_uri}/v1/app/mypage/leave`,
     //공지사항 - 상세
-    m_list_detail:`${api_uri}/v1/app/bbs/:list_no`,
+    m_list_detail: `${api_uri}/v1/app/bbs/:list_no`,
 
     //사소한 1% 랜딩페이지----------------------------------------
 
-
     //사소한 선택회원 랜딩페이지----------------------------------------
-    s_story_list:`${api_uri}/v1/main/one-story`,
-    s_story_view:`${api_uri}/v1/main/one-story/:list_no`,
-    
-
-}
+    s_story_list: `${api_uri}/v1/main/one-story`,
+    s_story_view: `${api_uri}/v1/main/one-story/:list_no`,
+    s_motive_list: `${api_uri}/v1/main/motive/:idx`,
+};
