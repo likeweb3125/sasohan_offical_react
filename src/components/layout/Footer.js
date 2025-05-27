@@ -149,7 +149,7 @@ const Footer = (props) => {
                     </div>
                 )}
                 <div className="copy">
-                    COPYRIGHT© 2015 사소한 ALL RIGHTS RESERVED.
+                    COPYRIGHT© 2015 사소한 브리프 ALL RIGHTS RESERVED.
                 </div>
             </footer>
             {props.fixedBox && (
