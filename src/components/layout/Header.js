@@ -158,7 +158,7 @@ const Header = () => {
                                 </Link>
                             </li>
                             <li className={menuOn === 2 ? "on" : ""}>
-                                <Link to="/about">사소한 일프로</Link>
+                                <Link to="/about">1% 소개팅</Link>
                             </li>
                             <li className={menuOn === 3 ? "on" : ""}>
                                 <Link to="/ranking">사소한 랭킹</Link>
@@ -369,7 +369,7 @@ const Header = () => {
                                     </Link>
                                 </li>
                                 <li className={menuOn === 2 ? "on" : ""}>
-                                    <Link to="/about">사소한 일프로</Link>
+                                    <Link to="/about">1% 소개팅</Link>
                                 </li>
                                 <li className={menuOn === 3 ? "on" : ""}>
                                     <Link to="/ranking">사소한 랭킹</Link>
