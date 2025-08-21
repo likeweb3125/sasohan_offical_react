@@ -55,6 +55,7 @@ exports.enum_api_uri = {
     guest_book_list: `${api_uri}/v1/main-list/guest-book/:m_id`,
     guest_book: `${api_uri}/v1/manager-feed/guest-book-regist`,
     guest_book_delt: `${api_uri}/v1/manager-feed/guest-book-delete/:idx`,
+    guest_book_all_delt: `${api_uri}/v1/manager-feed/guest-book-delete-all`,
     manager_feed_list: `${api_uri}/v1/main-list/feed-list/:m_id`,
     feed_img: `${api_uri}/v1/manager/manager-image-add`,
     feed_img_delt: `${api_uri}/v1/manager/feed-image-remove`,
